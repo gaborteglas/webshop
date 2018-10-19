@@ -16,7 +16,7 @@ public class ProductDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private static class ProductMapper implements RowMapper<Product> {
+    private static class ProductMapper implements RowMapper<Optional<Product>> {
         @Override
         public Optional<Product> mapRow(ResultSet resultSet, int i) throws SQLException {
             long id = resultSet.getLong("id");
@@ -25,11 +25,12 @@ public class ProductDao {
             String producer = resultSet.getString("producer");
             Long currentPrice = resultSet.getLong("price");
             Product product = new Product(id,name,address,producer,currentPrice);
-            return null;
+            return Optional.of(product);
         }
     }
 
     public Optional<Product> findProductByAddress(String address){
-        return jdbcTemplate.queryForObject("select id, name from employees where id = ?",new ProductMapper(),address);
+        return jdbcTemplate.queryForObject("select id, name,producer,price from products where address = ?",
+                new ProductMapper(),address);
     }
 }
