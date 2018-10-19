@@ -2,9 +2,11 @@ package com.training360.yellowcode.businesslogic;
 
 import com.training360.yellowcode.database.ProductDao;
 import com.training360.yellowcode.dbTables.Product;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class ProductService {
 
     private ProductDao productDao;
