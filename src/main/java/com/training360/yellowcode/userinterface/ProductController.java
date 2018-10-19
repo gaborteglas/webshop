@@ -20,7 +20,7 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/api/products/{address}", method = RequestMethod.GET)
-    public Optional<Product> findProductByAddress(@PathVariable String address){
+    public Optional<Product> findProductByAddress(@PathVariable String address) {
         return productService.findProductByAddress(address);
     }
 }

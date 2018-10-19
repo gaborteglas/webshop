@@ -27,13 +27,13 @@ public class ProductDao {
             String address = resultSet.getString("address");
             String producer = resultSet.getString("producer");
             Long currentPrice = resultSet.getLong("price");
-            Product product = new Product(id,name,address,producer,currentPrice);
+            Product product = new Product(id, name, address, producer, currentPrice);
             return Optional.of(product);
         }
     }
 
-    public Optional<Product> findProductByAddress(String address){
-        return jdbcTemplate.queryForObject("select id,name,producer,price from products where address = ?",
-                new ProductMapper(),address);
+    public Optional<Product> findProductByAddress(String address) {
+        return jdbcTemplate.queryForObject("select id, name, address, producer, price from products where address = ?",
+                new ProductMapper(), address);
     }
 }
