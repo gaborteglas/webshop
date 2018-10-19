@@ -33,7 +33,7 @@ public class ProductDao {
     }
 
     public Optional<Product> findProductByAddress(String address){
-        return jdbcTemplate.queryForObject("select id, name,producer,price from products where address = ?",
+        return jdbcTemplate.queryForObject("select id,name,producer,price from products where address = ?",
                 new ProductMapper(),address);
     }
 }
