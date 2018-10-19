@@ -11,7 +11,7 @@ public class Product {
     public Product() {
     }
 
-    public Product(long id, String address, String name, String producer, long currentPrice) {
+    public Product(long id, String name, String address, String producer, long currentPrice) {
         this.id = id;
         this.name = name;
         this.address = address;
