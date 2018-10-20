@@ -7,6 +7,7 @@ public class Product {
     private String address;
     private String producer;
     private long currentPrice;
+    private String status = "active";
 
     public Product() {
     }
@@ -57,5 +58,13 @@ public class Product {
 
     public void setCurrentPrice(long currentPrice) {
         this.currentPrice = currentPrice;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

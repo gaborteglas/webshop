@@ -11,13 +11,33 @@
     <div class="container">
         <h1>Termékek</h1>
 
+        <form id="product-form">
+            <input type="hidden" id="id-hidden-input" />
+
+            <div class="form-group">
+                <label for="id-input">Id</label>
+                <input id="id-input" class="form-control" />
+                <label for="name-input">Cím</label>
+                <input id="name-input" class="form-control" />
+                <label for="address-input">Url</label>
+                <input id="address-input" class="form-control" />
+                <label for="producer-input">Szerző</label>
+                <input id="producer-input" class="form-control" />
+                <label for="price-input">Ár</label>
+                <input id="price-input" class="form-control" />
+            </div>
+
+            <input type="submit" id="submit-button" value="Create" class="btn btn-primary"/>
+            <input type="reset" id="reset-button" value="Cancel" class="btn btn-secondary" />
+        </form>
+
         <table class="table table-striped">
             <thead>
             <tr>
                 <th>Id</th>
                 <th>Cím</th>
                 <th>URL</th>
-                <th>Kiadó</th>
+                <th>Szerző</th>
                 <th>Ár</th>
                 <th>Státusz</th>
             </tr>
