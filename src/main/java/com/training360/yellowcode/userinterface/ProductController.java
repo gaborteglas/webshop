@@ -1,7 +1,10 @@
 package com.training360.yellowcode.userinterface;
 
 import com.training360.yellowcode.businesslogic.ProductService;
+import com.training360.yellowcode.database.DuplicateProductException;
 import com.training360.yellowcode.dbTables.Product;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,13 +35,23 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/api/products", method = RequestMethod.POST)
-    public void createProduct(@RequestBody Product product) {
-        productService.createProduct(product.getId(), product.getName(), product.getAddress(), product.getProducer(), product.getCurrentPrice());
+    public ResponseEntity<String> createProduct(@RequestBody Product product) {
+        try {
+            productService.createProduct(product.getId(), product.getName(), product.getAddress(), product.getProducer(), product.getCurrentPrice());
+            return ResponseEntity.ok("Successfully created.");
+        } catch (DuplicateProductException dpe) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
     }
 
     @RequestMapping(value = "/api/products/{id}", method = RequestMethod.POST)
-    public void updateProduct(@RequestBody Product product, @PathVariable long id) {
-        productService.updateProduct(id, product.getId(), product.getName(), product.getAddress(), product.getProducer(), product.getCurrentPrice());
+    public ResponseEntity<String> updateProduct(@RequestBody Product product, @PathVariable long id) {
+        try {
+            productService.updateProduct(id, product.getId(), product.getName(), product.getAddress(), product.getProducer(), product.getCurrentPrice());
+            return ResponseEntity.ok("Successfully created.");
+        } catch (DuplicateProductException dpe) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
     }
 
     @RequestMapping(value = "/api/products/{id}", method = RequestMethod.DELETE)

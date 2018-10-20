@@ -105,8 +105,13 @@ function handleSubmit() {
         body: JSON.stringify(product)
     })
         .then(function(response) {
-            updateTable();
-            handleReset();
+            if (response.status === 409) {
+                alert("A megadott id vagy cím már foglalt. ");
+            } else {
+                alert("Hozzáadva.");
+                updateTable();
+                handleReset();
+            }
         });
         return false;
 }
