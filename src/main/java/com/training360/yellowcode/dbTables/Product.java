@@ -1,5 +1,7 @@
 package com.training360.yellowcode.dbTables;
 
+import java.text.Normalizer;
+
 public class Product {
 
     private long id;
@@ -67,5 +69,12 @@ public class Product {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String userFriendlyAddressGenerator() {
+        String address = name;
+        address = address.trim().replaceAll(" ", "-").toLowerCase();
+        return Normalizer.normalize(address, Normalizer.Form.NFD)
+                .replaceAll("[^\\p{ASCII}]", "");
     }
 }
