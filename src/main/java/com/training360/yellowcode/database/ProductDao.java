@@ -35,7 +35,7 @@ public class ProductDao {
 
     public List<Product> listProducts() {
         return sortProductsByIdThenName(
-                jdbcTemplate.query("select id, name, address, producer, price from products", new ProductMapper())
+                jdbcTemplate.query("select id, name, address, producer, price from products where deleted = 'active'", new ProductMapper())
         );
     }
 
