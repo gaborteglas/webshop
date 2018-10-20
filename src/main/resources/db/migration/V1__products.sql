@@ -1,9 +1,16 @@
-create table products (id bigint auto_increment,name varchar(255) NOT NULL, address varchar(255) NOT NULL unique,
- producer varchar(255) NOT NULL,price bigint NOT NULL,deleted varchar(50) NOT NULL,constraint pk_products PRIMARY KEY(id));
+CREATE TABLE products (
+ id bigint auto_increment,
+ name VARCHAR(255) NOT NULL,
+ address VARCHAR(255) NOT NULL UNIQUE,
+ producer VARCHAR(255) NOT NULL,
+ price bigint NOT NULL,
+ status VARCHAR(50) NOT NULL,
+ CONSTRAINT pk_products PRIMARY KEY(id)
+ );
 
 
 INSERT INTO products
-(name, address, producer, price, deleted)
+(name, address, producer, price, status)
 VALUES ('Az aliceblue 50 árnyalata', 'aliceblue', 'E. L. Doe', 9999, 'active'),
 ('Legendás programozók és megfigyelésük', 'legendas','J. K. Doe',  3999, 'active'),
 ('Az 50 első Trainer osztály', 'trainer', 'Jack Doe', 5999, 'active'),

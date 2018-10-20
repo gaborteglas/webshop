@@ -28,7 +28,8 @@ public class ProductDao {
 
     public Optional<Product> findProductByAddress(String address) {
         try {
-            Product product = jdbcTemplate.queryForObject("select id, name, address, producer, price, deleted from products where address = ?",
+            Product product = jdbcTemplate.queryForObject(
+                    "select id, name, address, producer, price, status from products where address = ?",
                     new ProductMapper(), address);
             return Optional.of(product);
         } catch (EmptyResultDataAccessException erdae) {
@@ -38,13 +39,16 @@ public class ProductDao {
 
     public List<Product> listProducts() {
         return sortProductsByIdThenName(
-                jdbcTemplate.query("select id, name, address, producer, price, deleted from products where deleted = 'active'", new ProductMapper())
+                jdbcTemplate.query(
+                        "select id, name, address, producer, price, status from products " +
+                                "where status = 'active'", new ProductMapper())
         );
     }
 
     public List<Product> listAllProducts() {
         return sortProductsByIdThenName(
-                jdbcTemplate.query("select id, name, address, producer, price, deleted from products", new ProductMapper())
+                jdbcTemplate.query("select id, name, address, producer, price, status from products",
+                        new ProductMapper())
         );
     }
 
@@ -62,19 +66,24 @@ public class ProductDao {
             String address = resultSet.getString("address");
             String producer = resultSet.getString("producer");
             Long currentPrice = resultSet.getLong("price");
-            String status = resultSet.getString("deleted");
-            Product product = new Product(id, name, address, producer, currentPrice, status);
-            return product;
+            String status = resultSet.getString("status");
+            return new Product(id, name, address, producer, currentPrice, status);
         }
     }
 
-    public void createProduct (long id, String name, String address, String producer, long currentPrice) {
-        List<Product> result = jdbcTemplate.query("select id, name, address, producer, price, deleted from products where id = ? OR address = ?", new ProductMapper(), id, address);
+    public void createProduct(long id, String name, String address, String producer, long currentPrice) {
+        List<Product> result = jdbcTemplate.query(
+                "select id, name, address, producer, price, status from products where id = ? OR address = ?",
+                new ProductMapper(), id, address);
         if (result.size() == 0) {
             jdbcTemplate.update(new PreparedStatementCreator() {
                 @Override
                 public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
-                    PreparedStatement ps = connection.prepareStatement("insert into products(id, name, address, producer, price, deleted) values(?, ?, ?, ?, ?, 'active')");
+                    PreparedStatement ps = connection.prepareStatement(
+                            "insert into products(id, name, address, producer, price, status) " +
+                                    "values(?, ?, ?, ?, ?, 'active')"
+                    );
+                    throwIllegalArgumentExceptionIfPriceIsInvalid(currentPrice);
                     ps.setLong(1, id);
                     ps.setString(2, name);
                     ps.setString(3, address);
@@ -88,21 +97,27 @@ public class ProductDao {
         }
     }
 
-    public void updateProduct (long id, long newId, String name, String address, String producer, long currentPrice) {
-        List<Product> result = jdbcTemplate.query("select id, name, address, producer, price, deleted from products where (id = ? or address = ?) and id <> ? ", new ProductMapper(), newId, address, id);
+    public void updateProduct(long id, long newId, String name, String address, String producer, long currentPrice) {
+        throwIllegalArgumentExceptionIfPriceIsInvalid(currentPrice);
+        List<Product> result = jdbcTemplate.query(
+                "select id, name, address, producer, price, status from products " +
+                        "where (id = ? or address = ?) and id <> ? ", new ProductMapper(), newId, address, id);
         if (result.size() == 0) {
-            jdbcTemplate.update("update products set id = ?, name = ?, address = ?, producer = ?, price = ? where id = ?", newId, name, address, producer, currentPrice, id);
+            jdbcTemplate.update(
+                    "update products set id = ?, name = ?, address = ?, producer = ?, price = ? where id = ?",
+                    newId, name, address, producer, currentPrice, id);
         } else {
             throw new DuplicateProductException("A product with this id or address already exists.");
         }
     }
 
-    public void deleteProduct (long id) {
-        jdbcTemplate.update("update products set deleted = 'inactive' where id = ?", id);
+    public void deleteProduct(long id) {
+        jdbcTemplate.update("update products set status = 'inactive' where id = ?", id);
     }
 
-
-
-
-
+    private void throwIllegalArgumentExceptionIfPriceIsInvalid(long price) {
+        if (price > 2_000_000 || price <= 0) {
+            throw new IllegalArgumentException("Invalid price" + price);
+        }
+    }
 }

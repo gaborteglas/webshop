@@ -105,9 +105,12 @@ function handleSubmit() {
         body: JSON.stringify(product)
     })
         .then(function(response) {
-            if (response.status === 409) {
-                alert("A megadott id vagy cím már foglalt. ");
-            } else {
+
+        if (response.status === 500) {
+            alert("Az árnak léteznie kell, és nem lehet több, mint 2.000.000.");
+        } else if (response.status === 409) {
+            alert("A megadott id vagy cím már foglalt. ");
+        } else {
                 alert("Hozzáadva.");
                 updateTable();
                 handleReset();
