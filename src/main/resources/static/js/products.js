@@ -42,7 +42,7 @@ function fillTable(products) {
         tr.appendChild(priceTd);
 
         tr.onclick = function() {
-            window.location = "http://localhost:8080/api/products/" + product.address;
+            window.location = "http://localhost:8080/product.html?adress=" + product.address;
         };
 
         tbody.appendChild(tr);
