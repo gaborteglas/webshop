@@ -23,4 +23,9 @@ public class ProductController {
     public Optional<Product> findProductByAddress(@PathVariable String address) {
         return productService.findProductByAddress(address);
     }
+
+    @RequestMapping(value = "/api/products", method = RequestMethod.GET)
+    public List<Product> listEmployees() {
+        return productService.listProducts();
+    }
 }
