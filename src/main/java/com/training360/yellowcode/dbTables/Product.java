@@ -12,12 +12,13 @@ public class Product {
     public Product() {
     }
 
-    public Product(long id, String name, String address, String producer, long currentPrice) {
+    public Product(long id, String name, String address, String producer, long currentPrice, String status) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.producer = producer;
         this.currentPrice = currentPrice;
+        this.status = status;
     }
 
     public long getId() {
