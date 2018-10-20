@@ -2,15 +2,17 @@ window.onload = function() {
     updateTable();
     }
 
-function updateTable() {
- fetch("api/products/szovetseg")
-     .then(function(request) {
-         return request.json();
-     })
-     .then(function(jsonData) {
-     fillTable(jsonData);
-     });
- }
+    function updateTable() {
+    var productNameFromUrl = getAllUrlParams(window.location.href);
+    var productToFetch = "api/products/" + productNameFromUrl;
+     fetch(productToFetch)
+         .then(function(request) {
+             return request.json();
+         })
+         .then(function(jsonData) {
+         fillTable(jsonData);
+         });
+     }
 
  function fillTable(jsonData){
     let name = jsonData.name;
@@ -28,7 +30,7 @@ function updateTable() {
  }
 
  function creatingTableRowForData(id,producer,currentPrice){
-    let tbody = document.querySelector("#employees-tbody");
+    let tbody = document.querySelector("#product-tbody");
     let tr = document.createElement("tr");
     tr["raw-data"] = id;
     let idTd = document.createElement("td");
@@ -42,3 +44,8 @@ function updateTable() {
     tr.appendChild(currentPriceTd);
     tbody.appendChild(tr);
  }
+
+ function getAllUrlParams(url) {
+    var queryString = url ? url.split('=')[1] : window.location.search.slice(1);
+    return queryString;
+    }
