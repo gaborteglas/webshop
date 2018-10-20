@@ -18,6 +18,7 @@ function fillTable(products) {
     for (let i = 0; i < products.length; i++) {
         let product  = products[i];
         let tr = document.createElement("tr");
+        tr.className = "clickable-row";
         tr["raw-data"] = product;
 
         let idTd = document.createElement("td");
@@ -40,6 +41,9 @@ function fillTable(products) {
         priceTd.innerHTML = product.currentPrice;
         tr.appendChild(priceTd);
 
+        tr.onclick = function() {
+            window.location = "http://localhost:8080/api/products/" + product.address;
+        };
 
         tbody.appendChild(tr);
 
