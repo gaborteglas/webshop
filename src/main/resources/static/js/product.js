@@ -11,7 +11,8 @@ window.onload = function() {
          })
          .then(function(jsonData) {
          fillTable(jsonData);
-         });
+         })
+         .catch(error => creatingHeaderForName("Nincs ilyen termék"));
      }
 
  function fillTable(jsonData){
