@@ -1,5 +1,6 @@
 package com.training360.yellowcode.database;
 
+import com.training360.yellowcode.businesslogic.ProductService;
 import com.training360.yellowcode.dbTables.Product;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -11,8 +12,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.Collator;
+import java.text.MessageFormat;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -38,7 +42,7 @@ public class ProductDao {
     }
 
     public List<Product> listProducts() {
-        return sortProductsByIdThenName(
+        return sortProductsNameIdThenProducer(
                 jdbcTemplate.query(
                         "select id, name, address, producer, price, status from products " +
                                 "where status = 'active'", new ProductMapper())
@@ -46,15 +50,21 @@ public class ProductDao {
     }
 
     public List<Product> listAllProducts() {
-        return sortProductsByIdThenName(
+        return sortProductsNameIdThenProducer(
                 jdbcTemplate.query("select id, name, address, producer, price, status from products",
                         new ProductMapper())
         );
     }
 
-    private List<Product> sortProductsByIdThenName(List<Product> products) {
+    private List<Product> sortProductsNameIdThenProducer(List<Product> products) {
+        Collator hungarianLocale = Collator.getInstance(new Locale("hu", "HU"));
         return products.stream()
-                .sorted(Comparator.comparing(Product::getName).thenComparing(Product::getProducer))
+                .sorted(Comparator.comparing(Product::getName,
+                        Comparator.comparing(String::toLowerCase,
+                                Comparator.nullsFirst(hungarianLocale)))
+                        .thenComparing(Product::getProducer,
+                                Comparator.comparing(String::toLowerCase,
+                                        Comparator.nullsFirst(hungarianLocale))))
                 .collect(Collectors.toList());
     }
 
@@ -88,6 +98,8 @@ public class ProductDao {
                     ps.setString(3, address);
                     ps.setString(4, producer);
                     ps.setLong(5, currentPrice);
+                    ProductService.LOGGER.info(MessageFormat.format("Product added(id: {0}, name: {1}," +
+                            " address: {2}, producer: {3}, currentPrice: {4})", id, name, address, producer, currentPrice));
                     return ps;
                 }
             });
@@ -105,6 +117,8 @@ public class ProductDao {
             jdbcTemplate.update(
                     "update products set id = ?, name = ?, address = ?, producer = ?, price = ? where id = ?",
                     newId, name, address, producer, currentPrice, id);
+            ProductService.LOGGER.info(MessageFormat.format("Product modified to -> id: {0}, name: {1}," +
+                    " address: {2}, producer: {3}, currentPrice: {4}", id, name, address, producer, currentPrice));
         } else {
             throw new DuplicateProductException("A product with this id or address already exists.");
         }
@@ -112,6 +126,7 @@ public class ProductDao {
 
     public void deleteProduct(long id) {
         jdbcTemplate.update("update products set status = 'inactive' where id = ?", id);
+        ProductService.LOGGER.info(MessageFormat.format("Product with '{0}' id set to inactive", id));
     }
 
     private void throwIllegalArgumentExceptionIfPriceIsInvalid(long price) {

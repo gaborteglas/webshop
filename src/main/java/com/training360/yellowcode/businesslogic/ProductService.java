@@ -2,6 +2,8 @@ package com.training360.yellowcode.businesslogic;
 
 import com.training360.yellowcode.database.ProductDao;
 import com.training360.yellowcode.dbTables.Product;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,6 +12,7 @@ import java.util.Optional;
 @Service
 public class ProductService {
 
+    public static final Logger LOGGER = LoggerFactory.getLogger(ProductService.class);
     private ProductDao productDao;
 
     public ProductService(ProductDao productDao) {
