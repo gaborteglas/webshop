@@ -1,7 +1,6 @@
 package com.training360.yellowcode.database;
 
 import com.training360.yellowcode.dbTables.Basket;
-import com.training360.yellowcode.dbTables.Product;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
@@ -42,9 +41,11 @@ public class BasketsDao {
     private static class BasketMapper implements RowMapper<Basket> {
         @Override
         public Basket mapRow(ResultSet resultSet, int i) throws SQLException {
+            long id = resultSet.getLong("id");
             long userId = resultSet.getLong("user_id");
             long productId = resultSet.getLong("product_id");
-            return new Basket(userId,productId);
+            Basket basket = new Basket(id,userId,productId);
+            return basket;
         }
     }
 }

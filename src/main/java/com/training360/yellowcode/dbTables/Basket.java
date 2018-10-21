@@ -14,6 +14,12 @@ public class Basket {
         this.productId = productId;
     }
 
+    public Basket(long id, long userId, long productId) {
+        this.id = id;
+        this.userId = userId;
+        this.productId = productId;
+    }
+
     public long getUserId() {
         return userId;
     }
