@@ -80,8 +80,7 @@ public class ProductDao {
                 @Override
                 public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
                     PreparedStatement ps = connection.prepareStatement(
-                            "insert into products(id, name, address, producer, price, status) " +
-                                    "values(?, ?, ?, ?, ?, 'active')"
+                            "insert into products(id, name, address, producer, price, status) values(?, ?, ?, ?, ?, 'active')"
                     );
                     throwIllegalArgumentExceptionIfPriceIsInvalid(currentPrice);
                     ps.setLong(1, id);
