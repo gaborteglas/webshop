@@ -19,7 +19,7 @@ public class BasketsService {
         return basketsDao.listProducts();
     }
 
-    public void addToBasket(long userId, long productId, long id) {
-        basketsDao.addToBasket(userId, productId, id);
+    public void addToBasket(long userId, long productId) {
+        basketsDao.addToBasket(userId,productId);
     }
 }

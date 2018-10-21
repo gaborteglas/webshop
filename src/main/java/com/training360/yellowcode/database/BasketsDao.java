@@ -22,14 +22,13 @@ public class BasketsDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void addToBasket(long userId, long productId, long id) {
+    public void addToBasket(long userId,long productId) {
         jdbcTemplate.update(new PreparedStatementCreator() {
             @Override
             public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
-                PreparedStatement ps = connection.prepareStatement("insert into basket(id,user_id,product_id) values(?,?,?)");
-                ps.setLong(1,id);
-                ps.setLong(2,userId);
-                ps.setLong(3,productId);
+                PreparedStatement ps = connection.prepareStatement("insert into basket(user_id,product_id) values(?,?)");
+                ps.setLong(1,userId);
+                ps.setLong(2,productId);
                 return ps;
             }
         });
@@ -43,10 +42,9 @@ public class BasketsDao {
     private static class BasketMapper implements RowMapper<Basket> {
         @Override
         public Basket mapRow(ResultSet resultSet, int i) throws SQLException {
-            long id = resultSet.getLong("id");
             long userId = resultSet.getLong("user_id");
             long productId = resultSet.getLong("product_id");
-            return new Basket(id,userId,productId);
+            return new Basket(userId,productId);
         }
     }
 }

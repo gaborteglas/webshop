@@ -9,8 +9,7 @@ public class Basket {
     public Basket() {
     }
 
-    public Basket(long id,long userId, long productId) {
-        this.id = id;
+    public Basket(long userId, long productId) {
         this.userId = userId;
         this.productId = productId;
     }
