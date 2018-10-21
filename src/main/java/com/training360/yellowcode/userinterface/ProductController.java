@@ -41,6 +41,8 @@ public class ProductController {
             return ResponseEntity.ok("Successfully created.");
         } catch (DuplicateProductException dpe) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        } catch (IllegalArgumentException iae) {
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
         }
     }
 

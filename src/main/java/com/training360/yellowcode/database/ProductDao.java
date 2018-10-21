@@ -99,8 +99,8 @@ public class ProductDao {
     public void updateProduct(long id, long newId, String name, String address, String producer, long currentPrice) {
         throwIllegalArgumentExceptionIfPriceIsInvalid(currentPrice);
         List<Product> result = jdbcTemplate.query(
-                "select id, name, address, producer, price, status from products " +
-                        "where (id = ? or address = ?) and id <> ? ", new ProductMapper(), newId, address, id);
+                "select id, name, address, producer, price, status from products where (id = ? or address = ?) and id <> ? ",
+                new ProductMapper(), newId, address, id);
         if (result.size() == 0) {
             jdbcTemplate.update(
                     "update products set id = ?, name = ?, address = ?, producer = ?, price = ? where id = ?",
