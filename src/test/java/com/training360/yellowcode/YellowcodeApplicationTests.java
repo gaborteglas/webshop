@@ -78,4 +78,31 @@ public class YellowcodeApplicationTests {
         assertEquals(productController.findProductByAddress("szovetseg").get().getCurrentPrice(), 3899);
     }
 
+    @Test
+    public void testDeleteProduct() {
+        productController.createProduct(new Product(
+                6, "A Java ura: A classok szövetsége", "szovetseg", "J.R.R. Doe", 2899, "active"
+        ));
+        productController.deleteProduct(6);
+
+        List<Product> products = productController.listProducts();
+        List<Product> allProducts = productController.listAllProducts();
+
+        assertEquals(products.size(), 5);
+        assertEquals(allProducts.size(), 6);
+
+        assertEquals(productController.findProductByAddress("szovetseg").get().getStatus(), "inactive");
+    }
+
+    //Ez átmeneti, amíg a CRUD nem teljes
+    @Test
+    public void testListSortedProductsByNameThenProducer() {
+        List<Product> products = productController.listProducts();
+        assertEquals(products.size(), 5);
+        assertEquals(products.get(0).getName(), "Az 50 első Trainer osztály");
+        assertEquals(products.get(products.size() - 1).getName(), "Legendás programozók és megfigyelésük");
+    }
+
+
+
 }
