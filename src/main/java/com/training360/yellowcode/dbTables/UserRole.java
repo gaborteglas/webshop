@@ -1,5 +1,5 @@
 package com.training360.yellowcode.dbTables;
 
 public enum UserRole {
-    ADMIN, CUSTOMER
+    ADMIN, USER
 }
