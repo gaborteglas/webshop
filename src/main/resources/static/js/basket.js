@@ -3,7 +3,7 @@ window.onload = function() {
 };
 
 function updateTable() {
-    fetch("api/products")
+    fetch("api/basket")
         .then(function (request) {
             return request.json();
         })
