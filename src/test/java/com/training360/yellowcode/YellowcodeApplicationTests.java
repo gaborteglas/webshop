@@ -65,11 +65,17 @@ public class YellowcodeApplicationTests {
     }
 
     @Test
-    public void testListSortedProductsByNameThenProducer() {
+    public void testUpdateProduct() {
+        productController.createProduct(new Product(
+                6, "A Java ura: A classok szövetsége", "szovetseg", "J.R.R. Doe", 2899, "active"
+        ));
+        productController.updateProduct(new Product(
+                6, "A Java ura: A classok szövetsége", "szovetseg", "J.R.R. Doe", 3899, "active"),
+                6);
+
         List<Product> products = productController.listProducts();
-        assertEquals(products.size(), 15);
-        assertEquals(products.get(0).getName(), "80 nap alatt a Java körül");
-        assertEquals(products.get(products.size() - 1).getName(), "Nemzeti Java");
+        assertEquals(products.size(), 6);
+        assertEquals(productController.findProductByAddress("szovetseg").get().getCurrentPrice(), 3899);
     }
 
 }
