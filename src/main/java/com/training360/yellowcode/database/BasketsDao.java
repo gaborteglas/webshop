@@ -48,4 +48,8 @@ public class BasketsDao {
             return basket;
         }
     }
+
+    public void deleteAll(){
+        jdbcTemplate.update("delete from basket");
+    }
 }

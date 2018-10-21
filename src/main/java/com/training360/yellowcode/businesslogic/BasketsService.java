@@ -22,4 +22,8 @@ public class BasketsService {
     public void addToBasket(long userId, long productId) {
         basketsDao.addToBasket(userId,productId);
     }
+
+    public void deleteAll() {
+        basketsDao.deleteAll();
+    }
 }

@@ -26,4 +26,9 @@ public class BasketController {
     public void addToBasket(@RequestBody Basket basket){
         basketsService.addToBasket(basket.getUserId(),basket.getProductId());
     }
+
+    @RequestMapping(value = "/api/basket", method = RequestMethod.DELETE)
+    public void deleteAll(){
+        basketsService.deleteAll();
+    }
 }
