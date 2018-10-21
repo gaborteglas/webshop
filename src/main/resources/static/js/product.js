@@ -1,10 +1,21 @@
 window.onload = function() {
     updateTable();
+
+    let putIntoBasketButton = document.querySelector("#puttobasket");
+    putIntoBasketButton.addEventListener("click", handlePutIntoBasket);
+    }
+
+    function handlePutIntoBasket(){
+        let productNameFromUrl = getAllUrlParams(window.location.href);
+        let productToFetch = "api/products/" + productNameFromUrl;
+        let url = "api/basket/";
     }
 
     function updateTable() {
     let productNameFromUrl = getAllUrlParams(window.location.href);
+    console.log(productNameFromUrl);
     let productToFetch = "api/products/" + productNameFromUrl;
+    console.log(productToFetch);
      fetch(productToFetch)
          .then(function(request) {
              return request.json();

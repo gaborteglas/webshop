@@ -2,17 +2,17 @@ package com.training360.yellowcode.dbTables;
 
 public class Basket {
 
+    private long id;
     private long userId;
     private long productId;
-    private long id;
 
     public Basket() {
     }
 
-    public Basket(long userId, long productId, long id) {
+    public Basket(long id,long userId, long productId) {
+        this.id = id;
         this.userId = userId;
         this.productId = productId;
-        this.id = id;
     }
 
     public long getUserId() {
