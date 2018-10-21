@@ -44,7 +44,26 @@ public class YellowcodeApplicationTests {
 
     }
 
-    //Ez átmeneti, amíg a CRUD nem teljes
+    @Test
+    public void testFindProductByInvalidAddress() {
+        Optional<Product> product = productController.findProductByAddress("henger");
+        assertEquals(product, Optional.empty());
+    }
+
+
+    @Test
+    public void testCreateProduct() {
+        List<Product> products = productController.listProducts();
+
+        productController.createProduct(new Product(
+                6, "A Java ura: A classok szövetsége", "szovetseg", "J.R.R. Doe", 2899, "active"
+                ));
+        List<Product> products2 = productController.listProducts();
+        assertEquals(products.size(), 5);
+        assertEquals(products2.size(), 6);
+
+    }
+
     @Test
     public void testListSortedProductsByNameThenProducer() {
         List<Product> products = productController.listProducts();
