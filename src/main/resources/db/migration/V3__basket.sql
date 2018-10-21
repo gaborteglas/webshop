@@ -1,9 +1,8 @@
-CREATE TABLE Basket (
-id BIGINT AUTO_INCREMENT,
+CREATE TABLE basket(
+id BIGINT auto_increment,
 user_id BIGINT,
-product_id BIGINT,
-CONSTRAINT PK_Basket PRIMARY KEY(id),
-FK_Basket FOREIGN KEY(user_id) REFERENCES Users(id),
-FK_Basket FOREIGN KEY(product_id) REFERENCES Products(id)
+product_id bigint,
+CONSTRAINT pk_basket PRIMARY KEY(id),
+FOREIGN KEY (product_id) REFERENCES products(id),
+FOREIGN KEY (user_id) REFERENCES users(id)
 );
-
