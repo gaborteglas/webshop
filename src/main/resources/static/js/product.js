@@ -8,14 +8,22 @@ window.onload = function() {
     function handlePutIntoBasket(){
         let productNameFromUrl = getAllUrlParams(window.location.href);
         let productToFetch = "api/products/" + productNameFromUrl;
-        let url = "api/basket/";
-    }
+        let userName = document.querySelector("#username").innerHTML;
+        let productId = 5;
+        let basket = {"userId" : 5,
+                      "productId" : productId};
+        fetch("api/basket", {
+                        method: "POST",
+                        headers: {
+                                    "Content-Type": "application/json; charset=utf-8"
+                                },
+                        body: JSON.stringify(basket)
+            })
+       }
 
     function updateTable() {
     let productNameFromUrl = getAllUrlParams(window.location.href);
-    console.log(productNameFromUrl);
     let productToFetch = "api/products/" + productNameFromUrl;
-    console.log(productToFetch);
      fetch(productToFetch)
          .then(function(request) {
              return request.json();
@@ -33,7 +41,6 @@ window.onload = function() {
     let currentPrice = jsonData.currentPrice + " Ft";
     creatingHeaderForName(name);
     creatingTableRowForData(id,producer,currentPrice)
-    console.log(jsonData)
  }
 
  function creatingHeaderForName(name){
