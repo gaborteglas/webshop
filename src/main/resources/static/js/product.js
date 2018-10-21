@@ -3,8 +3,8 @@ window.onload = function() {
     }
 
     function updateTable() {
-    var productNameFromUrl = getAllUrlParams(window.location.href);
-    var productToFetch = "api/products/" + productNameFromUrl;
+    let productNameFromUrl = getAllUrlParams(window.location.href);
+    let productToFetch = "api/products/" + productNameFromUrl;
      fetch(productToFetch)
          .then(function(request) {
              return request.json();
@@ -47,6 +47,6 @@ window.onload = function() {
  }
 
  function getAllUrlParams(url) {
-    var queryString = url ? url.split('=')[1] : window.location.search.slice(1);
+    let queryString = url ? url.split('=')[1] : window.location.search.slice(1);
     return queryString;
     }
