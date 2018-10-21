@@ -35,12 +35,12 @@ public class YellowcodeApplicationTests {
     @Test
     public void testFindProductByAddress() {
 
-        Optional<Product> product = productController.findProductByAddress("hengermalom");
-        assertEquals(product.get().getName(), "A hengermalomi bárdok");
-        assertEquals(product.get().getAddress(), "hengermalom");
-        assertEquals(product.get().getProducer(), "János Doe");
-        assertEquals(product.get().getCurrentPrice(), 8399);
-        assertEquals(product.get().getId(), 12);
+        Optional<Product> product = productController.findProductByAddress("aliceblue");
+        assertEquals(product.get().getName(), "Az aliceblue 50 árnyalata");
+        assertEquals(product.get().getAddress(), "aliceblue");
+        assertEquals(product.get().getProducer(), "E. L. Doe");
+        assertEquals(product.get().getCurrentPrice(), 9999);
+        assertEquals(product.get().getId(), 1);
 
     }
 
