@@ -2,6 +2,7 @@ package com.training360.yellowcode;
 
 import com.training360.yellowcode.dbTables.Product;
 import com.training360.yellowcode.userinterface.ProductController;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,15 @@ public class YellowcodeApplicationTests {
 
     @Autowired
     private ProductController productController;
+
+    @Before
+    public void init() {
+        productController.createProduct(new Product(1, "Az aliceblue 50 árnyalata", "aliceblue", "E. L. Doe", 9999, "active"));
+        productController.createProduct(new Product(2, "Legendás programozók és megfigyelésük", "legendas","J. K. Doe",  3999, "active"));
+        productController.createProduct(new Product(3, "Az 50 első Trainer osztály", "trainer", "Jack Doe", 5999, "active"));
+        productController.createProduct(new Product(4, "Hogyan neveld a junior fejlesztődet", "junior", "Jane Doe", 6499, "active"));
+        productController.createProduct(new Product(5, "Junior most és mindörökké", "mindorokke", "James Doe", 2999, "active"));
+    }
 
     @Test
     public void testFindProductByAddress() {
