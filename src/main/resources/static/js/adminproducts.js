@@ -85,6 +85,21 @@ function handleSubmit() {
     let producer = producerInput.value;
     let price = priceInput.value;
 
+    let parsedId = Number(id);
+    if (isNaN(parsedId) || !Number.isInteger(parsedId)) {
+        alert("Az id megadása kötelező és csak egész szám lehet.");
+        return false;
+    }
+    if (name.length === 0 || address.length === 0 || producer.length === 0) {
+        alert("Minden mező kitöltése kötelező!");
+        return false;
+    }
+    let parsedPrice = Number(price);
+    if (isNaN(parsedPrice) || !Number.isInteger(parsedPrice) || parsedPrice <= 0 || parsedPrice > 2000000) {
+        alert("Az ár megadása kötelező, csak egész szám lehet és nem haladhatja meg a 2.000.000 Ft-ot.");
+        return false;
+    }
+
     let product = {"id": id,
                    "name": name,
                    "address": address,
@@ -106,9 +121,7 @@ function handleSubmit() {
     })
         .then(function(response) {
 
-        if (response.status === 406) {
-            alert("Az árnak léteznie kell, és nem lehet több, mint 2.000.000.");
-        } else if (response.status === 409) {
+        if (response.status === 409) {
             alert("A megadott id vagy cím már foglalt. ");
         } else {
                 alert("Hozzáadva.");
