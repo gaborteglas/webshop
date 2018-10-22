@@ -5,6 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -15,6 +16,7 @@ import javax.sql.DataSource;
 
 @SpringBootApplication
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class YellowcodeApplication extends
 		WebSecurityConfigurerAdapter {
 
@@ -28,9 +30,9 @@ public class YellowcodeApplication extends
 				.csrf().disable()
 				.authorizeRequests()
 				.antMatchers("/", "/js/**", "/css/**", "/api/**").permitAll()
-				.antMatchers("/admin.html").hasRole("ADMIN")
+				.antMatchers("/adminproducts.html").hasRole("ADMIN")
 				.and()
-				.formLogin()
+				.formLogin().loginPage("/login.html").defaultSuccessUrl("/products.html")
 				.and()
 				.logout();
 
