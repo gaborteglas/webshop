@@ -1,5 +1,6 @@
 window.onload = function() {
     updateTable();
+    showBasketButton();
 
     let putIntoBasketButton = document.querySelector("#puttobasket");
     putIntoBasketButton.addEventListener("click", handlePutIntoBasket);
@@ -68,3 +69,29 @@ window.onload = function() {
     let queryString = url ? url.split('=')[1] : window.location.search.slice(1);
     return queryString;
     }
+
+ function showBasketButton() {
+      fetch("api/user")
+              .then(function (request) {
+                  return request.json();
+              })
+              .then(function(jsonData) {
+                  if (jsonData.role == "ROLE_USER") {
+                      switchBasketButton();
+                  }
+                  if (jsonData.role == "ROLE_ADMIN") {
+                      hideBasketButton();
+                  }
+              })
+              .catch(error => hideBasketButton());
+ }
+
+ function switchBasketButton() {
+  let button = document.getElementById("puttobasket");
+  button.style.display = "block";
+ }
+
+ function hideBasketButton() {
+   let button1 = document.getElementById("puttobasket");
+   button1.style.display = "none";
+  }
