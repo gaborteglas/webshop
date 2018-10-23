@@ -71,6 +71,10 @@ function fillTable(products) {
 
 let editedProduct = null;
 
+function createAddressFromName(name) {
+    return name + "1";
+}
+
 function handleSubmit() {
 
     let idInput = document.getElementById("id-input");
@@ -80,6 +84,7 @@ function handleSubmit() {
 
     let id = idInput.value;
     let name = nameInput.value;
+    let address = createAddressFromName(name);
     let producer = producerInput.value;
     let price = priceInput.value;
 
@@ -100,7 +105,7 @@ function handleSubmit() {
 
     let product = {"id": id,
                    "name": name,
-                   "address" : "",
+                   "address": address,
                    "producer": producer,
                    "currentPrice": price
                   };
