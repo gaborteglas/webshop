@@ -5,6 +5,7 @@ import com.training360.yellowcode.dbTables.User;
 import com.training360.yellowcode.dbTables.UserRole;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,6 +13,7 @@ import java.sql.SQLException;
 import java.text.MessageFormat;
 import java.util.List;
 
+@Repository
 public class UserDao {
 
 
@@ -36,7 +38,7 @@ public class UserDao {
     public void createUser(User user) {
         List<User> result = jdbcTemplate.query(
                 "select id, user_name, full_name, password, role from users where id = ? OR user_name = ?",
-                new com.training360.yellowcode.database.UserDao.UserMapper(), user.getId(), user.getLoginName());
+                new UserMapper(), user.getId(), user.getLoginName());
         if (result.size() == 0) {
             jdbcTemplate.update(connection -> {
                 PreparedStatement ps = connection.prepareStatement(
