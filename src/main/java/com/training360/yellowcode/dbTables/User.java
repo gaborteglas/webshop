@@ -24,6 +24,10 @@ public class User {
     public User() {
     }
 
+    public long getId() {
+        return id;
+    }
+
     public String getLoginName() {
         return loginName;
     }
