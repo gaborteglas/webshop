@@ -6,9 +6,13 @@ import java.text.Normalizer;
 
 public class ProductAddressGenerator {
 
-
     public static String generateUserFriendlyAddress(Product product) {
-        String address = product.getName().trim().replaceAll(" ", "-").toLowerCase();
+        String address;
+        if (product.getAddress() == null) {
+            address = product.getName().trim().replaceAll(" ", "-").toLowerCase();
+        } else {
+            address = product.getAddress();
+        }
         return Normalizer.normalize(address, Normalizer.Form.NFD)
                 .replaceAll("[^\\p{ASCII}]", "");
     }
