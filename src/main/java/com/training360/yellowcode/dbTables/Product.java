@@ -9,18 +9,18 @@ public class Product {
     private String address;
     private String producer;
     private long currentPrice;
-    private String status = "active";
+    private String status;
 
     public Product() {
     }
 
-    public Product(long id, String name, String address, String producer, long currentPrice, String status) {
+    public Product(long id, String name, String producer, long currentPrice) {
         this.id = id;
         this.name = name;
-        this.address = address;
+        this.address = userFriendlyAddressGenerator();
         this.producer = producer;
         this.currentPrice = currentPrice;
-        this.status = status;
+        this.status = "active";
     }
 
     public long getId() {

@@ -34,8 +34,8 @@ public class ProductService {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    public void createProduct(long id, String name, String address, String producer, long currentPrice) {
-        productDao.createProduct(id, name, address, producer, currentPrice);
+    public void createProduct(Product product) {
+        productDao.createProduct(product);
     }
 
     @PreAuthorize("hasRole('ADMIN')")

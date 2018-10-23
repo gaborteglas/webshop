@@ -73,18 +73,16 @@ public class ProductDao {
         public Product mapRow(ResultSet resultSet, int i) throws SQLException {
             long id = resultSet.getLong("id");
             String name = resultSet.getString("name");
-            String address = resultSet.getString("address");
             String producer = resultSet.getString("producer");
             Long currentPrice = resultSet.getLong("price");
-            String status = resultSet.getString("status");
-            return new Product(id, name, address, producer, currentPrice, status);
+            return new Product(id, name, producer, currentPrice);
         }
     }
 
-    public void createProduct(long id, String name, String address, String producer, long currentPrice) {
+    public void createProduct(Product product) {
         List<Product> result = jdbcTemplate.query(
-                "select id, name, address, producer, price, status from products where id = ? OR address = ?",
-                new ProductMapper(), id, address);
+                "select id, name, address, producer, price, status from products where id = ? OR name = ?",
+                new ProductMapper(), product.getId(), product.getName());
         if (result.size() == 0) {
             jdbcTemplate.update(new PreparedStatementCreator() {
                 @Override
@@ -92,14 +90,15 @@ public class ProductDao {
                     PreparedStatement ps = connection.prepareStatement(
                             "insert into products(id, name, address, producer, price, status) values(?, ?, ?, ?, ?, 'active')"
                     );
-                    throwIllegalArgumentExceptionIfPriceIsInvalid(currentPrice);
-                    ps.setLong(1, id);
-                    ps.setString(2, name);
-                    ps.setString(3, address);
-                    ps.setString(4, producer);
-                    ps.setLong(5, currentPrice);
+                    throwIllegalArgumentExceptionIfPriceIsInvalid(product.getCurrentPrice());
+                    ps.setLong(1, product.getId());
+                    ps.setString(2, product.getName());
+                    ps.setString(3, product.getAddress());
+                    ps.setString(4, product.getProducer());
+                    ps.setLong(5, product.getCurrentPrice());
                     ProductService.LOGGER.info(MessageFormat.format("Product added(id: {0}, name: {1}," +
-                            " address: {2}, producer: {3}, currentPrice: {4})", id, name, address, producer, currentPrice));
+                                    " address: {2}, producer: {3}, currentPrice: {4})", product.getId(), product.getName(),
+                            product.getAddress(), product.getProducer(), product.getCurrentPrice()));
                     return ps;
                 }
             });
