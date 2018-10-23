@@ -75,13 +75,11 @@ function handleSubmit() {
 
     let idInput = document.getElementById("id-input");
     let nameInput = document.getElementById("name-input");
-    let addressInput = document.getElementById("address-input");
     let producerInput = document.getElementById("producer-input");
     let priceInput = document.getElementById("price-input");
 
     let id = idInput.value;
     let name = nameInput.value;
-    let address = addressInput.value;
     let producer = producerInput.value;
     let price = priceInput.value;
 
@@ -90,7 +88,7 @@ function handleSubmit() {
         alert("Az id megadása kötelező és csak egész szám lehet.");
         return false;
     }
-    if (name.length === 0 || address.length === 0 || producer.length === 0) {
+    if (name.length === 0 || producer.length === 0) {
         alert("Minden mező kitöltése kötelező!");
         return false;
     }
@@ -102,7 +100,7 @@ function handleSubmit() {
 
     let product = {"id": id,
                    "name": name,
-                   "address": address,
+                   "address" : "",
                    "producer": producer,
                    "currentPrice": price
                   };
@@ -138,8 +136,6 @@ function handleReset() {
     idInput.value = "";
     let nameInput = document.getElementById("name-input");
     nameInput.value = "";
-    let addressInput = document.getElementById("address-input");
-    addressInput.value = "";
     let producerInput = document.getElementById("producer-input");
     producerInput.value = "";
     let priceInput = document.getElementById("price-input");
@@ -159,9 +155,6 @@ function handleEditButtonOnClick() {
 
     let nameInput = document.getElementById("name-input");
     nameInput.value = product.name;
-
-    let addressInput = document.getElementById("address-input");
-    addressInput.value = product.address;
 
     let producerInput = document.getElementById("producer-input");
     producerInput.value = product.producer;
