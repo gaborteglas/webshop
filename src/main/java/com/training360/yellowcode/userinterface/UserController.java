@@ -8,12 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class UserController {
@@ -46,5 +44,23 @@ public class UserController {
         }
     }
 
+    @RequestMapping(value = "/api/users", method = RequestMethod.GET)
+    public List<User> listUsers() {
+        return userService.listUsers();
+    }
 
+    @RequestMapping(value = "/api/users/", method = RequestMethod.DELETE)
+    public void deleteUser(@PathVariable long id) {
+        userService.deleteUser(id);
+    }
+
+    @RequestMapping(value = "/api/users/", method = RequestMethod.POST)
+    public ResponseEntity<String> updateUser(@RequestBody User user, @PathVariable long id) {
+        try {
+            userService.updateUser(user.getId(), user.getFullName(), user.getPassword());
+            return ResponseEntity.ok("Successfully updated!");
+        } catch (IllegalArgumentException iae) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+    }
 }

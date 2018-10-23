@@ -2,13 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Termékek</title>
+    <title>Felhasználók</title>
     <link rel="stylesheet" href="css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="css/basket.css"/>
+
 </head>
 <body>
 
 <div class="container">
+    <h1>Felhasználók</h1>
 
     <ul class="nav nav-pills nav-fill">
         <li class="nav-item nav-item-products">
@@ -35,26 +36,40 @@
 
     </ul>
 
-    <h1>Kosár</h1>
+    <form id="user-form">
+
+        <div class="form-group">
+            <label for="id-input">Módosítani kívánt felhasználó id</label>
+            <input type="text" id="id-input" class="form-control" />
+            <label for="fullname-input">Új név</label>
+            <input type="text" id="fullname-input" class="form-control" />
+            <label for="password-input">Új jelszó</label>
+            <input type="text" id="password-input" class="form-control" />
+        </div>
+
+
+        <input type="submit" id="submit-button" value="Felhasználó módosítása" class="btn btn-primary"/>
+    </form>
 
     <table class="table table-striped">
         <thead>
         <tr>
             <th>Id</th>
-            <th>Cím</th>
-            <th>Kiadó</th>
-            <th>Ár</th>
+            <th>Felhasználó név</th>
+            <th>Valódi név</th>
         </tr>
         </thead>
-        <tbody id="basket-tbody">
+        <tbody id="users-tbody">
 
         </tbody>
     </table>
 
+
 </div>
+
 </body>
 
 <script src="js/menubar.js"></script>
-<script src="js/basket.js"></script>
+<script src="js/users.js"></script>
 
 </html>
