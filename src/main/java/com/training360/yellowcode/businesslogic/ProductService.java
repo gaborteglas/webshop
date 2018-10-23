@@ -36,14 +36,13 @@ public class ProductService {
 
     @PreAuthorize("hasRole('ADMIN')")
     public void createProduct(Product product) {
-        if (product.getAddress() == null) {
-            product.setAddress(ProductAddressGenerator.generateUserFriendlyAddress(product));
-        }
+        product.setAddress(ProductAddressGenerator.generateUserFriendlyAddress(product));
         productDao.createProduct(product);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     public void updateProduct(long id, Product product) {
+        product.setAddress(ProductAddressGenerator.generateUserFriendlyAddress(product));
         productDao.updateProduct(id, product);
     }
 
