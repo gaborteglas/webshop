@@ -11,4 +11,5 @@ CREATE TABLE users (
  INSERT INTO users
 (user_name, full_name, password, enabled, role)
 VALUES("testuser", "Test User", "$2a$10$qQxb4Kd6JxefHd0ThHcMz.bmv2ndCBd0yJaHJe4cs3XDLbYm3fSRW", 1, "ROLE_CUSTOMER"),
-("testadmin", "Test Admin", "$2a$10$nZGfEnGSgOAb5GDhNDngreSmN3BEC2VUzWnLNwV9GvPUXbNsOukBW", 1, "ROLE_ADMIN");
+("testadmin", "Test Admin", "$2a$10$nZGfEnGSgOAb5GDhNDngreSmN3BEC2VUzWnLNwV9GvPUXbNsOukBW", 1, "ROLE_ADMIN"),
+("pooruser", "Poor User", "$2a$10$nZGfEnGSgOAb5GDhNDngreSmN3BEC2VUzWnLNwV9GvPUXbNsOukBW", 1, "ROLE_CUSTOMER");

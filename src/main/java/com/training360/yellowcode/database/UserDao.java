@@ -1,6 +1,7 @@
 package com.training360.yellowcode.database;
 
 import com.training360.yellowcode.businesslogic.ProductService;
+import com.training360.yellowcode.dbTables.Product;
 import com.training360.yellowcode.dbTables.User;
 import com.training360.yellowcode.dbTables.UserRole;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -10,8 +11,12 @@ import org.springframework.stereotype.Repository;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.Collator;
 import java.text.MessageFormat;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 @Repository
 public class UserDao {
@@ -57,5 +62,44 @@ public class UserDao {
         } else {
             throw new DuplicateProductException("A user with this id or login-name already exists.");
         }
+    }
+
+    private List<User> sortUsersByName(List<User> users) {
+        return users.stream()
+                .sorted(Comparator.comparing(User::getLoginName))
+                .collect(Collectors.toList());
+    }
+
+    public List<User> listUsers() {
+        return sortUsersByName(
+                jdbcTemplate.query("select id, user_name, full_name, password, enabled, role from users",
+                        new UserDao.UserMapper())
+        );
+    }
+
+    public void updateUser(long id, String name, String password) {
+        namePasswordEmpty(name);
+        namePasswordEmpty(password);
+        List<User> result = jdbcTemplate.query(
+                "select id, user_name, full_name, password, enabled, role from users where (id = ?)",
+                new UserDao.UserMapper(), id);
+        if (result.size() == 1) {
+            jdbcTemplate.update(
+                    "update users full_name = ?, password = ? where id = ?",
+                    name, password, id);
+        } else {
+            throw new IllegalArgumentException("No user found");
+        }
+    }
+
+    private void namePasswordEmpty(String string) {
+        if(string == null || "".equals(string.trim())) {
+            throw new IllegalArgumentException("Null not allowed here");
+        }
+    }
+
+    public void deleteUser(long id) {
+        jdbcTemplate.update("delete from users where id = ?", id);
+        jdbcTemplate.update("update basket set user_id = 0 where user_id = ?", id);
     }
 }
