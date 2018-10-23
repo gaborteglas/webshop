@@ -45,7 +45,7 @@ function fillTable(products) {
         tr.appendChild(priceTd);
 
         let statusTd = document.createElement("td");
-        if(product.status === "active") {
+        if(product.status === "ACTIVE") {
             statusTd.innerHTML = "aktív";
         } else {
             statusTd.innerHTML = "inaktív";
@@ -71,20 +71,17 @@ function fillTable(products) {
 
 let editedProduct = null;
 
-function createAddressFromName(name) {
-    return name + "1";
-}
-
 function handleSubmit() {
 
     let idInput = document.getElementById("id-input");
     let nameInput = document.getElementById("name-input");
+    let addressInput = document.getElementById("address-input");
     let producerInput = document.getElementById("producer-input");
     let priceInput = document.getElementById("price-input");
 
     let id = idInput.value;
     let name = nameInput.value;
-    let address = createAddressFromName(name);
+    let address = addressInput.value;
     let producer = producerInput.value;
     let price = priceInput.value;
 
@@ -105,7 +102,7 @@ function handleSubmit() {
 
     let product = {"id": id,
                    "name": name,
-                   "address": address,
+                   "address": address.length > 0 ? address : null,
                    "producer": producer,
                    "currentPrice": price
                   };
@@ -121,18 +118,21 @@ function handleSubmit() {
             "Content-Type": "application/json; charset=utf-8"
                 },
         body: JSON.stringify(product)
-    })
-        .then(function(response) {
+    }).then(function(response) {
 
         if (response.status === 409) {
             alert("A megadott id vagy cím már foglalt. ");
         } else {
+            if (editedProduct === null) {
                 alert("Hozzáadva.");
-                updateTable();
-                handleReset();
+            } else {
+                alert("Módosítva.")
             }
-        });
-        return false;
+            updateTable();
+            handleReset();
+        }
+     });
+    return false;
 }
 
 function handleReset() {
@@ -141,6 +141,8 @@ function handleReset() {
     idInput.value = "";
     let nameInput = document.getElementById("name-input");
     nameInput.value = "";
+    let addressInput = document.getElementById("address-input");
+    addressInput.value = "";
     let producerInput = document.getElementById("producer-input");
     producerInput.value = "";
     let priceInput = document.getElementById("price-input");
@@ -160,6 +162,9 @@ function handleEditButtonOnClick() {
 
     let nameInput = document.getElementById("name-input");
     nameInput.value = product.name;
+
+    let addressInput = document.getElementById("address-input");
+    addressInput.value = product.address;
 
     let producerInput = document.getElementById("producer-input");
     producerInput.value = product.producer;

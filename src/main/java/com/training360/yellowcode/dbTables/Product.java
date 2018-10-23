@@ -1,7 +1,5 @@
 package com.training360.yellowcode.dbTables;
 
-import java.text.Normalizer;
-
 public class Product {
 
     private long id;
@@ -9,18 +7,18 @@ public class Product {
     private String address;
     private String producer;
     private long currentPrice;
-    private String status;
+    private ProductStatusType status = ProductStatusType.ACTIVE;
 
     public Product() {
     }
 
-    public Product(long id, String name, String producer, long currentPrice) {
+    public Product(long id, String name, String address, String producer, long currentPrice, ProductStatusType status) {
         this.id = id;
         this.name = name;
-        this.address = userFriendlyAddressGenerator();
+        this.address = address;
         this.producer = producer;
         this.currentPrice = currentPrice;
-        this.status = "active";
+        this.status = status;
     }
 
     public long getId() {
@@ -63,18 +61,12 @@ public class Product {
         this.currentPrice = currentPrice;
     }
 
-    public String getStatus() {
+    public ProductStatusType getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(ProductStatusType status) {
         this.status = status;
     }
 
-    public String userFriendlyAddressGenerator() {
-        String address = name;
-        address = address.trim().replaceAll(" ", "-").toLowerCase();
-        return Normalizer.normalize(address, Normalizer.Form.NFD)
-                .replaceAll("[^\\p{ASCII}]", "");
-    }
 }

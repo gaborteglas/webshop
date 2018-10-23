@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
+import java.text.Normalizer;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,16 +36,21 @@ public class ProductService {
 
     @PreAuthorize("hasRole('ADMIN')")
     public void createProduct(Product product) {
+        if (product.getAddress() == null) {
+            product.setAddress(ProductAddressGenerator.generateUserFriendlyAddress(product));
+        }
         productDao.createProduct(product);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    public void updateProduct(long id, long newId, String name, String address, String producer, long currentPrice) {
-        productDao.updateProduct(id, newId, name, address, producer, currentPrice);
+    public void updateProduct(long id, Product product) {
+        productDao.updateProduct(id, product);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteProduct(long id) {
         productDao.deleteProduct(id);
     }
+
+
 }

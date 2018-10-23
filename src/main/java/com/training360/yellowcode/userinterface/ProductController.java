@@ -47,7 +47,7 @@ public class ProductController {
     @RequestMapping(value = "/api/products/{id}", method = RequestMethod.POST)
     public ResponseEntity<String> updateProduct(@RequestBody Product product, @PathVariable long id) {
         try {
-            productService.updateProduct(id, product.getId(), product.getName(), product.getAddress(), product.getProducer(), product.getCurrentPrice());
+            productService.updateProduct(id, product);
             return ResponseEntity.ok("Successfully created.");
         } catch (DuplicateProductException dpe) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();

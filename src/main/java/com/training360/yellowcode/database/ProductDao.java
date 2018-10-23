@@ -2,6 +2,7 @@ package com.training360.yellowcode.database;
 
 import com.training360.yellowcode.businesslogic.ProductService;
 import com.training360.yellowcode.dbTables.Product;
+import com.training360.yellowcode.dbTables.ProductStatusType;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -45,7 +46,7 @@ public class ProductDao {
         return sortProductsNameIdThenProducer(
                 jdbcTemplate.query(
                         "select id, name, address, producer, price, status from products " +
-                                "where status = 'active'", new ProductMapper())
+                                "where status = 'ACTIVE'", new ProductMapper())
         );
     }
 
@@ -73,22 +74,24 @@ public class ProductDao {
         public Product mapRow(ResultSet resultSet, int i) throws SQLException {
             long id = resultSet.getLong("id");
             String name = resultSet.getString("name");
+            String address = resultSet.getString("address");
             String producer = resultSet.getString("producer");
             Long currentPrice = resultSet.getLong("price");
-            return new Product(id, name, producer, currentPrice);
+            ProductStatusType status = ProductStatusType.valueOf(resultSet.getString("status"));
+            return new Product(id, name, address, producer, currentPrice, status);
         }
     }
 
     public void createProduct(Product product) {
         List<Product> result = jdbcTemplate.query(
-                "select id, name, address, producer, price, status from products where id = ? OR name = ?",
-                new ProductMapper(), product.getId(), product.getName());
+                "select id, name, address, producer, price, status from products where id = ? OR address = ?",
+                new ProductMapper(), product.getId(), product.getAddress());
         if (result.size() == 0) {
             jdbcTemplate.update(new PreparedStatementCreator() {
                 @Override
                 public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
                     PreparedStatement ps = connection.prepareStatement(
-                            "insert into products(id, name, address, producer, price, status) values(?, ?, ?, ?, ?, 'active')"
+                            "insert into products(id, name, address, producer, price, status) values(?, ?, ?, ?, ?, 'ACTIVE')"
                     );
                     throwIllegalArgumentExceptionIfPriceIsInvalid(product.getCurrentPrice());
                     ps.setLong(1, product.getId());
@@ -96,9 +99,13 @@ public class ProductDao {
                     ps.setString(3, product.getAddress());
                     ps.setString(4, product.getProducer());
                     ps.setLong(5, product.getCurrentPrice());
-                    ProductService.LOGGER.info(MessageFormat.format("Product added(id: {0}, name: {1}," +
-                                    " address: {2}, producer: {3}, currentPrice: {4})", product.getId(), product.getName(),
-                            product.getAddress(), product.getProducer(), product.getCurrentPrice()));
+                    ProductService.LOGGER.info(MessageFormat.format(
+                            "Product added(id: {0}, name: {1}, address: {2}, producer: {3}, currentPrice: {4})",
+                            product.getId(),
+                            product.getName(),
+                            product.getAddress(),
+                            product.getProducer(),
+                            product.getCurrentPrice()));
                     return ps;
                 }
             });
@@ -107,24 +114,35 @@ public class ProductDao {
         }
     }
 
-    public void updateProduct(long id, long newId, String name, String address, String producer, long currentPrice) {
-        throwIllegalArgumentExceptionIfPriceIsInvalid(currentPrice);
+    public void updateProduct(long id, Product product) {
+        throwIllegalArgumentExceptionIfPriceIsInvalid(product.getCurrentPrice());
         List<Product> result = jdbcTemplate.query(
                 "select id, name, address, producer, price, status from products where (id = ? or address = ?) and id <> ? ",
-                new ProductMapper(), newId, address, id);
+                new ProductMapper(), product.getId(), product.getAddress(), id);
         if (result.size() == 0) {
             jdbcTemplate.update(
-                    "update products set id = ?, name = ?, address = ?, producer = ?, price = ? where id = ?",
-                    newId, name, address, producer, currentPrice, id);
-            ProductService.LOGGER.info(MessageFormat.format("Product modified to -> id: {0}, name: {1}," +
-                    " address: {2}, producer: {3}, currentPrice: {4}", id, name, address, producer, currentPrice));
+                    "update products set id = ?, name = ?, address = ?, producer = ?, price = ?, status = ? where id = ?",
+                    product.getId(),
+                    product.getName(),
+                    product.getAddress(),
+                    product.getProducer(),
+                    product.getCurrentPrice(),
+                    product.getStatus().toString(),
+                    id);
+            ProductService.LOGGER.info(MessageFormat.format(
+                    "Product modified to -> id: {0}, name: {1}, address: {2}, producer: {3}, currentPrice: {4}",
+                    product.getId(),
+                    product.getName(),
+                    product.getAddress(),
+                    product.getProducer(),
+                    product.getCurrentPrice()));
         } else {
             throw new DuplicateProductException("A product with this id or address already exists.");
         }
     }
 
     public void deleteProduct(long id) {
-        jdbcTemplate.update("update products set status = 'inactive' where id = ?", id);
+        jdbcTemplate.update("update products set status = 'INACTIVE' where id = ?", id);
         ProductService.LOGGER.info(MessageFormat.format("Product with '{0}' id set to inactive", id));
     }
 

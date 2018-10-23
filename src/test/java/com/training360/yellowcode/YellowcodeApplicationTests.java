@@ -1,6 +1,7 @@
 package com.training360.yellowcode;
 
 import com.training360.yellowcode.dbTables.Product;
+import com.training360.yellowcode.dbTables.ProductStatusType;
 import com.training360.yellowcode.userinterface.ProductController;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,11 +26,11 @@ public class YellowcodeApplicationTests {
 
     @Before
     public void init() {
-        productController.createProduct(new Product(1, "Az aliceblue 50 árnyalata", "E. L. Doe", 9999));
-        productController.createProduct(new Product(2, "Legendás programozók és megfigyelésük","J. K. Doe",  3999));
-        productController.createProduct(new Product(3, "Az 50 első Trainer osztály", "Jack Doe", 5999));
-        productController.createProduct(new Product(4, "Hogyan neveld a junior fejlesztődet", "Jane Doe", 6499));
-        productController.createProduct(new Product(5, "Junior most és mindörökké", "James Doe", 2999));
+        productController.createProduct(new Product(1, "Az aliceblue 50 árnyalata","aliceblue", "E. L. Doe", 9999, ProductStatusType.ACTIVE));
+        productController.createProduct(new Product(2, "Legendás programozók és megfigyelésük", "legendas", "J. K. Doe",  3999, ProductStatusType.ACTIVE));
+        productController.createProduct(new Product(3, "Az 50 első Trainer osztály", "osztaly", "Jack Doe", 5999, ProductStatusType.ACTIVE));
+        productController.createProduct(new Product(4, "Hogyan neveld a junior fejlesztődet", "junior", "Jane Doe", 6499, ProductStatusType.ACTIVE));
+        productController.createProduct(new Product(5, "Junior most és mindörökké", "mindorokke", "James Doe", 2999, ProductStatusType.ACTIVE));
     }
 
     @Test
@@ -56,7 +57,7 @@ public class YellowcodeApplicationTests {
         List<Product> products = productController.listProducts();
 
         productController.createProduct(new Product(
-                6, "A Java ura: A classok szövetsége", "J.R.R. Doe", 2899
+                6, "A Java ura: A classok szövetsége", "szovetseg", "J.R.R. Doe", 2899, ProductStatusType.ACTIVE
                 ));
         List<Product> products2 = productController.listProducts();
         assertEquals(products.size(), 5);
@@ -67,10 +68,10 @@ public class YellowcodeApplicationTests {
     @Test
     public void testUpdateProduct() {
         productController.createProduct(new Product(
-                6, "A Java ura: A classok szövetsége", "J.R.R. Doe", 2899
+                6, "A Java ura: A classok szövetsége", "szovetseg", "J.R.R. Doe", 2899, ProductStatusType.ACTIVE
         ));
         productController.updateProduct(new Product(
-                6, "A Java ura: A classok szövetsége", "J.R.R. Doe", 3899),
+                6, "A Java ura: A classok szövetsége", "szovetseg", "J.R.R. Doe", 3899, ProductStatusType.ACTIVE),
                 6);
 
         List<Product> products = productController.listProducts();
@@ -81,7 +82,7 @@ public class YellowcodeApplicationTests {
     @Test
     public void testDeleteProduct() {
         productController.createProduct(new Product(
-                6, "A Java ura: A classok szövetsége", "J.R.R. Doe", 2899
+                6, "A Java ura: A classok szövetsége", "szovetseg", "J.R.R. Doe", 2899, ProductStatusType.ACTIVE
         ));
         productController.deleteProduct(6);
 
@@ -91,7 +92,7 @@ public class YellowcodeApplicationTests {
         assertEquals(products.size(), 5);
         assertEquals(allProducts.size(), 6);
 
-        assertEquals(productController.findProductByAddress("szovetseg").get().getStatus(), "inactive");
+        assertEquals(productController.findProductByAddress("szovetseg").get().getStatus(), ProductStatusType.INACTIVE);
     }
 
     //Ez átmeneti, amíg a CRUD nem teljes
