@@ -11,8 +11,6 @@
     <div class="container">
         <h1>Termékek</h1>
 
-        <form id="product-form">
-
             <ul class="nav nav-pills nav-fill">
                 <li class="nav-item nav-item-products">
                     <a class="nav-link" href="/products.html">Termékek</a>
@@ -38,7 +36,23 @@
 
             </ul>
 
-            <input type="submit" id="submit-button" value="Új termék hozzáadása" class="btn btn-primary"/>
+            <form id="product-form">
+
+                <div class="form-group">
+                    <label for="id-input">Id</label>
+                    <input type="text" id="id-input" class="form-control" />
+                    <label for="name-input">Cím</label>
+                    <input type="text" id="name-input" class="form-control" />
+                    <label for="address-input">Url</label>
+                    <input type="text" id="address-input" class="form-control" />
+                    <label for="producer-input">Szerző</label>
+                    <input type="text" id="producer-input" class="form-control" />
+                    <label for="price-input">Ár</label>
+                    <input type="text" id="price-input" class="form-control" />
+                </div>
+
+
+                <input type="submit" id="submit-button" value="Új termék hozzáadása" class="btn btn-primary"/>
             <input type="reset" id="reset-button" value="Mégse" class="btn btn-secondary" />
         </form>
 

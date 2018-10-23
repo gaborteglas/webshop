@@ -4,7 +4,6 @@ function setUserName() {
      fetch("api/user")
              .then(function (request) {
                  return request.json();
-                 console.log(request.json);
              })
              .then(function(jsonData) {
                  showUser(jsonData);
