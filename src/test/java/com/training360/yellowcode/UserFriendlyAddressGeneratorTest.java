@@ -9,8 +9,8 @@ public class UserFriendlyAddressGeneratorTest {
 
     @Test
     public void userFriendlyAddressGeneratorTest() {
-        Product product = new Product(2, "80 nap alatt a Java körül", "javakorul",
-                "Jules Doe", 3000, "active");
+        Product product = new Product(2, "80 nap alatt a Java körül",
+                "Jules Doe", 3000);
         assertEquals(product.userFriendlyAddressGenerator(), "80-nap-alatt-a-java-korul");
     }
 }
