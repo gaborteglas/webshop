@@ -1,9 +1,7 @@
 package com.training360.yellowcode.database;
 
 import com.training360.yellowcode.businesslogic.PasswordValidator;
-import com.training360.yellowcode.businesslogic.ProductService;
 import com.training360.yellowcode.businesslogic.UserService;
-import com.training360.yellowcode.dbTables.Product;
 import com.training360.yellowcode.dbTables.User;
 import com.training360.yellowcode.dbTables.UserRole;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -15,11 +13,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
-import java.text.Collator;
 import java.text.MessageFormat;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Repository

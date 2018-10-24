@@ -1,7 +1,6 @@
 package com.training360.yellowcode.database;
 
 import com.training360.yellowcode.businesslogic.BasketsService;
-import com.training360.yellowcode.businesslogic.ProductService;
 import com.training360.yellowcode.dbTables.Basket;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
