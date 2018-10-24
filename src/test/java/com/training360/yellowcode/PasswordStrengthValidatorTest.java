@@ -14,6 +14,16 @@ public class PasswordStrengthValidatorTest {
     }
 
     @Test
+    public void passwordStrengthValidatorTestValidHungarianLetter() {
+        assertTrue(new PasswordValidator().passwordStrengthValidator("ÉóhnDoe550$"));
+    }
+
+    @Test
+    public void passwordStrengthValidatorTestValidHungarianCapitalLetter() {
+        assertTrue(new PasswordValidator().passwordStrengthValidator("Éóhnooe550$"));
+    }
+
+    @Test
     public void passwordStrengthValidatorTestSufferingLevel() {
         assertTrue(new PasswordValidator().passwordStrengthValidator("@UO80pJmWsN&U#O^!UCB^i!IOTNO57"));
     }
