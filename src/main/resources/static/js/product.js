@@ -12,17 +12,24 @@ function handlePutIntoBasket(){
     let userName = document.querySelector("#username").innerHTML;
     let productId = document.querySelector("#productId").innerHTML;
     let productName = document.querySelector("#product-name")
-    alert("Az alábbi hozzáadva a kosárhoz : " + productName.innerHTML );
+
     let userId = document.querySelector("#id-hidden-input").innerText;
     let basket = {"userId" : userId,
                   "productId" : productId};
+
     fetch("api/basket", {
-                    method: "POST",
-                    headers: {
-                                "Content-Type": "application/json; charset=utf-8"
-                            },
-                    body: JSON.stringify(basket)
-    })
+        method: "POST",
+        headers: {
+                    "Content-Type": "application/json; charset=utf-8"
+                },
+        body: JSON.stringify(basket)
+    }).then(function(response) {
+        if (response.status === 409) {
+            alert("A termék már szerepel a kosárban.");
+        } else {
+            alert("Az alábbi hozzáadva a kosárhoz : " + productName.innerHTML );
+        }
+    });
 }
 
 function updateTable() {

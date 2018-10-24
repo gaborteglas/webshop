@@ -25,17 +25,26 @@ public class BasketsDao {
     }
 
     public void addToBasket(Basket basket) {
-        jdbcTemplate.update(new PreparedStatementCreator() {
-            @Override
-            public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
-                PreparedStatement ps = connection.prepareStatement("insert into basket(user_id,product_id) values(?,?)");
-                ps.setLong(1, basket.getUserId());
-                ps.setLong(2, basket.getProductId());
-                BasketsService.LOGGER.info(MessageFormat.format("Product (id: {0}) added to basket of user (id: {1})",
-                        basket.getUserId(), basket.getProductId()));
-                return ps;
-            }
-        });
+        List<Basket> basketProducts =
+                jdbcTemplate.query("select id, user_id, product_id from basket where user_id = ? and product_id = ?",
+                new BasketMapper(),
+                basket.getUserId(),
+                basket.getProductId());
+        if (basketProducts.size() == 0) {
+            jdbcTemplate.update(new PreparedStatementCreator() {
+                @Override
+                public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+                    PreparedStatement ps = connection.prepareStatement("insert into basket(user_id,product_id) values(?,?)");
+                    ps.setLong(1, basket.getUserId());
+                    ps.setLong(2, basket.getProductId());
+                    BasketsService.LOGGER.info(MessageFormat.format("Product (id: {0}) added to basket of user (id: {1})",
+                            basket.getUserId(), basket.getProductId()));
+                    return ps;
+                }
+            });
+        } else {
+            throw new DuplicateProductException("The basket already contains a product with this id.");
+        }
     }
 
     public List<Basket> listProducts() {
