@@ -10,8 +10,11 @@ function handlePutIntoBasket(){
     let productNameFromUrl = new URL(window.location).searchParams.get("address");
     let productToFetch = "api/products/" + productNameFromUrl;
     let userName = document.querySelector("#username").innerHTML;
-    let productId = 5;
-    let basket = {"userId" : 5,
+    let productId = document.querySelector("#productId").innerHTML;
+    let productName = document.querySelector("#product-name")
+    alert("Az alábbi hozzáadva a kosárhoz : " + productName.innerHTML );
+    // let userId = userName.split("#")[1];
+    let basket = {"userId" : 1,
                   "productId" : productId};
     fetch("api/basket", {
                     method: "POST",
@@ -54,6 +57,7 @@ function creatingTableRowForData(id,producer,currentPrice){
     let producerTd = document.createElement("td");
     let currentPriceTd = document.createElement("td");
     idTd.innerHTML = id;
+    idTd.setAttribute("id","productId")
     producerTd.innerHTML = producer;
     currentPriceTd.innerHTML = currentPrice;
     tr.appendChild(idTd);

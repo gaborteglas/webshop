@@ -8,44 +8,52 @@ function updateTable() {
             return request.json();
         })
         .then(function(jsonData) {
-            fillTable(jsonData);
+            fetchProduct(jsonData);
         });
 }
 
-function fillTable(products) {
-    let tbody = document.getElementById("products-tbody");
-    tbody.innerHTML = "";
-    for (let i = 0; i < products.length; i++) {
-        let product  = products[i];
-        let tr = document.createElement("tr");
-        tr.className = "clickable-row";
-        tr["raw-data"] = product;
+function fetchProduct(basketData) {
+        fetch("api/products")
+        .then(function(request){
+            return request.json();
+        })
+        .then(function(products) {
+            fillTable(products,basketData);
+         })
+}
 
-        let idTd = document.createElement("td");
-        idTd.innerHTML = product.id;
-        tr.appendChild(idTd);
-
-        let nameTd = document.createElement("td");
-        nameTd.innerHTML = product.name;
-        tr.appendChild(nameTd);
-
-        let addressTd = document.createElement("td");
-        addressTd.innerHTML = product.address;
-        tr.appendChild(addressTd);
-
-        let producerTd = document.createElement("td");
-        producerTd.innerHTML = product.producer;
-        tr.appendChild(producerTd);
-
-        let priceTd = document.createElement("td");
-        priceTd.innerHTML = product.currentPrice;
-        tr.appendChild(priceTd);
-
-        tr.onclick = function() {
-            window.location = "/product.html?address=" + product.address;
-        };
-
-        tbody.appendChild(tr);
-
-    }
+function fillTable(products,basketData){
+        console.log(products);
+        console.log(basketData);
+        let tbody = document.querySelector("#basket-tbody");
+        let productId = basketData.productId;
+        let userId = 1 //document.querySelector("#username").innerHTML;
+        console.log(productId);
+        let usersProductIds = [];
+        for(i in basketData){
+            if (userId === basketData[i].userId){
+                usersProductIds.push(basketData[i].productId);
+            }
+        }
+        let userItems = {};
+        for(j in usersProductIds){
+            for(k in products){
+                  if(usersProductIds[j] === products[k].id){
+                    let tr = document.createElement("tr");
+                    let idTd = document.createElement("td");
+                    idTd.innerHTML = products[k].id;
+                    tr.appendChild(idTd);
+                    let nameTd = document.createElement("td");
+                    nameTd.innerHTML = products[k].name;
+                    tr.appendChild(nameTd);
+                    let producerTd = document.createElement("td");
+                    producerTd.innerHTML = products[k].producer;
+                    tr.appendChild(producerTd);
+                    let currentPriceTd= document.createElement("td");
+                    currentPriceTd.innerHTML = products[k].currentPrice;
+                    tr.appendChild(currentPriceTd);
+                    tbody.appendChild(tr);
+                    }
+             }
+        }
 }
