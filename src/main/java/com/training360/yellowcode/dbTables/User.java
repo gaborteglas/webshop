@@ -6,7 +6,7 @@ public class User {
     private String loginName;
     private String fullName;
     private String password;
-    private UserRole role;
+    private UserRole role = UserRole.ROLE_CUSTOMER;
 
     public User(long id, String loginName, String fullName, String password, UserRole role) {
         this.id = id;
