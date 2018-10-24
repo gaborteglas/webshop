@@ -1,5 +1,6 @@
 package com.training360.yellowcode.database;
 
+import com.training360.yellowcode.businesslogic.BasketsService;
 import com.training360.yellowcode.businesslogic.ProductService;
 import com.training360.yellowcode.dbTables.Basket;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -30,7 +31,7 @@ public class BasketsDao {
                 PreparedStatement ps = connection.prepareStatement("insert into basket(user_id,product_id) values(?,?)");
                 ps.setLong(1, userId);
                 ps.setLong(2, productId);
-                ProductService.LOGGER.info(MessageFormat.format("Product (id: {0}) added to basket of user (id: {1})",
+                BasketsService.LOGGER.info(MessageFormat.format("Product (id: {0}) added to basket of user (id: {1})",
                         productId, userId));
                 return ps;
             }
@@ -53,13 +54,14 @@ public class BasketsDao {
         }
     }
 
-    public void deleteFromBasketById(long userId){
-        jdbcTemplate.update("delete from basket where user_id = ?",userId);
+    public void deleteFromBasketById(long userId) {
+        jdbcTemplate.update("delete from basket where user_id = ?", userId);
+        BasketsService.LOGGER.info(MessageFormat.format("Basket of (userId: {0}) user has been removed", userId));
     }
 
-    public void deleteFromBasketByProductIdAndUserId(long userId,long productId){
-        jdbcTemplate.update("delete from basket where user_id = ? AND product_id = ?",userId,productId);
+    public void deleteFromBasketByProductIdAndUserId(long userId, long productId) {
+        jdbcTemplate.update("delete from basket where user_id = ? AND product_id = ?", userId, productId);
+        BasketsService.LOGGER.info(MessageFormat.format("Product (productId: {0}) of user (userId: {1})"
+                + "has been removed", productId, userId));
     }
-
-
 }
