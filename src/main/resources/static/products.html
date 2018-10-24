@@ -8,57 +8,57 @@
 </head>
 <body>
 
-<div class="container">
+    <div class="container">
 
-    <ul class="nav nav-pills nav-fill">
-        <li class="nav-item nav-item-products">
-            <a class="nav-link" href="/products.html">Termékek</a>
-        </li>
-        <li class="nav-item nav-item-user-basket" id="to-hide-basket">
-            <a class="nav-link" href="/basket.html">Kosár</a>
-        </li>
-        <li class="nav-item nav-item-login">
-            <a class="nav-link" href="/login.html">Bejelentkezés</a>
-        </li>
-        <li class="nav-item nav-item-admin" id = "to-hide-product">
-            <a class="nav-link" href="/adminproducts.html">Termék-adminisztráció</a>
-        </li>
-        <li class="nav-item nav-item-users" id = "to-hide-user">
-            <a class="nav-link" href="/users.html">Felhasználók</a>
-        </li>
+        <ul class="nav nav-pills nav-fill">
+            <li class="nav-item nav-item-products">
+                <a class="nav-link" href="/products.html">Termékek</a>
+            </li>
+            <li class="nav-item nav-item-user-basket" id="to-hide-basket">
+                <a class="nav-link" href="/basket.html">Kosár</a>
+            </li>
+            <li class="nav-item nav-item-login">
+                <a class="nav-link" href="/login.html">Bejelentkezés</a>
+            </li>
+            <li class="nav-item nav-item-admin" id = "to-hide-product">
+                <a class="nav-link" href="/adminproducts.html">Termék-adminisztráció</a>
+            </li>
+            <li class="nav-item nav-item-users" id = "to-hide-user">
+                <a class="nav-link" href="/users.html">Felhasználók</a>
+            </li>
 
-        <div class="card" style="width: 12rem;">
-            <div class="card-body">
-                <h5 class="card-title" id="username"></h5>
-                <input type="hidden" id="id-hidden-input"/>
+            <div class="card" style="width: 12rem;">
+                <div class="card-body">
+                    <h5 class="card-title" id="username"></h5>
+                    <input type="hidden" id="id-hidden-input"/>
+                </div>
             </div>
-        </div>
 
-    </ul>
+        </ul>
 
-    <h1>Termékek</h1>
+        <h1>Termékek</h1>
 
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>Cím</th>
-            <th>URL</th>
-            <th>Kiadó</th>
-            <th>Ár</th>
-        </tr>
-        </thead>
-        <tbody id="products-tbody">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Cím</th>
+                <th>URL</th>
+                <th>Kiadó</th>
+                <th>Ár</th>
+            </tr>
+            </thead>
+            <tbody id="products-tbody">
 
-        </tbody>
-    </table>
+            </tbody>
+        </table>
 
 
-</div>
+    </div>
+
+    <script src="js/menubar.js"></script>
+    <script src="js/products.js"></script>
+
 </body>
-
-
-<script src="js/menubar.js"></script>
-<script src="js/products.js"></script>
 
 </html>

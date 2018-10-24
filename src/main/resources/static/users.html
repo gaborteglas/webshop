@@ -8,68 +8,68 @@
 </head>
 <body>
 
-<div class="container">
-    <h1>Felhasználók</h1>
+    <div class="container">
+        <h1>Felhasználók</h1>
 
-    <ul class="nav nav-pills nav-fill">
-        <li class="nav-item nav-item-products">
-            <a class="nav-link" href="/products.html">Termékek</a>
-        </li>
-        <li class="nav-item nav-item-user-basket" id="to-hide-basket">
-            <a class="nav-link" href="/basket.html">Kosár</a>
-        </li>
-        <li class="nav-item nav-item-login">
-            <a class="nav-link" href="/login.html">Bejelentkezés</a>
-        </li>
-        <li class="nav-item nav-item-admin" id = "to-hide-product">
-            <a class="nav-link" href="/adminproducts.html">Termék-adminisztráció</a>
-        </li>
-        <li class="nav-item nav-item-users" id = "to-hide-user">
-            <a class="nav-link" href="/users.html">Felhasználók</a>
-        </li>
+        <ul class="nav nav-pills nav-fill">
+            <li class="nav-item nav-item-products">
+                <a class="nav-link" href="/products.html">Termékek</a>
+            </li>
+            <li class="nav-item nav-item-user-basket" id="to-hide-basket">
+                <a class="nav-link" href="/basket.html">Kosár</a>
+            </li>
+            <li class="nav-item nav-item-login">
+                <a class="nav-link" href="/login.html">Bejelentkezés</a>
+            </li>
+            <li class="nav-item nav-item-admin" id = "to-hide-product">
+                <a class="nav-link" href="/adminproducts.html">Termék-adminisztráció</a>
+            </li>
+            <li class="nav-item nav-item-users" id = "to-hide-user">
+                <a class="nav-link" href="/users.html">Felhasználók</a>
+            </li>
 
-        <div class="card" style="width: 12rem;">
-            <div class="card-body">
-                <h5 class="card-title" id="username"></h5>
+            <div class="card" style="width: 12rem;">
+                <div class="card-body">
+                    <h5 class="card-title" id="username"></h5>
+                </div>
             </div>
-        </div>
 
-    </ul>
+        </ul>
 
-    <form id="user-form">
+        <form id="user-form">
 
-        <div class="form-group">
-            <label for="id-input">Módosítani kívánt felhasználó id</label>
-            <input type="text" id="id-input" class="form-control" />
-            <label for="fullname-input">Új név</label>
-            <input type="text" id="fullname-input" class="form-control" />
-            <label for="password-input">Új jelszó</label>
-            <input type="text" id="password-input" class="form-control" />
-        </div>
-
-
-        <input type="submit" id="submit-button" value="Felhasználó módosítása" class="btn btn-primary"/>
-    </form>
-
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>Felhasználó név</th>
-            <th>Valódi név</th>
-        </tr>
-        </thead>
-        <tbody id="users-tbody">
-
-        </tbody>
-    </table>
+            <div class="form-group">
+                <label for="id-input">Módosítani kívánt felhasználó id</label>
+                <input type="text" id="id-input" class="form-control" />
+                <label for="fullname-input">Új név</label>
+                <input type="text" id="fullname-input" class="form-control" />
+                <label for="password-input">Új jelszó</label>
+                <input type="text" id="password-input" class="form-control" />
+            </div>
 
 
-</div>
+            <input type="submit" id="submit-button" value="Felhasználó módosítása" class="btn btn-primary"/>
+        </form>
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Felhasználó név</th>
+                <th>Valódi név</th>
+            </tr>
+            </thead>
+            <tbody id="users-tbody">
+
+            </tbody>
+        </table>
+
+
+    </div>
+
+    <script src="js/menubar.js"></script>
+    <script src="js/users.js"></script>
 
 </body>
-
-<script src="js/menubar.js"></script>
-<script src="js/users.js"></script>
 
 </html>
