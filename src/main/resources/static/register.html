@@ -1,31 +1,36 @@
-<form action="action_page.php">
+<!DOCTYPE html>
+<html lang="en">
     <head>
         <meta charset="UTF-8">
         <title>Regisztráció</title>
         <link rel="stylesheet" href="css/bootstrap.min.css"/>
         <link rel="stylesheet" href="css/products.css"/>
     </head>
-    <div class="container">
-        <h1>Regisztráció</h1>
-        <p>A regisztrációhoz add meg a lenti adatokat. A jelszónak legalább 8 karakter hosszúnak kell lennie és tartalmazni kell kisbetűt, nagybetűt és számot.</p>
-        <hr>
+    <body>
+        <form action="action_page.php">
+            <div class="container">
+                <h1>Regisztráció</h1>
+                <p>A regisztrációhoz add meg a lenti adatokat. A jelszónak legalább 8 karakter hosszúnak kell lennie és tartalmazni kell kisbetűt, nagybetűt és számot.</p>
+                <hr>
 
-        <label for="username">Felhasználónév</label>
-        <input type="text" placeholder="Kérjük, adja meg a felhasználónevet" id="username" required>
-        <br>
+                <label for="username">Felhasználónév</label>
+                <input type="text" placeholder="Kérjük, adja meg a felhasználónevet" id="username" required>
+                <br>
 
-        <label for="password">Jelszó</label>
-        <input type="password" placeholder="Kérjük, adja meg a jelszót" id="password" required>
-        <br>
+                <label for="password">Jelszó</label>
+                <input type="password" placeholder="Kérjük, adja meg a jelszót" id="password" required>
+                <br>
 
-        <label for="password-repeat">Jelszó újra</label>
-        <input type="password" placeholder="Kérjük, adja meg a jelszót mégegyszer" id="password-repeat" required>
-        <hr>
+                <label for="password-repeat">Jelszó újra</label>
+                <input type="password" placeholder="Kérjük, adja meg a jelszót mégegyszer" id="password-repeat" required>
+                <hr>
 
-        <button type="submit" class="registerbtn">Regisztráció</button>
-    </div>
+                <button type="submit" class="registerbtn">Regisztráció</button>
+            </div>
 
-    <div class="container signin">
-        <p>Már van saját fiókod? <a href="#">Jelentkezz be</a>.</p>
-    </div>
-</form>
+            <div class="container signin">
+                <p>Már van saját fiókod? <a href="login.html">Jelentkezz be</a></p>
+            </div>
+        </form>
+    </body>
+</html>
