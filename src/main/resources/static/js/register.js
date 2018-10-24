@@ -35,7 +35,7 @@ function handleSubmit() {
     }).then(function(response) {
         handleReset();
     }
-    });
+    );
     return false;
 
 }
