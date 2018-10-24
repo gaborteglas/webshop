@@ -105,5 +105,15 @@ function fillTable(products,basketData){
                     }
              }
              resetProductButtonsEventListener();
+             let tds = tbody.getElementsByTagName("td");
+             let sumParagraph = document.querySelector("#sumofproducts");
+             //productPrices = td[3].innerHTML;
+             console.log(tds);
+             let sumOfProducts = 0;
+             for(i = 3;i < tds.length;i+=4){
+                sumOfProducts += parseInt(tds[i].innerHTML);
+             }
+             sumParagraph.innerHTML = "A kosár tartalmának ára összesen : " + sumOfProducts + " Ft";
+
         }
 }

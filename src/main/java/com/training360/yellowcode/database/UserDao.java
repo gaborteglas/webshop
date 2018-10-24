@@ -1,5 +1,6 @@
 package com.training360.yellowcode.database;
 
+import com.training360.yellowcode.businesslogic.PasswordValidator;
 import com.training360.yellowcode.businesslogic.ProductService;
 import com.training360.yellowcode.businesslogic.UserService;
 import com.training360.yellowcode.dbTables.Product;
@@ -57,7 +58,11 @@ public class UserDao {
                             Statement.RETURN_GENERATED_KEYS);
                     ps.setString(1, user.getLoginName());
                     ps.setString(2, user.getFullName());
-                    ps.setString(3, new BCryptPasswordEncoder().encode(user.getPassword()));
+                    if (new PasswordValidator().passwordStrengthValidator(user.getPassword())) {
+                        ps.setString(3, new BCryptPasswordEncoder().encode(user.getPassword()));
+                    } else {
+                        throw new IllegalArgumentException("Password is not valid");
+                    }
                     ps.setString(4, user.getRole());
                     return ps;
                 }

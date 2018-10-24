@@ -7,7 +7,7 @@ window.onload = function() {
 function handleSubmit() {
     let lastNameInput = document.getElementById("last-name");
     let firstNameInput = document.getElementById("first-name");
-    let usernameInput = document.getElementById("username");
+    let usernameInput = document.getElementById("loginname");
     let passwordInput = document.getElementById("password");
     let passwordRepeatInput = document.getElementById("password-repeat");
 
@@ -33,8 +33,13 @@ function handleSubmit() {
                     },
             body: JSON.stringify(user)
     }).then(function(response) {
+    if (response.status === 500) {
+                alert("A jelszó nem felel meg az elvárt paramétereknek.");
+            } else {
+
         alert("Sikeres regisztráció.");
         handleReset();
+        }
     });
     return false;
 
@@ -47,7 +52,7 @@ function handleReset() {
     let firstNameInput = document.getElementById("first-name");
     firstNameInput.value = "";
 
-    let usernameInput = document.getElementById("username");
+    let usernameInput = document.getElementById("loginname");
     usernameInput.value = "";
 
     let passwordInput = document.getElementById("password");
