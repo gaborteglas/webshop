@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RestController
 public class UserController {
@@ -62,5 +64,16 @@ public class UserController {
         } catch (IllegalArgumentException iae) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
+    }
+
+    public boolean passwordStrengthValidator(String password) {
+        Pattern normalCase = Pattern.compile("[a-z]+");
+        Pattern capitalCase = Pattern.compile("[A-Z]+");
+        Pattern number = Pattern.compile("[0-9]+");
+        Matcher normalCaseMatcher = normalCase.matcher(password);
+        Matcher capitalCaseMatcher = capitalCase.matcher(password);
+        Matcher numberMatcher = number.matcher(password);
+        return password.matches(".{8,}") && normalCaseMatcher.find()
+                && capitalCaseMatcher.find() && numberMatcher.find();
     }
 }
