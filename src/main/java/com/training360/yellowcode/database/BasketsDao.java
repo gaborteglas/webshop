@@ -54,7 +54,7 @@ public class BasketsDao {
         }
     }
 
-    public void deleteFromBasketById(long userId) {
+    public void deleteFromBasketByUserId(long userId) {
         jdbcTemplate.update("delete from basket where user_id = ?", userId);
         BasketsService.LOGGER.info(MessageFormat.format("Basket of (userId: {0}) user has been removed", userId));
     }
