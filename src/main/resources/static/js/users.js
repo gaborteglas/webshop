@@ -2,8 +2,8 @@ window.addEventListener('load', updateTable);
 
 function updateTable() {
     fetch("api/users")
-        .then(function (request) {
-            return request.json();
+        .then(function (response) {
+            return response.json();
         })
         .then(function(jsonData) {
             fillTable(jsonData);

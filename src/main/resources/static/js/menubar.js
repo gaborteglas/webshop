@@ -2,8 +2,8 @@ window.addEventListener('load', setUserName);
 
 function setUserName() {
      fetch("api/user")
-             .then(function (request) {
-                 return request.json();
+             .then(function (response) {
+                 return response.json();
              })
              .then(function(jsonData) {
                  showUser(jsonData);

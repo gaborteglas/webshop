@@ -35,8 +35,8 @@ function handlePutIntoBasket(){
 function updateTable() {
     let productNameFromUrl = new URL(window.location).searchParams.get("address");
     let productToFetch = "api/products/" + productNameFromUrl;
-    fetch(productToFetch).then(function(request) {
-         return request.json();
+    fetch(productToFetch).then(function(response) {
+         return response.json();
     }).then(function(jsonData) {
         fillTable(jsonData);
     }).catch(error => creatingHeaderForName("Nincs ilyen termék"));
@@ -75,8 +75,8 @@ function creatingTableRowForData(id,producer,currentPrice){
 
 function showBasketButton() {
       fetch("api/user")
-              .then(function (request) {
-                  return request.json();
+              .then(function (response) {
+                  return response.json();
               })
               .then(function(jsonData) {
                   if (jsonData.role == "ROLE_USER") {

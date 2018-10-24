@@ -4,8 +4,8 @@ window.onload = function() {
 
 function updateTable() {
     fetch("api/products")
-        .then(function (request) {
-            return request.json();
+        .then(function (response) {
+            return response.json();
         })
         .then(function(jsonData) {
             fillTable(jsonData);

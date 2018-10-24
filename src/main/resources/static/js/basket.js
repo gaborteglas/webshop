@@ -51,8 +51,8 @@ function handleResetButton(){
 
 function updateTable() {
     fetch("api/basket")
-        .then(function (request) {
-            return request.json();
+        .then(function (response) {
+            return response.json();
         })
         .then(function(jsonData) {
             fetchProduct(jsonData);
@@ -61,8 +61,8 @@ function updateTable() {
 
 function fetchProduct(basketData) {
         fetch("api/products")
-        .then(function(request){
-            return request.json();
+        .then(function(response){
+            return response.json();
         })
         .then(function(products) {
             fillTable(products,basketData);
