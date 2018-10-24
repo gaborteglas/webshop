@@ -33,8 +33,13 @@ function handleSubmit() {
                     },
             body: JSON.stringify(user)
     }).then(function(response) {
+    if (response.status === 500) {
+                alert("A jelszó nem felel meg az elvárt paramétereknek.");
+            } else {
+
         alert("Sikeres regisztráció.");
         handleReset();
+        }
     });
     return false;
 
