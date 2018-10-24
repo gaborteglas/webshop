@@ -3,6 +3,7 @@ package com.training360.yellowcode.userinterface;
 import com.training360.yellowcode.businesslogic.UserService;
 import com.training360.yellowcode.database.DuplicateProductException;
 import com.training360.yellowcode.dbTables.User;
+import com.training360.yellowcode.dbTables.UserRole;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -42,7 +43,8 @@ public class UserController {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             String name = userDetails.getUsername();
             String role = new ArrayList<GrantedAuthority>(userDetails.getAuthorities()).get(0).getAuthority();
-            return new User(name, role);
+            User foundUser = userService.findUserByUserName(name);
+            return new User(foundUser.getId(), name, foundUser.getFullName(), foundUser.getPassword(), UserRole.valueOf(role));
         }
     }
 
