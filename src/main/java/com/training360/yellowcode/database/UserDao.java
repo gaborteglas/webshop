@@ -95,9 +95,10 @@ public class UserDao {
                 "select id, user_name, full_name, password, enabled, role from users where id = ?",
                 new UserDao.UserMapper(), id);
         if (result.size() == 1) {
+            String hashedPassword = new BCryptPasswordEncoder().encode(password);
             jdbcTemplate.update(
                     "update users set full_name = ?, password = ? where id = ?",
-                    name, password, id);
+                    name, hashedPassword, id);
         } else {
             throw new IllegalArgumentException("No user found");
         }
