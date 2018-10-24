@@ -64,7 +64,7 @@ public class YellowcodeApplicationBasketTest {
     }
 
     @Test
-    public void testDeleteFromBasketById() {
+    public void testDeleteFromBasketByUserId() {
         basketController.addToBasket(new Basket(1, 1));
         basketController.addToBasket(new Basket(1, 2));
         basketController.addToBasket(new Basket(2, 1));
@@ -72,7 +72,7 @@ public class YellowcodeApplicationBasketTest {
         List<Basket> basketItems1 = basketController.listProducts();
         assertEquals(basketItems1.size(), 3);
 
-        basketController.deleteFromBasketById(1);
+        basketController.deleteFromBasketByUserId(1);
         List<Basket> basketItems2 = basketController.listProducts();
         assertEquals(basketItems2.size(), 1);
 
