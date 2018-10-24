@@ -24,15 +24,15 @@ public class BasketsDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void addToBasket(long userId, long productId) {
+    public void addToBasket(Basket basket) {
         jdbcTemplate.update(new PreparedStatementCreator() {
             @Override
             public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
                 PreparedStatement ps = connection.prepareStatement("insert into basket(user_id,product_id) values(?,?)");
-                ps.setLong(1, userId);
-                ps.setLong(2, productId);
+                ps.setLong(1, basket.getUserId());
+                ps.setLong(2, basket.getProductId());
                 BasketsService.LOGGER.info(MessageFormat.format("Product (id: {0}) added to basket of user (id: {1})",
-                        productId, userId));
+                        basket.getUserId(), basket.getProductId()));
                 return ps;
             }
         });
