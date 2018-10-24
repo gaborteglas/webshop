@@ -10,7 +10,7 @@ function setUserName() {
                  if (jsonData.role == "ROLE_ADMIN") {
                  showMenus();
                  }
-                 if (jsonData.role == "ROLE_USER") {
+                 if (jsonData.role == "ROLE_CUSTOMER") {
                  hideMenus();
                  }
              })
