@@ -49,12 +49,12 @@ public class UserController {
         return userService.listUsers();
     }
 
-    @RequestMapping(value = "/api/users/", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/api/users/{id}", method = RequestMethod.DELETE)
     public void deleteUser(@PathVariable long id) {
         userService.deleteUser(id);
     }
 
-    @RequestMapping(value = "/api/users/", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/users/{id}", method = RequestMethod.POST)
     public ResponseEntity<String> updateUser(@RequestBody User user, @PathVariable long id) {
         try {
             userService.updateUser(user.getId(), user.getFullName(), user.getPassword());

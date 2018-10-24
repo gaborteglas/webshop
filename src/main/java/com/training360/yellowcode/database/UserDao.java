@@ -81,11 +81,11 @@ public class UserDao {
         namePasswordEmpty(name);
         namePasswordEmpty(password);
         List<User> result = jdbcTemplate.query(
-                "select id, user_name, full_name, password, enabled, role from users where (id = ?)",
+                "select id, user_name, full_name, password, enabled, role from users where id = ?",
                 new UserDao.UserMapper(), id);
         if (result.size() == 1) {
             jdbcTemplate.update(
-                    "update users full_name = ?, password = ? where id = ?",
+                    "update users set full_name = ?, password = ? where id = ?",
                     name, password, id);
         } else {
             throw new IllegalArgumentException("No user found");
