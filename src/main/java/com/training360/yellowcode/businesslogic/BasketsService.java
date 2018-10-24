@@ -27,8 +27,8 @@ public class BasketsService {
     }
 
 
-    public void deleteFromBasketById(long userId) {
-        basketsDao.deleteFromBasketById(userId);
+    public void deleteFromBasketByUserId(long userId) {
+        basketsDao.deleteFromBasketByUserId(userId);
     }
 
     public void deleteFromBasketByProductIdAndUserId(long userId, long productId) {
