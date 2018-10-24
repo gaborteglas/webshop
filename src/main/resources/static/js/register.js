@@ -33,6 +33,7 @@ function handleSubmit() {
                     },
             body: JSON.stringify(user)
     }).then(function(response) {
+        alert("Sikeres regisztráció.");
         handleReset();
     });
     return false;
