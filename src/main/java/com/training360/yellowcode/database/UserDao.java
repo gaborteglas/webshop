@@ -104,8 +104,6 @@ public class UserDao {
             jdbcTemplate.update(
                     "update users set full_name = ?, password = ? where id = ?",
                     name, hashedPassword, id);
-        } else {
-            throw new IllegalArgumentException("No user found");
         }
         UserService.LOGGER.info("User modified to -> id: {0}, user_name: {1}, full_name: {2}, password: {3}",
                 id, name, password);

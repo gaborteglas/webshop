@@ -27,9 +27,9 @@ public class YellowcodeApplicationUserTests {
 
     @Before
     public void init() {
-        userController.createUser(new User(1, "login1", "Test One", "abc", UserRole.ROLE_CUSTOMER));
-        userController.createUser(new User(2, "login2", "Test Two", "def", UserRole.ROLE_CUSTOMER));
-        userController.createUser(new User(3, "login3", "Test Three", "ghi",UserRole.ROLE_CUSTOMER));
+        userController.createUser(new User(1, "login1", "Test One", "Elsőjelszó1", UserRole.ROLE_CUSTOMER));
+        userController.createUser(new User(2, "login2", "Test Two", "Másodikjelszó2", UserRole.ROLE_CUSTOMER));
+        userController.createUser(new User(3, "login3", "Test Three", "harmadikJelszó3",UserRole.ROLE_CUSTOMER));
     }
 
     @Test
@@ -43,7 +43,7 @@ public class YellowcodeApplicationUserTests {
     public void testCreateUsers() {
         List<User> users1 = userController.listUsers();
 
-        userController.createUser(new User(4, "login4", "Test Four", "jkl", UserRole.ROLE_CUSTOMER));
+        userController.createUser(new User(4, "login4", "Test Four", "4nEgyEdikjelszó!", UserRole.ROLE_CUSTOMER));
 
         List<User> users2 = userController.listUsers();
 
@@ -53,7 +53,7 @@ public class YellowcodeApplicationUserTests {
 
     @Test
     public void testDeleteUser() {
-        userController.createUser(new User(4, "login4", "Test Four", "jkl", UserRole.ROLE_CUSTOMER));
+        userController.createUser(new User(4, "login4", "Test Four", "4nEgyEdikjelszó!", UserRole.ROLE_CUSTOMER));
         List<User> users1 = userController.listUsers();
 
         assertEquals(users1.size(), 4);
@@ -66,9 +66,9 @@ public class YellowcodeApplicationUserTests {
 
     @Test
     public void testUpdateUser() {
-        userController.createUser(new User(4, "login4", "Test Four", "jkl", UserRole.ROLE_CUSTOMER));
+        userController.createUser(new User(4, "login4", "Test Four", "4nEgyEdikjelszó!", UserRole.ROLE_CUSTOMER));
 
-        userController.updateUser(new User(4, "login4", "changed", "other", UserRole.ROLE_CUSTOMER), 4);
+        userController.updateUser(new User(4, "login4", "changed", "Új&Jelszó4", UserRole.ROLE_CUSTOMER), 4);
         List<User> users1 = userController.listUsers();
 
         assertEquals(users1.get(3).getFullName(), "changed");
