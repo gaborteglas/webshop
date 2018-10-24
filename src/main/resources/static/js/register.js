@@ -1,7 +1,7 @@
 window.onload = function() {
     let registerForm = document.getElementById("register-form");
-    productForm.onsubmit = handleSubmit;
-    productForm.onreset = handleReset;
+    registerForm.onsubmit = handleSubmit;
+    registerForm.onreset = handleReset;
 }
 
 function handleSubmit() {
@@ -34,18 +34,17 @@ function handleSubmit() {
             body: JSON.stringify(user)
     }).then(function(response) {
         handleReset();
-    }
-    );
+    });
     return false;
 
 }
 
 function handleReset() {
     let lastNameInput = document.getElementById("last-name");
-    lastNameInput = "";
+    lastNameInput.value = "";
 
     let firstNameInput = document.getElementById("first-name");
-    firstNameInput = "";
+    firstNameInput.value = "";
 
     let usernameInput = document.getElementById("username");
     usernameInput.value = "";

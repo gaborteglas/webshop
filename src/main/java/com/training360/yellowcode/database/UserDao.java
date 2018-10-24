@@ -57,7 +57,7 @@ public class UserDao {
                     ps.setString(1, user.getLoginName());
                     ps.setString(2, user.getFullName());
                     ps.setString(3, new BCryptPasswordEncoder().encode(user.getPassword()));
-                    ps.setString(5, user.getRole());
+                    ps.setString(4, user.getRole());
                     return ps;
                 }
             }, keyHolder);
