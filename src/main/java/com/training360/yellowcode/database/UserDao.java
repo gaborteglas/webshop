@@ -5,12 +5,13 @@ import com.training360.yellowcode.dbTables.Product;
 import com.training360.yellowcode.dbTables.User;
 import com.training360.yellowcode.dbTables.UserRole;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.text.Collator;
 import java.text.MessageFormat;
 import java.util.Comparator;
@@ -40,29 +41,37 @@ public class UserDao {
         }
     }
 
-    public void createUser(User user) {
+    public long createUser(User user) {
         List<User> result = jdbcTemplate.query(
-                "select id, user_name, full_name, password, role from users where id = ? OR user_name = ?",
-                new UserMapper(), user.getId(), user.getLoginName());
+                "select id, user_name, full_name, password, role from users where user_name = ?",
+                new UserMapper(), user.getLoginName());
         if (result.size() == 0) {
-            jdbcTemplate.update(connection -> {
-                PreparedStatement ps = connection.prepareStatement(
-                        "insert into users(id, user_name, full_name, password, enabled, role) values(?, ?, ?, ?, 1, ?)"
-                );
-                ps.setLong(1, user.getId());
-                ps.setString(2, user.getLoginName());
-                ps.setString(3, user.getFullName());
-                ps.setString(4, user.getPassword());
-                ps.setString(6, user.getRole());
-                ProductService.LOGGER.info(MessageFormat.format("User added(id: {0}, login-name: {1}," +
-                                " full-name: {2}, password: {3}, role: {4})", user.getId(), user.getLoginName(),
-                        user.getFullName(), user.getPassword(), user.getRole()));
-                return ps;
-            });
+            KeyHolder keyHolder = new GeneratedKeyHolder();
+            jdbcTemplate.update(new PreparedStatementCreator() {
+                @Override
+                public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+                    PreparedStatement ps = connection.prepareStatement(
+                            "insert into users(user_name, full_name, password, enabled, role) values(?, ?, ?, 1, ?)",
+                            Statement.RETURN_GENERATED_KEYS);
+                    ps.setString(1, user.getLoginName());
+                    ps.setString(2, user.getFullName());
+                    ps.setString(3, user.getPassword());
+                    ps.setString(5, user.getRole());
+                    return ps;
+                }
+            }, keyHolder);
+            long generatedId = keyHolder.getKey().longValue();
+            ProductService.LOGGER.info(MessageFormat.format(
+                    "User added(id: {0}, login-name: {1}, full-name: {2}, password: {3}, role: {4})",
+                    generatedId,
+                    user.getLoginName(), user.getFullName(), user.getPassword(), user.getRole()));
+            return generatedId;
+
         } else {
-            throw new DuplicateProductException("A user with this id or login-name already exists.");
+            throw new DuplicateUserException("A user with this id or login-name already exists.");
         }
     }
+
 
     private List<User> sortUsersByName(List<User> users) {
         return users.stream()
