@@ -13,7 +13,7 @@ function resetProductButtonsEventListener(){
 }
 
 function clickingOnResetProductButtons(data){
-    let userId = 1 // document.querySelector("#username).split("#")[1];
+    let userId = document.querySelector("#id-hidden-input").innerText;
     let productId = data.id;
     let element = data.parentElement;
     var td = element.getElementsByTagName("td");
@@ -32,7 +32,7 @@ function clickingOnResetProductButtons(data){
 }
 
 function handleResetButton(){
-        let userId = 1 //document.querySelector("#username).split("#")[1];
+        let userId = document.querySelector("#id-hidden-input").innerText;
         let url = "api/basket/" + userId;
 
         if (confirm("Biztos hogy üríteni szeretné a kosár tartalmát?")) {
@@ -69,15 +69,11 @@ function fetchProduct(basketData) {
 }
 
 function fillTable(products,basketData){
-        console.log(products);
-        console.log(basketData);
         let tbody = document.querySelector("#basket-tbody");
-        let productId = basketData.productId;
-        let userId = 1 //document.querySelector("#username").innerHTML;
-        console.log(productId);
+        let userId = document.querySelector("#id-hidden-input").innerText;
         let usersProductIds = [];
         for(i in basketData){
-            if (userId === basketData[i].userId){
+            if (userId == basketData[i].userId){
                 usersProductIds.push(basketData[i].productId);
             }
         }
