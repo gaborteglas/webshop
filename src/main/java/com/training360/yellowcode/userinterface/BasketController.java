@@ -2,10 +2,7 @@ package com.training360.yellowcode.userinterface;
 
 import com.training360.yellowcode.businesslogic.BasketsService;
 import com.training360.yellowcode.dbTables.Basket;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @RestController
@@ -27,8 +24,13 @@ public class BasketController {
         basketsService.addToBasket(basket.getUserId(),basket.getProductId());
     }
 
-    @RequestMapping(value = "/api/basket", method = RequestMethod.DELETE)
-    public void deleteAll(){
-        basketsService.deleteAll();
+    @RequestMapping(value = "/api/basket/{userId}",method = RequestMethod.DELETE)
+    public void deleteFromBasketById(@PathVariable long userId){
+        basketsService.deleteFromBasketById(userId);
+    }
+
+    @RequestMapping(value= "/api/basket/{userId}/{productId}",method = RequestMethod.DELETE)
+    public void deleteFromBasketByProductIdAndUserId(@PathVariable long userId,@PathVariable long productId){
+        basketsService.deleteFromBasketByProductIdAndUserId(userId,productId);
     }
 }
