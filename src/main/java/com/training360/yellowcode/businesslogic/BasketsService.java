@@ -2,6 +2,8 @@ package com.training360.yellowcode.businesslogic;
 
 import com.training360.yellowcode.database.BasketsDao;
 import com.training360.yellowcode.dbTables.Basket;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,6 +11,7 @@ import java.util.List;
 @Service
 public class BasketsService {
 
+    public static final Logger LOGGER = LoggerFactory.getLogger(ProductService.class);
     private BasketsDao basketsDao;
 
     public BasketsService(BasketsDao basketsDao) {
