@@ -19,24 +19,33 @@ function clickingOnResetProductButtons(data){
     var td = element.getElementsByTagName("td");
     productName = td[1].innerHTML;
     let url = "api/basket/" + userId + "/" + productId;
-    fetch(url, {
-                method: "DELETE",
-                              headers: {
-                                          "Content-Type": "application/json; charset=utf-8"
-                                      }
+    if (confirm("Biztos szeretné törölni ezt az elemet a kosárból?")) {
+        fetch(url, {
+                    method: "DELETE",
+                      headers: {
+                                  "Content-Type": "application/json; charset=utf-8"
+                              }
                           });
-    alert("A következő termék törölve a kosárból: " + productName);
+    } else {
+        location.reload();
     }
+}
 
 function handleResetButton(){
         let userId = 1 //document.querySelector("#username).split("#")[1];
         let url = "api/basket/" + userId;
-        fetch(url, {
+
+        if (confirm("Biztos hogy üríteni szeretné a kosár tartalmát?")) {
+            fetch(url, {
                     method: "DELETE",
                     headers: {
                                 "Content-Type": "application/json; charset=utf-8"
                             }
                 })
+        location.reload();
+        } else {
+            location.reload();
+        }
 }
 
 function updateTable() {
