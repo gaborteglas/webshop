@@ -1,6 +1,7 @@
 package com.training360.yellowcode.database;
 
 import com.training360.yellowcode.businesslogic.ProductService;
+import com.training360.yellowcode.businesslogic.UserService;
 import com.training360.yellowcode.dbTables.Product;
 import com.training360.yellowcode.dbTables.User;
 import com.training360.yellowcode.dbTables.UserRole;
@@ -62,7 +63,7 @@ public class UserDao {
                 }
             }, keyHolder);
             long generatedId = keyHolder.getKey().longValue();
-            ProductService.LOGGER.info(MessageFormat.format(
+            UserService.LOGGER.info(MessageFormat.format(
                     "User added(id: {0}, login-name: {1}, full-name: {2}, password: {3}, role: {4})",
                     generatedId,
                     user.getLoginName(), user.getFullName(), user.getPassword(), user.getRole()));
@@ -100,10 +101,12 @@ public class UserDao {
         } else {
             throw new IllegalArgumentException("No user found");
         }
+        UserService.LOGGER.info("User modified to -> id: {0}, user_name: {1}, full_name: {2}, password: {3}",
+                id, name, password);
     }
 
     private void namePasswordEmpty(String string) {
-        if(string == null || "".equals(string.trim())) {
+        if (string == null || "".equals(string.trim())) {
             throw new IllegalArgumentException("Null not allowed here");
         }
     }
@@ -111,6 +114,7 @@ public class UserDao {
     public void deleteUser(long id) {
         jdbcTemplate.update("delete from users where id = ?", id);
         jdbcTemplate.update("update basket set user_id = 0 where user_id = ?", id);
+        UserService.LOGGER.info("User removed with id - {0}", id);
     }
 
     public User findUserByUserName(String userName) {
