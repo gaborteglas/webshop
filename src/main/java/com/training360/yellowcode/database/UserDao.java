@@ -112,4 +112,12 @@ public class UserDao {
         jdbcTemplate.update("delete from users where id = ?", id);
         jdbcTemplate.update("update basket set user_id = 0 where user_id = ?", id);
     }
+
+    public User findUserByUserName(String userName) {
+        List<User> users = jdbcTemplate.query("select id, user_name, full_name, password, enabled, role from users where user_name = ?",
+                new UserMapper(),
+                userName);
+        return users.get(0);
+    }
+
 }
