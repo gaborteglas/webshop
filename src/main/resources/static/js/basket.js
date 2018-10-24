@@ -26,6 +26,7 @@ function clickingOnResetProductButtons(data){
                                   "Content-Type": "application/json; charset=utf-8"
                               }
                           });
+        location.reload()
     } else {
         location.reload();
     }
@@ -92,7 +93,7 @@ function fillTable(products,basketData){
                     producerTd.innerHTML = products[k].producer;
                     tr.appendChild(producerTd);
                     let currentPriceTd= document.createElement("td");
-                    currentPriceTd.innerHTML = products[k].currentPrice;
+                    currentPriceTd.innerHTML = products[k].currentPrice + " Ft";
                     tr.appendChild(currentPriceTd);
                     deleteButton = document.createElement("input");
                     deleteButton.setAttribute("type","reset");
@@ -104,16 +105,13 @@ function fillTable(products,basketData){
                     tbody.appendChild(tr);
                     }
              }
-             resetProductButtonsEventListener();
-             let tds = tbody.getElementsByTagName("td");
-             let sumParagraph = document.querySelector("#sumofproducts");
-             //productPrices = td[3].innerHTML;
-             console.log(tds);
-             let sumOfProducts = 0;
-             for(i = 3;i < tds.length;i+=4){
-                sumOfProducts += parseInt(tds[i].innerHTML);
-             }
-             sumParagraph.innerHTML = "A kosár tartalmának ára összesen : " + sumOfProducts + " Ft";
-
         }
+        resetProductButtonsEventListener();
+        let tds = tbody.getElementsByTagName("td");
+         let sumParagraph = document.querySelector("#sumofproducts");
+         let sumOfProducts = 0;
+         for(i = 3;i < tds.length;i+=4){
+            sumOfProducts += parseInt(tds[i].innerHTML);
+         }
+         sumParagraph.innerHTML = "A kosár tartalmának ára összesen : " + sumOfProducts + " Ft";
 }
