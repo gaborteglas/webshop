@@ -22,8 +22,8 @@ public class BasketsService {
         return basketsDao.listProducts();
     }
 
-    public void addToBasket(long userId, long productId) {
-        basketsDao.addToBasket(userId,productId);
+    public void addToBasket(Basket basket) {
+        basketsDao.addToBasket(basket);
     }
 
 

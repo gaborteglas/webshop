@@ -20,7 +20,8 @@ function setUserName() {
 function showUser(jsonData) {
 let userDiv = document.getElementById("username");
 userDiv.innerHTML = jsonData.loginName
-console.log(jsonData);
+let userId = document.querySelector("#id-hidden-input");
+userId.innerHTML = jsonData.id;
 }
 
 function showUserNotLogged(name) {

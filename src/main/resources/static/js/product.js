@@ -13,8 +13,8 @@ function handlePutIntoBasket(){
     let productId = document.querySelector("#productId").innerHTML;
     let productName = document.querySelector("#product-name")
     alert("Az alábbi hozzáadva a kosárhoz : " + productName.innerHTML );
-    // let userId = userName.split("#")[1];
-    let basket = {"userId" : 1,
+    let userId = document.querySelector("#id-hidden-input").innerText;
+    let basket = {"userId" : userId,
                   "productId" : productId};
     fetch("api/basket", {
                     method: "POST",
