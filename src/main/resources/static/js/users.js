@@ -7,6 +7,7 @@ function updateTable() {
         })
         .then(function(jsonData) {
             fillTable(jsonData);
+            document.getElementById("submit-button").addEventListener("submit", modifyUser)
         });
 }
 
@@ -17,7 +18,6 @@ function fillTable(users) {
         let user  = users[i];
         let tr = document.createElement("tr");
         tr["raw-data"] = user;
-        console.log(tr["raw-data"])
 
         let idTd = document.createElement("td");
         idTd.innerHTML = user.id;
@@ -39,7 +39,7 @@ function fillTable(users) {
                 editButton.innerHTML = "Szerkesztés";
                 deleteButton.innerHTML = "Törlés";
                 editButton.onclick = editButtonClick;
-//                deleteButton.onclick = handleDeleteButtonOnClick;
+                deleteButton.onclick = handleDeleteButtonOnClick;
                 buttonsTd.appendChild(editButton);
                 buttonsTd.appendChild(deleteButton);
                 tr.appendChild(buttonsTd);
@@ -78,49 +78,48 @@ function modifyUser() {
     let name = nameInput.value;
     let password = passwordInput.value;
 
-    let parsedId = Number(id);
-    if (isNaN(parsedId) || !Number.isInteger(parsedId)) {
-        alert("Az id megadása kötelező és csak egész szám lehet.");
-        return false;
-    }
-    if (name.length === 0 || producer.length === 0) {
-        alert("Minden mező kitöltése kötelező!");
-        return false;
-    }
-    let parsedPrice = Number(price);
-    if (isNaN(parsedPrice) || !Number.isInteger(parsedPrice) || parsedPrice <= 0 || parsedPrice > 2000000) {
-        alert("Az ár megadása kötelező, csak egész szám lehet és nem haladhatja meg a 2.000.000 Ft-ot.");
-        return false;
-    }
+    if (name.length === 0 || password.length === 0) {
+            alert("A mezők kitöltése kötelező!");
+            return false;
+        }
 
-    let product = {"id": id,
-                   "name": name,
-                   "address": address,
-                   "producer": producer,
-                   "currentPrice": price
-                  };
+    let user = {"id": id,
+                       "name": name,
+                       "password": password
+                      };
 
-    let url = "api/products";
+    let url = "api/users";
     if (editedProduct !== null) {
         url += "/" + editedProduct.id;
     }
+
 
     fetch(url, {
         method: "POST",
         headers: {
             "Content-Type": "application/json; charset=utf-8"
                 },
-        body: JSON.stringify(product)
+        body: JSON.stringify(user)
     })
         .then(function(response) {
-
-        if (response.status === 409) {
-            alert("A megadott id vagy cím már foglalt. ");
-        } else {
-                alert("Hozzáadva.");
-                updateTable();
-                handleReset();
+        alert("Módosítva");
+        updateTable();
+        handleReset();
             }
-        });
+        );
         return false;
 }
+
+function handleDeleteButtonOnClick() {
+    var result = confirm("Biztosan törli a kijelölt felhasználót?");
+    if (result) {
+        let user = this.parentElement.parentElement["raw-data"];
+
+        fetch("api/users/" + user.id, {
+            method: "DELETE",
+        })
+        .then(function(response) {
+            updateTable();
+        });
+    }
+    }
