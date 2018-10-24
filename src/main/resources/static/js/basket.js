@@ -1,6 +1,43 @@
 window.onload = function() {
    updateTable();
+   let resetButton = document.querySelector("#reset-button");
+   resetButton.onclick = handleResetButton;
 };
+
+function resetProductButtonsEventListener(){
+    let buttons = document.querySelectorAll(".resetProductButtons")
+    for (var i = 0; i < buttons.length; i++) {
+        buttons[i].addEventListener('click', function () {clickingOnResetProductButtons(this);
+        });
+      }
+}
+
+function clickingOnResetProductButtons(data){
+    let userId = 1 // document.querySelector("#username).split("#")[1];
+    let productId = data.id;
+    let element = data.parentElement;
+    var td = element.getElementsByTagName("td");
+    productName = td[1].innerHTML;
+    let url = "api/basket/" + userId + "/" + productId;
+    fetch(url, {
+                method: "DELETE",
+                              headers: {
+                                          "Content-Type": "application/json; charset=utf-8"
+                                      }
+                          });
+    alert("A következő termék törölve a kosárból: " + productName);
+    }
+
+function handleResetButton(){
+        let userId = 1 //document.querySelector("#username).split("#")[1];
+        let url = "api/basket/" + userId;
+        fetch(url, {
+                    method: "DELETE",
+                    headers: {
+                                "Content-Type": "application/json; charset=utf-8"
+                            }
+                })
+}
 
 function updateTable() {
     fetch("api/basket")
@@ -52,8 +89,16 @@ function fillTable(products,basketData){
                     let currentPriceTd= document.createElement("td");
                     currentPriceTd.innerHTML = products[k].currentPrice;
                     tr.appendChild(currentPriceTd);
+                    deleteButton = document.createElement("input");
+                    deleteButton.setAttribute("type","reset");
+                    deleteButton.setAttribute("class","btn btn-danger");
+                    deleteButton.setAttribute("id",products[k].id);
+                    deleteButton.setAttribute("class","resetProductButtons")
+                    deleteButton.setAttribute("value","Törlés");
+                    tr.appendChild(deleteButton);
                     tbody.appendChild(tr);
                     }
              }
+             resetProductButtonsEventListener();
         }
 }

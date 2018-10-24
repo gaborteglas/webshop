@@ -7,7 +7,7 @@ function updateTable() {
         })
         .then(function(jsonData) {
             fillTable(jsonData);
-            document.getElementById("submit-button").addEventListener("submit", modifyUser)
+            document.getElementById("submit-button").addEventListener("click", modifyUser)
         });
 }
 
@@ -52,10 +52,11 @@ let editedUser = null;
 
 function editButtonClick() {
     let user = this.parentElement.parentElement["raw-data"];
-    editedUser = user
+    editedUser = user;
 
     let idInput = document.getElementById("id-input");
     idInput.value = user.id;
+    console.log(editedUser);
 }
 
 function handleReset() {
@@ -84,14 +85,12 @@ function modifyUser() {
         }
 
     let user = {"id": id,
-                       "name": name,
+                       "fullName": name,
                        "password": password
                       };
 
     let url = "api/users";
-    if (editedProduct !== null) {
-        url += "/" + editedProduct.id;
-    }
+        url += "/" + id;
 
 
     fetch(url, {

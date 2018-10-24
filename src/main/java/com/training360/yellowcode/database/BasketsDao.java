@@ -53,8 +53,13 @@ public class BasketsDao {
         }
     }
 
-    public void deleteAll() {
-        jdbcTemplate.update("delete from basket");
-        ProductService.LOGGER.info("All basket has been emptied.");
+    public void deleteFromBasketById(long userId){
+        jdbcTemplate.update("delete from basket where user_id = ?",userId);
     }
+
+    public void deleteFromBasketByProductIdAndUserId(long userId,long productId){
+        jdbcTemplate.update("delete from basket where user_id = ? AND product_id = ?",userId,productId);
+    }
+
+
 }

@@ -23,7 +23,12 @@ public class BasketsService {
         basketsDao.addToBasket(userId,productId);
     }
 
-    public void deleteAll() {
-        basketsDao.deleteAll();
+
+    public void deleteFromBasketById(long userId) {
+        basketsDao.deleteFromBasketById(userId);
+    }
+
+    public void deleteFromBasketByProductIdAndUserId(long userId, long productId) {
+        basketsDao.deleteFromBasketByProductIdAndUserId(userId, productId);
     }
 }
