@@ -25,8 +25,8 @@ public class BasketController {
     }
 
     @RequestMapping(value = "/api/basket/{userId}",method = RequestMethod.DELETE)
-    public void deleteFromBasketById(@PathVariable long userId){
-        basketsService.deleteFromBasketById(userId);
+    public void deleteFromBasketByUserId(@PathVariable long userId){
+        basketsService.deleteFromBasketByUserId(userId);
     }
 
     @RequestMapping(value= "/api/basket/{userId}/{productId}",method = RequestMethod.DELETE)
