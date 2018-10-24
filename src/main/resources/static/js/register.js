@@ -36,6 +36,7 @@ function handleSubmit() {
         handleReset();
     }
     });
+    return false;
 
 }
 

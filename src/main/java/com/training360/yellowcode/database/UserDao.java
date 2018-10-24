@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -55,7 +56,7 @@ public class UserDao {
                             Statement.RETURN_GENERATED_KEYS);
                     ps.setString(1, user.getLoginName());
                     ps.setString(2, user.getFullName());
-                    ps.setString(3, user.getPassword());
+                    ps.setString(3, new BCryptPasswordEncoder().encode(user.getPassword()));
                     ps.setString(5, user.getRole());
                     return ps;
                 }
