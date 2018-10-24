@@ -4,6 +4,7 @@ import com.training360.yellowcode.businesslogic.PasswordValidator;
 import com.training360.yellowcode.businesslogic.UserService;
 import com.training360.yellowcode.dbTables.User;
 import com.training360.yellowcode.dbTables.UserRole;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
@@ -16,6 +17,7 @@ import java.sql.*;
 import java.text.MessageFormat;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
@@ -117,11 +119,16 @@ public class UserDao {
         UserService.LOGGER.info("User removed with id - {0}", id);
     }
 
-    public User findUserByUserName(String userName) {
-        List<User> users = jdbcTemplate.query("select id, user_name, full_name, password, enabled, role from users where user_name = ?",
-                new UserMapper(),
-                userName);
-        return users.get(0);
+    public Optional<User> findUserByUserName(String userName) {
+        try {
+            User user = jdbcTemplate.queryForObject("select id, user_name, full_name, password, enabled, role from users where user_name = ?",
+                    new UserMapper(),
+                    userName);
+            return Optional.of(user);
+        } catch (EmptyResultDataAccessException erdae) {
+            return Optional.empty();
+        }
+
     }
 
 }

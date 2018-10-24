@@ -41,7 +41,7 @@ public class UserController {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             String name = userDetails.getUsername();
             String role = new ArrayList<GrantedAuthority>(userDetails.getAuthorities()).get(0).getAuthority();
-            User foundUser = userService.findUserByUserName(name);
+            User foundUser = userService.findUserByUserName(name).get();
             return new User(foundUser.getId(), name, foundUser.getFullName(), foundUser.getPassword(), UserRole.valueOf(role));
         }
     }

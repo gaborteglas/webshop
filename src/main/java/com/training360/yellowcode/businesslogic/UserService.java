@@ -8,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -38,7 +39,7 @@ public class UserService {
         userDao.deleteUser(id);
     }
 
-    public User findUserByUserName(String userName) {
+    public Optional<User> findUserByUserName(String userName) {
         return userDao.findUserByUserName(userName);
     }
 }
