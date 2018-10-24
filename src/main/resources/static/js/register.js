@@ -7,7 +7,7 @@ window.onload = function() {
 function handleSubmit() {
     let lastNameInput = document.getElementById("last-name");
     let firstNameInput = document.getElementById("first-name");
-    let usernameInput = document.getElementById("username");
+    let usernameInput = document.getElementById("loginname");
     let passwordInput = document.getElementById("password");
     let passwordRepeatInput = document.getElementById("password-repeat");
 
@@ -47,7 +47,7 @@ function handleReset() {
     let firstNameInput = document.getElementById("first-name");
     firstNameInput.value = "";
 
-    let usernameInput = document.getElementById("username");
+    let usernameInput = document.getElementById("loginname");
     usernameInput.value = "";
 
     let passwordInput = document.getElementById("password");
