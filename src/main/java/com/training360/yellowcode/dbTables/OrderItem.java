@@ -1,7 +1,5 @@
 package com.training360.yellowcode.dbTables;
 
-import org.apache.tomcat.jni.Local;
-
 import java.time.LocalDateTime;
 
 public class OrderItem {
@@ -10,6 +8,6 @@ public class OrderItem {
     private String userName;
     private long productId;
     private LocalDateTime orderDate;
-    private OrderType status;
+    private OrderStatus status;
 
 }
