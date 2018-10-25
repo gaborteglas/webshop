@@ -3,7 +3,6 @@ window.onload = function() {
     }
 
 function updateTable() {
-
     fetch("api/user")
         .then(function (response) {
             return response.json();
@@ -15,21 +14,44 @@ function updateTable() {
 
 function fetchOrders(userData){
     let userId = userData.id;
-    console.log(userId);
     fetch("api/myorders/" + userId)
     .then(function (response) {
         return response.json();
     })
     .then(function(orderData) {
-        console.log(orderData);
         fillTable(orderData);
+        gatherOrderItemDatas(orderData);
     })
 }
 
-function fillTable(orderData){
+function gatherOrderItemDatas(orderData){
+    let userId = orderData[0].userId;
+    productsList = [];
     console.log(orderData);
+    console.log(userId);
+    orderId = orderData[0].id;
+    fetch("api/basket")
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function(basketData) {
+
+            for(i in basketData){
+            if(basketData[i].userId == userId){
+                productsList.push(basketData[i].productId);
+                }
+            }
+        })
+        updateOrderItem(productsList,orderId);
+        console.log(productsList);
+}
+
+updateOrderItem(productsList,orderId){
+
+}
+
+function fillTable(orderData){
     let tbody = document.querySelector("#orders-tbody");
-    console.log(tbody);
     for(i in orderData){
         let tr = document.createElement("tr");
         let idTd = document.createElement("td");
@@ -40,4 +62,5 @@ function fillTable(orderData){
         tr.appendChild(dateTd);
         tbody.appendChild(tr);
     }
+
 }

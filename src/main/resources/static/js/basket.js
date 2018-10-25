@@ -6,9 +6,11 @@ window.onload = function() {
    orderButton.onclick = handleOrderButton;
 };
 
+
 function handleOrderButton(){
     if(confirm("Megrendeli a termékeket?")){
     window.location = "/myorders.html";
+    //gatherProductIds();
     userId = document.querySelector("#id-hidden-input").innerText;
     console.log(userId);
     fetch("/api/myorders/" + userId, {
