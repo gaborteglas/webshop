@@ -32,4 +32,9 @@ public class OrdersController {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
     }
+
+    @RequestMapping(value = "/api/myorders/{id}", method = RequestMethod.GET)
+    public List<Orders> listActiveOrdersForUser(@PathVariable long userId){
+        return ordersService.listActiveOrdersForUser(userId);
+    }
 }
