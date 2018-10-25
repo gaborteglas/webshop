@@ -16,6 +16,12 @@ public class OrderItem {
         this.productPrice = productPrice;
     }
 
+    public OrderItem(long orderId, long productId, long productPrice) {
+        this.orderId = orderId;
+        this.productId = productId;
+        this.productPrice = productPrice;
+    }
+
     public OrderItem() {
     }
 
