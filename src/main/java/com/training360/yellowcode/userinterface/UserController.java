@@ -1,7 +1,7 @@
 package com.training360.yellowcode.userinterface;
 
 import com.training360.yellowcode.businesslogic.UserService;
-import com.training360.yellowcode.database.DuplicateProductException;
+import com.training360.yellowcode.database.DuplicateUserException;
 import com.training360.yellowcode.dbTables.User;
 import com.training360.yellowcode.dbTables.UserRole;
 import org.springframework.http.HttpStatus;
@@ -28,8 +28,10 @@ public class UserController {
         try {
             userService.createUser(user);
             return ResponseEntity.ok("Successfully created.");
-        } catch (DuplicateProductException dpe) {
+        } catch (DuplicateUserException dpe) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        } catch (IllegalArgumentException iae) {
+            return ResponseEntity.status((HttpStatus.NOT_ACCEPTABLE)).build();
         }
     }
 

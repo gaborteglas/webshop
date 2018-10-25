@@ -34,6 +34,8 @@ function handleSubmit() {
             body: JSON.stringify(user)
     }).then(function(response) {
     if (response.status === 409) {
+        alert("A megadott felhasználónév már foglalt.");
+    } else if (response.status === 406) {
         alert("A jelszó nem felel meg az elvárt paramétereknek.");
     } else {
         alert("Sikeres regisztráció.");
