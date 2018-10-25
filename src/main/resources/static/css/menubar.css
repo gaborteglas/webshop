@@ -17,3 +17,8 @@ margin: 0;
 .card-body {
 padding: 7%;
 }
+
+input {
+    text-align: center;
+    font-style:italic;
+}
