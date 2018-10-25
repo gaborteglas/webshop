@@ -25,10 +25,10 @@ public class OrdersDao {
     }
 
     public List<Orders> listOrders() {
-        return
+        return sortOrdersByDate(
                 jdbcTemplate.query("select id, user_id, date, status from orders",
                         new OrderMapper()
-                );
+                ));
     }
 
     public List<Orders> listActiveOrdersForUser(long userId) {
@@ -39,7 +39,9 @@ public class OrdersDao {
     }
 
     private List<Orders> sortOrdersByDate(List<Orders> orders) {
-        return orders.stream().sorted(Comparator.comparing(Orders::getDate)).collect(Collectors.toList());
+        return orders.stream()
+                .sorted(Comparator.comparing(Orders::getDate).reversed())
+                .collect(Collectors.toList());
     }
 
     public void createOrders(long userId) {
