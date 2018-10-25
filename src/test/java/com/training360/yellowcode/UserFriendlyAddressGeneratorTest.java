@@ -15,4 +15,11 @@ public class UserFriendlyAddressGeneratorTest {
                 "Jules Doe", 3000, ProductStatusType.ACTIVE);
         assertEquals(ProductAddressGenerator.generateUserFriendlyAddress(product), "80-nap-alatt-a-java-korul");
     }
+
+    @Test
+    public void userFriendlyAddressGeneratorTestWithColon() {
+        Product product = new Product(2, "A java ura: Doe", null,
+                "Jules Doe", 9000, ProductStatusType.ACTIVE);
+        assertEquals(ProductAddressGenerator.generateUserFriendlyAddress(product), "a-java-ura-doe");
+    }
 }
