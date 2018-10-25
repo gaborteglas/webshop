@@ -29,8 +29,8 @@ public class YellowcodeApplication extends
 		http
 				.csrf().disable()
 				.authorizeRequests()
-				.antMatchers("/", "/js/**", "/css/**", "/api/**").permitAll()
-				.antMatchers("/adminproducts.html").hasRole("ADMIN")
+				.antMatchers("/", "/js/**", "/css/**").permitAll()
+				.antMatchers("/adminproducts.html", "/users.html").hasRole("ADMIN")
 				.antMatchers("/basket.html").authenticated()
 				.and()
 				.formLogin().loginPage("/login.html").defaultSuccessUrl("/products.html")
