@@ -41,7 +41,7 @@ public class YellowCodeApplicationOrdersTest {
     public void testListOrdersOrder() {
         List<Orders> ordersList = ordersController.listOrders();
 
-        assertEquals(ordersList.get(0).getId(), 1);
+        assertEquals(ordersList.get(0).getId(), 2);
     }
 
     @Test
