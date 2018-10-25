@@ -8,7 +8,7 @@ window.onload = function() {
 
 function handleOrderButton(){
     if(confirm("Megrendeli a termékeket?")){
-    //window.location = "/myorders.html";
+    window.location = "/myorders.html";
     userId = document.querySelector("#id-hidden-input").innerText;
     console.log(userId);
     fetch("/api/myorders/" + userId, {
