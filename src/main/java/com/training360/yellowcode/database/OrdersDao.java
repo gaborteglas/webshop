@@ -8,7 +8,9 @@ import org.springframework.jdbc.core.RowMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class OrdersDao {
 
@@ -26,10 +28,14 @@ public class OrdersDao {
     }
 
     public List<Orders> listActiveOrdersForUser(long userId) {
-        return jdbcTemplate.query("select id, user_id, date, status from orders where user_id = ? and status = 'ACTIVE'",
+        return sortOrdersByDate(jdbcTemplate.query("select id, user_id, date, status from orders where user_id = ? and status = 'ACTIVE'",
                 new OrderMapper(),
                 userId
-        );
+        ));
+    }
+
+    private List<Orders> sortOrdersByDate(List<Orders> orders) {
+        return orders.stream().sorted(Comparator.comparing(Orders::getDate)).collect(Collectors.toList());
     }
 
     private static class OrderMapper implements RowMapper<Orders> {
