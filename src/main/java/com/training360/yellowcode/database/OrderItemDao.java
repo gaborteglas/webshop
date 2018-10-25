@@ -2,10 +2,11 @@ package com.training360.yellowcode.database;
 
 import com.training360.yellowcode.dbTables.OrderItem;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class OrderItemDao {
@@ -37,6 +38,32 @@ public class OrderItemDao {
             long productId = resultSet.getLong("product_id");
             long productPrice = resultSet.getLong("product_price");
             return new OrderItem(id, orderId, productId, productPrice);
+        }
+    }
+
+    public void addToOrderItems(OrderItem orderItem) {
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(
+                    "insert into orderitem(order_id, product_id, product_price) values(?, ?, ?)"
+            );
+            ps.setLong(1, orderItem.getOrderId());
+            ps.setLong(2, orderItem.getProductId());
+            ps.setLong(3, orderItem.getProductPrice());
+            return ps;
+        });
+    }
+
+    public void addMultipleOrderItems(List<OrderItem> orderItems) {
+        for (OrderItem orderItem : orderItems) {
+            jdbcTemplate.update(connection -> {
+                PreparedStatement ps = connection.prepareStatement(
+                        "insert into orderitem(order_id, product_id, product_price) values(?, ?, ?)"
+                );
+                ps.setLong(1, orderItem.getOrderId());
+                ps.setLong(2, orderItem.getProductId());
+                ps.setLong(3, orderItem.getProductPrice());
+                return ps;
+            });
         }
     }
 }
