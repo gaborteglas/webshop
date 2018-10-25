@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 @RestController
 public class OrderItemController {
 
@@ -17,7 +18,7 @@ public class OrderItemController {
         this.orderItemService = orderItemService;
     }
 
-    @RequestMapping(value = "/api/myorderitems", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/myorderitems/{orderId}", method = RequestMethod.GET)
     public List<OrderItem> listOrders(@PathVariable long orderId) {
         return orderItemService.listOrderItemsForOrder(orderId);
     }
