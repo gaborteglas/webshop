@@ -1,4 +1,4 @@
-window.addEventListener('load', setUserName);
+window.addEventListener('load', setUserName());
 
 function setUserName() {
      fetch("api/user")
@@ -6,15 +6,15 @@ function setUserName() {
                  return response.json();
              })
              .then(function(jsonData) {
-                 showUser(jsonData);
+                 showUser(jsonData)
                  if (jsonData.role == "ROLE_ADMIN") {
-                 showMenus();
+                    showForAdmin();
                  }
                  if (jsonData.role == "ROLE_CUSTOMER") {
-                 hideMenus();
+                    showForUser();
                  }
              })
-             .catch(error => showUserNotLogged("Vendég"), hideMenus());
+             .catch(error => showUserNotLogged("Vendég"), showForUnregistered());
 }
 
 function showUser(jsonData) {
@@ -29,16 +29,41 @@ let userDiv = document.getElementById("username");
 userDiv.innerHTML = name
 }
 
-function hideMenus() {
-let menuToHide1 = document.getElementById("to-hide-product");
-menuToHide1.style.display = "none";
-let menuToHide2 = document.getElementById("to-hide-user");
-menuToHide2.style.display = "none";
+function showForUser() {
+ let menuToShow1 = document.getElementById("to-hide-allproducts");
+ menuToShow1.style.display = "block";
+ let menuToShow2 = document.getElementById("to-hide-basket");
+ menuToShow2.style.display = "block";
+ let menuToShow3 = document.getElementById("to-hide-login");
+ menuToShow3.style.display = "none";
+ let menuToHide9 = document.getElementById("to-hide-product");
+ menuToHide9.style.display = "none";
+ let menuToHide10 = document.getElementById("to-hide-user");
+ menuToHide10.style.display = "none";
 }
 
-function showMenus() {
-let menuToHide1 = document.getElementById("to-hide-product");
-menuToHide1.style.display = "block";
-let menuToHide2 = document.getElementById("to-hide-user");
-menuToHide2.style.display = "block";
+function showForAdmin() {
+let menuToHide6 = document.getElementById("to-hide-basket");
+menuToHide6.style.display = "none";
+let menuToHide7 = document.getElementById("to-hide-allproducts");
+menuToHide7.style.display = "none";
+let menuToHide8 = document.getElementById("to-hide-login");
+menuToHide8.style.display = "none";
+menuToShow4 = document.getElementById("to-hide-product");
+menuToShow4.style.display = "block";
+let menuToShow5 = document.getElementById("to-hide-user");
+menuToShow5.style.display = "block";
+}
+
+function showForUnregistered() {
+let menuToShow6 = document.getElementById("to-hide-allproducts");
+menuToShow6.style.display = "block";
+let menuToShow7 = document.getElementById("to-hide-login");
+menuToShow7.style.display = "block";
+let menuToHide11 = document.getElementById("to-hide-product");
+menuToHide11.style.display = "none";
+let menuToHide12 = document.getElementById("to-hide-user");
+menuToHide12.style.display = "none";
+let menuToHide13 = document.getElementById("to-hide-basket");
+menuToHide13.style.display = "none";
 }
