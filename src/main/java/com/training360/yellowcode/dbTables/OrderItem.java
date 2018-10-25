@@ -16,6 +16,9 @@ public class OrderItem {
         this.productPrice = productPrice;
     }
 
+    public OrderItem() {
+    }
+
     public long getId() {
         return id;
     }
