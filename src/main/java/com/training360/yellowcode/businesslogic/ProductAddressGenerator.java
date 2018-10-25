@@ -9,7 +9,7 @@ public class ProductAddressGenerator {
     public static String generateUserFriendlyAddress(Product product) {
         String address;
         if (product.getAddress() == null) {
-            address = product.getName().trim().replaceAll(" ", "-").toLowerCase();
+            address = product.getName().trim().replaceAll(" ", "-").replaceAll(":", "").toLowerCase();
         } else {
             address = product.getAddress();
         }
