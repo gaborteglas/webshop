@@ -186,6 +186,7 @@ function handleDeleteButtonOnClick() {
         })
         .then(function(response) {
             updateTable();
+            handleReset();
         });
     }
 }
