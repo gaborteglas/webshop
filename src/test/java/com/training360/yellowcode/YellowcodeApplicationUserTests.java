@@ -52,6 +52,17 @@ public class YellowcodeApplicationUserTests {
     }
 
     @Test
+    public void testCreateUserWithExistingUserName() {
+        List<User> users1 = userController.listUsers();
+        userController.createUser(new User(4, "login3", "Test Four", "4nEgyEdikjelszó!", UserRole.ROLE_CUSTOMER));
+
+        List<User> users2 = userController.listUsers();
+
+        assertEquals(users1.size(), 3);
+        assertEquals(users2.size(), 3);
+    }
+
+    @Test
     public void testDeleteUser() {
         userController.createUser(new User(4, "login4", "Test Four", "4nEgyEdikjelszó!", UserRole.ROLE_CUSTOMER));
         List<User> users1 = userController.listUsers();
