@@ -35,4 +35,14 @@ public class OrderItemController {
         }
     }
 
+    @RequestMapping(value = "/api/myorderitems2", method = RequestMethod.POST)
+    public ResponseEntity<String> addMultipleOrderItems(@RequestBody List<OrderItem> orderItems) {
+        try {
+            orderItemService.addMultipleOrderItems(orderItems);
+            return ResponseEntity.ok("Successfully created.");
+        } catch (DuplicateProductException dpe) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+    }
+
 }

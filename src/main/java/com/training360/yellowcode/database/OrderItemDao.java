@@ -52,4 +52,18 @@ public class OrderItemDao {
             return ps;
         });
     }
+
+    public void addMultipleOrderItems(List<OrderItem> orderItems) {
+        for (OrderItem orderItem : orderItems) {
+            jdbcTemplate.update(connection -> {
+                PreparedStatement ps = connection.prepareStatement(
+                        "insert into orderitem(order_id, product_id, product_price) values(?, ?, ?)"
+                );
+                ps.setLong(1, orderItem.getOrderId());
+                ps.setLong(2, orderItem.getProductId());
+                ps.setLong(3, orderItem.getProductPrice());
+                return ps;
+            });
+        }
+    }
 }

@@ -24,4 +24,8 @@ public class OrderItemService {
     public void addToOrderItems(OrderItem orderItem) {
         orderItemDao.addToOrderItems(orderItem);
     }
+
+    public void addMultipleOrderItems(List<OrderItem> orderItems) {
+        orderItemDao.addMultipleOrderItems(orderItems);
+    }
 }
