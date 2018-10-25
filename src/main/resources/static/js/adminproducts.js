@@ -7,8 +7,7 @@ window.onload = function() {
 }
 
 function updateTable() {
-    fetch()
-     fetch("api/products")
+    fetch("api/products")
              .then(function (response) {
                  return response.json();
              })
