@@ -30,6 +30,7 @@ public class YellowcodeApplicationBasketTest {
     private ProductController productController;
 
     @Before
+    @WithMockUser(username = "testadmin", roles = "ADMIN")
     public void init() {
         productController.createProduct(new Product(1, "Az aliceblue 50 árnyalata", "aliceblue", "E. L. Doe", 9999, ProductStatusType.ACTIVE));
         productController.createProduct(new Product(2, "Legendás programozók és megfigyelésük", "legendas", "J. K. Doe", 3999, ProductStatusType.ACTIVE));
@@ -43,11 +44,12 @@ public class YellowcodeApplicationBasketTest {
     public void testBasketDatas() {
         Basket basket = new Basket(1, 1, 5);
         assertEquals(basket.getId(), 1);
-        assertEquals(basket.getUserId(), 2);
+        assertEquals(basket.getUserId(), 1);
         assertEquals(basket.getProductId(), 5);
     }
 
     @Test
+    @WithMockUser(username = "testadmin", roles = "ADMIN")
     public void testListBasketProductsWithEmpty() {
         List<Basket> basketItems = basketController.listProducts();
         assertEquals(basketItems.size(), 0);

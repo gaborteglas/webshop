@@ -25,6 +25,13 @@ public class OrdersDao {
                 );
     }
 
+    public List<Orders> listActiveOrdersForUser(long userId) {
+        return jdbcTemplate.query("select id, user_id, date, status from orders where user_id = ? and status = 'ACTIVE'",
+                new OrderMapper(),
+                userId
+        );
+    }
+
     private static class OrderMapper implements RowMapper<Orders> {
         @Override
         public Orders mapRow(ResultSet resultSet, int i) throws SQLException {
