@@ -33,7 +33,7 @@ public class OrdersController {
         }
     }
 
-    @RequestMapping(value = "/api/myorders/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/myorders/{userId}", method = RequestMethod.GET)
     public List<Orders> listActiveOrdersForUser(@PathVariable long userId){
         return ordersService.listActiveOrdersForUser(userId);
     }
