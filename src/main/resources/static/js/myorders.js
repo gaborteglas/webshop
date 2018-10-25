@@ -26,28 +26,33 @@ function fetchOrders(userData){
 
 function gatherOrderItemDatas(orderData){
     let userId = orderData[0].userId;
-    productsList = [];
-    console.log(orderData);
-    console.log(userId);
-    orderId = orderData[0].id;
+    orderId = orderData[orderData.length-1].id;
+    orderItems = [];
     fetch("api/basket")
         .then(function (response) {
             return response.json();
         })
         .then(function(basketData) {
-
             for(i in basketData){
             if(basketData[i].userId == userId){
-                productsList.push(basketData[i].productId);
+                console.log(basketData[i].productId)
+                order = {"order_id" : orderId, "product_id" : basketData[i].productId,"product_price" : 1}
+                orderItems.push(order);
                 }
             }
+            createOrderItems(orderItems);
         })
-        updateOrderItem(productsList,orderId);
-        console.log(productsList);
 }
 
-updateOrderItem(productsList,orderId){
-
+function createOrderItems(orderItems){
+    console.log(orderItems);
+    fetch("api/myorderitems2", {
+        method: "POST",
+        headers: {
+                    "Content-Type": "application/json; charset=utf-8"
+                },
+        body: JSON.stringify(orderItems)
+        })
 }
 
 function fillTable(orderData){
