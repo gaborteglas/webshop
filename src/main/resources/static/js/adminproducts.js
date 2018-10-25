@@ -44,13 +44,13 @@ function fillTable(products) {
         priceTd.innerHTML = product.currentPrice;
         tr.appendChild(priceTd);
 
-        let statusTd = document.createElement("td");
+        /* let statusTd = document.createElement("td");
         if(product.status === "ACTIVE") {
             statusTd.innerHTML = "aktív";
         } else {
             statusTd.innerHTML = "inaktív";
         }
-        tr.appendChild(statusTd);
+        tr.appendChild(statusTd);*/
 
         let buttonsTd = document.createElement("td");
         let editButton = document.createElement("button");
