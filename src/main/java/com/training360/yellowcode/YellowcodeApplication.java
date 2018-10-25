@@ -29,7 +29,7 @@ public class YellowcodeApplication extends
 		http
 				.csrf().disable()
 				.authorizeRequests()
-				.antMatchers("/", "/js/**", "/css/**").permitAll()
+				.antMatchers("/", "/js/**", "/css/**", "/api/products").permitAll()
 				.antMatchers("/adminproducts.html", "/users.html").hasRole("ADMIN")
 				.antMatchers("/basket.html").authenticated()
 				.and()
