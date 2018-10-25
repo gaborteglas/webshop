@@ -23,6 +23,12 @@ public class OrderItemDao {
                 );
     }
 
+    public List<OrderItem> listOrderItemsForOrder(long orderId) {
+        return
+                jdbcTemplate.query("select id, order_id, product_id, product_price from orderitem where order_id = ?",
+                        new OrderItemMapper(), orderId);
+    }
+
     private static class OrderItemMapper implements RowMapper<OrderItem> {
         @Override
         public OrderItem mapRow(ResultSet resultSet, int i) throws SQLException {

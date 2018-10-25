@@ -10,6 +10,10 @@ public class OrdersController {
 
     private OrdersService ordersService;
 
+    public OrdersController(OrdersService ordersService) {
+        this.ordersService = ordersService;
+    }
+
     @RequestMapping(value = "/api/myorders", method = RequestMethod.GET)
     public List<Orders> listOrders() {
         return ordersService.listOrders();

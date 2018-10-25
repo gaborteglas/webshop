@@ -9,6 +9,10 @@ public class OrdersService {
 
     private OrdersDao ordersDao;
 
+    public OrdersService(OrdersDao ordersDao) {
+        this.ordersDao = ordersDao;
+    }
+
     public List<Orders> listOrders() {
         return ordersDao.listOrders();
     }
