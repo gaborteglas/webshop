@@ -11,7 +11,7 @@ function handleOrderButton(){
     //window.location = "/myorders.html";
     userId = document.querySelector("#id-hidden-input").innerText;
     console.log(userId);
-    fetch("/api/orders/" + userId, {
+    fetch("/api/myorders/" + userId, {
             method: "POST",
             headers: {
                         "Content-Type": "application/json; charset=utf-8"
