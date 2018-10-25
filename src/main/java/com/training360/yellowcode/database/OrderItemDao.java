@@ -1,5 +1,6 @@
 package com.training360.yellowcode.database;
 
+import com.training360.yellowcode.businesslogic.OrderItemService;
 import com.training360.yellowcode.dbTables.OrderItem;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -52,6 +53,8 @@ public class OrderItemDao {
             ps.setLong(3, orderItem.getProductPrice());
             return ps;
         });
+        OrderItemService.LOGGER.info("Item added to order(order_id: {0}, product_id: {1}, product_price: {2})",
+                orderItem.getOrderId(), orderItem.getProductId(), orderItem.getProductPrice());
     }
 
     public void addMultipleOrderItems(List<OrderItem> orderItems) {
@@ -65,6 +68,8 @@ public class OrderItemDao {
                 ps.setLong(3, orderItem.getProductPrice());
                 return ps;
             });
+            OrderItemService.LOGGER.info("Item added to order(order_id: {0}, product_id: {1}, product_price: {2})",
+                    orderItem.getOrderId(), orderItem.getProductId(), orderItem.getProductPrice());
         }
     }
 }

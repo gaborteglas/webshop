@@ -1,5 +1,6 @@
 package com.training360.yellowcode.database;
 
+import com.training360.yellowcode.businesslogic.OrdersService;
 import com.training360.yellowcode.dbTables.OrderStatus;
 import com.training360.yellowcode.dbTables.Orders;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -8,10 +9,12 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
+import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+
 @Repository
 public class OrdersDao {
 
@@ -48,6 +51,9 @@ public class OrdersDao {
             ps.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
             return ps;
         });
+        OrdersService.LOGGER.info(MessageFormat.format("Order created(user_id: {0}, date: {1}, status: {2})",
+                userId, LocalDateTime.now(), "ACTIVE")
+        );
     }
 
     private static class OrderMapper implements RowMapper<Orders> {
