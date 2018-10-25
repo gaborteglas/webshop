@@ -4,11 +4,12 @@ import com.training360.yellowcode.dbTables.OrderItem;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.List;
-
+@Repository
 public class OrderItemDao {
 
     private JdbcTemplate jdbcTemplate;

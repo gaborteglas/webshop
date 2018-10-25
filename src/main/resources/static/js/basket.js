@@ -8,15 +8,14 @@ window.onload = function() {
 
 function handleOrderButton(){
     if(confirm("Megrendeli a termékeket?")){
-    window.location = "/myorders.html";
-    userId = document.querySelector("#id-hidden-input")
-    orders = { "user_id" : userId };
-    fetch("/api/myorders", {
+    //window.location = "/myorders.html";
+    userId = document.querySelector("#id-hidden-input").innerText;
+    console.log(userId);
+    fetch("/api/myorders/" + userId, {
             method: "POST",
             headers: {
                         "Content-Type": "application/json; charset=utf-8"
-                    },
-            body: JSON.stringify(orders)
+                    }
     });
     // ide jön egy csomó kód;
     } else {
