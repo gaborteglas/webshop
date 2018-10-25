@@ -16,6 +16,13 @@ public class Orders {
         this.status = status;
     }
 
+    public Orders(long userId) {
+        this.userId = userId;
+    }
+
+    public Orders() {
+    }
+
     public long getId() {
         return id;
     }
