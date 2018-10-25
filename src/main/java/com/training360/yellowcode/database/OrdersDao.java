@@ -39,16 +39,13 @@ public class OrdersDao {
     }
 
     public void createOrders(long userId) {
-        jdbcTemplate.update(new PreparedStatementCreator() {
-            @Override
-            public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
-                PreparedStatement ps = connection.prepareStatement(
-                        "insert into orders(user_id, date, status) values(?, ?, 'ACTIVE')"
-                );
-                ps.setLong(1, userId);
-                ps.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
-                return ps;
-            }
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(
+                    "insert into orders(user_id, date, status) values(?, ?, 'ACTIVE')"
+            );
+            ps.setLong(1, userId);
+            ps.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
+            return ps;
         });
     }
 

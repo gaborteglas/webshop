@@ -20,4 +20,8 @@ public class OrderItemService {
     public List<OrderItem> listOrderItemsForOrder(long orderId) {
         return orderItemDao.listOrderItemsForOrder(orderId);
     }
+
+    public void addToOrderItems(OrderItem orderItem) {
+        orderItemDao.addToOrderItems(orderItem);
+    }
 }
