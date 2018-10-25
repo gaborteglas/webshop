@@ -16,4 +16,8 @@ public class OrdersService {
     public List<Orders> listOrders() {
         return ordersDao.listOrders();
     }
+
+    public List<Orders> listActiveOrdersForUser(long userId) {
+        return ordersDao.listActiveOrdersForUser(userId);
+    }
 }

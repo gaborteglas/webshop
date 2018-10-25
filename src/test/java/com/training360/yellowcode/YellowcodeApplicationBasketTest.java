@@ -55,10 +55,10 @@ public class YellowcodeApplicationBasketTest {
         assertEquals(basketItems.size(), 0);
     }
 
+    @WithMockUser(username = "testuser", roles = "CUSTOMER")
     @Test
-    @WithMockUser(username = "testadmin", roles = "ADMIN")
     public void testAddToBasketThenListBasketProducts() {
-        basketController.addToBasket(new Basket(2, 4));
+        basketController.addToBasket(new Basket(1, 4));
 
         List<Basket> basketItems = basketController.listProducts();
         assertEquals(basketItems.size(), 1);
