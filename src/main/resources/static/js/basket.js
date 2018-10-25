@@ -2,7 +2,27 @@ window.onload = function() {
    updateTable();
    let resetButton = document.querySelector("#reset-button");
    resetButton.onclick = handleResetButton;
+   let orderButton = document.querySelector("#order-button");
+   orderButton.onclick = handleOrderButton;
 };
+
+function handleOrderButton(){
+    if(confirm("Megrendeli a termékeket?")){
+    window.location = "/myorders.html";
+    userId = document.querySelector("#id-hidden-input")
+    orders = { "user_id" : userId };
+    fetch("/api/myorders", {
+            method: "POST",
+            headers: {
+                        "Content-Type": "application/json; charset=utf-8"
+                    },
+            body: JSON.stringify(orders)
+    });
+    // ide jön egy csomó kód;
+    } else {
+     location.reload();
+    }
+ }
 
 function resetProductButtonsEventListener(){
     let buttons = document.querySelectorAll(".resetProductButtons")

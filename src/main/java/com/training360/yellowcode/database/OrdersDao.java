@@ -5,13 +5,14 @@ import com.training360.yellowcode.dbTables.Orders;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-
+@Repository
 public class OrdersDao {
 
     private JdbcTemplate jdbcTemplate;
