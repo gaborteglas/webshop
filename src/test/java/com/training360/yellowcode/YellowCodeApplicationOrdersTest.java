@@ -12,6 +12,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
 
@@ -39,9 +40,15 @@ public class YellowCodeApplicationOrdersTest {
 
     @Test
     public void testListOrdersOrder() {
-        List<Orders> ordersList = ordersController.listOrders();
+        try {
+            TimeUnit.SECONDS.sleep(1);
+            ordersController.createOrders(3);
+            List<Orders> ordersList = ordersController.listOrders();
 
-        assertEquals(ordersList.get(0).getId(), 1);
+            assertEquals(ordersList.get(0).getId(), 3);
+        } catch (InterruptedException ie) {
+            throw new IllegalStateException("Unknown error");
+        }
     }
 
     @Test

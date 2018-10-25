@@ -25,10 +25,10 @@ public class OrdersDao {
     }
 
     public List<Orders> listOrders() {
-        return
+        return sortOrdersByDate(
                 jdbcTemplate.query("select id, user_id, date, status from orders",
                         new OrderMapper()
-                );
+                ));
     }
 
     public List<Orders> listActiveOrdersForUser(long userId) {
