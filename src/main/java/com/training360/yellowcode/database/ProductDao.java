@@ -50,13 +50,6 @@ public class ProductDao {
         );
     }
 
-    public List<Product> listAllProducts() {
-        return sortProductsNameIdThenProducer(
-                jdbcTemplate.query("select id, name, address, producer, price, status from products",
-                        new ProductMapper())
-        );
-    }
-
     private List<Product> sortProductsNameIdThenProducer(List<Product> products) {
         Collator hungarianLocale = Collator.getInstance(new Locale("hu", "HU"));
         return products.stream()

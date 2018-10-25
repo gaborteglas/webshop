@@ -52,7 +52,7 @@ public class YellowcodeApplicationTests {
         List<Product> products = productController.listProducts();
 
         productController.createProduct(new Product(
-                6, "A Java ura: A classok szövetsége", "a-java-ura:-a-classok-szovetsege", "J.R.R. Doe", 2899, ProductStatusType.ACTIVE
+                6, "A Java ura: A classok szövetsége", "a-java-ura-a-classok-szovetsege", "J.R.R. Doe", 2899, ProductStatusType.ACTIVE
                 ));
         List<Product> products2 = productController.listProducts();
         assertEquals(products.size(), 5);
@@ -63,31 +63,27 @@ public class YellowcodeApplicationTests {
     @Test
     public void testUpdateProduct() {
         productController.createProduct(new Product(
-                6, "A Java ura: A classok szövetsége", "a-java-ura:-a-classok-szovetsege", "J.R.R. Doe", 2899, ProductStatusType.ACTIVE
+                6, "A Java ura: A classok szövetsége", "a-java-ura-a-classok-szovetsege", "J.R.R. Doe", 2899, ProductStatusType.ACTIVE
         ));
         productController.updateProduct(new Product(
-                6, "A Java ura: A classok szövetsége", "a-java-ura:-a-classok-szovetsege", "J.R.R. Doe", 3899, ProductStatusType.ACTIVE),
+                6, "A Java ura: A classok szövetsége", "a-java-ura-a-classok-szovetsege", "J.R.R. Doe", 3899, ProductStatusType.ACTIVE),
                 6);
 
         List<Product> products = productController.listProducts();
         assertEquals(products.size(), 6);
-        assertEquals(productController.findProductByAddress("a-java-ura:-a-classok-szovetsege").get().getCurrentPrice(), 3899);
+        assertEquals(productController.findProductByAddress("a-java-ura-a-classok-szovetsege").get().getCurrentPrice(), 3899);
     }
 
     @Test
     public void testDeleteProduct() {
         productController.createProduct(new Product(
-                6, "A Java ura: A classok szövetsége", "a-java-ura:-a-classok-szovetsege", "J.R.R. Doe", 2899, ProductStatusType.ACTIVE
+                6, "A Java ura: A classok szövetsége", "a-java-ura-a-classok-szovetsege", "J.R.R. Doe", 2899, ProductStatusType.ACTIVE
         ));
         productController.deleteProduct(6);
 
         List<Product> products = productController.listProducts();
-        List<Product> allProducts = productController.listAllProducts();
 
         assertEquals(products.size(), 5);
-        assertEquals(allProducts.size(), 6);
-
-        assertEquals(productController.findProductByAddress("a-java-ura:-a-classok-szovetsege").get().getStatus(), ProductStatusType.INACTIVE);
     }
 
     //Ez átmeneti, amíg a CRUD nem teljes

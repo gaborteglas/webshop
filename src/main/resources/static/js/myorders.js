@@ -3,7 +3,6 @@ window.onload = function() {
     }
 
 function updateTable() {
-
     fetch("api/user")
         .then(function (response) {
             return response.json();
@@ -15,21 +14,49 @@ function updateTable() {
 
 function fetchOrders(userData){
     let userId = userData.id;
-    console.log(userId);
     fetch("api/myorders/" + userId)
     .then(function (response) {
         return response.json();
     })
     .then(function(orderData) {
-        console.log(orderData);
         fillTable(orderData);
+        gatherOrderItemDatas(orderData);
     })
 }
 
+function gatherOrderItemDatas(orderData){
+    let userId = orderData[0].userId;
+    orderId = orderData[orderData.length-1].id;
+    orderItems = [];
+    fetch("api/basket")
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function(basketData) {
+            for(i in basketData){
+            if(basketData[i].userId == userId){
+                console.log(basketData[i].productId)
+                order = {"order_id" : orderId, "product_id" : basketData[i].productId,"product_price" : 1}
+                orderItems.push(order);
+                }
+            }
+            createOrderItems(orderItems);
+        })
+}
+
+function createOrderItems(orderItems){
+    console.log(orderItems);
+    fetch("api/myorderitems2", {
+        method: "POST",
+        headers: {
+                    "Content-Type": "application/json; charset=utf-8"
+                },
+        body: JSON.stringify(orderItems)
+        })
+}
+
 function fillTable(orderData){
-    console.log(orderData);
     let tbody = document.querySelector("#orders-tbody");
-    console.log(tbody);
     for(i in orderData){
         let tr = document.createElement("tr");
         let idTd = document.createElement("td");
@@ -40,4 +67,5 @@ function fillTable(orderData){
         tr.appendChild(dateTd);
         tbody.appendChild(tr);
     }
+
 }
