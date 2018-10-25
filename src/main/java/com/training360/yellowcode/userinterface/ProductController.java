@@ -29,11 +29,6 @@ public class ProductController {
         return productService.listProducts();
     }
 
-    @RequestMapping(value = "/api/allproducts", method = RequestMethod.GET)
-    public List<Product> listAllProducts() {
-        return productService.listAllProducts();
-    }
-
     @RequestMapping(value = "/api/products", method = RequestMethod.POST)
     public ResponseEntity<String> createProduct(@RequestBody Product product) {
         try {

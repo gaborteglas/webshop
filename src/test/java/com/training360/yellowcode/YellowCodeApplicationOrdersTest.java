@@ -38,6 +38,13 @@ public class YellowCodeApplicationOrdersTest {
     }
 
     @Test
+    public void testListOrdersOrder() {
+        List<Orders> ordersList = ordersController.listOrders();
+
+        assertEquals(ordersList.get(0).getId(), 1);
+    }
+
+    @Test
     public void testCreateOrders() {
         ordersController.createOrders(3);
         List<Orders> ordersList = ordersController.listOrders();

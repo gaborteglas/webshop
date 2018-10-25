@@ -37,6 +37,8 @@ function showForUser() {
  let menuToShow3 = document.getElementById("to-hide-login");
  menuToShow3.style.display = "none";
  let menuToHide9 = document.getElementById("to-hide-product");
+ let menuToShow21 = document.getElementById("to-hide-myorder");
+  menuToShow21.style.display = "block";
  menuToHide9.style.display = "none";
  let menuToHide10 = document.getElementById("to-hide-user");
  menuToHide10.style.display = "none"
@@ -57,6 +59,8 @@ let menuToShow5 = document.getElementById("to-hide-user");
 menuToShow5.style.display = "block";
 let menuToShow9 = document.getElementById("to-hide-logout");
 menuToShow9.style.display = "block";
+let menuToHide21 = document.getElementById("to-hide-myorder");
+  menuToHide21.style.display = "none";
 }
 
 function showForUnregistered() {
@@ -72,4 +76,6 @@ let menuToHide13 = document.getElementById("to-hide-basket");
 menuToHide13.style.display = "none";
 let menuToHide14 = document.getElementById("to-hide-logout");
 menuToHide14.style.display = "none";
+let menuToHide31 = document.getElementById("to-hide-myorder");
+  menuToHide31.style.display = "none";
 }
