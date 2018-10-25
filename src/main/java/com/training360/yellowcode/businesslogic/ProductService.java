@@ -29,11 +29,6 @@ public class ProductService {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    public List<Product> listAllProducts() {
-        return productDao.listAllProducts();
-    }
-
-    @PreAuthorize("hasRole('ADMIN')")
     public void createProduct(Product product) {
         product.setAddress(ProductAddressGenerator.generateUserFriendlyAddress(product));
         productDao.createProduct(product);

@@ -82,12 +82,8 @@ public class YellowcodeApplicationTests {
         productController.deleteProduct(6);
 
         List<Product> products = productController.listProducts();
-        List<Product> allProducts = productController.listAllProducts();
 
         assertEquals(products.size(), 5);
-        assertEquals(allProducts.size(), 6);
-
-        assertEquals(productController.findProductByAddress("a-java-ura:-a-classok-szovetsege").get().getStatus(), ProductStatusType.INACTIVE);
     }
 
     //Ez átmeneti, amíg a CRUD nem teljes
