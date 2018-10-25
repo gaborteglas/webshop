@@ -116,9 +116,8 @@ function fillTable(products,basketData){
                     tr.appendChild(currentPriceTd);
                     deleteButton = document.createElement("input");
                     deleteButton.setAttribute("type","reset");
-                    deleteButton.setAttribute("class","btn btn-danger");
                     deleteButton.setAttribute("id",products[k].id);
-                    deleteButton.setAttribute("class","resetProductButtons")
+                    deleteButton.setAttribute("class","btn btn-danger resetProductButtons")
                     deleteButton.setAttribute("value","Törlés");
                     tr.appendChild(deleteButton);
                     tbody.appendChild(tr);
