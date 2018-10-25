@@ -29,7 +29,7 @@ public class OrdersDao {
         @Override
         public Orders mapRow(ResultSet resultSet, int i) throws SQLException {
             long id = resultSet.getLong("id");
-            String userId = resultSet.getString("user_id");
+            long userId = resultSet.getLong("user_id");
             LocalDateTime localDateTime = resultSet.getTimestamp("date").toLocalDateTime();
             OrderStatus status = OrderStatus.valueOf(resultSet.getString("status"));
             return new Orders(id, userId, localDateTime, status);
