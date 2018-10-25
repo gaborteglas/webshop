@@ -21,7 +21,6 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Sql(scripts = "classpath:/clearbaskets.sql")
-@WithMockUser(username = "testadmin", roles = "ADMIN")
 public class YellowcodeApplicationBasketTest {
 
     @Autowired
@@ -40,10 +39,11 @@ public class YellowcodeApplicationBasketTest {
     }
 
     @Test
+    @WithMockUser(username = "testuser", roles = "CUSTOMER")
     public void testBasketDatas() {
         Basket basket = new Basket(1, 1, 5);
         assertEquals(basket.getId(), 1);
-        assertEquals(basket.getUserId(), 1);
+        assertEquals(basket.getUserId(), 2);
         assertEquals(basket.getProductId(), 5);
     }
 
@@ -54,40 +54,41 @@ public class YellowcodeApplicationBasketTest {
     }
 
     @Test
+    @WithMockUser(username = "testadmin", roles = "ADMIN")
     public void testAddToBasketThenListBasketProducts() {
-        basketController.addToBasket(new Basket(1, 1));
-        basketController.addToBasket(new Basket(1, 2));
-        basketController.addToBasket(new Basket(3, 4));
+        basketController.addToBasket(new Basket(2, 4));
 
         List<Basket> basketItems = basketController.listProducts();
-        assertEquals(basketItems.size(), 3);
+        assertEquals(basketItems.size(), 1);
     }
 
     @Test
+    @WithMockUser(username = "testadmin", roles = "ADMIN")
     public void testDeleteFromBasketByUserId() {
-        basketController.addToBasket(new Basket(1, 1));
-        basketController.addToBasket(new Basket(1, 2));
         basketController.addToBasket(new Basket(2, 1));
+        basketController.addToBasket(new Basket(2, 2));
+
 
         List<Basket> basketItems1 = basketController.listProducts();
-        assertEquals(basketItems1.size(), 3);
+        assertEquals(basketItems1.size(), 2);
 
-        basketController.deleteFromBasketByUserId(1);
+        basketController.deleteFromBasketByUserId(2);
         List<Basket> basketItems2 = basketController.listProducts();
-        assertEquals(basketItems2.size(), 1);
+        assertEquals(basketItems2.size(), 0);
 
     }
 
     @Test
+    @WithMockUser(username = "testadmin", roles = "ADMIN")
     public void testDeleteFromBasketByProductIdAndUserId() {
-        basketController.addToBasket(new Basket(1, 1));
-        basketController.addToBasket(new Basket(1, 2));
         basketController.addToBasket(new Basket(2, 1));
+        basketController.addToBasket(new Basket(2, 4));
+        basketController.addToBasket(new Basket(2, 5));
 
         List<Basket> basketItems1 = basketController.listProducts();
         assertEquals(basketItems1.size(), 3);
 
-        basketController.deleteFromBasketByProductIdAndUserId(1, 1);
+        basketController.deleteFromBasketByProductIdAndUserId(2, 1);
         List<Basket> basketItems2 = basketController.listProducts();
         assertEquals(basketItems2.size(), 2);
 
