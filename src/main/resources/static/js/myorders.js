@@ -1,6 +1,6 @@
 window.onload = function() {
     updateTable();
-    }
+}
 
 function updateTable() {
     fetch("api/user")
@@ -36,7 +36,7 @@ function gatherOrderItemDatas(orderData){
             for(i in basketData){
             if(basketData[i].userId == userId){
                 console.log(basketData[i].productId)
-                order = {"order_id" : orderId, "product_id" : basketData[i].productId,"product_price" : 1}
+                order = {"orderId" : orderId, "productId" : basketData[i].productId,"productPrice" : 1}
                 orderItems.push(order);
                 }
             }
@@ -57,15 +57,35 @@ function createOrderItems(orderItems){
 
 function fillTable(orderData){
     let tbody = document.querySelector("#orders-tbody");
-    for(i in orderData){
-        let tr = document.createElement("tr");
-        let idTd = document.createElement("td");
-        idTd.innerHTML = orderData[i].id;
-        let dateTd = document.createElement("td");
-        dateTd.innerHTML = orderData[i].date;
-        tr.appendChild(idTd);
-        tr.appendChild(dateTd);
-        tbody.appendChild(tr);
-    }
+    tbody.innerHTML = "";
+        for(let i = 0; i < orderData.length; i++){
+            let tr = document.createElement("tr");
+            tr.className = "clickable-row";
+            tr["raw-data"] = orderData[i];
 
+            let idTd = document.createElement("td");
+            idTd.innerHTML = orderData[i].id;
+            tr.appendChild(idTd);
+
+            let dateTd = document.createElement("td");
+            dateTd.innerHTML = orderData[i].date;
+            tr.appendChild(dateTd);
+
+            var q = orderData[i].id
+            tbody.appendChild(tr);
+        }
+    clickableRowsEventListener();
+}
+
+function clickableRowsEventListener() {
+  var clickableRows = document.querySelectorAll('.clickable-row');
+  console.log(clickableRows);
+  for (var i = 0; i < clickableRows.length; i++) {
+    clickableRows[i].addEventListener('click', function () {clickingOnRows(this);});
+  }
+}
+
+function clickingOnRows(data){
+    orderId = data.innerText[0];
+    window.location = "/myorderitem.html?address=" + orderId;
 }
