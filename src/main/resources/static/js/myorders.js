@@ -68,7 +68,7 @@ function fillTable(orderData){
             tr.appendChild(idTd);
 
             let dateTd = document.createElement("td");
-            dateTd.innerHTML = orderData[i].date;
+            dateTd.innerHTML = new Date(orderData[i].date).toLocaleString();
             tr.appendChild(dateTd);
 
             var q = orderData[i].id
