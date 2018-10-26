@@ -40,7 +40,7 @@ public class OrdersDao {
 
     private List<Orders> sortOrdersByDate(List<Orders> orders) {
         return orders.stream()
-                .sorted(Comparator.comparing(Orders::getDate).reversed())
+                .sorted(Comparator.comparing(Orders::getDate))
                 .collect(Collectors.toList());
     }
 

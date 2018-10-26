@@ -45,7 +45,7 @@ public class YellowCodeApplicationOrdersTest {
             ordersController.createOrders(3);
             List<Orders> ordersList = ordersController.listOrders();
 
-            assertEquals(ordersList.get(0).getId(), 3);
+            assertEquals(ordersList.get(ordersList.size()-1).getId(), 3);
         } catch (InterruptedException ie) {
             throw new IllegalStateException("Unknown error");
         }
