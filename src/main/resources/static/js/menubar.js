@@ -10,7 +10,7 @@ function setUserName() {
                  if (jsonData.role == "ROLE_ADMIN") {
                     showForAdmin();
                  }
-                 if (jsonData.role == "ROLE_CUSTOMER") {
+                 if (jsonData.role == "ROLE_USER") {
                     showForUser();
                  }
              })

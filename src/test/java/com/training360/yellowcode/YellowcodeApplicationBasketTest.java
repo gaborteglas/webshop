@@ -47,8 +47,8 @@ public class YellowcodeApplicationBasketTest {
         productController.createProduct(new Product(5, "Junior most és mindörökké", "mindorokke", "James Doe", 2999, ProductStatusType.ACTIVE));
 
         userController.createUser(new User(1, "admin1", "Test One", "Elsőjelszó1", UserRole.ROLE_ADMIN));
-        userController.createUser(new User(2, "user1", "Test Two", "Másodikjelszó2", UserRole.ROLE_CUSTOMER));
-        userController.createUser(new User(3, "user2", "Test Three", "harmadikJelszó3",UserRole.ROLE_CUSTOMER));
+        userController.createUser(new User(2, "user1", "Test Two", "Másodikjelszó2", UserRole.ROLE_USER));
+        userController.createUser(new User(3, "user2", "Test Three", "harmadikJelszó3",UserRole.ROLE_USER));
 
         SecurityContextHolder.getContext().setAuthentication(a);
     }

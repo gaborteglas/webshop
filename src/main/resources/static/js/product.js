@@ -23,13 +23,15 @@ function handlePutIntoBasket(){
                     "Content-Type": "application/json; charset=utf-8"
                 },
         body: JSON.stringify(basket)
-    }).then(function(response) {
-        if (response.status === 409) {
-            alert("A termék már szerepel a kosárban.");
-        } else {
-            alert("Az alábbi hozzáadva a kosárhoz : " + productName.innerHTML );
-        }
+    })
+    .then(function(request) {
+    return request.json()
+    })
+    .then(function(jsonData) {
+    alert(jsonData.message);
+    console.log(jsonData);
     });
+    return false;
 }
 
 function updateTable() {

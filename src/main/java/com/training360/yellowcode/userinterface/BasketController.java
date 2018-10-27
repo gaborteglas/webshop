@@ -1,6 +1,7 @@
 package com.training360.yellowcode.userinterface;
 
 import com.training360.yellowcode.businesslogic.BasketsService;
+import com.training360.yellowcode.businesslogic.Response;
 import com.training360.yellowcode.businesslogic.UserService;
 import com.training360.yellowcode.database.DuplicateProductException;
 import com.training360.yellowcode.dbTables.Basket;
@@ -13,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 @RestController
 public class BasketController {
 
@@ -30,36 +32,30 @@ public class BasketController {
     }
 
     @RequestMapping(value = "/api/basket", method = RequestMethod.POST)
-    public ResponseEntity<String> addToBasket(@RequestBody Basket basket){
-        try {
-            if (!isAllowedToChangeBasketForUserId(basket.getUserId())) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-            }
-            basketsService.addToBasket(basket);
-            return ResponseEntity.ok("Successfully added to basket.");
-
-        } catch (DuplicateProductException dpe) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+    public Response addToBasket(@RequestBody Basket basket) {
+        if (isAllowedToChangeBasketForUserId(basket.getUserId())) {
+            return basketsService.addToBasket(basket);
+        } else {
+            return new Response(false, "A falhasználó nem jogosult a kosár módosítására");
         }
     }
 
-    @RequestMapping(value = "/api/basket/{userId}",method = RequestMethod.DELETE)
-    public ResponseEntity<String> deleteFromBasketByUserId(@PathVariable long userId){
-        if (!isAllowedToChangeBasketForUserId(userId)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    @RequestMapping(value = "/api/basket/{userId}", method = RequestMethod.DELETE)
+    public Response deleteFromBasketByUserId(@PathVariable long userId) {
+        if (isAllowedToChangeBasketForUserId(userId)) {
+            return basketsService.deleteFromBasketByUserId(userId);
+        } else {
+            return new Response(false, "A felhasználó nem jogosult a törlésre.");
         }
-        basketsService.deleteFromBasketByUserId(userId);
-        return ResponseEntity.ok("Successfully emptied basket.");
-
     }
 
-    @RequestMapping(value= "/api/basket/{userId}/{productId}",method = RequestMethod.DELETE)
-    public ResponseEntity<String> deleteFromBasketByProductIdAndUserId(@PathVariable long userId,@PathVariable long productId){
-        if (!isAllowedToChangeBasketForUserId(userId)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    @RequestMapping(value = "/api/basket/{userId}/{productId}", method = RequestMethod.DELETE)
+    public Response deleteFromBasketByProductIdAndUserId(@PathVariable long userId, @PathVariable long productId) {
+        if (isAllowedToChangeBasketForUserId(userId)) {
+            return basketsService.deleteFromBasketByProductIdAndUserId(userId, productId);
+        } else {
+            return new Response(false, "A felhasználó nem jogosult a törlésre.");
         }
-        basketsService.deleteFromBasketByProductIdAndUserId(userId,productId);
-        return ResponseEntity.ok("Successfully deleted from basket.");
     }
 
 
