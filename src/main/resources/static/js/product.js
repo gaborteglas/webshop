@@ -1,37 +1,30 @@
 window.onload = function() {
     updateTable();
     showBasketButton();
-    let orderButton = document.getElementById("puttobasket");
+    let putIntoBasketButton = document.getElementById("puttobasket");
+    putIntoBasketButton.onclick = handlePutIntoBasket;
+
 }
 
-function handlePutIntoBasket(userId){
-    let productNameFromUrl = new URL(window.location).searchParams.get("address");
-    let productToFetch = "api/products/" + productNameFromUrl;
-    let userName = document.querySelector("#username").innerHTML;
+function handlePutIntoBasket(){
     let productId = document.querySelector("#productId").innerHTML;
-    let productName = document.querySelector("#product-name")
-    let basket = {"userId" : userId,
-                  "productId" : productId};
 
-    fetch("api/basket", {
-        method: "POST",
-        headers: {
-                    "Content-Type": "application/json; charset=utf-8"
-                },
-        body: JSON.stringify(basket)
+    fetch("api/basket/" + productId, {
+        method: "POST"
     }).then(function(response) {
-        if (response.status === 409) {
-            alert("A termék már szerepel a kosárban.");
-        } else {
-            alert("Az alábbi hozzáadva a kosárhoz : " + productName.innerHTML );
-        }
+        return response.json()
+    }).then(function(jsonData) {
+        alert(jsonData.message);
     });
+    return false;
 }
 
 function updateTable() {
     let productNameFromUrl = new URL(window.location).searchParams.get("address");
     let productToFetch = "api/products/" + productNameFromUrl;
-    fetch(productToFetch).then(function(response) {
+    fetch(productToFetch, {
+        method: "GET"
+    }).then(function(response) {
          return response.json();
     }).then(function(jsonData) {
         fillTable(jsonData);
@@ -76,7 +69,7 @@ function showBasketButton() {
               })
               .then(function(jsonData) {
                   if (jsonData.role == "ROLE_USER") {
-                      switchBasketButton(jsonData.id);
+                      switchBasketButton();
                   }
                   if (jsonData.role == "ROLE_ADMIN") {
                       hideBasketButton();
@@ -85,11 +78,10 @@ function showBasketButton() {
               .catch(error => hideBasketButton());
 }
 
-function switchBasketButton(userId) {
+function switchBasketButton() {
     let button = document.getElementById("puttobasket");
     button.style.display = "block";
     button.setAttribute("style","display:block");
-    button.setAttribute("onclick","handlePutIntoBasket(" + userId + ")");
 }
 
 function hideBasketButton() {
