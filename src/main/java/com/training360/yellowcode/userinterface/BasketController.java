@@ -25,7 +25,7 @@ public class BasketController {
     }
 
     @RequestMapping(value = "/api/basket", method = RequestMethod.GET)
-    public List<Basket> listProducts() {
+    public List<Product> listProducts() {
         User user = getAuthenticatedUserId();
         if (user != null) {
             return basketsService.listProducts(user.getId());

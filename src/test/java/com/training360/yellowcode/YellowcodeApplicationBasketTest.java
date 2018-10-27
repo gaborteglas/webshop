@@ -65,7 +65,7 @@ public class YellowcodeApplicationBasketTest {
     @Test
     @WithMockUser(username = "admin1", roles = "ADMIN")
     public void testListBasketProductsWithEmpty() {
-        List<Basket> basketItems = basketController.listProducts();
+        List<Product> basketItems = basketController.listProducts();
         assertEquals(basketItems.size(), 0);
     }
 
@@ -74,7 +74,7 @@ public class YellowcodeApplicationBasketTest {
     public void testAddToBasketThenListBasketProducts() {
         basketController.addToBasket(4);
 
-        List<Basket> basketItems = basketController.listProducts();
+        List<Product> basketItems = basketController.listProducts();
         assertEquals(basketItems.size(), 1);
     }
 
@@ -85,7 +85,7 @@ public class YellowcodeApplicationBasketTest {
         basketController.addToBasket(1);
         basketController.addToBasket(1);
 
-        List<Basket> basketItems = basketController.listProducts();
+        List<Product> basketItems = basketController.listProducts();
         assertEquals(basketItems.size(), 1);
     }
 
@@ -96,11 +96,11 @@ public class YellowcodeApplicationBasketTest {
         basketController.addToBasket(2);
 
 
-        List<Basket> basketItems1 = basketController.listProducts();
+        List<Product> basketItems1 = basketController.listProducts();
         assertEquals(basketItems1.size(), 2);
 
         basketController.deleteWholeBasket();
-        List<Basket> basketItems2 = basketController.listProducts();
+        List<Product> basketItems2 = basketController.listProducts();
         assertEquals(basketItems2.size(), 0);
 
     }
@@ -112,11 +112,11 @@ public class YellowcodeApplicationBasketTest {
         basketController.addToBasket(4);
         basketController.addToBasket(5);
 
-        List<Basket> basketItems1 = basketController.listProducts();
+        List<Product> basketItems1 = basketController.listProducts();
         assertEquals(basketItems1.size(), 3);
 
         basketController.deleteSingleProduct(4);
-        List<Basket> basketItems2 = basketController.listProducts();
+        List<Product> basketItems2 = basketController.listProducts();
         assertEquals(basketItems2.size(), 2);
 
     }

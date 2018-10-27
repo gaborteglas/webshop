@@ -2,6 +2,7 @@ package com.training360.yellowcode.businesslogic;
 
 import com.training360.yellowcode.database.BasketsDao;
 import com.training360.yellowcode.dbTables.Basket;
+import com.training360.yellowcode.dbTables.Product;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ public class BasketsService {
         this.basketsDao = basketsDao;
     }
 
-    public List<Basket> listProducts(long userId) {
+    public List<Product> listProducts(long userId) {
         return basketsDao.listProducts(userId);
     }
 

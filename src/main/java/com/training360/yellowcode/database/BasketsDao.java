@@ -1,6 +1,8 @@
 package com.training360.yellowcode.database;
 
 import com.training360.yellowcode.dbTables.Basket;
+import com.training360.yellowcode.dbTables.Product;
+import com.training360.yellowcode.dbTables.ProductStatusType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -17,6 +19,7 @@ public class BasketsDao {
     public BasketsDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
+
     public List<Basket> findBasketByByUserIdAndProductId(Basket basket) {
         return jdbcTemplate.query("select id, user_id, product_id from basket where user_id = ? and product_id = ?",
                 new BasketMapper(),
@@ -33,9 +36,18 @@ public class BasketsDao {
         });
     }
 
-    public List<Basket> listProducts(long userId) {
-        return jdbcTemplate.query("select id, user_id, product_id from basket where user_id = ?",
-                new BasketMapper(),
+    public List<Product> listProducts(long userId) {
+        return jdbcTemplate.query(
+                "select products.id, products.name, products.address, products.producer, products.price from products " +
+                        "inner join basket on products.id = basket.product_id " +
+                        "where basket.user_id = ? and products.status = 'ACTIVE'",
+                (ResultSet resultSet, int i) ->
+                        new Product(resultSet.getLong("products.id"),
+                                    resultSet.getString("products.name"),
+                                    resultSet.getString("products.address"),
+                                    resultSet.getString("products.producer"),
+                                    resultSet.getLong("products.price"),
+                                    ProductStatusType.ACTIVE),
                 userId);
     }
 
