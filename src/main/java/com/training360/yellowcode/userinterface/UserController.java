@@ -1,11 +1,10 @@
 package com.training360.yellowcode.userinterface;
 
+import com.training360.yellowcode.businesslogic.Response;
 import com.training360.yellowcode.businesslogic.UserService;
 import com.training360.yellowcode.database.DuplicateUserException;
 import com.training360.yellowcode.dbTables.User;
 import com.training360.yellowcode.dbTables.UserRole;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,18 +20,6 @@ public class UserController {
 
     public UserController(UserService userService) {
         this.userService = userService;
-    }
-
-    @RequestMapping(value = "/api/users", method = RequestMethod.POST)
-    public ResponseEntity<String> createUser(@RequestBody User user) {
-        try {
-            userService.createUser(user);
-            return ResponseEntity.ok("Successfully created.");
-        } catch (DuplicateUserException dpe) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        } catch (IllegalArgumentException iae) {
-            return ResponseEntity.status((HttpStatus.NOT_ACCEPTABLE)).build();
-        }
     }
 
     @RequestMapping("/api/user")
@@ -53,18 +40,31 @@ public class UserController {
         return userService.listUsers();
     }
 
+    @RequestMapping(value = "/api/users", method = RequestMethod.POST)
+    public Response createUser(@RequestBody User user) {
+        try {
+            userService.createUser(user);
+            return new Response(true, "Sikeres regisztráció.");
+        } catch (DuplicateUserException dpe) {
+            return new Response(false, "A megadott felhasználónév már foglalt.");
+        } catch (IllegalArgumentException iae) {
+            return new Response(false, "A megadott jelszó nem felel meg a feltételeknek.");
+        }
+    }
+
+    @RequestMapping(value = "/api/users/update", method = RequestMethod.POST)
+    public Response updateUser(@RequestBody User user) {
+        try {
+            userService.updateUser(user.getId(), user.getFullName(), user.getPassword());
+            return new Response(true, "Sikeresen frissítve.");
+        } catch (IllegalArgumentException iae) {
+            return new Response(false, "Érvénytelen név vagy jelszó.");
+        }
+    }
+
     @RequestMapping(value = "/api/users/{id}", method = RequestMethod.DELETE)
     public void deleteUser(@PathVariable long id) {
         userService.deleteUser(id);
     }
 
-    @RequestMapping(value = "/api/users/{id}", method = RequestMethod.POST)
-    public ResponseEntity<String> updateUser(@RequestBody User user, @PathVariable long id) {
-        try {
-            userService.updateUser(user.getId(), user.getFullName(), user.getPassword());
-            return ResponseEntity.ok("Successfully updated!");
-        } catch (IllegalArgumentException iae) {
-            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
-        }
-    }
 }

@@ -7,7 +7,8 @@ function updateTable() {
         })
         .then(function(jsonData) {
             fillTable(jsonData);
-            document.getElementById("submit-button").addEventListener("click", modifyUser)
+            let userForm = document.getElementById("user-form");
+            userForm.onsubmit = modifyUser;
         });
 }
 
@@ -70,7 +71,9 @@ function handleReset() {
 }
 
 function modifyUser() {
-
+    if (editedUser == null) {
+        return;
+    }
     let idInput = document.getElementById("id-input");
     let nameInput = document.getElementById("fullname-input");
     let passwordInput = document.getElementById("password-input");
@@ -79,33 +82,29 @@ function modifyUser() {
     let name = nameInput.value;
     let password = passwordInput.value;
 
-    if (name.length === 0 || password.length === 0) {
-            alert("A mezők kitöltése kötelező!");
-            return false;
-        }
-
     let user = {"id": id,
-                       "fullName": name,
-                       "password": password
-                      };
+               };
 
-    let url = "api/users";
-        url += "/" + id;
+    if (name.length != 0) {
+        user.fullName = name;
+    }
+    if (password.length != 0) {
+        user.password = password;
+    }
 
-
-    fetch(url, {
+    fetch("api/users/update", {
         method: "POST",
         headers: {
             "Content-Type": "application/json; charset=utf-8"
                 },
         body: JSON.stringify(user)
-    })
-        .then(function(response) {
-        alert("Módosítva");
+    }).then(function(response) {
+        return response.json()
+    }).then(function(response) {
+        alert(response.message);
         updateTable();
         handleReset();
-            }
-        );
+    });
         return false;
 }
 
@@ -121,4 +120,4 @@ function handleDeleteButtonOnClick() {
             updateTable();
         });
     }
-    }
+}

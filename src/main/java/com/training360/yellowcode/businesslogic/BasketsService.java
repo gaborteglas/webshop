@@ -1,14 +1,11 @@
 package com.training360.yellowcode.businesslogic;
 
 import com.training360.yellowcode.database.BasketsDao;
-import com.training360.yellowcode.database.ProductDao;
 import com.training360.yellowcode.dbTables.Basket;
-import com.training360.yellowcode.dbTables.Product;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
+import java.text.MessageFormat;
 import java.util.List;
 
 @Service
@@ -16,59 +13,41 @@ public class BasketsService {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(ProductService.class);
     private BasketsDao basketsDao;
-    private ProductDao productDao;
 
-    public BasketsService(BasketsDao basketsDao,ProductDao productDao) {
+    public BasketsService(BasketsDao basketsDao) {
         this.basketsDao = basketsDao;
-        this.productDao = productDao;
     }
 
-    public List<Basket> listProducts() {
-        return basketsDao.listProducts();
+    public List<Basket> listProducts(long userId) {
+        return basketsDao.listProducts(userId);
     }
 
-    public List<Basket> listBasketsByUserId(long id){
-        List<Basket> allBasket = new ArrayList<>(basketsDao.listProducts());
-        List<Basket> usersBasket = new ArrayList<>();
-        for(Basket basket:allBasket){
-            if(basket.getUserId()== id){
-                usersBasket.add(basket);
-            }
+    public List<Basket> findBasketByUserIdAndProductId(Basket basket) {
+        return basketsDao.findBasketByByUserIdAndProductId(basket);
+    }
+
+    public Response addToBasket(Basket basket) {
+        List<Basket> sameProductInUserBasket = findBasketByUserIdAndProductId(basket);
+        if (sameProductInUserBasket.size() == 0) {
+            basketsDao.addToBasket(basket);
+            LOGGER.info(MessageFormat.format("Product (id: {0}) added to basket of user (id: {1})",
+                    basket.getUserId(), basket.getProductId()));
+            return new Response(true, "Termék hozzáadva a kosárhoz.");
+        } else {
+            return new Response(false, "A termék már szerepel a kosárban.");
         }
-        return usersBasket;
     }
 
-    public List<Product> listProductsByUserId(long id){
-        List<Basket> allBasket = new ArrayList<>(basketsDao.listProducts());
-        List<Basket> usersBasket = new ArrayList<>();
-        for(Basket basket:allBasket){
-            if(basket.getUserId()== id){
-                usersBasket.add(basket);
-            }
-        }
-        System.out.println(usersBasket.toString());
-        List<Product> usersBasketProducts = new ArrayList<>();
-        List<Product> allProducts = new ArrayList<>(productDao.listProducts());
-        for(Basket basket:usersBasket){
-            for(Product product:allProducts){
-                if(basket.getProductId() == product.getId()){
-                    usersBasketProducts.add(product);
-                }
-            }
-        }
-        return usersBasketProducts;
-
-    }
-
-    public void addToBasket(Basket basket) {
-        basketsDao.addToBasket(basket);
-    }
-
-    public void deleteFromBasketByUserId(long userId) {
+    public Response deleteFromBasketByUserId(long userId) {
         basketsDao.deleteFromBasketByUserId(userId);
+        LOGGER.info(MessageFormat.format("Basket of (userId: {0}) user has been removed", userId));
+        return new Response(true, "Kosár ürítve.");
     }
 
-    public void deleteFromBasketByProductIdAndUserId(long userId, long productId) {
+    public Response deleteFromBasketByProductIdAndUserId(long userId, long productId) {
         basketsDao.deleteFromBasketByProductIdAndUserId(userId, productId);
+        LOGGER.info(MessageFormat.format("Product (productId: {0}) of user (userId: {1}) has been removed",
+                productId, userId));
+        return new Response(true, "A termék törölve lett a kosárból.");
     }
 }

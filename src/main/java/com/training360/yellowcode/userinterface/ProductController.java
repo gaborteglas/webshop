@@ -1,10 +1,9 @@
 package com.training360.yellowcode.userinterface;
 
 import com.training360.yellowcode.businesslogic.ProductService;
+import com.training360.yellowcode.businesslogic.Response;
 import com.training360.yellowcode.database.DuplicateProductException;
 import com.training360.yellowcode.dbTables.Product;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,22 +29,26 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/api/products", method = RequestMethod.POST)
-    public ResponseEntity<String> createProduct(@RequestBody Product product) {
+    public Response createProduct(@RequestBody Product product) {
         try {
             productService.createProduct(product);
-            return ResponseEntity.ok("Successfully created.");
+            return new Response(true, "Hozzáadva.");
         } catch (DuplicateProductException dpe) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+            return new Response(false, "A megadott id vagy cím már foglalt.");
+        } catch (IllegalArgumentException iae) {
+            return new Response(false, "Az ár megadása kötelező, csak egész szám lehet és nem haladhatja meg a 2.000.000 Ft-ot.");
         }
     }
 
     @RequestMapping(value = "/api/products/{id}", method = RequestMethod.POST)
-    public ResponseEntity<String> updateProduct(@RequestBody Product product, @PathVariable long id) {
+    public Response updateProduct(@RequestBody Product product, @PathVariable long id) {
         try {
             productService.updateProduct(id, product);
-            return ResponseEntity.ok("Successfully created.");
+            return new Response(true, "Módosítva.");
         } catch (DuplicateProductException dpe) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+            return new Response(false, "A megadott id vagy cím már foglalt.");
+        } catch (IllegalArgumentException iae) {
+            return new Response(false, "Az ár megadása kötelező, csak egész szám lehet és nem haladhatja meg a 2.000.000 Ft-ot.");
         }
     }
 

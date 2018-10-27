@@ -1,5 +1,4 @@
 window.onload = function() {
-console.log("asd")
     updateTable();
     showBasketButton();
     let orderButton = document.getElementById("puttobasket");
