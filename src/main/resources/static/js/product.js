@@ -1,19 +1,17 @@
 window.onload = function() {
+console.log("asd")
     updateTable();
     showBasketButton();
-
-    let putIntoBasketButton = document.querySelector("#puttobasket");
-    putIntoBasketButton.addEventListener("click", handlePutIntoBasket);
+    let orderButton = document.getElementById("puttobasket");
 }
 
-function handlePutIntoBasket(){
+function handlePutIntoBasket(userId){
+    console.log("fos");
     let productNameFromUrl = new URL(window.location).searchParams.get("address");
     let productToFetch = "api/products/" + productNameFromUrl;
     let userName = document.querySelector("#username").innerHTML;
     let productId = document.querySelector("#productId").innerHTML;
     let productName = document.querySelector("#product-name")
-
-    let userId = document.querySelector("#id-hidden-input").innerText;
     let basket = {"userId" : userId,
                   "productId" : productId};
 
@@ -79,8 +77,10 @@ function showBasketButton() {
                   return response.json();
               })
               .then(function(jsonData) {
-                  if (jsonData.role == "ROLE_USER") {
-                      switchBasketButton();
+                    console.log(jsonData);
+                  if (jsonData.role == "ROLE_CUSTOMER") {
+                      console.log(jsonData);
+                      switchBasketButton(jsonData.id);
                   }
                   if (jsonData.role == "ROLE_ADMIN") {
                       hideBasketButton();
@@ -89,9 +89,12 @@ function showBasketButton() {
               .catch(error => hideBasketButton());
 }
 
-function switchBasketButton() {
-  let button = document.getElementById("puttobasket");
-  button.style.display = "block";
+function switchBasketButton(userId) {
+    console.log(userId);
+    let button = document.getElementById("puttobasket");
+    button.style.display = "block";
+    button.setAttribute("style","display:block");
+    button.setAttribute("onclick","handlePutIntoBasket(" + userId + ")");
 }
 
 function hideBasketButton() {

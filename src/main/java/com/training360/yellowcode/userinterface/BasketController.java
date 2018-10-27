@@ -4,6 +4,7 @@ import com.training360.yellowcode.businesslogic.BasketsService;
 import com.training360.yellowcode.businesslogic.UserService;
 import com.training360.yellowcode.database.DuplicateProductException;
 import com.training360.yellowcode.dbTables.Basket;
+import com.training360.yellowcode.dbTables.Product;
 import com.training360.yellowcode.dbTables.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,9 +25,16 @@ public class BasketController {
         this.userService = userService;
     }
 
+
+
     @RequestMapping(value = "/api/basket", method = RequestMethod.GET)
     public List<Basket> listProducts() {
         return basketsService.listProducts();
+    }
+
+    @RequestMapping(value = "/api/basket/{id}", method = RequestMethod.GET)
+    public List<Product> listProductsByUserId(@PathVariable long id){
+        return basketsService.listProductsByUserId(id);
     }
 
     @RequestMapping(value = "/api/basket", method = RequestMethod.POST)

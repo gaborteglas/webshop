@@ -1,5 +1,7 @@
 package com.training360.yellowcode.dbTables;
 
+import java.util.Objects;
+
 public class Basket {
 
     private long id;

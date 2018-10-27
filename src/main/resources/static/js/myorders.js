@@ -1,8 +1,8 @@
 window.onload = function() {
-    updateTable();
+    getUserId();
 }
 
-function updateTable() {
+function getUserId() {
     fetch("api/user")
         .then(function (response) {
             return response.json();
@@ -20,29 +20,10 @@ function fetchOrders(userData){
     })
     .then(function(orderData) {
         fillTable(orderData);
-        gatherOrderItemDatas(orderData);
     })
 }
 
-function gatherOrderItemDatas(orderData){
-    let userId = orderData[0].userId;
-    orderId = orderData[orderData.length-1].id;
-    orderItems = [];
-    fetch("api/basket")
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function(basketData) {
-            for(i in basketData){
-            if(basketData[i].userId == userId){
-                console.log(basketData[i].productId)
-                order = {"orderId" : orderId, "productId" : basketData[i].productId,"productPrice" : 1}
-                orderItems.push(order);
-                }
-            }
-            createOrderItems(orderItems);
-        })
-}
+
 
 function createOrderItems(orderItems){
     console.log(orderItems);
@@ -56,6 +37,7 @@ function createOrderItems(orderItems){
 }
 
 function fillTable(orderData){
+
     let tbody = document.querySelector("#orders-tbody");
     tbody.innerHTML = "";
         for(let i = 0; i < orderData.length; i++){
@@ -71,6 +53,10 @@ function fillTable(orderData){
             dateTd.innerHTML = new Date(orderData[i].date).toLocaleString();
             tr.appendChild(dateTd);
 
+            let statusTd = document.createElement("td");
+            statusTd.innerHTML = orderData[i].status
+            tr.appendChild(statusTd);
+
             var q = orderData[i].id
             tbody.appendChild(tr);
         }
@@ -79,13 +65,13 @@ function fillTable(orderData){
 
 function clickableRowsEventListener() {
   var clickableRows = document.querySelectorAll('.clickable-row');
-  console.log(clickableRows);
   for (var i = 0; i < clickableRows.length; i++) {
     clickableRows[i].addEventListener('click', function () {clickingOnRows(this);});
   }
 }
 
 function clickingOnRows(data){
+    console.log(data);
     orderId = data.innerText[0];
     window.location = "/myorderitem.html?address=" + orderId;
 }

@@ -29,9 +29,10 @@ public class YellowCodeApplicationOrderItemTest {
 
         @Before
         public void init() {
-            orderItemController.addToOrderItems(new OrderItem(1, 1, 3, 600));
-            orderItemController.addToOrderItems(new OrderItem(2, 1, 6, 500));
-            orderItemController.addToOrderItems(new OrderItem(3, 2, 9, 400));
+            orderItemController.addToOrderItems(new OrderItem(1,2,3,"az-50-elso-trainer-osztaly"));
+            orderItemController.addToOrderItems(new OrderItem(1, 1, 3,"az-50-elso-trainer-osztaly"));
+            orderItemController.addToOrderItems(new OrderItem(2, 1, 6,"a-java-ura-a-classok-szovetsege"));
+            orderItemController.addToOrderItems(new OrderItem(3, 2, 9,"nemzeti-java"));
         }
 
         @Test
@@ -43,7 +44,7 @@ public class YellowCodeApplicationOrderItemTest {
 
         @Test
         public void testAddOrderItems() {
-            orderItemController.addToOrderItems(new OrderItem(4, 2, 11, 100));
+            orderItemController.addToOrderItems(new OrderItem(4, 2, 11,"egy-kis-stackoverflow"));
             List<OrderItem> orderItems = orderItemController.listOrders(2);
 
             assertEquals(orderItems.size(), 2);
@@ -52,8 +53,8 @@ public class YellowCodeApplicationOrderItemTest {
         @Test
     public void testAddMultipleOrderItem() {
             List<OrderItem> orderItemsToAdd = new ArrayList<>();
-            orderItemsToAdd.add(new OrderItem(5, 1, 5, 200));
-            orderItemsToAdd.add(new OrderItem(6, 1, 8, 140));
+            orderItemsToAdd.add(new OrderItem(5, 1, 5,"junior-most-es-mindorokke"));
+            orderItemsToAdd.add(new OrderItem(6, 1, 8,"junioroskert"));
 
             orderItemController.addMultipleOrderItems(orderItemsToAdd);
             List<OrderItem> orderItems = orderItemController.listOrders(1);
