@@ -61,7 +61,7 @@ public class ProductDao {
             String name = resultSet.getString("name");
             String address = resultSet.getString("address");
             String producer = resultSet.getString("producer");
-            Long currentPrice = resultSet.getLong("price");
+            long currentPrice = resultSet.getLong("price");
             ProductStatusType status = ProductStatusType.valueOf(resultSet.getString("status"));
             return new Product(id, name, address, producer, currentPrice, status);
         }
