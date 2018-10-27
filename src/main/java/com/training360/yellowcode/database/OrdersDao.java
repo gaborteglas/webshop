@@ -34,15 +34,16 @@ public class OrdersDao {
     public List<OrderItem> listOrderItems(long userId, long orderId) {
         return jdbcTemplate.query(
                 "select orderitem.id, orderitem.order_id, orderitem.product_id, " +
-                        "orderitem.product_price, product.name from orderitem " +
-                        "join order on orderitem.order_id = order.id " +
-                        "join product on orderitem.product_id = product.id " +
-                        "where order.id = ? and order.user_id = ?",
+                        "orderitem.product_price, products.name, products.producer from orderitem " +
+                        "join orders on orderitem.order_id = orders.id " +
+                        "join products on orderitem.product_id = products.id " +
+                        "where orders.id = ? and orders.user_id = ?",
                 (ResultSet resultSet, int i) -> new OrderItem(
                         resultSet.getLong("orderitem.id"),
                         resultSet.getLong("orderitem.order_id"),
                         resultSet.getLong("orderitem.product_id"),
-                        resultSet.getString("product.name"),
+                        resultSet.getString("products.name"),
+                        resultSet.getString("products.producer"),
                         resultSet.getLong("orderitem.product_price")),
                 orderId, userId);
     }

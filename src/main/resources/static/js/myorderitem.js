@@ -1,19 +1,10 @@
 window.onload = function() {
-   getUserId();
+   updateTable();
 }
 
-function getUserId() {
-    fetch("api/user")
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function(jsonData) {
-            updateTable(jsonData);
-        });
-}
 
-function updateTable(userStuff){
-    let orderId = new URL(window.location).searchParams.get("address");
+function updateTable(){
+    let orderId = new URL(window.location).searchParams.get("order_id");
     fetch("/api/myorderitems/" + orderId)
     .then(function (response) {
         return response.json();
@@ -23,29 +14,27 @@ function updateTable(userStuff){
     })
 }
 
-function fillTable(jsonData){
+function fillTable(orderItems){
     let tbody = document.querySelector("#product-tbody")
-    for(i in jsonData){
-        let price = jsonData[i].productPrice;
-        fetch("/api/products/" + jsonData[i].productAddress)
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function(producData,jsonData) {
-            let tr = document.createElement("tr");
-            let nameTd = document.createElement("td");
-            nameTd.innerHTML = producData.name;
-            tr.appendChild(nameTd);
-                    let idTd = document.createElement("td");
-                    idTd.innerHTML = producData.id;
-                    tr.appendChild(idTd);
-                                let producerTd = document.createElement("td");
-                                producerTd.innerHTML = producData.producer;
-                                tr.appendChild(producerTd);
-                                            let currentPriceTd = document.createElement("td");
-                                            currentPriceTd.innerHTML = price + " Ft";
-                                            tr.appendChild(currentPriceTd);
-            tbody.appendChild(tr);
-        })
+    for(i in orderItems){
+        let tr = document.createElement("tr");
+
+        let idTd = document.createElement("td");
+        idTd.innerHTML = orderItems[i].productId;
+        tr.appendChild(idTd);
+
+        let producerTd = document.createElement("td");
+        producerTd.innerHTML = orderItems[i].producer;
+        tr.appendChild(producerTd);
+
+        let nameTd = document.createElement("td");
+        nameTd.innerHTML = orderItems[i].productName;
+        tr.appendChild(nameTd);
+
+        let currentPriceTd = document.createElement("td");
+        currentPriceTd.innerHTML = orderItems[i].productPrice + " Ft";
+        tr.appendChild(currentPriceTd);
+
+        tbody.appendChild(tr);
     }
-  }
+}

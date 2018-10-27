@@ -1,20 +1,9 @@
 window.onload = function() {
-    getUserId();
+    fetchOrders();
 }
 
-function getUserId() {
-    fetch("api/user")
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function(jsonData) {
-            fetchOrders(jsonData);
-        });
-}
-
-function fetchOrders(userData){
-    let userId = userData.id;
-    fetch("api/myorders/" + userId)
+function fetchOrders(){
+    fetch("api/myorders")
     .then(function (response) {
         return response.json();
     })
@@ -23,25 +12,14 @@ function fetchOrders(userData){
     })
 }
 
-
-
-function createOrderItems(orderItems){
-    console.log(orderItems);
-    fetch("api/myorderitems2", {
-        method: "POST",
-        headers: {
-                    "Content-Type": "application/json; charset=utf-8"
-                },
-        body: JSON.stringify(orderItems)
-        })
-}
-
 function fillTable(orderData){
 
     let tbody = document.querySelector("#orders-tbody");
     tbody.innerHTML = "";
         for(let i = 0; i < orderData.length; i++){
             let tr = document.createElement("tr");
+            tr.onclick = clickingOnRows;
+            tr.setAttribute("id", orderData[i].id);
             tr.className = "clickable-row";
             tr["raw-data"] = orderData[i];
 
@@ -57,21 +35,11 @@ function fillTable(orderData){
             statusTd.innerHTML = orderData[i].status
             tr.appendChild(statusTd);
 
-            var q = orderData[i].id
             tbody.appendChild(tr);
         }
-    clickableRowsEventListener();
-}
-
-function clickableRowsEventListener() {
-  var clickableRows = document.querySelectorAll('.clickable-row');
-  for (var i = 0; i < clickableRows.length; i++) {
-    clickableRows[i].addEventListener('click', function () {clickingOnRows(this);});
-  }
 }
 
 function clickingOnRows(data){
-    console.log(data);
-    orderId = data.innerText[0];
-    window.location = "/myorderitem.html?address=" + orderId;
+    let orderId = this.getAttribute("id");
+    window.location = "/myorderitem.html?order_id=" + orderId;
 }

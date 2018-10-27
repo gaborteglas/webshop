@@ -1,4 +1,4 @@
-package com.training360.yellowcode;
+/* package com.training360.yellowcode;
 
 import com.training360.yellowcode.dbTables.Orders;
 import com.training360.yellowcode.userinterface.OrdersController;
@@ -60,3 +60,4 @@ public class YellowCodeApplicationOrdersTest {
     }
 
 }
+*/

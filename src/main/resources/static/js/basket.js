@@ -46,6 +46,9 @@ function fillTable(products){
     }
     let sumParagraph = document.querySelector("#sumofproducts");
     sumParagraph.innerHTML = "A kosár tartalmának ára összesen : " + totalPrice + " Ft";
+
+    orderButton = document.querySelector("#order-button");
+    orderButton.disabled = products.length === 0;
 }
 
 function clickingOnResetProductButtons(clickEvent){
@@ -70,71 +73,12 @@ function handleResetButton(){
     }
 }
 
-
-
-
-
-
-
-function handleOrderButton(basketData,userId) {
+function handleOrderButton() {
     if(confirm("Megrendeli a termékeket?")){
-        fetch("/api/myorders/" + userId, {
-                method: "POST"
+        fetch("/api/myorders", {
+            method: "POST"
+        }).then(function(response) {
+            window.location = "/myorders.html"
         });
-        setTimeout(function(){ createOrderItems(basketData,userId); }, 1000);
-    } else {
-     location.reload();
     }
 }
-
-function createOrderItems(basketData,userId){
-    fetch("api/myorders/" + userId)
-    .then(function (response) {
-        return response.json();
-    })
-    .then(function(orderData) {
-        console.log(orderData);
-        gatherOrderItemDatas(orderData,basketData,userId);
-    })
-}
-
-function gatherOrderItemDatas(orderData,basketData,userId){
-    orderItemsList = [];
-    console.log(basketData);
-    orderId = orderData[orderData.length-1].id;
-    for(i in basketData){
-        order = {"orderId" : orderId,"productId" : basketData[i].id,"productAddress" : basketData[i].address, "productPrice" : basketData[i].currentPrice}
-        orderItemsList.push(order);
-    }
-    fetch("api/myorderitems2", {
-        method: "POST",
-        headers: {
-                    "Content-Type": "application/json; charset=utf-8"
-                },
-        body: JSON.stringify(orderItemsList)
-    });
-    setTimeout(function(){ deleteBasketAfterOrder(userId); }, 1000);
-}
-
-function deleteBasketAfterOrder(userId){
-    console.log("ja");
-    console.log(userId);
-    let url = "api/basket/" + userId;
-    fetch(url, {
-        method: "DELETE"
-    })
-    setTimeout(function(){ window.location="http://localhost:8080/myorders.html"; }, 1000);
-}
-
-function isOrderButtonAvailable(){
-    let tbody = document.querySelector("#basket-tbody");
-    orderButton = document.querySelector("#order-button");
-    if (tbody.childElementCount === 0){
-        orderButton.disabled = true;
-    }
-}
-
-
-
-
-
