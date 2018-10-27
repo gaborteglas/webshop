@@ -22,20 +22,28 @@ public class BasketsDao {
     public BasketsDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
-    public List<Basket> findBasketByByUserIdAndProductId(Basket basket) {
-        return jdbcTemplate.query("select id, user_id, product_id from basket where user_id = ? and product_id = ?",
-                        new BasketMapper(),
-                        basket.getUserId(),
-                        basket.getProductId());
-    }
 
     public void addToBasket(Basket basket) {
-            jdbcTemplate.update(connection -> {
-                PreparedStatement ps = connection.prepareStatement("insert into basket(user_id,product_id) values(?,?)");
-                ps.setLong(1, basket.getUserId());
-                ps.setLong(2, basket.getProductId());
-                return ps;
+        List<Basket> basketProducts =
+                jdbcTemplate.query("select id, user_id, product_id from basket where user_id = ? and product_id = ?",
+                new BasketMapper(),
+                basket.getUserId(),
+                basket.getProductId());
+        if (basketProducts.size() == 0) {
+            jdbcTemplate.update(new PreparedStatementCreator() {
+                @Override
+                public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+                    PreparedStatement ps = connection.prepareStatement("insert into basket(user_id,product_id) values(?,?)");
+                    ps.setLong(1, basket.getUserId());
+                    ps.setLong(2, basket.getProductId());
+                    BasketsService.LOGGER.info(MessageFormat.format("Product (id: {0}) added to basket of user (id: {1})",
+                            basket.getUserId(), basket.getProductId()));
+                    return ps;
+                }
             });
+        } else {
+            throw new DuplicateProductException("The basket already contains a product with this id.");
+        }
     }
 
     public List<Basket> listProducts() {
@@ -56,9 +64,12 @@ public class BasketsDao {
 
     public void deleteFromBasketByUserId(long userId) {
         jdbcTemplate.update("delete from basket where user_id = ?", userId);
+        BasketsService.LOGGER.info(MessageFormat.format("Basket of (userId: {0}) user has been removed", userId));
     }
 
     public void deleteFromBasketByProductIdAndUserId(long userId, long productId) {
         jdbcTemplate.update("delete from basket where user_id = ? AND product_id = ?", userId, productId);
+        BasketsService.LOGGER.info(MessageFormat.format("Product (productId: {0}) of user (userId: {1})"
+                + "has been removed", productId, userId));
     }
 }
