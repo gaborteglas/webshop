@@ -104,7 +104,7 @@ function handleOrderButton(basketData,userId){
                             "Content-Type": "application/json; charset=utf-8"
                         }
         });
-        setTimeout(function(){ createOrderItems(basketData,userId); }, 1000);
+        setTimeout(function(){ createOrderItems(basketData,userId); }, 2000);
         } else {
          location.reload();
         }
@@ -135,6 +135,19 @@ function gatherOrderItemDatas(orderData,basketData,userId){
                 body: JSON.stringify(orderItemsList)
                 });
     }
+    setTimeout(function(){ deleteBasketAfterOrder(userId); }, 2000);
+}
+
+function deleteBasketAfterOrder(userId){
+    console.log("ja");
+    console.log(userId);
+    let url = "api/basket/" + userId;
+    fetch(url, {
+                        method: "DELETE",
+                        headers: {
+                                    "Content-Type": "application/json; charset=utf-8"
+                                }
+                    });
 }
 
 

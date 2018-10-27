@@ -1,4 +1,5 @@
 window.onload = function() {
+    console.log("1");
    getUserId();
 }
 
@@ -13,6 +14,7 @@ function getUserId() {
 }
 
 function updateTable(userStuff){
+    console.log("2");
     let orderId = new URL(window.location).searchParams.get("address");
     console.log(orderId);
     console.log(userStuff);
@@ -22,18 +24,26 @@ function updateTable(userStuff){
     })
     .then(function(jsonData) {
         fillTable(jsonData)
+        console.log(jsonData);
     })
 }
 
 function fillTable(jsonData){
+    console.log("3");
     let tbody = document.querySelector("#product-tbody")
+    console.log(tbody);
+    console.log(jsonData);
     for(i in jsonData){
         let price = jsonData[i].productPrice;
+        console.log("3.5")
+        console.log(jsonData[i].productAddress)
         fetch("/api/products/" + jsonData[i].productAddress)
         .then(function (response) {
+            console.log("4")
             return response.json();
         })
         .then(function(producData,jsonData) {
+            console.log("5")
             let tr = document.createElement("tr");
             let nameTd = document.createElement("td");
             nameTd.innerHTML = producData.name;
@@ -47,6 +57,7 @@ function fillTable(jsonData){
                                             let currentPriceTd = document.createElement("td");
                                             currentPriceTd.innerHTML = price + " Ft";
                                             tr.appendChild(currentPriceTd);
+                                            console.log("6");
 
             tbody.appendChild(tr);
 
