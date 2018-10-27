@@ -1,7 +1,6 @@
 package com.training360.yellowcode;
 
 import com.training360.yellowcode.dbTables.OrderItem;
-import com.training360.yellowcode.userinterface.OrderItemController;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

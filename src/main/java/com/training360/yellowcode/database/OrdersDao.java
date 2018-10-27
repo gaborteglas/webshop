@@ -1,11 +1,12 @@
 package com.training360.yellowcode.database;
 
 import com.training360.yellowcode.businesslogic.OrdersService;
-import com.training360.yellowcode.dbTables.OrderStatus;
-import com.training360.yellowcode.dbTables.Orders;
+import com.training360.yellowcode.dbTables.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -24,38 +25,46 @@ public class OrdersDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<Orders> listOrders() {
-        return sortOrdersByDate(
-                jdbcTemplate.query("select id, user_id, date, status from orders",
-                        new OrderMapper()
-                ));
-    }
-
-    public List<Orders> listActiveOrdersForUser(long userId) {
-        return sortOrdersByDate(jdbcTemplate.query("select id, user_id, date, status from orders where user_id = ? and status = 'ACTIVE'",
+    public List<Orders> listOrders(long userId) {
+        return jdbcTemplate.query("select id, user_id, date, status from orders where user_id = ?",
                 new OrderMapper(),
-                userId
-        ));
+                userId);
     }
 
-    private List<Orders> sortOrdersByDate(List<Orders> orders) {
-        return orders.stream()
-                .sorted(Comparator.comparing(Orders::getDate))
-                .collect(Collectors.toList());
+    public List<OrderItem> listOrderItems(long userId, long orderId) {
+        return jdbcTemplate.query(
+                "select orderitem.id, orderitem.order_id, orderitem.product_id, " +
+                        "orderitem.product_price, product.name from orderitem " +
+                        "join order on orderitem.order_id = order.id " +
+                        "join product on orderitem.product_id = product.id " +
+                        "where order.id = ? and order.user_id = ?",
+                (ResultSet resultSet, int i) -> new OrderItem(
+                        resultSet.getLong("orderitem.id"),
+                        resultSet.getLong("orderitem.order_id"),
+                        resultSet.getLong("orderitem.product_id"),
+                        resultSet.getString("product.name"),
+                        resultSet.getLong("orderitem.product_price")),
+                orderId, userId);
     }
 
-    public void createOrders(long userId) {
+    public void createOrderAndOrderItems(long userId) {
+        KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(
-                    "insert into orders(user_id, date, status) values(?, ?, 'ACTIVE')"
-            );
+                    "insert into orders(user_id, date, status) values(?, ?, 'ACTIVE')",
+                    Statement.RETURN_GENERATED_KEYS);
             ps.setLong(1, userId);
             ps.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
             return ps;
-        });
-        OrdersService.LOGGER.info(MessageFormat.format("Order created(user_id: {0}, date: {1}, status: {2})",
-                userId, LocalDateTime.now(), "ACTIVE")
-        );
+        }, keyHolder);
+        long orderId = keyHolder.getKey().longValue();
+
+        jdbcTemplate.update("insert into orderitem (order_id, product_id, product_price) " +
+                "select ?, products.id, products.price from products " +
+                "inner join basket on products.id = basket.product_id " +
+                "where basket.user_id = ?", orderId, userId);
+
+        jdbcTemplate.update("delete from basket where user_id = ?", userId);
     }
 
     private static class OrderMapper implements RowMapper<Orders> {
