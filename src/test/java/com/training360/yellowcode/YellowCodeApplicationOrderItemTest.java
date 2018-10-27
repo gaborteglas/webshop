@@ -47,7 +47,7 @@ public class YellowCodeApplicationOrderItemTest {
             orderItemController.addToOrderItems(new OrderItem(4, 2, 11,"egy-kis-stackoverflow",3999));
             List<OrderItem> orderItems = orderItemController.listOrders(2);
 
-            assertEquals(orderItems.size(), 2);
+            assertEquals(orderItems.size(), 3);
         }
 
         @Test
