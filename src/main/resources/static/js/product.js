@@ -75,7 +75,7 @@ function showBasketButton() {
                   return response.json();
               })
               .then(function(jsonData) {
-                  if (jsonData.role == "ROLE_CUSTOMER") {
+                  if (jsonData.role == "ROLE_USER") {
                       switchBasketButton(jsonData.id);
                   }
                   if (jsonData.role == "ROLE_ADMIN") {
