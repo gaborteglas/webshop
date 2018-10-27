@@ -11,7 +11,7 @@ public class ProductAddressGenerator {
         if (product.getAddress() == null) {
             address = product.getName().trim().replaceAll(" ", "-").replaceAll(":", "").toLowerCase();
         } else {
-            address = product.getAddress();
+            address = product.getAddress().trim().replaceAll(" ", "-").replaceAll(":", "").toLowerCase();
         }
         return Normalizer.normalize(address, Normalizer.Form.NFD)
                 .replaceAll("[^\\p{ASCII}]", "");
