@@ -1,5 +1,7 @@
 window.onload = function() {
    getUserId();
+   setTimeout(function(){ isOrderButtonAvailable(); }, 100);
+
 };
 
 function getUserId(){
@@ -97,6 +99,8 @@ function handleResetButton(userId){
 }
 
 function handleOrderButton(basketData,userId){
+
+
     if(confirm("Megrendeli a termékeket?")){
         fetch("/api/myorders/" + userId, {
                 method: "POST",
@@ -149,6 +153,16 @@ function deleteBasketAfterOrder(userId){
                                 }
                     });
     setTimeout(function(){ window.location="http://localhost:8080/myorders.html"; }, 1000);
+}
+
+function isOrderButtonAvailable(){
+    let tbody = document.querySelector("#basket-tbody");
+       orderButton = document.querySelector("#order-button");
+       if(tbody.childElementCount !== 0){
+       } else {
+            orderButton.disabled = true;
+       }
+
 }
 
 

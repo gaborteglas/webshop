@@ -6,7 +6,6 @@ console.log("asd")
 }
 
 function handlePutIntoBasket(userId){
-    console.log("fos");
     let productNameFromUrl = new URL(window.location).searchParams.get("address");
     let productToFetch = "api/products/" + productNameFromUrl;
     let userName = document.querySelector("#username").innerHTML;
@@ -77,9 +76,7 @@ function showBasketButton() {
                   return response.json();
               })
               .then(function(jsonData) {
-                    console.log(jsonData);
                   if (jsonData.role == "ROLE_CUSTOMER") {
-                      console.log(jsonData);
                       switchBasketButton(jsonData.id);
                   }
                   if (jsonData.role == "ROLE_ADMIN") {
@@ -90,7 +87,6 @@ function showBasketButton() {
 }
 
 function switchBasketButton(userId) {
-    console.log(userId);
     let button = document.getElementById("puttobasket");
     button.style.display = "block";
     button.setAttribute("style","display:block");
