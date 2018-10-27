@@ -104,7 +104,7 @@ function handleOrderButton(basketData,userId){
                             "Content-Type": "application/json; charset=utf-8"
                         }
         });
-        setTimeout(function(){ createOrderItems(basketData,userId); }, 2000);
+        setTimeout(function(){ createOrderItems(basketData,userId); }, 1000);
         } else {
          location.reload();
         }
@@ -135,7 +135,7 @@ function gatherOrderItemDatas(orderData,basketData,userId){
                 body: JSON.stringify(orderItemsList)
                 });
     }
-    setTimeout(function(){ deleteBasketAfterOrder(userId); }, 2000);
+    setTimeout(function(){ deleteBasketAfterOrder(userId); }, 1000);
 }
 
 function deleteBasketAfterOrder(userId){
@@ -148,6 +148,7 @@ function deleteBasketAfterOrder(userId){
                                     "Content-Type": "application/json; charset=utf-8"
                                 }
                     });
+    setTimeout(function(){ window.location="http://localhost:8080/myorders.html"; }, 1000);
 }
 
 
