@@ -121,9 +121,10 @@ function createOrderItems(basketData,userId){
 
 function gatherOrderItemDatas(orderData,basketData,userId){
     orderItemsList = [];
+    console.log(basketData);
     orderId = orderData[orderData.length-1].id;
     for(i in basketData){
-        order = {"orderId" : orderId,"productId" : basketData[i].id,"productAddress" : basketData[i].address}
+        order = {"orderId" : orderId,"productId" : basketData[i].id,"productAddress" : basketData[i].address, "productPrice" : basketData[i].currentPrice}
         orderItemsList.push(order);
     }
     fetch("api/myorderitems2", {

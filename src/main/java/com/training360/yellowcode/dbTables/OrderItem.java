@@ -8,18 +8,21 @@ public class OrderItem {
     private long orderId;
     private long productId;
     private String productAddress;
+    private long productPrice;
 
-    public OrderItem(long id, long orderId, long productId,String productAddress) {
+    public OrderItem(long id, long orderId, long productId,String productAddress,long productPrice) {
         this.id = id;
         this.orderId = orderId;
         this.productId = productId;
         this.productAddress = productAddress;
+        this.productPrice = productPrice;
     }
 
-    public OrderItem(long orderId, long productId,String productAddress) {
+    public OrderItem(long orderId, long productId,String productAddress,long productPrice) {
         this.orderId = orderId;
         this.productId = productId;
         this.productAddress = productAddress;
+        this.productPrice = productPrice;
     }
 
     public OrderItem() {
@@ -56,5 +59,13 @@ public class OrderItem {
 
     public void setProductAddress(String productAddress) {
         this.productAddress = productAddress;
+    }
+
+    public long getProductPrice() {
+        return productPrice;
+    }
+
+    public void setProductPrice(long productPrice) {
+        this.productPrice = productPrice;
     }
 }
