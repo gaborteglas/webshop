@@ -27,13 +27,13 @@ function updateTable(userStuff){
 
 function fillTable(jsonData){
     let tbody = document.querySelector("#product-tbody")
-    console.log(jsonData);
     for(i in jsonData){
+        let price = jsonData[i].productPrice;
         fetch("/api/products/" + jsonData[i].productAddress)
         .then(function (response) {
             return response.json();
         })
-        .then(function(producData) {
+        .then(function(producData,jsonData) {
             let tr = document.createElement("tr");
             let nameTd = document.createElement("td");
             nameTd.innerHTML = producData.name;
@@ -45,7 +45,7 @@ function fillTable(jsonData){
                                 producerTd.innerHTML = producData.producer;
                                 tr.appendChild(producerTd);
                                             let currentPriceTd = document.createElement("td");
-                                            currentPriceTd.innerHTML = producData.currentPrice + " Ft";
+                                            currentPriceTd.innerHTML = price + " Ft";
                                             tr.appendChild(currentPriceTd);
 
             tbody.appendChild(tr);
