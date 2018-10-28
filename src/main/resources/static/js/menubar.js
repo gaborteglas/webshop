@@ -44,6 +44,8 @@ function showForUser() {
  menuToHide10.style.display = "none"
  let menuToShow8 = document.getElementById("to-hide-logout");
  menuToShow8.style.display = "block";
+ let menuToHideOrdersForUser = document.getElementById("to-hide-orders");
+ menuToHideOrdersForUser.style.display = "none";
 }
 
 function showForAdmin() {
@@ -60,7 +62,9 @@ menuToShow5.style.display = "block";
 let menuToShow9 = document.getElementById("to-hide-logout");
 menuToShow9.style.display = "block";
 let menuToHide21 = document.getElementById("to-hide-myorder");
-  menuToHide21.style.display = "none";
+menuToHide21.style.display = "none";
+let menuToHideOrdersForAdmin = document.getElementById("to-hide-orders");
+menuToHideOrdersForAdmin.style.display = "block"
 }
 
 function showForUnregistered() {
@@ -77,5 +81,7 @@ menuToHide13.style.display = "none";
 let menuToHide14 = document.getElementById("to-hide-logout");
 menuToHide14.style.display = "none";
 let menuToHide31 = document.getElementById("to-hide-myorder");
-  menuToHide31.style.display = "none";
+menuToHide31.style.display = "none";
+let menuToHideOrdersForUnreg = document.getElementById("to-hide-orders");
+menuToHideOrdersForUnreg.style.display = "none";
 }
