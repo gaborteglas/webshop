@@ -24,7 +24,7 @@ public class BasketsService {
     }
 
     public List<Basket> findBasketByUserIdAndProductId(Basket basket) {
-        return basketsDao.findBasketByByUserIdAndProductId(basket);
+        return basketsDao.findBasketByUserIdAndProductId(basket);
     }
 
     public Response addToBasket(Basket basket) {

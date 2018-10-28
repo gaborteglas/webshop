@@ -20,7 +20,7 @@ public class BasketsDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<Basket> findBasketByByUserIdAndProductId(Basket basket) {
+    public List<Basket> findBasketByUserIdAndProductId(Basket basket) {
         return jdbcTemplate.query("select id, user_id, product_id from basket where user_id = ? and product_id = ?",
                 new BasketMapper(),
                 basket.getUserId(),

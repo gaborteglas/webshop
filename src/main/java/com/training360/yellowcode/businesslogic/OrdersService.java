@@ -33,14 +33,22 @@ public class OrdersService {
         return sortOrdersByDate(ordersDao.listOrdersByUserId(userId));
     }
 
-    public List<OrderItem> listOrderItems (long userId, long orderId) {
+    public List<OrderItem> listOrderItems(long userId, long orderId) {
         return ordersDao.listOrderItems(userId, orderId);
     }
 
     public void createOrderAndOrderItems(long userId) {
         ordersDao.createOrderAndOrderItems(userId);
-        LOGGER.info(MessageFormat.format("Order created(user_id: {0}, date: {1}, status: {2})",
-                userId, LocalDateTime.now(), "ACTIVE"));
+        List<Orders> orders = listOrdersByUserId(userId);
+        List<OrderItem> orderItems = listOrderItems(userId, orders.get(orders.size() - 1).getId());
+        LOGGER.info(MessageFormat.format("Order created(id: {0}, userId: {1}, date: {2}, status: {3})",
+                orders.get(orders.size() - 1).getId(), userId, LocalDateTime.now(), "ACTIVE"));
+        for (OrderItem orderItem : orderItems) {
+            LOGGER.info(MessageFormat.format("OrderItem added to order(id: {0}, orderId: {1}, productId: {2}, " +
+                            "productName: {3}, producer: {4}, productPrice: {5})",
+                    orderItem.getId(), orderItem.getOrderId(), orderItem.getProductId(),
+                    orderItem.getProductName(), orderItem.getProducer(), orderItem.getProductPrice()));
+        }
     }
 
     private List<Orders> sortOrdersByDate(List<Orders> orders) {

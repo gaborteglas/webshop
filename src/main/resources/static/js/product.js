@@ -35,7 +35,7 @@ function fillTable(jsonData){
     let name = jsonData.name;
     let id = jsonData.id;
     let producer = jsonData.producer;
-    let currentPrice = jsonData.currentPrice + " Ft";
+    let currentPrice = jsonData.currentPrice;
     creatingHeaderForName(name);
     creatingTableRowForData(id,producer,currentPrice)
 }
