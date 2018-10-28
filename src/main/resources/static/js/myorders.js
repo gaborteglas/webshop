@@ -32,7 +32,13 @@ function fillTable(orderData){
             tr.appendChild(dateTd);
 
             let statusTd = document.createElement("td");
-            statusTd.innerHTML = orderData[i].status
+            if(orderData[i].status === "ACTIVE") {
+                statusTd.innerHTML = "aktív";
+            } else if (orderData[i].status === "DELIVERED") {
+                statusTd.innerHTML = "kiszállítva";
+            } else if (orderData[i].status === "DELETED") {
+                statusTd.innerHTML = "törölve";
+            }
             tr.appendChild(statusTd);
 
             tbody.appendChild(tr);
