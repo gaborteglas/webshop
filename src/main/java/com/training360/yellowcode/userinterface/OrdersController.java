@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @RestController
 public class OrdersController {
 
@@ -54,11 +55,15 @@ public class OrdersController {
     }
 
     @RequestMapping(value = "/api/myorders", method = RequestMethod.POST)
-    public Response createOrderAndOrderItems(){
+    public Response createOrderAndOrderItems() {
         User user = getAuthenticatedUserId();
         if (user != null) {
-            ordersService.createOrderAndOrderItems(user.getId());
-            return new Response (true, "Sikeres rendelés.");
+            try {
+                ordersService.createOrderAndOrderItems(user.getId());
+                return new Response(true, "Sikeres rendelés.");
+            } catch (IllegalStateException ise) {
+                return new Response(false, "A kosár üres");
+            }
         } else {
             return new Response(false, "A felhasználó nincs bejelentkezve.");
         }
