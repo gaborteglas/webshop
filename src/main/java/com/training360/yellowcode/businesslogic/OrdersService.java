@@ -61,7 +61,13 @@ public class OrdersService {
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteOrder(long orderId) {
         ordersDao.deleteOrder(orderId);
-        LOGGER.info(MessageFormat.format("Order (orderId:{0}) set to inactive", orderId));
+        LOGGER.info(MessageFormat.format("Order (orderId:{0}) set to deleted", orderId));
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    public void deleteOrderItem(long orderId, String productAddress) {
+        ordersDao.deleteOrderItem(orderId, productAddress);
+        LOGGER.info(MessageFormat.format("Orderitem removed from (orderId:{0}) order", orderId));
     }
 
     private List<Orders> sortOrdersByDate(List<Orders> orders) {
