@@ -1,1 +1,2 @@
+truncate orders;
 truncate orderitem;
