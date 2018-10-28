@@ -25,7 +25,12 @@ public class OrdersDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<Orders> listOrders(long userId) {
+    public List<Orders> listOrders() {
+        return jdbcTemplate.query("select id, user_id, date, status from orders",
+                new OrderMapper());
+    }
+
+    public List<Orders> listOrdersByUserId(long userId) {
         return jdbcTemplate.query("select id, user_id, date, status from orders where user_id = ?",
                 new OrderMapper(),
                 userId);

@@ -5,6 +5,7 @@ import com.training360.yellowcode.dbTables.OrderItem;
 import com.training360.yellowcode.dbTables.Orders;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
@@ -23,8 +24,13 @@ public class OrdersService {
         this.ordersDao = ordersDao;
     }
 
-    public List<Orders> listOrders(long userId) {
-        return sortOrdersByDate(ordersDao.listOrders(userId));
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<Orders> listOrders() {
+        return sortOrdersByDate(ordersDao.listOrders());
+    }
+
+    public List<Orders> listOrdersByUserId(long userId) {
+        return sortOrdersByDate(ordersDao.listOrdersByUserId(userId));
     }
 
     public List<OrderItem> listOrderItems (long userId, long orderId) {

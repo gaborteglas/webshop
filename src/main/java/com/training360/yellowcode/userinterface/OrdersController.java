@@ -28,11 +28,16 @@ public class OrdersController {
         this.userService = userService;
     }
 
-    @RequestMapping(value = "/api/myorders", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/orders", method = RequestMethod.GET)
     public List<Orders> listOrders() {
+        return ordersService.listOrders();
+    }
+
+    @RequestMapping(value = "/api/myorders", method = RequestMethod.GET)
+    public List<Orders> listOrdersByUserId() {
         User user = getAuthenticatedUserId();
         if (user != null) {
-            return ordersService.listOrders(user.getId());
+            return ordersService.listOrdersByUserId(user.getId());
         } else {
             return new ArrayList<>();
         }
