@@ -79,7 +79,7 @@ public class ProductService {
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteProduct(long id) {
         productDao.deleteProduct(id);
-        LOGGER.info(MessageFormat.format("Product with '{0}' id set to inactive", id));
+        LOGGER.info(MessageFormat.format("Product (productId:{0}) set to inactive", id));
 
     }
 

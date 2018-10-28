@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import java.text.MessageFormat;
 import java.util.Comparator;
 import java.util.List;
@@ -34,7 +35,7 @@ public class UserService {
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         long generatedId = userDao.createUser(user);
         LOGGER.info(MessageFormat.format(
-                "User added(id: {0}, login-name: {1}, full-name: {2}, password: {3}, role: {4})",
+                "User added(id: {0}, loginName: {1}, fullName: {2}, password: {3}, role: {4})",
                 generatedId,
                 user.getLoginName(), user.getFullName(), user.getPassword(), user.getRole()));
     }
@@ -47,21 +48,21 @@ public class UserService {
     @PreAuthorize("hasRole('ADMIN')")
     public void updateUser(long id, String name, String password) {
         if ((name != null && name.trim().length() == 0) || (password != null && password.trim().length() == 0)
-        || (!new PasswordValidator().passwordStrengthValidator(password))) {
+                || (!new PasswordValidator().passwordStrengthValidator(password))) {
             throw new IllegalArgumentException("Invalid name or password.");
         }
         if (password != null) {
             password = new BCryptPasswordEncoder().encode(password);
         }
         userDao.updateUser(id, name, password);
-        LOGGER.info("User modified to -> id: {0}, full_name: {1}, password: {2}",
-                id, name, password);
+        LOGGER.info(MessageFormat.format("User modified to -> id: {0}, fullName: {1}, password: {2}",
+                id, name, password));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteUser(long id) {
         userDao.deleteUser(id);
-        LOGGER.info("User removed with id - {0}", id);
+        LOGGER.info(MessageFormat.format("User (userId:{0}) removed", id));
     }
 
     public Optional<User> findUserByUserName(String userName) {

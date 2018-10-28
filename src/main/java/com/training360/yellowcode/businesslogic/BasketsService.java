@@ -31,7 +31,7 @@ public class BasketsService {
         List<Basket> sameProductInUserBasket = findBasketByUserIdAndProductId(basket);
         if (sameProductInUserBasket.size() == 0) {
             basketsDao.addToBasket(basket);
-            LOGGER.info(MessageFormat.format("Product (id: {0}) added to basket of user (id: {1})",
+            LOGGER.info(MessageFormat.format("Product (productId: {0}) added to basket of user (userId: {1})",
                     basket.getUserId(), basket.getProductId()));
             return new Response(true, "Termék hozzáadva a kosárhoz.");
         } else {
@@ -41,7 +41,7 @@ public class BasketsService {
 
     public Response deleteFromBasketByUserId(long userId) {
         basketsDao.deleteFromBasketByUserId(userId);
-        LOGGER.info(MessageFormat.format("Basket of (userId: {0}) user has been removed", userId));
+        LOGGER.info(MessageFormat.format("Basket of user (userId: {0}) has been removed", userId));
         return new Response(true, "Kosár ürítve.");
     }
 
