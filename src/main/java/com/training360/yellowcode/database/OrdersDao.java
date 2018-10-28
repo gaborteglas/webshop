@@ -2,6 +2,8 @@ package com.training360.yellowcode.database;
 
 import com.training360.yellowcode.businesslogic.OrdersService;
 import com.training360.yellowcode.dbTables.*;
+import org.springframework.core.annotation.Order;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
@@ -14,6 +16,7 @@ import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
@@ -26,12 +29,19 @@ public class OrdersDao {
     }
 
     public List<Orders> listOrders() {
-        return jdbcTemplate.query("select id, user_id, date, status from orders",
+        List <Orders> allOrders = jdbcTemplate.query("select id, user_id, date, status, quantity, price from orders",
+                new OrderMapper());
+
+        for (Orders o: allOrders) {
+            setOrderQuantityAndPrice(o.getId());
+        }
+
+        return jdbcTemplate.query("select id, user_id, date, status, quantity, price from orders",
                 new OrderMapper());
     }
 
     public List<Orders> listOrdersByUserId(long userId) {
-        return jdbcTemplate.query("select id, user_id, date, status from orders where user_id = ?",
+        return jdbcTemplate.query("select id, user_id, date, status, quantity, price from orders where user_id = ?",
                 new OrderMapper(),
                 userId);
     }
@@ -72,6 +82,8 @@ public class OrdersDao {
                 "where basket.user_id = ?", orderId, userId);
 
         jdbcTemplate.update("delete from basket where user_id = ?", userId);
+
+
     }
 
     public void deleteOrder(long orderId) {
@@ -85,6 +97,37 @@ public class OrdersDao {
                 "where orders.id = ? and products.address = ?)", orderId, productAddress);
     }
 
+    public long setOrderCount(Orders order) {
+        return listOrderItems(order.getUserId(), order.getId()).size();
+    }
+
+    public long setOrderPrice(Orders order) {
+        List<OrderItem> myOrder = listOrderItems(order.getUserId(), order.getId());
+        long totalPrice = 0;
+        for (OrderItem o: myOrder) {
+            totalPrice += o.getProductPrice();
+        }
+        return totalPrice;
+    }
+
+    public Orders findOrderById(long id) {
+        Orders found = jdbcTemplate.queryForObject("select id, user_id, date, status, quantity, price" +
+                        " from orders where id=?",
+                new OrderMapper(),
+                id);
+        return found;
+    }
+
+    public void setOrderQuantityAndPrice(long id) {
+        Orders newOrder = findOrderById(id);
+
+        long count = setOrderCount(newOrder);
+        long price = setOrderPrice(newOrder);
+
+        jdbcTemplate.update("update orders set quantity = ?, price = ? where id = ?",
+                count, price, id);
+    }
+
     private static class OrderMapper implements RowMapper<Orders> {
         @Override
         public Orders mapRow(ResultSet resultSet, int i) throws SQLException {
@@ -92,7 +135,9 @@ public class OrdersDao {
             long userId = resultSet.getLong("user_id");
             LocalDateTime localDateTime = resultSet.getTimestamp("date").toLocalDateTime();
             OrderStatus status = OrderStatus.valueOf(resultSet.getString("status"));
-            return new Orders(id, userId, localDateTime, status);
+            long quantity = resultSet.getLong("quantity");
+            long price = resultSet.getLong("price");
+            return new Orders(id, userId, localDateTime, status, quantity, price);
         }
     }
 }

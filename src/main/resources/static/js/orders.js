@@ -45,11 +45,11 @@ function fillTable(orders) {
         tr.appendChild(statusTd);
 
         let countTd = document.createElement("td");
-        countTd.innerHTML = "X db";
+        countTd.innerHTML = order.count + " db";
         tr.appendChild(countTd);
 
         let priceTd = document.createElement("td");
-        priceTd.innerHTML = "Y FT";
+        priceTd.innerHTML = order.price + " FT";
         tr.appendChild(priceTd);
 
         let buttonsTd = document.createElement("td");

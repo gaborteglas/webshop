@@ -8,12 +8,23 @@ public class Orders {
     private long userId;
     private LocalDateTime date;
     private OrderStatus status;
+    private long quantity;
+    private long price;
 
     public Orders(long id, long userId, LocalDateTime date, OrderStatus status) {
         this.id = id;
         this.userId = userId;
         this.date = date;
         this.status = status;
+    }
+
+    public Orders(long id, long userId, LocalDateTime date, OrderStatus status, long quantity, long price) {
+        this.id = id;
+        this.userId = userId;
+        this.date = date;
+        this.status = status;
+        this.quantity = quantity;
+        this.price = price;
     }
 
     public Orders(long userId) {
@@ -53,5 +64,21 @@ public class Orders {
 
     public void setStatus(OrderStatus status) {
         this.status = status;
+    }
+
+    public long getCount() {
+        return quantity;
+    }
+
+    public void setCount(long count) {
+        this.quantity = count;
+    }
+
+    public long getPrice() {
+        return price;
+    }
+
+    public void setPrice(long price) {
+        this.price = price;
     }
 }
