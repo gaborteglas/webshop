@@ -44,7 +44,7 @@ function fillTable(orderItems){
         tr.appendChild(quantityTd);
 
         let productPriceTd = document.createElement("td");
-        productPriceTd.innerHTML = orderitem.productPrice + " FT";
+        productPriceTd.innerHTML = orderitem.productPrice + " Ft";
         tr.appendChild(productPriceTd);
 
         let buttonsTd = document.createElement("td");
