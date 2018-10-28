@@ -21,8 +21,8 @@ public class OrdersDao {
 
     public List<Orders> listOrders() {
         return jdbcTemplate.query("select orders.id, orders.user_id, orders.date, orders.status, " +
-                        "count(*) as quantity, sum(orderitem.product_price) as price from orders " +
-                        "join orderitem on orders.id = orderitem.order_id " +
+                        "count(orderitem.id) as quantity, sum(orderitem.product_price) as price from orders " +
+                        "left join orderitem on orders.id = orderitem.order_id " +
                         "group by orders.id " +
                         "order by orders.date desc",
                 (ResultSet resultSet, int i) -> new Orders(
