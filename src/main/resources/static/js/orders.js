@@ -53,11 +53,11 @@ function fillTable(orders) {
         tr.appendChild(priceTd);
 
         let buttonsTd = document.createElement("td");
-        let editButton = document.createElement("button");
-        editButton.innerHTML = "Törlés";
-        editButton.setAttribute("class", "btn btn-danger");
-//        editButton.onclick = handleEditButtonOnClick;
-        buttonsTd.appendChild(editButton);
+        let deleteButton = document.createElement("button");
+        deleteButton.innerHTML = "Törlés";
+        deleteButton.setAttribute("class", "btn btn-danger");
+        deleteButton.onclick = deleteButtonClick;
+        buttonsTd.appendChild(deleteButton);
         tr.appendChild(buttonsTd);
 
         tr.onclick = function() {
@@ -65,6 +65,19 @@ function fillTable(orders) {
         };
 
         tbody.appendChild(tr);
-
     }
-}
+    }
+
+    function deleteButtonClick() {
+    var result = confirm("Biztosan törli a kijelölt rendelést?");
+    if (result) {
+            let order = this.parentElement.parentElement["raw-data"];
+
+            fetch("api/orders/" + order.id, {
+                method: "DELETE",
+            })
+            .then(function(response) {
+                updateTable();
+            });
+        }
+    }
