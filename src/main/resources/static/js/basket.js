@@ -47,8 +47,11 @@ function fillTable(products){
     let sumParagraph = document.querySelector("#totalPrice");
     sumParagraph.innerHTML = "A kosár tartalmának ára összesen : " + totalPrice + " Ft";
 
-    orderButton = document.querySelector("#order-button");
+    let orderButton = document.querySelector("#order-button");
     orderButton.disabled = products.length === 0;
+
+    let resetButton = document.querySelector("#reset-button");
+    resetButton.disabled = products.length === 0;
 }
 
 function clickingOnResetProductButtons(clickEvent){

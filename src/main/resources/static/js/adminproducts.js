@@ -41,7 +41,7 @@ function fillTable(products) {
         tr.appendChild(producerTd);
 
         let priceTd = document.createElement("td");
-        priceTd.innerHTML = product.currentPrice;
+        priceTd.innerHTML = product.currentPrice + " Ft";
         tr.appendChild(priceTd);
 
         let buttonsTd = document.createElement("td");

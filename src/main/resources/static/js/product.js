@@ -55,7 +55,7 @@ function creatingTableRowForData(id,producer,currentPrice){
     idTd.innerHTML = id;
     idTd.setAttribute("id","productId")
     producerTd.innerHTML = producer;
-    currentPriceTd.innerHTML = currentPrice;
+    currentPriceTd.innerHTML = currentPrice + " Ft";
     tr.appendChild(idTd);
     tr.appendChild(producerTd);
     tr.appendChild(currentPriceTd);
