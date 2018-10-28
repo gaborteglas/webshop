@@ -34,6 +34,11 @@ public class OrdersController {
         return ordersService.listOrders();
     }
 
+    @RequestMapping(value = "/api/orders/{orderId}", method = RequestMethod.GET)
+    public List<OrderItem> listOrderItemsForAdmin(@PathVariable long orderId) {
+        return ordersService.listOrderItemsForAdmin(orderId);
+    }
+
     @RequestMapping(value = "/api/myorders", method = RequestMethod.GET)
     public List<Orders> listOrdersByUserId() {
         User user = getAuthenticatedUserId();

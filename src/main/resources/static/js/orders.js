@@ -61,12 +61,12 @@ function fillTable(orders) {
         tr.appendChild(buttonsTd);
 
         tr.onclick = function() {
-            console.log(order.id)
+            window.location = "/orderitems.html?order-id=" + order.id;
         };
 
         tbody.appendChild(tr);
     }
-    }
+}
 
     function deleteButtonClick() {
     var result = confirm("Biztosan törli a kijelölt rendelést?");

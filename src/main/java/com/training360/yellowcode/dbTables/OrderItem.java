@@ -64,6 +64,14 @@ public class OrderItem {
         this.productName = productName;
     }
 
+    public String getProductAddress() {
+        return productAddress;
+    }
+
+    public void setProductAddress(String productAddress) {
+        this.productAddress = productAddress;
+    }
+
     public String getProducer() {
         return producer;
     }

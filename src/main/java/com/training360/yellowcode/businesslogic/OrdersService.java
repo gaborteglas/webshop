@@ -33,6 +33,11 @@ public class OrdersService {
         return ordersDao.listOrders();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<OrderItem> listOrderItemsForAdmin(long orderId) {
+        return ordersDao.listOrderItemsForAdmin(orderId);
+    }
+
     public List<Orders> listOrdersByUserId(long userId) {
         return ordersDao.listOrdersByUserId(userId);
     }

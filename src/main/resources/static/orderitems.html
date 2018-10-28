@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Rendelésem</title>
+    <title>Rendelés részletező</title>
     <link rel="stylesheet" href="css/bootstrap.min.css"/>
     <link rel="stylesheet" href="css/menubar.css"/>
 </head>
 <body>
 
-    <div class="container">
+<div class="container">
     <ul class="nav nav-pills nav-fill">
         <li class="nav-item nav-item-products" id="to-hide-allproducts">
             <a class="nav-link" href="/products.html">Termékek</a>
@@ -44,24 +44,25 @@
 
     </ul>
 
-    <h1>Rendelés adatai: </h1>
+    <h1 id="header">Rendelés részletei: </h1>
 
     <table class="table table-striped">
         <thead>
         <tr>
-            <th>Azonosító</th>
+            <th>Termék azonosító</th>
             <th>Szerző</th>
             <th>Cím</th>
-            <th>Ár</th>
+            <th>Termékek száma</th>
+            <th>Egységár</th>
         </tr>
         </thead>
-        <tbody id="product-tbody">
+        <tbody id="orderitem-tbody">
 
         </tbody>
     </table>
     <p id ="totalPrice"></p>
-    </div>
-    <script src="js/myorderitem.js"></script>
-    <script src="js/menubar.js"></script>
+</div>
+<script src="js/orderitem.js"></script>
+<script src="js/menubar.js"></script>
 </body>
 </html>
