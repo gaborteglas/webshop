@@ -46,6 +46,14 @@ function fillTable(orders) {
         priceTd.innerHTML = "Y FT";
         tr.appendChild(priceTd);
 
+        let buttonsTd = document.createElement("td");
+        let editButton = document.createElement("button");
+        editButton.innerHTML = "Törlés";
+        editButton.setAttribute("class", "btn btn-danger");
+//        editButton.onclick = handleEditButtonOnClick;
+        buttonsTd.appendChild(editButton);
+        tr.appendChild(buttonsTd);
+
         tr.onclick = function() {
             console.log(order.id)
         };
