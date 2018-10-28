@@ -31,7 +31,7 @@ function fillTable(orders) {
         tr.appendChild(userTd);
 
         let dateTd = document.createElement("td");
-        dateTd.innerHTML = order.date;
+        dateTd.innerHTML = new Date(order.date).toLocaleString();
         tr.appendChild(dateTd);
 
         let statusTd = document.createElement("td");
@@ -44,9 +44,9 @@ function fillTable(orders) {
         }
         tr.appendChild(statusTd);
 
-        let countTd = document.createElement("td");
-        countTd.innerHTML = order.count + " db";
-        tr.appendChild(countTd);
+        let quantityTd = document.createElement("td");
+        quantityTd.innerHTML = order.quantity + " db";
+        tr.appendChild(quantityTd);
 
         let priceTd = document.createElement("td");
         priceTd.innerHTML = order.price + " FT";

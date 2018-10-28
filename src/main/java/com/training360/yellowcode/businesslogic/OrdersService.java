@@ -30,11 +30,11 @@ public class OrdersService {
 
     @PreAuthorize("hasRole('ADMIN')")
     public List<Orders> listOrders() {
-        return sortOrdersByDate(ordersDao.listOrders());
+        return ordersDao.listOrders();
     }
 
     public List<Orders> listOrdersByUserId(long userId) {
-        return sortOrdersByDate(ordersDao.listOrdersByUserId(userId));
+        return ordersDao.listOrdersByUserId(userId);
     }
 
     public List<OrderItem> listOrderItems(long userId, long orderId) {
@@ -68,11 +68,5 @@ public class OrdersService {
     public void deleteOrderItem(long orderId, String productAddress) {
         ordersDao.deleteOrderItem(orderId, productAddress);
         LOGGER.info(MessageFormat.format("Orderitem removed from (orderId:{0}) order", orderId));
-    }
-
-    private List<Orders> sortOrdersByDate(List<Orders> orders) {
-        return orders.stream()
-                .sorted(Comparator.comparing(Orders::getDate))
-                .collect(Collectors.toList());
     }
 }

@@ -66,12 +66,12 @@ public class Orders {
         this.status = status;
     }
 
-    public long getCount() {
+    public long getQuantity() {
         return quantity;
     }
 
-    public void setCount(long count) {
-        this.quantity = count;
+    public void setQuantity(long quantity) {
+        this.quantity = quantity;
     }
 
     public long getPrice() {
