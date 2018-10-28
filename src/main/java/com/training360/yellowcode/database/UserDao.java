@@ -66,7 +66,7 @@ public class UserDao {
 
     public void deleteUser(long id) {
         jdbcTemplate.update("delete from users where id = ?", id);
-        jdbcTemplate.update("update basket set user_id = 0 where user_id = ?", id);
+        jdbcTemplate.update("update orders set user_id = null where user_id = ?", id);
     }
 
     public Optional<User> findUserByUserName(String userName) {

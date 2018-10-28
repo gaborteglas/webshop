@@ -46,7 +46,8 @@ public class UserService {
 
     @PreAuthorize("hasRole('ADMIN')")
     public void updateUser(long id, String name, String password) {
-        if ((name != null && name.trim().length() == 0) || (password != null && password.trim().length() == 0)) {
+        if ((name != null && name.trim().length() == 0) || (password != null && password.trim().length() == 0)
+        || (!new PasswordValidator().passwordStrengthValidator(password))) {
             throw new IllegalArgumentException("Invalid name or password.");
         }
         if (password != null) {
