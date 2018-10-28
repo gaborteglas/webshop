@@ -1,6 +1,7 @@
 package com.training360.yellowcode.businesslogic;
 
 import com.training360.yellowcode.database.OrdersDao;
+import com.training360.yellowcode.database.ProductDao;
 import com.training360.yellowcode.dbTables.OrderItem;
 import com.training360.yellowcode.dbTables.Orders;
 import org.slf4j.Logger;
@@ -18,10 +19,13 @@ import java.util.stream.Collectors;
 public class OrdersService {
 
     private OrdersDao ordersDao;
+    private ProductDao productDao;
+
     public static final Logger LOGGER = LoggerFactory.getLogger(ProductService.class);
 
-    public OrdersService(OrdersDao ordersDao) {
+    public OrdersService(OrdersDao ordersDao, ProductDao productDao) {
         this.ordersDao = ordersDao;
+        this.productDao = productDao;
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -38,17 +42,20 @@ public class OrdersService {
     }
 
     public void createOrderAndOrderItems(long userId) {
-        ordersDao.createOrderAndOrderItems(userId);
-        List<Orders> orders = listOrdersByUserId(userId);
-        List<OrderItem> orderItems = listOrderItems(userId, orders.get(orders.size() - 1).getId());
-        LOGGER.info(MessageFormat.format("Order created(id: {0}, userId: {1}, date: {2}, status: {3})",
-                orders.get(orders.size() - 1).getId(), userId, LocalDateTime.now(), "ACTIVE"));
-        for (OrderItem orderItem : orderItems) {
-            LOGGER.info(MessageFormat.format("OrderItem added to order(id: {0}, orderId: {1}, productId: {2}, " +
-                            "productName: {3}, producer: {4}, productPrice: {5})",
-                    orderItem.getId(), orderItem.getOrderId(), orderItem.getProductId(),
-                    orderItem.getProductName(), orderItem.getProducer(), orderItem.getProductPrice()));
+        if (productDao.listProducts().size() != 0) {
+            ordersDao.createOrderAndOrderItems(userId);
+            List<Orders> orders = listOrdersByUserId(userId);
+            List<OrderItem> orderItems = listOrderItems(userId, orders.get(orders.size() - 1).getId());
+            LOGGER.info(MessageFormat.format("Order created(id: {0}, userId: {1}, date: {2}, status: {3})",
+                    orders.get(orders.size() - 1).getId(), userId, LocalDateTime.now(), "ACTIVE"));
+            for (OrderItem orderItem : orderItems) {
+                LOGGER.info(MessageFormat.format("OrderItem added to order(id: {0}, orderId: {1}, productId: {2}, " +
+                                "productName: {3}, producer: {4}, productPrice: {5})",
+                        orderItem.getId(), orderItem.getOrderId(), orderItem.getProductId(),
+                        orderItem.getProductName(), orderItem.getProducer(), orderItem.getProductPrice()));
+            }
         }
+        throw new IllegalStateException("Empty basket");
     }
 
     private List<Orders> sortOrdersByDate(List<Orders> orders) {
