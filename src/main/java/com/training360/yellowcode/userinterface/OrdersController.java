@@ -69,6 +69,16 @@ public class OrdersController {
         }
     }
 
+    @RequestMapping(value = "/api/orders/{orderId}", method = RequestMethod.DELETE)
+    public void deleteOrder(@PathVariable long orderId) {
+        ordersService.deleteOrder(orderId);
+    }
+
+    @RequestMapping(value = "/api/orders/{orderId}/{productAddress}", method = RequestMethod.DELETE)
+    public void deleteOrderItem(@PathVariable long orderId, @PathVariable String productAddress) {
+        ordersService.deleteOrderItem(orderId, productAddress);
+    }
+
     private User getAuthenticatedUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {     //nincs bejelentkezve

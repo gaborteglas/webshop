@@ -1,29 +1,30 @@
 package com.training360.yellowcode.dbTables;
 
-import java.time.LocalDateTime;
-
 public class OrderItem {
 
     private long id;
     private long orderId;
     private long productId;
     private String productName;
+    private String productAddress;
     private String producer;
     private long productPrice;
 
-    public OrderItem(long id, long orderId, long productId, String productName, String producer, long productPrice) {
+    public OrderItem(long id, long orderId, long productId, String productName, String productAddress, String producer, long productPrice) {
         this.id = id;
         this.orderId = orderId;
         this.productId = productId;
         this.productName = productName;
+        this.productAddress = productAddress;
         this.producer = producer;
         this.productPrice = productPrice;
     }
 
-    public OrderItem(long orderId, long productId, String productName, String producer, long productPrice) {
+    public OrderItem(long orderId, long productId, String productName, String productAddress, String producer, long productPrice) {
         this.orderId = orderId;
         this.productId = productId;
         this.productName = productName;
+        this.productAddress = productAddress;
         this.producer = producer;
         this.productPrice = productPrice;
     }

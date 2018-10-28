@@ -39,7 +39,7 @@ public class OrdersDao {
     public List<OrderItem> listOrderItems(long userId, long orderId) {
         return jdbcTemplate.query(
                 "select orderitem.id, orderitem.order_id, orderitem.product_id, " +
-                        "orderitem.product_price, products.name, products.producer from orderitem " +
+                        "orderitem.product_price, products.name, products.producer, products.address from orderitem " +
                         "join orders on orderitem.order_id = orders.id " +
                         "join products on orderitem.product_id = products.id " +
                         "where orders.id = ? and orders.user_id = ?",
@@ -48,6 +48,7 @@ public class OrdersDao {
                         resultSet.getLong("orderitem.order_id"),
                         resultSet.getLong("orderitem.product_id"),
                         resultSet.getString("products.name"),
+                        resultSet.getString("products.address"),
                         resultSet.getString("products.producer"),
                         resultSet.getLong("orderitem.product_price")),
                 orderId, userId);
@@ -71,6 +72,17 @@ public class OrdersDao {
                 "where basket.user_id = ?", orderId, userId);
 
         jdbcTemplate.update("delete from basket where user_id = ?", userId);
+    }
+
+    public void deleteOrder(long orderId) {
+        jdbcTemplate.update("update orders set status = 'DELETED' where id = ?", orderId);
+    }
+
+    public void deleteOrderItem(long orderId, String productAddress) {
+        jdbcTemplate.update("delete from orderitem where id in (" +
+                "select orderitem.id from orderitem join orders on orderitem.order_id = orders.id " +
+                "join products on orderitem.product_id = products.id " +
+                "where orders.id = ? and products.address = ?)", orderId, productAddress);
     }
 
     private static class OrderMapper implements RowMapper<Orders> {
