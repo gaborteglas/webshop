@@ -16,6 +16,7 @@ function updateTable(){
 
 function fillTable(orderItems){
     let tbody = document.querySelector("#product-tbody")
+    let totalPrice = 0;
     for(i in orderItems){
         let tr = document.createElement("tr");
 
@@ -36,5 +37,9 @@ function fillTable(orderItems){
         tr.appendChild(currentPriceTd);
 
         tbody.appendChild(tr);
+
+        totalPrice += orderItems[i].productPrice;
     }
+    let sumParagraph = document.querySelector("#totalPrice");
+    sumParagraph.innerHTML = "Összesen: " + totalPrice + " Ft";
 }

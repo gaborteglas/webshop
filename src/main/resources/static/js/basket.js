@@ -44,7 +44,7 @@ function fillTable(products){
         tr.appendChild(deleteButton);
         tbody.appendChild(tr);
     }
-    let sumParagraph = document.querySelector("#sumofproducts");
+    let sumParagraph = document.querySelector("#totalPrice");
     sumParagraph.innerHTML = "A kosár tartalmának ára összesen : " + totalPrice + " Ft";
 
     orderButton = document.querySelector("#order-button");
