@@ -35,7 +35,13 @@ function fillTable(orders) {
         tr.appendChild(dateTd);
 
         let statusTd = document.createElement("td");
-        statusTd.innerHTML = order.status;
+        if(order.status === "ACTIVE") {
+            statusTd.innerHTML = "aktív";
+        } else if (order.status === "DELIVERED") {
+            statusTd.innerHTML = "kiszállítva";
+        } else if (order.status === "DELETED") {
+            statusTd.innerHTML = "törölve";
+        }
         tr.appendChild(statusTd);
 
         let countTd = document.createElement("td");

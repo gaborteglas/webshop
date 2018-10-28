@@ -73,6 +73,10 @@ public class OrdersDao {
         jdbcTemplate.update("delete from basket where user_id = ?", userId);
     }
 
+    public void deleteOrder(long orderId) {
+        jdbcTemplate.update("update orders set status = 'DELETED' where id = ?", orderId);
+    }
+
     private static class OrderMapper implements RowMapper<Orders> {
         @Override
         public Orders mapRow(ResultSet resultSet, int i) throws SQLException {

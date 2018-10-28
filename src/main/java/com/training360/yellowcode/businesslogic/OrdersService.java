@@ -58,6 +58,12 @@ public class OrdersService {
         throw new IllegalStateException("Empty basket");
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    public void deleteOrder(long orderId) {
+        ordersDao.deleteOrder(orderId);
+        LOGGER.info(MessageFormat.format("Order (orderId:{0}) set to inactive", orderId));
+    }
+
     private List<Orders> sortOrdersByDate(List<Orders> orders) {
         return orders.stream()
                 .sorted(Comparator.comparing(Orders::getDate))
