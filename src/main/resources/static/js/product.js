@@ -36,8 +36,9 @@ function fillTable(jsonData){
     let id = jsonData.id;
     let producer = jsonData.producer;
     let currentPrice = jsonData.currentPrice;
+    let categoryName = jsonData.category.name;
     creatingHeaderForName(name);
-    creatingTableRowForData(id,producer,currentPrice)
+    creatingTableRowForData(id,producer,currentPrice, categoryName)
 }
 
 function creatingHeaderForName(name){
@@ -45,20 +46,23 @@ function creatingHeaderForName(name){
     productName.innerHTML = name;
 }
 
-function creatingTableRowForData(id,producer,currentPrice){
+function creatingTableRowForData(id,producer,currentPrice, categoryName){
     let tbody = document.querySelector("#product-tbody");
     let tr = document.createElement("tr");
     tr["raw-data"] = id;
     let idTd = document.createElement("td");
     let producerTd = document.createElement("td");
     let currentPriceTd = document.createElement("td");
+    let categoryTd = document.createElement("td");
     idTd.innerHTML = id;
     idTd.setAttribute("id","productId")
     producerTd.innerHTML = producer;
     currentPriceTd.innerHTML = currentPrice + " Ft";
+    categoryTd.innerHTML = categoryName;
     tr.appendChild(idTd);
     tr.appendChild(producerTd);
     tr.appendChild(currentPriceTd);
+    tr.appendChild(categoryTd);
     tbody.appendChild(tr);
 }
 

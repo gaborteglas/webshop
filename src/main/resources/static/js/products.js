@@ -1,5 +1,5 @@
-window.onload = function() {
-   updateTable();
+window.onload = function () {
+    updateTable();
 };
 
 function updateTable() {
@@ -7,7 +7,7 @@ function updateTable() {
         .then(function (response) {
             return response.json();
         })
-        .then(function(jsonData) {
+        .then(function (jsonData) {
             fillTable(jsonData);
         });
 }
@@ -16,7 +16,7 @@ function fillTable(products) {
     let tbody = document.getElementById("products-tbody");
     tbody.innerHTML = "";
     for (let i = 0; i < products.length; i++) {
-        let product  = products[i];
+        let product = products[i];
         let tr = document.createElement("tr");
         tr.className = "clickable-row";
         tr["raw-data"] = product;
@@ -41,7 +41,12 @@ function fillTable(products) {
         priceTd.innerHTML = product.currentPrice + " Ft";
         tr.appendChild(priceTd);
 
-        tr.onclick = function() {
+        console.log(product.category);
+        let categoryTd = document.createElement("td");
+        categoryTd.innerHTML = product.category.name;
+        tr.appendChild(categoryTd);
+
+        tr.onclick = function () {
             window.location = "/product.html?address=" + product.address;
         };
 
