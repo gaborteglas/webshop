@@ -1,5 +1,6 @@
 package com.training360.yellowcode.database;
 
+import com.training360.yellowcode.dbTables.Category;
 import com.training360.yellowcode.dbTables.Product;
 import com.training360.yellowcode.dbTables.ProductStatusType;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -28,7 +29,10 @@ public class ProductDao {
     public Optional<Product> findProductByAddress(String address) {
         try {
             Product product = jdbcTemplate.queryForObject(
-                    "select id, name, address, producer, price, status from products where address = ?",
+                    "SELECT products.id, products.name, address, producer, price, status, category_id, " +
+                            "category.name, category.position_number " +
+                            "FROM products LEFT JOIN category ON products.category_id = category.id " +
+                            "WHERE address = ?",
                     new ProductMapper(), address);
             return Optional.of(product);
         } catch (EmptyResultDataAccessException erdae) {
@@ -39,7 +43,10 @@ public class ProductDao {
     public Optional<Product> findProductById(long id) {
         try {
             Product product = jdbcTemplate.queryForObject(
-                    "select id, name, address, producer, price, status from products where id = ?",
+                    "SELECT products.id, products.name, address, producer, price, status, category_id, " +
+                            "category.name, category.position_number " +
+                            "FROM products LEFT JOIN category ON products.category_id = category.id " +
+                            "WHERE id = ?",
                     new ProductMapper(), id);
             return Optional.of(product);
         } catch (EmptyResultDataAccessException erdae) {
@@ -47,23 +54,28 @@ public class ProductDao {
         }
     }
 
-
     public List<Product> listProducts() {
         return jdbcTemplate.query(
-                "select id, name, address, producer, price, status from products " +
-                        "where status = 'ACTIVE'", new ProductMapper());
+                "SELECT products.id, products.name, address, producer, price, status, category_id, " +
+                        "category.name, category.position_number " +
+                        "FROM products LEFT JOIN category ON products.category_id = category.id " +
+                        "WHERE status = 'ACTIVE'", new ProductMapper());
     }
 
     private static class ProductMapper implements RowMapper<Product> {
         @Override
         public Product mapRow(ResultSet resultSet, int i) throws SQLException {
             long id = resultSet.getLong("id");
-            String name = resultSet.getString("name");
+            String name = resultSet.getString("products.name");
             String address = resultSet.getString("address");
             String producer = resultSet.getString("producer");
             long currentPrice = resultSet.getLong("price");
             ProductStatusType status = ProductStatusType.valueOf(resultSet.getString("status"));
-            return new Product(id, name, address, producer, currentPrice, status);
+            long categoryId = resultSet.getLong("category_id");
+            String categoryName = resultSet.getString("category.name");
+            long positionNumber = resultSet.getLong("category.position_number");
+            return new Product(id, name, address, producer, currentPrice, status,
+                    new Category(categoryId, categoryName, positionNumber));
         }
     }
 
@@ -72,13 +84,15 @@ public class ProductDao {
             @Override
             public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
                 PreparedStatement ps = connection.prepareStatement(
-                        "insert into products(id, name, address, producer, price, status) values(?, ?, ?, ?, ?, 'ACTIVE')"
+                        "insert into products(id, name, address, producer, price, status, category_id) " +
+                                "values(?, ?, ?, ?, ?, 'ACTIVE', ?)"
                 );
                 ps.setLong(1, product.getId());
                 ps.setString(2, product.getName());
                 ps.setString(3, product.getAddress());
                 ps.setString(4, product.getProducer());
                 ps.setLong(5, product.getCurrentPrice());
+                ps.setLong(6, product.getCategory().getId());
 
                 return ps;
             }
@@ -87,13 +101,15 @@ public class ProductDao {
 
     public void updateProduct(long id, Product product) {
         jdbcTemplate.update(
-                "update products set id = ?, name = ?, address = ?, producer = ?, price = ?, status = ? where id = ?",
+                "update products set id = ?, name = ?, address = ?, producer = ?, price = ?, status = ?, category_id = ?" +
+                        " where id = ?",
                 product.getId(),
                 product.getName(),
                 product.getAddress(),
                 product.getProducer(),
                 product.getCurrentPrice(),
                 product.getStatus().toString(),
+                product.getCategory().getId(),
                 id);
     }
 

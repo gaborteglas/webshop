@@ -1,5 +1,6 @@
 package com.training360.yellowcode.businesslogic;
 
+import com.training360.yellowcode.database.CategoryDao;
 import com.training360.yellowcode.database.DuplicateProductException;
 import com.training360.yellowcode.database.ProductDao;
 import com.training360.yellowcode.dbTables.Product;

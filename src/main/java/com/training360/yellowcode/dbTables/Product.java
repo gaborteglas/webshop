@@ -8,6 +8,7 @@ public class Product {
     private String producer;
     private long currentPrice;
     private ProductStatusType status = ProductStatusType.ACTIVE;
+    private Category category;
 
     public Product() {
     }
@@ -19,6 +20,16 @@ public class Product {
         this.producer = producer;
         this.currentPrice = currentPrice;
         this.status = status;
+    }
+
+    public Product(long id, String name, String address, String producer, long currentPrice, ProductStatusType status, Category category) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.producer = producer;
+        this.currentPrice = currentPrice;
+        this.status = status;
+        this.category = category;
     }
 
     public long getId() {
@@ -69,4 +80,11 @@ public class Product {
         this.status = status;
     }
 
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 }
