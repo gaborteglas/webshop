@@ -34,8 +34,8 @@ public class CategoryService {
 
         if (thisCategoryPosition ==  allCategoryNumber + 1) {
             categoryDao.createCategory(category);
-        } else if (thisCategoryPosition == allCategoryNumber + 2) {
-            category.setPositionNumber(thisCategoryPosition - 1);
+        } else if (thisCategoryPosition > allCategoryNumber + 1) {
+            category.setPositionNumber(allCategoryNumber + 1);
             categoryDao.createCategory(category);
         } else if (thisCategoryPosition <= allCategoryNumber ) {
             categoryDao.updateCategoryPosition(thisCategoryPosition);
@@ -56,8 +56,8 @@ public class CategoryService {
             categoryDao.updateCategory(category);
         } else if (thisCategoryPosition ==  allCategoryNumber + 1) {
             categoryDao.updateCategory(category);
-        } else if (thisCategoryPosition == allCategoryNumber + 2) {
-            category.setPositionNumber(thisCategoryPosition - 1);
+        } else if (thisCategoryPosition > allCategoryNumber + 1) {
+            category.setPositionNumber(allCategoryNumber +1);
             categoryDao.updateCategory(category);
         } else if (thisCategoryPosition <= allCategoryNumber ) {
             categoryDao.updateCategoryPosition(thisCategoryPosition);
