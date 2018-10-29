@@ -25,17 +25,17 @@ public class CategoryService {
     }
 
     public void createCategory(Category category) {
-        if (category.getName() == null || "".equals(category.getName().trim())) {
-            throw new IllegalArgumentException("A név kitöltése kötelező!");
-        }
+//        if (category.getName() == null || "".equals(category.getName().trim())) {
+//            throw new IllegalArgumentException("A név kitöltése kötelező!");
+//        }
 
         long allCategoryNumber = listCategorys().size();
         long thisCategoryPosition = category.getPositionNumber();
 
         if (thisCategoryPosition ==  allCategoryNumber + 1) {
             categoryDao.createCategory(category);
-        } else if (thisCategoryPosition == allCategoryNumber + 2) {
-            category.setPositionNumber(thisCategoryPosition - 1);
+        } else if (thisCategoryPosition > allCategoryNumber + 1) {
+            category.setPositionNumber(allCategoryNumber + 1);
             categoryDao.createCategory(category);
         } else if (thisCategoryPosition <= allCategoryNumber ) {
             categoryDao.updateCategoryPosition(thisCategoryPosition);
@@ -44,9 +44,9 @@ public class CategoryService {
     }
 
     public void updateCategory(Category category) {
-        if (category.getName() == null || "".equals(category.getName().trim())) {
-            throw new IllegalArgumentException("A név kitöltése kötelező!");
-        }
+//        if (category.getName() == null || "".equals(category.getName().trim())) {
+//            throw new IllegalArgumentException("A név kitöltése kötelező!");
+//        }
 
         long allCategoryNumber = listCategorys().size();
         long thisCategoryPosition = findCategoryById(category.getId()).get().getPositionNumber();
@@ -56,8 +56,8 @@ public class CategoryService {
             categoryDao.updateCategory(category);
         } else if (thisCategoryPosition ==  allCategoryNumber + 1) {
             categoryDao.updateCategory(category);
-        } else if (thisCategoryPosition == allCategoryNumber + 2) {
-            category.setPositionNumber(thisCategoryPosition - 1);
+        } else if (thisCategoryPosition > allCategoryNumber + 1) {
+            category.setPositionNumber(allCategoryNumber +1);
             categoryDao.updateCategory(category);
         } else if (thisCategoryPosition <= allCategoryNumber ) {
             categoryDao.updateCategoryPosition(thisCategoryPosition);
@@ -69,5 +69,6 @@ public class CategoryService {
     public void deleteCategory(Category category) {
         categoryDao.deleteCategoryUpdateProducts(category.getId());
         categoryDao.deleteCategory(category);
+        categoryDao.updateCategoryPositionAfterDelete(category.getId());
     }
 }

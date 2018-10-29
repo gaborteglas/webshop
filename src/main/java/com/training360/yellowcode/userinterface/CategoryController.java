@@ -2,10 +2,7 @@ package com.training360.yellowcode.userinterface;
 
 import com.training360.yellowcode.businesslogic.CategoryService;
 import com.training360.yellowcode.dbTables.Category;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,12 +27,12 @@ public class CategoryController {
     }
 
     @RequestMapping(value = "/api/categories", method = RequestMethod.POST)
-    public void createCategory(Category category) {
+    public void createCategory(@RequestBody Category category) {
         categoryService.createCategory(category);
     }
 
     @RequestMapping(value = "/api/categories/{id}", method = RequestMethod.POST)
-    public void updateCategory(Category category) {
+    public void updateCategory(@RequestBody Category category) {
         categoryService.updateCategory(category);
     }
 

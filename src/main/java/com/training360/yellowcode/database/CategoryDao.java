@@ -57,10 +57,11 @@ public class CategoryDao {
             @Override
             public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
                 PreparedStatement ps = connection.prepareStatement(
-                        "insert into category(name, position_number) values(?, ?)"
+                        "insert into category(id, name, position_number) values(?, ?, ?)"
                 );
+                ps.setLong(1, category.getId());
                 ps.setString(2, category.getName());
-                ps.setLong(5, category.getPositionNumber());
+                ps.setLong(3, category.getPositionNumber());
 
                 return ps;
             }
@@ -77,7 +78,7 @@ public class CategoryDao {
     }
 
     public void deleteCategoryUpdateProducts(long id) {
-        jdbcTemplate.update("update products set category = null where id = ?", id);
+        jdbcTemplate.update("update products set category_id = null where category_id = ?", id);
     }
 
     public void deleteCategory(Category category) {
