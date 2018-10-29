@@ -99,7 +99,7 @@ function deleteButtonClick(event) {
 function deliveredButtonClick(event) {
     let order = this.parentElement.parentElement["raw-data"];
 
-    fetch("api/orders/" + order.id, {
+    fetch("api/orders/" + order.id + "/status", {
         method: "POST",
     }).then(function (response) {
         updateTable();

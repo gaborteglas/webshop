@@ -89,7 +89,7 @@ public class OrdersController {
         ordersService.deleteOrderItem(orderId, productAddress);
     }
 
-    @RequestMapping(value = "/api/orders/{orderId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/orders/{orderId}/status", method = RequestMethod.POST)
     public void modifyActiveStatusToDelivered(@PathVariable long orderId) {
         ordersService.modifyActiveStatusToDelivered(orderId);
     }
