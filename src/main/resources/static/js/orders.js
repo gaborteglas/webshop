@@ -58,9 +58,21 @@ function fillTable(orders) {
         let deleteButton = document.createElement("button");
         deleteButton.innerHTML = "Törlés";
         deleteButton.setAttribute("class", "btn btn-danger");
+        deleteButton.setAttribute("id", "delete-button")
         deleteButton.onclick = deleteButtonClick;
         buttonsTd.appendChild(deleteButton);
+
+        let deliveredButton = document.createElement("button");
+        deliveredButton.innerHTML = "Kiszállítva";
+        deliveredButton.setAttribute("class", "btn btn-success");
+        deliveredButton.setAttribute("id", "deliver-button")
+        deliveredButton.onclick = deliveredButtonClick;
+        buttonsTd.appendChild(deliveredButton);
+
         tr.appendChild(buttonsTd);
+
+        deliveredButton.disabled = order.status === 'DELETED' || order.status === 'DELIVERED';
+        deleteButton.disabled = order.status === 'DELETED' || order.status === 'DELIVERED';
 
         tr.onclick = function () {
             window.location = "/orderitems.html?order-id=" + order.id;
@@ -77,24 +89,40 @@ function deleteButtonClick(event) {
 
         fetch("api/orders/" + order.id, {
             method: "DELETE",
+        }).then(function (response) {
+            updateTable();
         })
-            .then(function (response) {
-                updateTable();
-            });
-        event.stopPropagation();
     }
+    event.stopPropagation();
+}
+
+function deliveredButtonClick(event) {
+    let order = this.parentElement.parentElement["raw-data"];
+
+    fetch("api/orders/" + order.id, {
+        method: "POST",
+    }).then(function (response) {
+        updateTable();
+    });
+    event.stopPropagation();
 }
 
 function activeButtonClick() {
-        fetch("api/activeorders/")
-        .then(function (response) {
-        return response.json();
-        })
-        .then(function (jsonData) {
-        fillTable(jsonData);
-})}
+    fetch("api/activeorders/")
+    .then(function (response) {
+    return response.json();
+    })
+    .then(function (jsonData) {
+    fillTable(jsonData);
+    })
+}
 
 function filterActiveButtonClick() {
+<<<<<<< HEAD
+    let theadActiveButton = document.getElementById("orders-filter-active");
+    theadActiveButton.setAttribute("class", "btn btn-warning");
+    theadActiveButton.onclick = activeButtonClick;
+=======
 let theadActiveButton = document.getElementById("orders-filter-active");
 theadActiveButton.setAttribute("class", "btn btn-warning");
 theadActiveButton.onclick = activeButtonClick;
@@ -104,4 +132,5 @@ function filterAllButtonClick() {
 let theadAllButton = document.getElementById("orders-filter-all");
 theadAllButton.setAttribute("class", "btn btn-info");
 theadAllButton.onclick = updateTable;
+>>>>>>> origin/master
 }

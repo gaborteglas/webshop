@@ -79,4 +79,11 @@ public class OrdersService {
         ordersDao.deleteOrderItem(orderId, productAddress);
         LOGGER.info(MessageFormat.format("Orderitem removed from (orderId:{0}) order", orderId));
     }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    public void modifyActiveStatusToDelivered(long orderId) {
+        ordersDao.modifyActiveStatusToDelivered(orderId);
+        LOGGER.info(MessageFormat.format("Order (orderId:{0}) status changed from active to delivered", orderId));
+    }
+
 }
