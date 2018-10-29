@@ -4,6 +4,7 @@ import com.training360.yellowcode.dbTables.*;
 import com.training360.yellowcode.userinterface.BasketController;
 import com.training360.yellowcode.userinterface.OrdersController;
 import com.training360.yellowcode.userinterface.ProductController;
+import com.training360.yellowcode.userinterface.UserController;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,7 +25,6 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Sql(scripts = "classpath:/clearorders.sql")
-@WithMockUser(username = "testuser", roles = "USER")
 public class YellowCodeApplicationOrdersTest {
 
     @Autowired
@@ -35,6 +35,9 @@ public class YellowCodeApplicationOrdersTest {
 
     @Autowired
     private ProductController productController;
+
+    @Autowired
+    private UserController userController;
 
 
     @Before
@@ -48,12 +51,17 @@ public class YellowCodeApplicationOrdersTest {
         productController.createProduct(new Product(4, "Hogyan neveld a junior fejlesztődet", "junior", "Jane Doe", 6499, ProductStatusType.ACTIVE));
         productController.createProduct(new Product(5, "Junior most és mindörökké", "mindorokke", "James Doe", 2999, ProductStatusType.ACTIVE));
 
+        userController.createUser(new User(1, "admin1", "Test One", "Elsőjelszó1", UserRole.ROLE_ADMIN));
+        userController.createUser(new User(2, "user1", "Test Two", "Másodikjelszó2", UserRole.ROLE_USER));
+        userController.createUser(new User(3, "user2", "Test Three", "harmadikJelszó3",UserRole.ROLE_USER));
+
         SecurityContextHolder.getContext().setAuthentication(a);
 
         basketController.addToBasket(1);
     }
 
     @Test
+    @WithMockUser(username = "user1", roles = "USER")
     public void testListOrdersByUserIdWithoutExistingOrder() {
         List<Orders> ordersList = ordersController.listOrdersByUserId();
 
@@ -61,6 +69,7 @@ public class YellowCodeApplicationOrdersTest {
     }
 
     @Test
+    @WithMockUser(username = "user1", roles = "USER")
     public void testListOrdersByUserId() {
         ordersController.createOrderAndOrderItems();
         List<Orders> ordersList1 = ordersController.listOrdersByUserId();
@@ -73,6 +82,7 @@ public class YellowCodeApplicationOrdersTest {
     }
 
     @Test
+    @WithMockUser(username = "user1", roles = "USER")
     public void testListOrderItems() {
         basketController.addToBasket(2);
         ordersController.createOrderAndOrderItems();
@@ -82,6 +92,7 @@ public class YellowCodeApplicationOrdersTest {
     }
 
     @Test
+    @WithMockUser(username = "user1", roles = "USER")
     public void testOrderItemDatas() {
         ordersController.createOrderAndOrderItems();
 
@@ -91,6 +102,7 @@ public class YellowCodeApplicationOrdersTest {
     }
 
     @Test
+    @WithMockUser(username = "user1", roles = "USER")
     public void testEmptyBasketAfterOrder() {
         basketController.addToBasket(2);
         basketController.addToBasket(3);
