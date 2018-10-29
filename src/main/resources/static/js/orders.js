@@ -1,5 +1,6 @@
 window.onload = function () {
     updateTable();
+    filterActiveButtonClick();
 };
 
 function updateTable() {
@@ -81,4 +82,19 @@ function deleteButtonClick(event) {
             });
         event.stopPropagation();
     }
+}
+
+function activeButtonClick() {
+        fetch("api/activeorders/")
+        .then(function (response) {
+        return response.json();
+        })
+        .then(function (jsonData) {
+        fillTable(jsonData);
+})}
+
+function filterActiveButtonClick() {
+let theadActiveButton = document.getElementById("orders-filter-active");
+theadActiveButton.setAttribute("class", "btn btn-warning");
+theadActiveButton.onclick = activeButtonClick;
 }
