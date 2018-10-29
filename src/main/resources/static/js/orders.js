@@ -1,5 +1,7 @@
 window.onload = function () {
     updateTable();
+    filterActiveButtonClick();
+    filterAllButtonClick();
 };
 
 function updateTable() {
@@ -81,4 +83,25 @@ function deleteButtonClick(event) {
             });
         event.stopPropagation();
     }
+}
+
+function activeButtonClick() {
+        fetch("api/activeorders/")
+        .then(function (response) {
+        return response.json();
+        })
+        .then(function (jsonData) {
+        fillTable(jsonData);
+})}
+
+function filterActiveButtonClick() {
+let theadActiveButton = document.getElementById("orders-filter-active");
+theadActiveButton.setAttribute("class", "btn btn-warning");
+theadActiveButton.onclick = activeButtonClick;
+}
+
+function filterAllButtonClick() {
+let theadAllButton = document.getElementById("orders-filter-all");
+theadAllButton.setAttribute("class", "btn btn-info");
+theadAllButton.onclick = updateTable;
 }

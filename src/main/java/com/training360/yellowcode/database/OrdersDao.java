@@ -35,6 +35,23 @@ public class OrdersDao {
                 ));
     }
 
+    public List<Orders> listActiveOrders() {
+        return jdbcTemplate.query("select orders.id, orders.user_id, orders.date, orders.status, " +
+                        "count(orderitem.id) as quantity, sum(orderitem.product_price) as price from orders " +
+                        "left join orderitem on orders.id = orderitem.order_id " +
+                        "where orders.status = 'ACTIVE' " +
+                        "group by orders.id " +
+                        "order by orders.date desc",
+                (ResultSet resultSet, int i) -> new Orders(
+                        resultSet.getLong("orders.id"),
+                        resultSet.getLong("orders.user_id"),
+                        resultSet.getTimestamp("orders.date").toLocalDateTime(),
+                        OrderStatus.valueOf(resultSet.getString("orders.status")),
+                        resultSet.getLong("quantity"),
+                        resultSet.getLong("price")
+                ));
+    }
+
     public List<Orders> listOrdersByUserId(long userId) {
         return jdbcTemplate.query("select id, user_id, date, status from orders where user_id = ? " +
                         "order by date desc",
@@ -77,6 +94,8 @@ public class OrdersDao {
                         resultSet.getLong("orderitem.product_price")),
                 orderId);
     }
+
+
 
     public void createOrderAndOrderItems(long userId) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
