@@ -23,6 +23,7 @@ public class ReportsDao {
         return jdbcTemplate.query("SELECT DISTINCT SUM(product_price),date,status " +
                         "FROM orderitem " +
                         "JOIN orders on orderitem.order_id = orders.id " +
+                        "WHERE YEAR(date) = YEAR(CURDATE()) " +
                         "GROUP BY month(date),status",
                 (ResultSet resultSet, int i) -> new Reports(
                         resultSet.getLong("SUM(product_price)"),
