@@ -25,9 +25,9 @@ public class CategoryService {
     }
 
     public void createCategory(Category category) {
-        if (category.getName() == null || "".equals(category.getName().trim())) {
-            throw new IllegalArgumentException("A név kitöltése kötelező!");
-        }
+//        if (category.getName() == null || "".equals(category.getName().trim())) {
+//            throw new IllegalArgumentException("A név kitöltése kötelező!");
+//        }
 
         long allCategoryNumber = listCategorys().size();
         long thisCategoryPosition = category.getPositionNumber();
@@ -44,9 +44,9 @@ public class CategoryService {
     }
 
     public void updateCategory(Category category) {
-        if (category.getName() == null || "".equals(category.getName().trim())) {
-            throw new IllegalArgumentException("A név kitöltése kötelező!");
-        }
+//        if (category.getName() == null || "".equals(category.getName().trim())) {
+//            throw new IllegalArgumentException("A név kitöltése kötelező!");
+//        }
 
         long allCategoryNumber = listCategorys().size();
         long thisCategoryPosition = findCategoryById(category.getId()).get().getPositionNumber();
@@ -69,5 +69,6 @@ public class CategoryService {
     public void deleteCategory(Category category) {
         categoryDao.deleteCategoryUpdateProducts(category.getId());
         categoryDao.deleteCategory(category);
+        categoryDao.updateCategoryPositionAfterDelete(category.getId());
     }
 }
