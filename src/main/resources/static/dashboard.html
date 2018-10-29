@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sárhányó</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/menubar.css"/>
+</head>
+<body>
+<div class="container">
+    <ul class="nav nav-pills nav-fill">
+        <li class="nav-item nav-item-products" id="to-hide-allproducts">
+            <a class="nav-link" href="/products.html">Termékek</a>
+        </li>
+        <li class="nav-item nav-item-user-basket" id="to-hide-basket">
+            <a class="nav-link" href="/basket.html">Kosár</a>
+        </li>
+        <li class="nav-item nav-item-user-order" id="to-hide-myorder">
+            <a class="nav-link" href="/myorders.html">Rendeléseim</a>
+        </li>
+        <li class="nav-item nav-item-login" id = "to-hide-login">
+            <a class="nav-link" href="/login.html">Bejelentkezés</a>
+        </li>
+        <li class="nav-item nav-item-admin" id = "to-hide-product">
+            <a class="nav-link" href="/adminproducts.html">Termék-adminisztráció</a>
+        </li>
+        <li class="nav-item nav-item-users" id = "to-hide-user">
+            <a class="nav-link" href="/users.html">Felhasználók</a>
+        </li>
+        <li class="nav-item nav-item-orders" id = "to-hide-orders">
+            <a class="nav-link" href="/orders.html">Rendelések</a>
+        </li>
+        <li class="nav-item nav-item-logout" id = "to-hide-logout">
+            <a class="nav-link" href="/logout">Kijelentkezés</a>
+        </li>
+
+        <div class="card" style="width: 12rem;">
+            <div class="card-body">
+                <h5 class="card-title" id="username"></h5>
+                <input type="hidden" id="id-hidden-input"/>
+            </div>
+        </div>
+
+    </ul>
+    <h1 class="header">Sárhányó:</h1>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Felhasználók</th>
+            <th>Aktív termékek</th>
+            <th>Összes termék</th>
+            <th>Aktív rendelések</th>
+            <th>Összes rendelés</th>
+            <th>Rendelés összege</th>
+        </tr>
+        </thead>
+        <tbody id="orders-tbody">
+
+        </tbody>
+    </table>
+</div>
+<script src="js/menubar.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>
