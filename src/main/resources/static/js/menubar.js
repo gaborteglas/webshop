@@ -46,6 +46,10 @@ function showForUser() {
  menuToShow8.style.display = "block";
  let menuToHideOrdersForUser = document.getElementById("to-hide-orders");
  menuToHideOrdersForUser.style.display = "none";
+ let menuToHideDashboardForUser = document.getElementById("to-hide-dashboard");
+ menuToHideDashboardForUser.style.display = "none";
+ let menuToHideReportsForUser = document.getElementById("to-hide-reports");
+ menuToHideReportsForUser.style.display = "none";
 }
 
 function showForAdmin() {
@@ -65,6 +69,10 @@ let menuToHide21 = document.getElementById("to-hide-myorder");
 menuToHide21.style.display = "none";
 let menuToHideOrdersForAdmin = document.getElementById("to-hide-orders");
 menuToHideOrdersForAdmin.style.display = "block"
+let menuToShowDashboardForAdmin = document.getElementById("to-hide-dashboard");
+menuToShowDashboardForAdmin.style.display = "block"
+let menuToShowReportsForAdmin = document.getElementById("to-hide-reports");
+menuToShowReportsForAdmin.style.display = "block"
 }
 
 function showForUnregistered() {
@@ -84,4 +92,8 @@ let menuToHide31 = document.getElementById("to-hide-myorder");
 menuToHide31.style.display = "none";
 let menuToHideOrdersForUnreg = document.getElementById("to-hide-orders");
 menuToHideOrdersForUnreg.style.display = "none";
+let menuToHideDashboardForUnreg = document.getElementById("to-hide-dashboard");
+menuToHideDashboardForUnreg.style.display = "none";
+let menuToHideReportsForUnreg = document.getElementById("to-hide-reports");
+menuToHideReportsForUnreg.style.display = "none";
 }
