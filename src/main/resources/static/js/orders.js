@@ -1,5 +1,5 @@
-window.onload = function() {
-   updateTable();
+window.onload = function () {
+    updateTable();
 };
 
 function updateTable() {
@@ -7,7 +7,7 @@ function updateTable() {
         .then(function (response) {
             return response.json();
         })
-        .then(function(jsonData) {
+        .then(function (jsonData) {
             fillTable(jsonData);
         });
 }
@@ -16,7 +16,7 @@ function fillTable(orders) {
     let tbody = document.getElementById("orders-tbody");
     tbody.innerHTML = "";
     for (let i = 0; i < orders.length; i++) {
-        let order  = orders[i];
+        let order = orders[i];
         console.log(order);
         let tr = document.createElement("tr");
         tr.className = "clickable-row";
@@ -35,7 +35,7 @@ function fillTable(orders) {
         tr.appendChild(dateTd);
 
         let statusTd = document.createElement("td");
-        if(order.status === "ACTIVE") {
+        if (order.status === "ACTIVE") {
             statusTd.innerHTML = "aktív";
         } else if (order.status === "DELIVERED") {
             statusTd.innerHTML = "kiszállítva";
@@ -60,7 +60,7 @@ function fillTable(orders) {
         buttonsTd.appendChild(deleteButton);
         tr.appendChild(buttonsTd);
 
-        tr.onclick = function() {
+        tr.onclick = function () {
             window.location = "/orderitems.html?order-id=" + order.id;
         };
 
@@ -68,16 +68,17 @@ function fillTable(orders) {
     }
 }
 
-    function deleteButtonClick() {
+function deleteButtonClick(event) {
     var result = confirm("Biztosan törli a kijelölt rendelést?");
     if (result) {
-            let order = this.parentElement.parentElement["raw-data"];
+        let order = this.parentElement.parentElement["raw-data"];
 
-            fetch("api/orders/" + order.id, {
-                method: "DELETE",
-            })
-            .then(function(response) {
+        fetch("api/orders/" + order.id, {
+            method: "DELETE",
+        })
+            .then(function (response) {
                 updateTable();
             });
-        }
+        event.stopPropagation();
     }
+}
