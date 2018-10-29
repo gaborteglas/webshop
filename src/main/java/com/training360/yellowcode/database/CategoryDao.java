@@ -57,9 +57,8 @@ public class CategoryDao {
             @Override
             public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
                 PreparedStatement ps = connection.prepareStatement(
-                        "insert into category(id, name, position_number) values(?, ?, ?)"
+                        "insert into category(name, position_number) values(?, ?)"
                 );
-                ps.setLong(1, category.getId());
                 ps.setString(2, category.getName());
                 ps.setLong(5, category.getPositionNumber());
 
