@@ -68,21 +68,21 @@ public class CategoryDao {
         });
     }
 
-    public void updateCategory(long id, Category category) {
+    public void updateCategory(Category category) {
         jdbcTemplate.update(
                 "update category set id = ?, name = ?, position_number = ? where id = ?",
                 category.getId(),
                 category.getName(),
                 category.getPositionNumber(),
-                id);
+                category.getId());
     }
 
     public void deleteCategoryUpdateProducts(long id) {
         jdbcTemplate.update("update products set category = null where id = ?", id);
     }
 
-    public void deleteCategory(long id) {
-        jdbcTemplate.update("delete from category where id = ?", id);
+    public void deleteCategory(Category category) {
+        jdbcTemplate.update("delete from category where id = ?", category.getId());
     }
 
     public void updateCategoryPosition(long id) {
