@@ -21,6 +21,7 @@ public class ReportsService {
         this.reportsDao = reportsDao;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public List<Reports> listReportsByDate() {
         return reportsDao.listReportsByDate();
     }
