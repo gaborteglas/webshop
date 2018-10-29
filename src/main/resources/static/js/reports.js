@@ -6,15 +6,15 @@ function updateTableByStatus(orders){
        let statusSelector = document.querySelector("#status-select");
        switch(statusSelector.value) {
            case "ACTIVE":
-               fillTableForActive(orders);
+               fillTableByStatus(orders,"ACTIVE");
                console.log(orders)
                break;
            case "DELIVERED":
-               fillTableForDelivered(orders);
+               fillTableByStatus(orders,"DELIVERED");
                console.log(orders)
                break;
            case "DELETED":
-               fillTableForDeleted(orders);
+               fillTableByStatus(orders,"DELETED");
                console.log(orders)
        }
     }
@@ -31,61 +31,19 @@ function updateTable() {
         });
 }
 
-function fillTable(orders){
-    let tbody = document.querySelector("#orders-tbody");
-        for(i in orders){
-            let tr = document.createElement("tr");
-            tbody.appendChild(tr);
-            }
-}
-
-function fillTableForActive(orders){
-    let tbody = document.querySelector("#orders-tbody");
-    tbody.innerHTML = "";
-            for(i in orders){
-                if(orders[i].status == "ACTIVE"){
-                    let tr = document.createElement("tr");
-                    let monthTd = document.createElement("td");
-                    monthTd.innerHTML = orders[i].date;
-                    tr.appendChild(monthTd);
-                    let sumTd = document.createElement("td");
-                    sumTd.innerHTML = orders[i].totalPrice;
-                    tr.appendChild(sumTd);
-                    tbody.appendChild(tr);
-                    }
-            }
-}
-
-function fillTableForDelivered(orders){
-    let tbody = document.querySelector("#orders-tbody");
-    tbody.innerHTML = "";
-            for(i in orders){
-                if(orders[i].status == "DELIVERED"){
-                    let tr = document.createElement("tr");
-                    let monthTd = document.createElement("td");
-                    monthTd.innerHTML = orders[i].date;
-                    tr.appendChild(monthTd);
-                    let sumTd = document.createElement("td");
-                    sumTd.innerHTML = orders[i].totalPrice;
-                    tr.appendChild(sumTd);
-                    tbody.appendChild(tr);
-                    }
-            }
-}
-
-function fillTableForDeleted(orders){
-    let tbody = document.querySelector("#orders-tbody");
-    tbody.innerHTML = "";
-            for(i in orders){
-                if(orders[i].status == "DELETED"){
-                    let tr = document.createElement("tr");
-                    let monthTd = document.createElement("td");
-                    monthTd.innerHTML = orders[i].date;
-                    tr.appendChild(monthTd);
-                    let sumTd = document.createElement("td");
-                    sumTd.innerHTML = orders[i].totalPrice;
-                    tr.appendChild(sumTd);
-                    tbody.appendChild(tr);
-                    }
-            }
-}
+function fillTableByStatus(orders,status){
+        let tbody = document.querySelector("#orders-tbody");
+        tbody.innerHTML = "";
+                for(i in orders){
+                    if(orders[i].status == status){
+                        let tr = document.createElement("tr");
+                        let monthTd = document.createElement("td");
+                        monthTd.innerHTML = orders[i].date;
+                        tr.appendChild(monthTd);
+                        let sumTd = document.createElement("td");
+                        sumTd.innerHTML = orders[i].totalPrice;
+                        tr.appendChild(sumTd);
+                        tbody.appendChild(tr);
+                        }
+                }
+    }
