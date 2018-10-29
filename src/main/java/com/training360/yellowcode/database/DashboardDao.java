@@ -2,8 +2,9 @@ package com.training360.yellowcode.database;
 
 import com.training360.yellowcode.dbTables.Dashboard;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
-
+@Repository
 public class DashboardDao {
 
     private JdbcTemplate jdbcTemplate;
@@ -33,6 +34,6 @@ public class DashboardDao {
     }
 
     public Dashboard createDashboard() {
-        return new Dashboard(userCounter(), activeProductCounter(), productCounter(), orderCounter(), activeOrderCounter());
+        return new Dashboard(userCounter(), activeProductCounter(), productCounter(), activeOrderCounter(), orderCounter());
     }
 }
