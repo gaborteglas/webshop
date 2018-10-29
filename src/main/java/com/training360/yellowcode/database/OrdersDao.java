@@ -118,7 +118,7 @@ public class OrdersDao {
     }
 
     public void deleteOrder(long orderId) {
-        jdbcTemplate.update("update orders set status = 'DELETED' where id = ?", orderId);
+        jdbcTemplate.update("update orders set status = 'DELETED' where id = ? and status = 'ACTIVE'", orderId);
     }
 
     public void deleteOrderItem(long orderId, String productAddress) {
@@ -127,6 +127,10 @@ public class OrdersDao {
                 "join orders on orderitems.order_id = orders.id " +
                 "join products on orderitems.product_id = products.id " +
                 "where orders.id = ? and products.address = ?)", orderId, productAddress);
+    }
+
+    public void modifyActiveStatusToDelivered(long orderId) {
+        jdbcTemplate.update("update orders set status = 'DELIVERED' where id = ? and status = 'ACTIVE'", orderId);
     }
 
     private static class OrderMapper implements RowMapper<Orders> {

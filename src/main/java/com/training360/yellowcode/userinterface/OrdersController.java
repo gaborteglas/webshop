@@ -89,6 +89,11 @@ public class OrdersController {
         ordersService.deleteOrderItem(orderId, productAddress);
     }
 
+    @RequestMapping(value = "/api/orders/{orderId}", method = RequestMethod.POST)
+    public void modifyActiveStatusToDelivered(@PathVariable long orderId) {
+        ordersService.modifyActiveStatusToDelivered(orderId);
+    }
+
     private User getAuthenticatedUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {     //nincs bejelentkezve
