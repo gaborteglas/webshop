@@ -20,14 +20,17 @@ public class ReportsDao {
     }
 
     public List<Reports> listReportsByDate() {
-        return jdbcTemplate.query("select sum(product_price),date,status from orderitem " +
-                        "join orders on order_id = orders.id " +
-                        "where year(date) = YEAR(CURDATE()) " +
-                        "group by month(date)",
+        return jdbcTemplate.query("SELECT DISTINCT SUM(product_price),date,status " +
+                        "FROM orderitem " +
+                        "JOIN orders on orderitem.order_id = orders.id " +
+                        "WHERE YEAR(date) = YEAR(CURDATE()) " +
+                        "GROUP BY month(date),status",
                 (ResultSet resultSet, int i) -> new Reports(
-                        resultSet.getLong("sum(product_price)"),
+                        resultSet.getLong("SUM(product_price)"),
                         resultSet.getTimestamp("date").toLocalDateTime(),
                         OrderStatus.valueOf(resultSet.getString("status"))
                 ));
     }
+
+
 }
