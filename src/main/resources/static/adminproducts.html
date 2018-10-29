@@ -58,14 +58,28 @@
                 <div class="form-group">
                     <label for="id-input">Azonosító</label>
                     <input type="text" id="id-input" class="form-control" />
-                    <label for="name-input">Cím</label>
-                    <input type="text" id="name-input" class="form-control" />
-                    <label for="address-input">URL</label>
-                    <input type="text" id="address-input" class="form-control" />
+                </div>
+                <div class="form-group">
                     <label for="producer-input">Szerző</label>
                     <input type="text" id="producer-input" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="name-input">Cím</label>
+                    <input type="text" id="name-input" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="address-input">URL</label>
+                    <input type="text" id="address-input" class="form-control" />
+                </div>
+                <div class="form-group">
                     <label for="price-input">Ár</label>
                     <input type="text" id="price-input" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="category-select">Kategória</label>
+                    <select id="category-select" class="form-control">
+                        <option value="0" disabled selected hidden>Válassz kategóriát!</option>
+                    </select>
                 </div>
 
 
@@ -76,10 +90,10 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>Id</th>
+                <th>Azonosító</th>
+                <th>Szerző</th>
                 <th>Cím</th>
                 <th>URL</th>
-                <th>Szerző</th>
                 <th>Ár</th>
             </tr>
             </thead>

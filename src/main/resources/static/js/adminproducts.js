@@ -1,4 +1,5 @@
 window.onload = function() {
+    getCategories();
     updateTable();
 
     let productForm = document.getElementById("product-form");
@@ -28,6 +29,10 @@ function fillTable(products) {
         idTd.innerHTML = product.id;
         tr.appendChild(idTd);
 
+        let producerTd = document.createElement("td");
+        producerTd.innerHTML = product.producer;
+        tr.appendChild(producerTd);
+
         let nameTd = document.createElement("td");
         nameTd.innerHTML = product.name;
         tr.appendChild(nameTd);
@@ -36,13 +41,13 @@ function fillTable(products) {
         addressTd.innerHTML = product.address;
         tr.appendChild(addressTd);
 
-        let producerTd = document.createElement("td");
-        producerTd.innerHTML = product.producer;
-        tr.appendChild(producerTd);
-
         let priceTd = document.createElement("td");
         priceTd.innerHTML = product.currentPrice + " Ft";
         tr.appendChild(priceTd);
+
+        let categoryTd = document.createElement("td");
+        categoryTd.innerHTML = product.category.name;
+        tr.appendChild(categoryTd);
 
         let buttonsTd = document.createElement("td");
         let editButton = document.createElement("button");
@@ -66,16 +71,18 @@ let editedProduct = null;
 function handleSubmit() {
 
     let idInput = document.getElementById("id-input");
+    let producerInput = document.getElementById("producer-input");
     let nameInput = document.getElementById("name-input");
     let addressInput = document.getElementById("address-input");
-    let producerInput = document.getElementById("producer-input");
     let priceInput = document.getElementById("price-input");
+    let categorySelect = document.querySelector("#category-select");
 
     let id = idInput.value;
+    let producer = producerInput.value;
     let name = nameInput.value;
     let address = addressInput.value;
-    let producer = producerInput.value;
     let price = priceInput.value;
+    let category = categorySelect.value;
 
     let parsedId = Number(id);
     if (isNaN(parsedId) || !Number.isInteger(parsedId)) {
@@ -93,10 +100,11 @@ function handleSubmit() {
     }
 
     let product = {"id": id,
+                   "producer": producer,
                    "name": name,
                    "address": address.length > 0 ? address : null,
-                   "producer": producer,
-                   "currentPrice": price
+                   "currentPrice": price,
+                   "category": category
                   };
 
     let url = "api/products";
@@ -131,14 +139,16 @@ function handleReset() {
     editedProduct = null;
     let idInput = document.getElementById("id-input");
     idInput.value = "";
+    let producerInput = document.getElementById("producer-input");
+    producerInput.value = "";
     let nameInput = document.getElementById("name-input");
     nameInput.value = "";
     let addressInput = document.getElementById("address-input");
     addressInput.value = "";
-    let producerInput = document.getElementById("producer-input");
-    producerInput.value = "";
     let priceInput = document.getElementById("price-input");
     priceInput.value = "";
+    let categorySelect = document.querySelector("#category-select");
+    categorySelect.value = 0;
 
 
     let submitButton = document.getElementById("submit-button");
@@ -152,17 +162,20 @@ function handleEditButtonOnClick() {
     let idInput = document.getElementById("id-input");
     idInput.value = product.id;
 
+    let producerInput = document.getElementById("producer-input");
+    producerInput.value = product.producer;
+
     let nameInput = document.getElementById("name-input");
     nameInput.value = product.name;
 
     let addressInput = document.getElementById("address-input");
     addressInput.value = product.address;
 
-    let producerInput = document.getElementById("producer-input");
-    producerInput.value = product.producer;
-
     let priceInput = document.getElementById("price-input");
     priceInput.value = product.currentPrice;
+
+    let categorySelect = document.querySelector("#category-select");
+    categorySelect.value = product.category.id;
 
     let submitButton = document.getElementById("submit-button");
     submitButton.value = "Mentés";
@@ -180,5 +193,25 @@ function handleDeleteButtonOnClick() {
             updateTable();
             handleReset();
         });
+    }
+}
+
+function getCategories() {
+    fetch("/api/categories")
+          .then(function (response) {
+              return response.json();
+          })
+          .then(function(categories) {
+              fillSelectOptions(categories);
+          });
+}
+
+function fillSelectOptions(categories) {
+    let categorySelect = document.querySelector("#category-select")
+    for (let i = 0; i < categories.length; i++) {
+        let option = document.createElement("option");
+        option.value = categories[i].id;
+        option.innerHTML = categories[i].name;
+        categorySelect.appendChild(option);
     }
 }
