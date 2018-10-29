@@ -1,5 +1,5 @@
-window.onload = function() {
-   updateTable();
+window.onload = function () {
+    updateTable();
 
 };
 
@@ -8,23 +8,36 @@ function updateTable() {
         .then(function (response) {
             return response.json();
         })
-        .then(function (orders) {
-            fillTable(orders);
-            console.log(orders);
+        .then(function (dashboard) {
+            fillTable(dashboard);
+            console.log(dashboard);
         });
 }
 
-function fillTable(orders){
-    let tbody = document.querySelector("#orders-tbody");
-    for(i in orders){
-        let tr = document.createElement("tr");
+function fillTable(dashboard) {
+    let tbody = document.querySelector("#dashboard-tbody");
+    let tr = document.createElement("tr");
 
 
-        let orderIdTd = document.createElement("td");
-        orderIdTd.innerHTML = orders[i].id;
-        tr.appendChild(orderIdTd);
+    let userCount = document.createElement("td");
+    userCount.innerHTML = dashboard.userCount;
+    tr.appendChild(userCount);
 
+    let activeProductCount = document.createElement("td");
+    activeProductCount.innerHTML = dashboard.activeProductCount;
+    tr.appendChild(activeProductCount);
 
-        tbody.appendChild(tr);
-        }
-    }
+    let productCount = document.createElement("td");
+    productCount.innerHTML = dashboard.productCount;
+    tr.appendChild(productCount);
+
+    let activeOrderCount = document.createElement("td");
+    activeOrderCount.innerHTML = dashboard.activeOrderCount;
+    tr.appendChild(activeOrderCount);
+
+    let orderCount = document.createElement("td");
+    orderCount.innerHTML = dashboard.orderCount;
+    tr.appendChild(orderCount);
+
+    tbody.appendChild(tr);
+}
