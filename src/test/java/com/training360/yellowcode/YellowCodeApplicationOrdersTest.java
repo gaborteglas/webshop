@@ -159,4 +159,19 @@ public class YellowCodeApplicationOrdersTest {
         assertEquals(2, orderItems.size());
     }
 
+    @Test
+    @WithMockUser(username = "admin1", roles = "ADMIN")
+    public void deliveredOrderTest() {
+        basketController.addToBasket(2);
+        basketController.addToBasket(3);
+        ordersController.createOrderAndOrderItems();
+        List<Orders> orders = ordersController.listOrders();
+        assertEquals(1, orders.size());
+        List<OrderItem> orderItems = ordersController.listOrderItems(orders.get(0).getId());
+        assertEquals(3, orderItems.size());
+        ordersController.modifyActiveStatusToDelivered(orders.get(0).getId());
+        orders = ordersController.listOrders();
+        assertEquals(OrderStatus.DELIVERED, orders.get(0).getStatus());
+    }
+
 }
