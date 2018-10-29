@@ -78,6 +78,9 @@ public class OrdersService {
     public void deleteOrderItem(long orderId, String productAddress) {
         ordersDao.deleteOrderItem(orderId, productAddress);
         LOGGER.info(MessageFormat.format("Orderitem removed from (orderId:{0}) order", orderId));
+        if (ordersDao.listOrderItemsForAdmin(orderId).size() == 0) {
+            deleteOrder(orderId);
+        }
     }
 
     @PreAuthorize("hasRole('ADMIN')")
