@@ -20,9 +20,11 @@ function fillTable(orders){
         let tr = document.createElement("tr");
 
 
-        let orderIdTd = document.createElement("td");
-        orderIdTd.innerHTML = orders[i].id;
-        tr.appendChild(orderIdTd);
+        let blankTd = document.createElement("td");
+        blankTd.innerHTML = "";
+        tr.appendChild(blankTd);
+
+
 
 
         tbody.appendChild(tr);
