@@ -1,4 +1,7 @@
 input {
     text-align: center;
-    font-style:italic;
+}
+
+#login-link {
+    margin-top: 10px;
 }
