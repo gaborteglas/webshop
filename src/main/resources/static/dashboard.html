@@ -2,12 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Rendelés részletező</title>
+    <title>Sárhányó</title>
     <link rel="stylesheet" href="css/bootstrap.min.css"/>
     <link rel="stylesheet" href="css/menubar.css"/>
 </head>
 <body>
-
 <div class="container">
     <ul class="nav nav-pills nav-fill">
         <li class="nav-item nav-item-products" id="to-hide-allproducts">
@@ -49,26 +48,25 @@
         </div>
 
     </ul>
-
-    <h1 id="header">Rendelés részletei: </h1>
+    <h1 class="header">Sárhányó:</h1>
 
     <table class="table table-striped">
         <thead>
         <tr>
-            <th>Termék azonosító</th>
-            <th>Szerző</th>
-            <th>Cím</th>
-            <th>Termékek száma</th>
-            <th>Egységár</th>
+            <th>Felhasználók</th>
+            <th>Aktív termékek</th>
+            <th>Összes termék</th>
+            <th>Aktív rendelések</th>
+            <th>Összes rendelés</th>
+            <th>Rendelés összege</th>
         </tr>
         </thead>
-        <tbody id="orderitem-tbody">
+        <tbody id="orders-tbody">
 
         </tbody>
     </table>
-    <p id ="totalPrice"></p>
 </div>
-<script src="js/orderitem.js"></script>
 <script src="js/menubar.js"></script>
+<script src="js/dashboard.js"></script>
 </body>
 </html>

@@ -1,12 +1,15 @@
 package com.training360.yellowcode;
 
+import com.training360.yellowcode.businesslogic.Response;
 import com.training360.yellowcode.dbTables.*;
 import com.training360.yellowcode.userinterface.BasketController;
 import com.training360.yellowcode.userinterface.OrdersController;
 import com.training360.yellowcode.userinterface.ProductController;
 import com.training360.yellowcode.userinterface.UserController;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,10 +20,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.client.ExpectedCount;
 
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -53,7 +58,7 @@ public class YellowCodeApplicationOrdersTest {
 
         userController.createUser(new User(1, "admin1", "Test One", "Elsőjelszó1", UserRole.ROLE_ADMIN));
         userController.createUser(new User(2, "user1", "Test Two", "Másodikjelszó2", UserRole.ROLE_USER));
-        userController.createUser(new User(3, "user2", "Test Three", "harmadikJelszó3",UserRole.ROLE_USER));
+        userController.createUser(new User(3, "user2", "Test Three", "harmadikJelszó3", UserRole.ROLE_USER));
 
         SecurityContextHolder.getContext().setAuthentication(a);
 
@@ -116,6 +121,42 @@ public class YellowCodeApplicationOrdersTest {
 
         List<Product> basketItems = basketController.listProducts();
         assertEquals(basketItems.size(), 0);
+    }
+
+    @Test
+    @WithMockUser(username = "user1", roles = "USER")
+    public void testOrderWithEmptyBasket() {
+        basketController.deleteSingleProduct(1);
+        assertEquals(0, basketController.listProducts().size());
+        Response response = ordersController.createOrderAndOrderItems();
+        assertEquals(response.getMessage(), "A kosár üres");
+        assertFalse(response.isValidRequest());
+    }
+
+    @Test
+    @WithMockUser(username = "admin1", roles = "ADMIN")
+    public void deleteOrder() {
+        ordersController.createOrderAndOrderItems();
+        List<Orders> orders = ordersController.listOrders();
+        assertEquals(1, orders.size());
+        ordersController.deleteOrder(orders.get(0).getId());
+        orders = ordersController.listActiveOrders();
+        assertEquals(0, orders.size());
+    }
+
+    @Test
+    @WithMockUser(username = "admin1", roles = "ADMIN")
+    public void deleteOrderItem() {
+        basketController.addToBasket(2);
+        basketController.addToBasket(3);
+        ordersController.createOrderAndOrderItems();
+        List<Orders> orders = ordersController.listOrders();
+        assertEquals(1, orders.size());
+        List<OrderItem> orderItems = ordersController.listOrderItems(orders.get(0).getId());
+        assertEquals(3, orderItems.size());
+        ordersController.deleteOrderItem(orders.get(0).getId(), orderItems.get(0).getProductAddress());
+        orderItems = ordersController.listOrderItems(orders.get(0).getId());
+        assertEquals(2, orderItems.size());
     }
 
 }

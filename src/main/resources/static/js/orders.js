@@ -1,6 +1,7 @@
 window.onload = function () {
     updateTable();
     filterActiveButtonClick();
+    filterAllButtonClick();
 };
 
 function updateTable() {
@@ -117,7 +118,19 @@ function activeButtonClick() {
 }
 
 function filterActiveButtonClick() {
+<<<<<<< HEAD
     let theadActiveButton = document.getElementById("orders-filter-active");
     theadActiveButton.setAttribute("class", "btn btn-warning");
     theadActiveButton.onclick = activeButtonClick;
+=======
+let theadActiveButton = document.getElementById("orders-filter-active");
+theadActiveButton.setAttribute("class", "btn btn-warning");
+theadActiveButton.onclick = activeButtonClick;
+}
+
+function filterAllButtonClick() {
+let theadAllButton = document.getElementById("orders-filter-all");
+theadAllButton.setAttribute("class", "btn btn-info");
+theadAllButton.onclick = updateTable;
+>>>>>>> origin/master
 }
