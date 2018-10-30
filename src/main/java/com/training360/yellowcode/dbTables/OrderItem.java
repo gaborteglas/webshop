@@ -9,8 +9,10 @@ public class OrderItem {
     private String productAddress;
     private String producer;
     private long productPrice;
+    private long quantity;
 
-    public OrderItem(long id, long orderId, long productId, String productName, String productAddress, String producer, long productPrice) {
+    public OrderItem(long id, long orderId, long productId, String productName, String productAddress,
+                     String producer, long productPrice, long quantity) {
         this.id = id;
         this.orderId = orderId;
         this.productId = productId;
@@ -18,6 +20,7 @@ public class OrderItem {
         this.productAddress = productAddress;
         this.producer = producer;
         this.productPrice = productPrice;
+        this.quantity = quantity;
     }
 
     public OrderItem(long orderId, long productId, String productName, String productAddress, String producer, long productPrice) {
@@ -86,5 +89,13 @@ public class OrderItem {
 
     public void setProductPrice(long productPrice) {
         this.productPrice = productPrice;
+    }
+
+    public long getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(long quantity) {
+        this.quantity = quantity;
     }
 }

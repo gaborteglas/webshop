@@ -5,7 +5,6 @@ import com.training360.yellowcode.businesslogic.Response;
 import com.training360.yellowcode.businesslogic.UserService;
 import com.training360.yellowcode.dbTables.Basket;
 import com.training360.yellowcode.dbTables.BasketProduct;
-import com.training360.yellowcode.dbTables.Product;
 import com.training360.yellowcode.dbTables.User;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -59,7 +58,7 @@ public class BasketController {
     public Response deleteSingleProduct(@PathVariable long productId) {
         User user = getAuthenticatedUserId();
         if (user != null) {
-            return basketsService.deleteFromBasketByProductIdAndUserId(user.getId(), productId);
+            return basketsService.deleteFromBasketByUserIdAndProductId(user.getId(), productId);
         } else {
             return new Response(false, "A felhasználó nem jogosult a törlésre.");
         }

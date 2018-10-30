@@ -39,7 +39,7 @@ public class BasketsService {
         } else {
             Basket previous = sameProductInUserBasket.get(0);
             previous.setQuantity(previous.getQuantity() + basket.getQuantity());
-            basketsDao.deleteFromBasketByProductIdAndUserId(previous.getProductId(), previous.getUserId());
+            basketsDao.deleteFromBasketByProductIdAndUserId(basket.getUserId(), basket.getProductId());
             basketsDao.addToBasket(previous);
             LOGGER.info(MessageFormat.format("Product (productId: {0}) quantity in basket of user (userId: {1}) " +
                     "modified by {2}", previous.getProductId(), previous.getUserId(), basket.getQuantity()));
@@ -53,7 +53,7 @@ public class BasketsService {
         return new Response(true, "Kosár ürítve.");
     }
 
-    public Response deleteFromBasketByProductIdAndUserId(long userId, long productId) {
+    public Response deleteFromBasketByUserIdAndProductId(long userId, long productId) {
         basketsDao.deleteFromBasketByProductIdAndUserId(userId, productId);
         LOGGER.info(MessageFormat.format("Product (productId: {0}) of user (userId: {1}) has been removed",
                 productId, userId));
