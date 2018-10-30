@@ -2,24 +2,25 @@ package com.training360.yellowcode.dbTables;
 
 import java.time.LocalDateTime;
 import java.time.Month;
-
+import java.time.format.TextStyle;
+import java.util.Locale;
 
 public class Reports {
     private long totalPrice;
-    private Month date;
+    private String date;
     private OrderStatus status;
     private String productName;
     private long productCount;
-    private long month;
 
-    public Reports(long totalPrice, LocalDateTime date, OrderStatus status) {
+    public Reports(long totalPrice, LocalDateTime date, OrderStatus status,long productCount) {
         this.totalPrice = totalPrice;
-        this.date = date.getMonth();
+        this.date = date.getMonth().getDisplayName(TextStyle.FULL,new Locale("HU"));
         this.status = status;
+        this.productCount = productCount;
     }
 
-    public Reports(String productName,long month,long productCount) {
-        this.month = month;
+    public Reports(String productName,LocalDateTime date,long productCount) {
+        this.date = date.getMonth().getDisplayName(TextStyle.FULL,new Locale("HU"));
         this.productName = productName;
         this.productCount = productCount;
     }
@@ -35,12 +36,12 @@ public class Reports {
         this.totalPrice = totalPrice;
     }
 
-    public Month getDate() {
+    public String getDate() {
         return date;
     }
 
     public void setDate(LocalDateTime month) {
-        this.date = month.getMonth();
+        this.date = month.getMonth().getDisplayName(TextStyle.FULL,new Locale("HU"));
     }
 
     public OrderStatus getStatus() {
@@ -67,11 +68,4 @@ public class Reports {
         this.productCount = productCount;
     }
 
-    public long getMonth() {
-        return month;
-    }
-
-    public void setMonth(long month) {
-        this.month = month;
-    }
 }

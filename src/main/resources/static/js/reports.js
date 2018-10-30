@@ -5,7 +5,6 @@ window.onload = function() {
     productButton.addEventListener("click",updateTableForSecondReport)
 }
 
-
 function updateTableForFirstReport() {
     fetch("api/reports/orders")
         .then(function (response) {
@@ -32,19 +31,18 @@ function createStatusSelectorForSecondReport(orders){
     tbody.innerHTML = "";
     let thead = document.querySelector("#orders-thead");
     thead.innerHTML = "";
-    let monthList = ["JANUÁR","FEBRUÁR","MÁRCIUS","ÁPRILIS","MÁJUS","JÚNIUS","JÚLIUS","AUGUSZTUS","SZEPTERMBER",
-    "OKTÓBER","NOVEMBER","DECEMBER"];
+    let monthList = ["január","február","március","április","május","június","július","augusztus","szeptember",
+    "október","november","december"];
     let choiceSelector = document.querySelector("#choice-selector");
     choiceSelector.innerHTML = "";
-    createDefaultOption();
+    createDefaultOption("Hónap");
     for(i in monthList){
-        console.log(monthList[i]);
         let option = document.createElement("option");
         option.innerHTML = monthList[i];
         choiceSelector.appendChild(option);
         }
     choiceSelector.addEventListener("change", function () { updateTableByStatusForSecondReport(orders)})
-    createHeadForFirstTable()
+    createHeadForSecondTable()
     }
 
 function createStatusSelectorForFirstReport(orders){
@@ -54,7 +52,7 @@ function createStatusSelectorForFirstReport(orders){
         thead.innerHTML = "";
         let choiceSelector = document.querySelector("#choice-selector");
         choiceSelector.innerHTML = "";
-        let defaultOption = createDefaultOption();
+        let defaultOption = createDefaultOption("Státusz");
 
         choiceSelector.appendChild(defaultOption);
 
@@ -70,14 +68,14 @@ function createStatusSelectorForFirstReport(orders){
         deletedOption.innerHTML = "DELETED";
         choiceSelector.appendChild(deletedOption);
         choiceSelector.addEventListener("change", function () { updateTableByStatusForFirstReport(orders)})
-        createHeadForFirstTable()
+        createHeadForFirstTable();
 }
 
 function updateTableByStatusForSecondReport(orders){
     let statusSelector = document.querySelector("#choice-selector");
     let selected = statusSelector.value;
     fillTableByStatusForSecondReport(orders,selected);
-    }
+}
 
 function updateTableByStatusForFirstReport(orders){
        let statusSelector = document.querySelector("#choice-selector");
@@ -88,11 +86,23 @@ function updateTableByStatusForFirstReport(orders){
 function fillTableByStatusForSecondReport(orders,selected){
     let tbody = document.querySelector("#orders-tbody");
     tbody.innerHTML = "";
-    }
+    for(i in orders){
+        if(orders[i].date== selected){
+            let tr = document.createElement("tr");
+                    let prductNameTd = document.createElement("td");
+                    prductNameTd.innerHTML = orders[i].productName;
+                    tr.appendChild(prductNameTd);
+                    let productCountTd = document.createElement("td");
+                    productCountTd.innerHTML = orders[i].productCount + " db";
+                    tr.appendChild(productCountTd);
+                    tbody.appendChild(tr);
+            }
+        }
 
-
+}
 
 function fillTableByStatusForFirstReport(orders,status){
+        console.log(orders);
         let tbody = document.querySelector("#orders-tbody");
         tbody.innerHTML = "";
                 for(i in orders){
@@ -102,7 +112,7 @@ function fillTableByStatusForFirstReport(orders,status){
                         monthTd.innerHTML = orders[i].date;
                         tr.appendChild(monthTd);
                         let sumTd = document.createElement("td");
-                        sumTd.innerHTML = orders[i].totalPrice;
+                        sumTd.innerHTML = orders[i].totalPrice + " Ft";
                         tr.appendChild(sumTd);
                         tbody.appendChild(tr);
                         }
@@ -124,14 +134,33 @@ function createHeadForFirstTable(){
             thead.appendChild(headTr);
 }
 
-function createDefaultOption(){
+function createHeadForSecondTable(){
+        let thead = document.querySelector("#orders-thead");
+            let headTr = document.createElement("tr");
+
+            let productNameTh = document.createElement("th");
+            productNameTh.innerHTML = "Termék neve";
+            headTr.appendChild(productNameTh);
+
+            let prouctCountTh = document.createElement("th");
+            prouctCountTh.innerHTML = "Darabszám";
+            headTr.appendChild(prouctCountTh);
+
+            thead.appendChild(headTr);
+    }
+
+function createDefaultOption(type){
             let choiceSelector = document.querySelector("#choice-selector");
             choiceSelector.innerHTML = "";
             let defaultOption = document.createElement("option");
             defaultOption.setAttribute("value","");
             defaultOption.setAttribute("disabled","")
             defaultOption.setAttribute("selected","");
-            defaultOption.innerHTML = "SELECT";
+            if(type === "Hónap"){
+                defaultOption.innerHTML = "Hónap";
+            } else {
+                defaultOption.innerHTML = "Státusz";
+            }
             choiceSelector.appendChild(defaultOption);
             return defaultOption;
     }
