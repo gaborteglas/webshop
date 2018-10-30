@@ -60,7 +60,7 @@ public class CategoryService {
         long thisCategoryPosition = findCategoryById(category.getId()).get().getPositionNumber();
         long newPosition = category.getPositionNumber();
 
-        if (thisCategoryPosition > allCategoryNumber + 1) {
+        if (thisCategoryPosition > allCategoryNumber) {
             throw new IllegalStateException("A megadott szám túl nagy");
         }
 
