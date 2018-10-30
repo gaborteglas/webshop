@@ -60,14 +60,10 @@ public class CategoryService {
         long thisCategoryPosition = findCategoryById(category.getId()).get().getPositionNumber();
         long newPosition = category.getPositionNumber();
 
-        if (thisCategoryPosition > allCategoryNumber) {
+        if (newPosition > allCategoryNumber) {
             throw new IllegalStateException("A megadott szám túl nagy");
         }
 
-        if (newPosition >  allCategoryNumber) {
-            category.setPositionNumber(allCategoryNumber);
-            newPosition = allCategoryNumber;
-        }
         if (newPosition > thisCategoryPosition) {
                 categoryDao.updateCategoryPositionMinus(thisCategoryPosition, newPosition);
             } else if (newPosition < thisCategoryPosition) {
@@ -79,8 +75,10 @@ public class CategoryService {
 
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteCategory(Category category) {
-        categoryDao.deleteCategoryUpdateProducts(category.getId());
+        long id = category.getId();
+        long position = category.getPositionNumber();
+        categoryDao.deleteCategoryUpdateProducts(id);
+        categoryDao.updateCategoryPositionAfterDelete(position);
         categoryDao.deleteCategory(category);
-        categoryDao.updateCategoryPositionAfterDelete(category.getId());
     }
 }
