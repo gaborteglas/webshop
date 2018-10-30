@@ -53,8 +53,8 @@ public class CategoryController {
     }
 
     @RequestMapping(value = "/api/categories/{id}", method = RequestMethod.DELETE)
-    public Response deleteCategory(Category category) {
-        categoryService.deleteCategory(category);
+    public Response deleteCategory(@PathVariable long id) {
+        categoryService.deleteCategory(id);
         return new Response(true, "Törölve");
     }
 }
