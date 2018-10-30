@@ -64,10 +64,6 @@ public class CategoryService {
             throw new IllegalStateException("A megadott szám túl nagy");
         }
 
-        if (newPosition >  allCategoryNumber) {
-            category.setPositionNumber(allCategoryNumber);
-            newPosition = allCategoryNumber;
-        }
         if (newPosition > thisCategoryPosition) {
                 categoryDao.updateCategoryPositionMinus(thisCategoryPosition, newPosition);
             } else if (newPosition < thisCategoryPosition) {

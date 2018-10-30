@@ -132,9 +132,7 @@ function createCategory() {
     }).then(function(response) {
         alert(response.message);
         updateTable();
-        handleReset();
     });
-        return false;
 }
 
 function handleDeleteButtonOnClick() {
@@ -147,7 +145,7 @@ function handleDeleteButtonOnClick() {
         })
         .then(function(response) {
             updateTable();
-        });
+        })
     }
 }
 
