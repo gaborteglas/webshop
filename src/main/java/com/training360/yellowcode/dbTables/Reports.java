@@ -12,10 +12,11 @@ public class Reports {
     private String productName;
     private long productCount;
 
-    public Reports(long totalPrice, LocalDateTime date, OrderStatus status) {
+    public Reports(long totalPrice, LocalDateTime date, OrderStatus status,long productCount) {
         this.totalPrice = totalPrice;
         this.date = date.getMonth().getDisplayName(TextStyle.FULL,new Locale("HU"));
         this.status = status;
+        this.productCount = productCount;
     }
 
     public Reports(String productName,LocalDateTime date,long productCount) {
