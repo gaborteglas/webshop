@@ -69,12 +69,18 @@ public class CategoryDao {
     }
 
     public void updateCategory(Category category) {
-        jdbcTemplate.update(
-                "update category set id = ?, name = ?, position_number = ? where id = ?",
-                category.getId(),
+        String oldCategory = findCategoryById(category.getId()).get().getName();
+
+        if (oldCategory.equals(category.getName())) {
+            jdbcTemplate.update("update category set position_number = ? where id = ?",
+                    category.getPositionNumber(),
+                    category.getId());
+        } else { jdbcTemplate.update(
+                "update category set name = ?, position_number = ? where id = ?",
                 category.getName(),
                 category.getPositionNumber(),
                 category.getId());
+        }
     }
 
     public void deleteCategoryUpdateProducts(long id) {
@@ -87,6 +93,18 @@ public class CategoryDao {
 
     public void updateCategoryPosition(long id) {
         jdbcTemplate.update("update category set position_number = position_number + 1 where id >= ?", id );
+    }
+
+    public void updateCategoryPositionMinus(long posOld, long posNew) {
+        jdbcTemplate.update("update category set position_number = position_number - 1 " +
+                        "where position_number > ? AND position_number <= ?",
+                posOld, posNew );
+    }
+
+    public void updateCategoryPositionPlus(long posOld, long posNew) {
+        jdbcTemplate.update("update category set position_number = position_number + 1 " +
+                        "where position_number < ? AND position_number >= ?",
+                posOld, posNew );
     }
 
     public void updateCategoryPositionAfterDelete(long id) {

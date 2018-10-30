@@ -50,20 +50,23 @@
     </ul>
     <h1 class="header">Riportok :</h1>
 
-    <select id="status-select">
-        <option value="" disabled selected>Select</option>
-        <option>ACTIVE</option>
-        <option>DELIVERED</option>
-        <option>DELETED</option>
+    <div class="buttons">
+            <input type="button" id="bystatus" value="Státusz szerint" class="btn btn-primary">
+            <input type="button" id="byproduct" value="Termék szerint" class="btn btn-primary">
+            <br><br>
+    </div>
 
+    <div class="selector-div">
+
+    <select id="choice-selector">
+        <option value="" disabled selected>Select</option>
     </select>
 
+    </div>
+
+
     <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>Hónap</th>
-            <th>Összeg</th>
-        </tr>
+        <thead id="orders-thead">
         </thead>
         <tbody id="orders-tbody">
 
