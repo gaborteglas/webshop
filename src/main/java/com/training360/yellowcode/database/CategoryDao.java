@@ -87,8 +87,8 @@ public class CategoryDao {
         jdbcTemplate.update("update products set category_id = null where category_id = ?", id);
     }
 
-    public void deleteCategory(Category category) {
-        jdbcTemplate.update("delete from category where id = ?", category.getId());
+    public void deleteCategory(long id) {
+        jdbcTemplate.update("delete from category where id = ?", id);
     }
 
     public void updateCategoryPosition(long id) {
