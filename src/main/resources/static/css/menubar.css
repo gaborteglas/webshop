@@ -6,7 +6,7 @@ align-items: center; /* align vertical */
 
 .card {
 padding: 0px;
-border-radius: 10%;
+border-radius: 1em;
 margin: 0;
 }
 
