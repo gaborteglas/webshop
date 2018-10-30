@@ -9,6 +9,7 @@ function updateTable() {
             fillTable(jsonData);
         });
         handleModifyButton();
+        handleCreateButton();
 }
 
 function fillTable(categories) {
@@ -102,6 +103,40 @@ function modifyCategory() {
         return false;
 }
 
+function createCategory() {
+    let idInput = document.getElementById("id-input");
+        let nameInput = document.getElementById("name-input");
+        let positionInput = document.getElementById("position-input");
+
+    let id = idInput.value;
+    let name = nameInput.value;
+    let position = positionInput.value;
+
+    let category = {"id": id,
+               };
+
+    if (name.length != 0) {
+        category.name = name;
+    }
+
+    category.positionNumber = position;
+
+    fetch("api/categories/", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json; charset=utf-8"
+                },
+        body: JSON.stringify(category)
+    }).then(function(response) {
+        return response.json()
+    }).then(function(response) {
+        alert(response.message);
+        updateTable();
+        handleReset();
+    });
+        return false;
+}
+
 function handleDeleteButtonOnClick() {
     var result = confirm("Biztosan törli a kijelölt kategóriát?");
     if (result) {
@@ -119,4 +154,9 @@ function handleDeleteButtonOnClick() {
 function handleModifyButton() {
     let modifyButton = document.getElementById("submit-button");
     modifyButton.onclick = modifyCategory;
+}
+
+function handleCreateButton() {
+    let createButton = document.getElementById("create-button");
+    createButton.onclick = createCategory;
 }

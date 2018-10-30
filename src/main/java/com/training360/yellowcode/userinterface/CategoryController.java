@@ -19,9 +19,6 @@ public class CategoryController {
 
     @RequestMapping(value = "/api/category/{id}", method = RequestMethod.GET)
     public Optional<Category> findCategoryById(@PathVariable long id) {
-        if (id == 0) {
-            return categoryService.findCategoryById(1);
-        }
         return categoryService.findCategoryById(id);
     }
 

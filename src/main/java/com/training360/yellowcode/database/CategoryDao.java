@@ -107,7 +107,8 @@ public class CategoryDao {
                 posOld, posNew );
     }
 
-    public void updateCategoryPositionAfterDelete(long id) {
-        jdbcTemplate.update("update category set position_number = position_number - 1 where id >= ?", id );
+    public void updateCategoryPositionAfterDelete(long position) {
+        jdbcTemplate.update("update category set position_number = position_number - 1 " +
+                "where position >= ?", position );
     }
 }
