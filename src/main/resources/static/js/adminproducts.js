@@ -83,6 +83,9 @@ function handleSubmit() {
     let address = addressInput.value;
     let price = priceInput.value;
     let categoryId = categorySelect.value;
+    if (categoryId == 0) {
+        categoryId = 1;
+    }
     console.log(categoryId);
 
     let parsedId = Number(id);
@@ -144,20 +147,20 @@ function createProduct(id, producer, name, address, price, category) {
     }).then(response => response.json())
         .then(function(response) {
 
-    if (editedProduct === null) {
-        alert("Hozzáadva.");
-    } else {
-        alert("Módosítva.")
-    }
-    updateTable();
-    handleReset();
-     });
+            if (editedProduct === null) {
+                alert("Hozzáadva.");
+            } else {
+                alert("Módosítva.")
+            }
+            updateTable();
+            document.getElementById("product-form").reset();
+        });
     return false;
 }
 
 function handleReset() {
     editedProduct = null;
-    let idInput = document.getElementById("id-input");
+    /* let idInput = document.getElementById("id-input");
     idInput.value = "";
     let producerInput = document.getElementById("producer-input");
     producerInput.value = "";
@@ -168,7 +171,7 @@ function handleReset() {
     let priceInput = document.getElementById("price-input");
     priceInput.value = "";
     let categorySelect = document.querySelector("#category-select");
-    categorySelect.value = 0;
+    categorySelect.value = 0; */
 
 
     let submitButton = document.getElementById("submit-button");
