@@ -22,18 +22,27 @@ function fillTable(products){
     tbody.innerHTML = "";
     for(k in products){
         let tr = document.createElement("tr");
+
         let idTd = document.createElement("td");
         idTd.innerHTML = products[k].id;
         tr.appendChild(idTd);
+
         let nameTd = document.createElement("td");
         nameTd.innerHTML = products[k].name;
         tr.appendChild(nameTd);
+
         let producerTd = document.createElement("td");
         producerTd.innerHTML = products[k].producer;
         tr.appendChild(producerTd);
+
         let currentPriceTd= document.createElement("td");
         currentPriceTd.innerHTML = products[k].currentPrice + " Ft";
         tr.appendChild(currentPriceTd);
+
+        let quantityTd = document.createElement("td");
+        quantityTd.innerHTML = products[k].quantity + " db";
+        tr.appendChild(quantityTd);
+
         deleteButton = document.createElement("input");
         deleteButton.setAttribute("type","reset");
         deleteButton.setAttribute("id",products[k].id);

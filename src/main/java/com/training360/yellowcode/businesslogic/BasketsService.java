@@ -2,6 +2,7 @@ package com.training360.yellowcode.businesslogic;
 
 import com.training360.yellowcode.database.BasketsDao;
 import com.training360.yellowcode.dbTables.Basket;
+import com.training360.yellowcode.dbTables.BasketProduct;
 import com.training360.yellowcode.dbTables.Product;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +20,7 @@ public class BasketsService {
         this.basketsDao = basketsDao;
     }
 
-    public List<Product> listProducts(long userId) {
+    public List<BasketProduct> listProducts(long userId) {
         return basketsDao.listProducts(userId);
     }
 

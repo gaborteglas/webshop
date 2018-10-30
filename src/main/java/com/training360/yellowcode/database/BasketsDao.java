@@ -1,6 +1,7 @@
 package com.training360.yellowcode.database;
 
 import com.training360.yellowcode.dbTables.Basket;
+import com.training360.yellowcode.dbTables.BasketProduct;
 import com.training360.yellowcode.dbTables.Product;
 import com.training360.yellowcode.dbTables.ProductStatusType;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -39,19 +40,19 @@ public class BasketsDao {
         });
     }
 
-    public List<Product> listProducts(long userId) {
+    public List<BasketProduct> listProducts(long userId) {
         return jdbcTemplate.query(
                 "SELECT products.id, products.name, products.address, products.producer, products.price, basket.quantity" +
                         " FROM products " +
                         "LEFT JOIN basket on products.id = basket.product_id " +
                         "WHERE basket.user_id = ? AND products.status = 'ACTIVE'",
                 (ResultSet resultSet, int i) ->
-                        new Product(resultSet.getLong("products.id"),
+                        new BasketProduct (resultSet.getLong("products.id"),
                                     resultSet.getString("products.name"),
                                     resultSet.getString("products.address"),
                                     resultSet.getString("products.producer"),
                                     resultSet.getLong("products.price"),
-                                    ProductStatusType.ACTIVE),
+                                    resultSet.getLong("basket.quantity")),
                 userId);
     }
 
