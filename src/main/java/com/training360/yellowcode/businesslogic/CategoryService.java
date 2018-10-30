@@ -2,6 +2,7 @@ package com.training360.yellowcode.businesslogic;
 
 import com.training360.yellowcode.database.CategoryDao;
 import com.training360.yellowcode.dbTables.Category;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,18 +25,24 @@ public class CategoryService {
         return categoryDao.listCategorys();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public void createCategory(Category category) {
-//        if (category.getName() == null || "".equals(category.getName().trim())) {
-//            throw new IllegalArgumentException("A név kitöltése kötelező!");
-//        }
+        if (category.getName() == null || "".equals(category.getName().trim())) {
+            throw new IllegalArgumentException("A név kitöltése kötelező!");
+        }
 
         long allCategoryNumber = listCategorys().size();
         long thisCategoryPosition = category.getPositionNumber();
 
+        if (thisCategoryPosition == 0) {
+            thisCategoryPosition = allCategoryNumber;
+        }
+
+        if (thisCategoryPosition > allCategoryNumber + 1) {
+            throw new IllegalStateException("A megadott szám túl nagy");
+        }
+
         if (thisCategoryPosition ==  allCategoryNumber + 1) {
-            categoryDao.createCategory(category);
-        } else if (thisCategoryPosition > allCategoryNumber + 1) {
-            category.setPositionNumber(allCategoryNumber + 1);
             categoryDao.createCategory(category);
         } else if (thisCategoryPosition <= allCategoryNumber ) {
             categoryDao.updateCategoryPosition(thisCategoryPosition);
@@ -43,29 +50,31 @@ public class CategoryService {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public void updateCategory(Category category) {
-//        if (category.getName() == null || "".equals(category.getName().trim())) {
-//            throw new IllegalArgumentException("A név kitöltése kötelező!");
-//        }
+        if (category.getName() == null || "".equals(category.getName().trim())) {
+            throw new IllegalArgumentException("A név kitöltése kötelező!");
+        }
 
         long allCategoryNumber = listCategorys().size();
         long thisCategoryPosition = findCategoryById(category.getId()).get().getPositionNumber();
         long newPosition = category.getPositionNumber();
 
-        if (thisCategoryPosition == newPosition) {
-            categoryDao.updateCategory(category);
-        } else if (thisCategoryPosition ==  allCategoryNumber + 1) {
-            categoryDao.updateCategory(category);
-        } else if (thisCategoryPosition > allCategoryNumber + 1) {
-            category.setPositionNumber(allCategoryNumber +1);
-            categoryDao.updateCategory(category);
-        } else if (thisCategoryPosition <= allCategoryNumber ) {
-            categoryDao.updateCategoryPosition(thisCategoryPosition);
+
+        if (newPosition >  allCategoryNumber) {
+            category.setPositionNumber(allCategoryNumber);
+            newPosition = allCategoryNumber;
+        }
+        if (newPosition > thisCategoryPosition) {
+                categoryDao.updateCategoryPositionMinus(thisCategoryPosition, newPosition);
+            } else if (newPosition < thisCategoryPosition) {
+                categoryDao.updateCategoryPositionPlus(thisCategoryPosition, newPosition);
+            }
             categoryDao.updateCategory(category);
         }
-    }
 
 
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteCategory(Category category) {
         categoryDao.deleteCategoryUpdateProducts(category.getId());
         categoryDao.deleteCategory(category);
