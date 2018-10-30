@@ -21,7 +21,8 @@ public class BasketsDao {
     }
 
     public List<Basket> findBasketByUserIdAndProductId(Basket basket) {
-        return jdbcTemplate.query("select id, user_id, product_id from basket where user_id = ? and product_id = ?",
+        return jdbcTemplate.query("SELECT id, user_id, product_id, quantity" +
+                        " FROM basket WHERE user_id = ? and product_id = ?",
                 new BasketMapper(),
                 basket.getUserId(),
                 basket.getProductId());
@@ -29,18 +30,21 @@ public class BasketsDao {
 
     public void addToBasket(Basket basket) {
         jdbcTemplate.update(connection -> {
-            PreparedStatement ps = connection.prepareStatement("insert into basket(user_id,product_id) values(?,?)");
+            PreparedStatement ps = connection.prepareStatement("insert into basket(user_id,product_id, quantity)" +
+                    " values(?,?,?)");
             ps.setLong(1, basket.getUserId());
             ps.setLong(2, basket.getProductId());
+            ps.setLong(3, basket.getQuantity());
             return ps;
         });
     }
 
     public List<Product> listProducts(long userId) {
         return jdbcTemplate.query(
-                "select products.id, products.name, products.address, products.producer, products.price from products " +
-                        "inner join basket on products.id = basket.product_id " +
-                        "where basket.user_id = ? and products.status = 'ACTIVE'",
+                "SELECT products.id, products.name, products.address, products.producer, products.price, basket.quantity" +
+                        " FROM products " +
+                        "LEFT JOIN basket on products.id = basket.product_id " +
+                        "WHERE basket.user_id = ? AND products.status = 'ACTIVE'",
                 (ResultSet resultSet, int i) ->
                         new Product(resultSet.getLong("products.id"),
                                     resultSet.getString("products.name"),
@@ -57,8 +61,8 @@ public class BasketsDao {
             long id = resultSet.getLong("id");
             long userId = resultSet.getLong("user_id");
             long productId = resultSet.getLong("product_id");
-            Basket basket = new Basket(id, userId, productId);
-            return basket;
+            long quantity = resultSet.getLong("quantity");
+            return new Basket(id, userId, productId, quantity);
         }
     }
 

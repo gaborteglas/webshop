@@ -8,8 +8,9 @@ window.onload = function() {
 
 function handlePutIntoBasket(){
     let productId = document.querySelector("#productId").innerHTML;
+    let quantity = document.querySelector("#quantity").value;
 
-    fetch("api/basket/" + productId, {
+    fetch("api/basket/" + productId + "/" + quantity, {
         method: "POST"
     }).then(function(response) {
         return response.json()
@@ -86,9 +87,16 @@ function switchBasketButton() {
     let button = document.getElementById("puttobasket");
     button.style.display = "block";
     button.setAttribute("style","display:block");
+
+    let input = document.getElementById("quantity");
+    input.style.display = "block";
+    input.setAttribute("style","display:block");
 }
 
 function hideBasketButton() {
    let button1 = document.getElementById("puttobasket");
    button1.style.display = "none";
+
+   let input = document.getElementById("quantity");
+   input.style.display = "none";
 }

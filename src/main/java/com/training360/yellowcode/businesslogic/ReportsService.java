@@ -26,5 +26,8 @@ public class ReportsService {
         return reportsDao.listReportsByDate();
     }
 
-
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<Reports> listReportsByProductAndDate() {
+        return reportsDao.listReportsByProductAndDate();
+    }
 }

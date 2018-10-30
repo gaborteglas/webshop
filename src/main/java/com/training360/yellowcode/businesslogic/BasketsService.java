@@ -28,15 +28,15 @@ public class BasketsService {
     }
 
     public Response addToBasket(Basket basket) {
-        List<Basket> sameProductInUserBasket = findBasketByUserIdAndProductId(basket);
-        if (sameProductInUserBasket.size() == 0) {
+//        List<Basket> sameProductInUserBasket = findBasketByUserIdAndProductId(basket);
+//        if (sameProductInUserBasket.size() == 0) {
             basketsDao.addToBasket(basket);
             LOGGER.info(MessageFormat.format("Product (productId: {0}) added to basket of user (userId: {1})",
                     basket.getUserId(), basket.getProductId()));
             return new Response(true, "Termék hozzáadva a kosárhoz.");
-        } else {
-            return new Response(false, "A termék már szerepel a kosárban.");
-        }
+//        } else {
+//            return new Response(false, "A termék már szerepel a kosárban.");
+//        }
     }
 
     public Response deleteFromBasketByUserId(long userId) {

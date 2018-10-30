@@ -34,11 +34,11 @@ public class BasketController {
         }
     }
 
-    @RequestMapping(value = "/api/basket/{productId}", method = RequestMethod.POST)
-    public Response addToBasket(@PathVariable long productId) {
+    @RequestMapping(value = "/api/basket/{productId}/{quantity}", method = RequestMethod.POST)
+    public Response addToBasket(@PathVariable long productId,@PathVariable Long quantity) {
         User user = getAuthenticatedUserId();
         if (user != null) {
-            return basketsService.addToBasket(new Basket(user.getId(), productId));
+            return basketsService.addToBasket(new Basket(user.getId(), productId, quantity));
         } else {
             return new Response(false, "A felhasználó nem jogosult a kosár módosítására.");
         }
