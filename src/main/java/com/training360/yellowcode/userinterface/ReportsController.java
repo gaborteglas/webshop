@@ -24,4 +24,8 @@ public class ReportsController {
         return reportsService.listReportsByDate();
     }
 
+    @RequestMapping(value = "/api/reports/products", method = RequestMethod.GET)
+    public List<Reports> listReportsByProductAndDate(){
+        return reportsService.listReportsByProductAndDate();
+    }
 }

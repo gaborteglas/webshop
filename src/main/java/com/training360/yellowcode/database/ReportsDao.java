@@ -32,5 +32,17 @@ public class ReportsDao {
                 ));
     }
 
-
+    public List<Reports> listReportsByProductAndDate(){
+    return jdbcTemplate.query("SELECT products.name,month(orders.date),COUNT(products.name) " +
+                    "FROM orderitem " +
+                    "JOIN products on orderitem.product_id = products.id " +
+                    "JOIN orders on orderitem.order_id = orders.id " +
+                    "WHERE orders.status = 'DELIVERED'" +
+                    "GROUP BY month(orders.date), products.name",
+            (ResultSet resultSet, int i) -> new Reports(
+                        resultSet.getString("products.name"),
+                        resultSet.getLong("month(orders.date)"),
+                        resultSet.getLong("COUNT(products.name)")
+                ));
+    }
 }
