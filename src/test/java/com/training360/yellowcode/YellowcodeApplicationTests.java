@@ -1,4 +1,6 @@
 package com.training360.yellowcode;
+
+import com.training360.yellowcode.dbTables.Category;
 import com.training360.yellowcode.dbTables.Product;
 import com.training360.yellowcode.dbTables.ProductStatusType;
 import com.training360.yellowcode.userinterface.ProductController;
@@ -10,8 +12,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
+
 import java.util.List;
 import java.util.Optional;
+
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
@@ -25,12 +29,13 @@ public class YellowcodeApplicationTests {
 
     @Before
     public void init() {
-        productController.createProduct(new Product(1, "Az aliceblue 50 árnyalata","aliceblue", "E. L. Doe", 9999, ProductStatusType.ACTIVE));
-        productController.createProduct(new Product(2, "Legendás programozók és megfigyelésük", "legendas", "J. K. Doe",  3999, ProductStatusType.ACTIVE));
-        productController.createProduct(new Product(3, "Az 50 első Trainer osztály", "osztaly", "Jack Doe", 5999, ProductStatusType.ACTIVE));
-        productController.createProduct(new Product(4, "Hogyan neveld a junior fejlesztődet", "junior", "Jane Doe", 6499, ProductStatusType.ACTIVE));
-        productController.createProduct(new Product(5, "Junior most és mindörökké", "mindorokke", "James Doe", 2999, ProductStatusType.ACTIVE));
+        productController.createProduct(new Product(1, "Az aliceblue 50 árnyalata", "aliceblue", "E. L. Doe", 9999, ProductStatusType.ACTIVE, new Category(1, "Egyéb", 1)));
+        productController.createProduct(new Product(2, "Legendás programozók és megfigyelésük", "legendas", "J. K. Doe", 3999, ProductStatusType.ACTIVE, new Category(1, "Egyéb", 1)));
+        productController.createProduct(new Product(3, "Az 50 első Trainer osztály", "osztaly", "Jack Doe", 5999, ProductStatusType.ACTIVE, new Category(1, "Egyéb", 1)));
+        productController.createProduct(new Product(4, "Hogyan neveld a junior fejlesztődet", "junior", "Jane Doe", 6499, ProductStatusType.ACTIVE, new Category(1, "Egyéb", 1)));
+        productController.createProduct(new Product(5, "Junior most és mindörökké", "mindorokke", "James Doe", 2999, ProductStatusType.ACTIVE, new Category(1, "Egyéb", 1)));
     }
+
     @Test
     public void testFindProductByAddress() {
         Optional<Product> product = productController.findProductByAddress("aliceblue");
@@ -52,8 +57,8 @@ public class YellowcodeApplicationTests {
         List<Product> products = productController.listProducts();
 
         productController.createProduct(new Product(
-                6, "A Java ura: A classok szövetsége", "a-java-ura-a-classok-szovetsege", "J.R.R. Doe", 2899, ProductStatusType.ACTIVE
-                ));
+                6, "A Java ura: A classok szövetsége", "a-java-ura-a-classok-szovetsege", "J.R.R. Doe", 2899, ProductStatusType.ACTIVE, new Category(1, "Egyéb", 1)
+        ));
         List<Product> products2 = productController.listProducts();
         assertEquals(products.size(), 5);
         assertEquals(products2.size(), 6);
@@ -63,10 +68,10 @@ public class YellowcodeApplicationTests {
     @Test
     public void testUpdateProduct() {
         productController.createProduct(new Product(
-                6, "A Java ura: A classok szövetsége", "a-java-ura-a-classok-szovetsege", "J.R.R. Doe", 2899, ProductStatusType.ACTIVE
+                6, "A Java ura: A classok szövetsége", "a-java-ura-a-classok-szovetsege", "J.R.R. Doe", 2899, ProductStatusType.ACTIVE, new Category(1, "Egyéb", 1)
         ));
         productController.updateProduct(new Product(
-                6, "A Java ura: A classok szövetsége", "a-java-ura-a-classok-szovetsege", "J.R.R. Doe", 3899, ProductStatusType.ACTIVE),
+                        6, "A Java ura: A classok szövetsége", "a-java-ura-a-classok-szovetsege", "J.R.R. Doe", 3899, ProductStatusType.ACTIVE, new Category(1, "Egyéb", 1)),
                 6);
 
         List<Product> products = productController.listProducts();
@@ -77,7 +82,7 @@ public class YellowcodeApplicationTests {
     @Test
     public void testDeleteProduct() {
         productController.createProduct(new Product(
-                6, "A Java ura: A classok szövetsége", "a-java-ura-a-classok-szovetsege", "J.R.R. Doe", 2899, ProductStatusType.ACTIVE
+                6, "A Java ura: A classok szövetsége", "a-java-ura-a-classok-szovetsege", "J.R.R. Doe", 2899, ProductStatusType.ACTIVE, new Category(1, "Egyéb", 1)
         ));
         productController.deleteProduct(6);
 
@@ -94,7 +99,6 @@ public class YellowcodeApplicationTests {
         assertEquals(products.get(0).getName(), "Az 50 első Trainer osztály");
         assertEquals(products.get(products.size() - 1).getName(), "Legendás programozók és megfigyelésük");
     }
-
 
 
 }
