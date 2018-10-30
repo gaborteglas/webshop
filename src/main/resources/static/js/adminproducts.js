@@ -83,9 +83,6 @@ function handleSubmit() {
     let address = addressInput.value;
     let price = priceInput.value;
     let categoryId = categorySelect.value;
-    if (categoryId == 0) {
-        categoryId = 1;
-    }
     console.log(categoryId);
 
     let parsedId = Number(id);
