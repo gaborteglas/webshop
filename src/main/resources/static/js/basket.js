@@ -49,7 +49,8 @@ function fillTable(products){
         deleteButton.setAttribute("class","btn btn-danger resetProductButtons")
         deleteButton.setAttribute("value","Törlés");
         deleteButton.onclick = clickingOnResetProductButtons;
-        totalPrice += products[k].currentPrice;
+
+        totalPrice += products[k].currentPrice * products[k].quantity;
         tr.appendChild(deleteButton);
         tbody.appendChild(tr);
     }
