@@ -5,7 +5,6 @@ window.onload = function() {
     productButton.addEventListener("click",updateTableForSecondReport)
 }
 
-
 function updateTableForFirstReport() {
     fetch("api/reports/orders")
         .then(function (response) {
@@ -32,19 +31,18 @@ function createStatusSelectorForSecondReport(orders){
     tbody.innerHTML = "";
     let thead = document.querySelector("#orders-thead");
     thead.innerHTML = "";
-    let monthList = ["JANUÁR","FEBRUÁR","MÁRCIUS","ÁPRILIS","MÁJUS","JÚNIUS","JÚLIUS","AUGUSZTUS","SZEPTERMBER",
-    "OKTÓBER","NOVEMBER","DECEMBER"];
+    let monthList = ["január","február","március","április","május","június","július","augusztus","szeptember",
+    "október","november","december"];
     let choiceSelector = document.querySelector("#choice-selector");
     choiceSelector.innerHTML = "";
     createDefaultOption();
     for(i in monthList){
-        console.log(monthList[i]);
         let option = document.createElement("option");
         option.innerHTML = monthList[i];
         choiceSelector.appendChild(option);
         }
     choiceSelector.addEventListener("change", function () { updateTableByStatusForSecondReport(orders)})
-    createHeadForFirstTable()
+    createHeadForSecondTable()
     }
 
 function createStatusSelectorForFirstReport(orders){
@@ -70,14 +68,14 @@ function createStatusSelectorForFirstReport(orders){
         deletedOption.innerHTML = "DELETED";
         choiceSelector.appendChild(deletedOption);
         choiceSelector.addEventListener("change", function () { updateTableByStatusForFirstReport(orders)})
-        createHeadForFirstTable()
+        createHeadForFirstTable();
 }
 
 function updateTableByStatusForSecondReport(orders){
     let statusSelector = document.querySelector("#choice-selector");
     let selected = statusSelector.value;
     fillTableByStatusForSecondReport(orders,selected);
-    }
+}
 
 function updateTableByStatusForFirstReport(orders){
        let statusSelector = document.querySelector("#choice-selector");
@@ -88,11 +86,23 @@ function updateTableByStatusForFirstReport(orders){
 function fillTableByStatusForSecondReport(orders,selected){
     let tbody = document.querySelector("#orders-tbody");
     tbody.innerHTML = "";
-    }
+    for(i in orders){
+        if(orders[i].date== selected){
+            let tr = document.createElement("tr");
+                    let prductNameTd = document.createElement("td");
+                    prductNameTd.innerHTML = orders[i].productName;
+                    tr.appendChild(prductNameTd);
+                    let productCountTd = document.createElement("td");
+                    productCountTd.innerHTML = orders[i].productCount;
+                    tr.appendChild(productCountTd);
+                    tbody.appendChild(tr);
+            }
+        }
 
-
+}
 
 function fillTableByStatusForFirstReport(orders,status){
+        console.log(orders);
         let tbody = document.querySelector("#orders-tbody");
         tbody.innerHTML = "";
                 for(i in orders){
@@ -123,6 +133,21 @@ function createHeadForFirstTable(){
 
             thead.appendChild(headTr);
 }
+
+function createHeadForSecondTable(){
+        let thead = document.querySelector("#orders-thead");
+            let headTr = document.createElement("tr");
+
+            let productNameTh = document.createElement("th");
+            productNameTh.innerHTML = "Termék neve";
+            headTr.appendChild(productNameTh);
+
+            let prouctCountTh = document.createElement("th");
+            prouctCountTh.innerHTML = "Darabszám";
+            headTr.appendChild(prouctCountTh);
+
+            thead.appendChild(headTr);
+    }
 
 function createDefaultOption(){
             let choiceSelector = document.querySelector("#choice-selector");
