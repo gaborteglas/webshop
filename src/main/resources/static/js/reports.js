@@ -93,7 +93,7 @@ function fillTableByStatusForSecondReport(orders,selected){
                     prductNameTd.innerHTML = orders[i].productName;
                     tr.appendChild(prductNameTd);
                     let productCountTd = document.createElement("td");
-                    productCountTd.innerHTML = orders[i].productCount;
+                    productCountTd.innerHTML = orders[i].productCount + " db";
                     tr.appendChild(productCountTd);
                     tbody.appendChild(tr);
             }
@@ -112,7 +112,7 @@ function fillTableByStatusForFirstReport(orders,status){
                         monthTd.innerHTML = orders[i].date;
                         tr.appendChild(monthTd);
                         let sumTd = document.createElement("td");
-                        sumTd.innerHTML = orders[i].totalPrice;
+                        sumTd.innerHTML = orders[i].totalPrice + " Ft";
                         tr.appendChild(sumTd);
                         tbody.appendChild(tr);
                         }
