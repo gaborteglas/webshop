@@ -74,11 +74,11 @@ public class CategoryService {
 
 
     @PreAuthorize("hasRole('ADMIN')")
-    public void deleteCategory(Category category) {
-        long id = category.getId();
+    public void deleteCategory(long id) {
+        Category category = findCategoryById(id).get();
         long position = category.getPositionNumber();
         categoryDao.deleteCategoryUpdateProducts(id);
+        categoryDao.deleteCategory(id);
         categoryDao.updateCategoryPositionAfterDelete(position);
-        categoryDao.deleteCategory(category);
     }
 }

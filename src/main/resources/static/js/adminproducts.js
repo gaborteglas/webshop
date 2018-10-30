@@ -86,7 +86,6 @@ function handleSubmit() {
     if (categoryId == 0) {
         categoryId = 1;
     }
-    console.log(categoryId);
 
     let parsedId = Number(id);
     if (isNaN(parsedId) || !Number.isInteger(parsedId)) {
@@ -103,34 +102,14 @@ function handleSubmit() {
         return false;
     }
 
-    findCategoryById(id, producer, name, address, price, categoryId);
-}
-
-
-function findCategoryById(id, producer, name, address, price, categoryId) {
-    fetch("api/category/" + categoryId)
-        .then(function (response) {
-          return response.json();
-        })
-        .then(function(productCategory) {
-            let category = {
-                        "id": productCategory.id,
-                        "name": productCategory.name,
-                        "positionNumber": productCategory.positionNumber
-                        }
-            console.log(category);
-            createProduct(id, producer, name, address, price, category);
-        });
-}
-
-function createProduct(id, producer, name, address, price, category) {
-    console.log(category);
     let product = {"id": id,
                    "producer": producer,
                    "name": name,
                    "address": address.length > 0 ? address : null,
                    "currentPrice": price,
-                   "category": category
+                   "category": {
+                                "id": categoryId
+                               }
                   };
 
     let url = "api/products";
@@ -144,7 +123,7 @@ function createProduct(id, producer, name, address, price, category) {
             "Content-Type": "application/json; charset=utf-8"
                 },
         body: JSON.stringify(product)
-    }).then(response => response.json())
+        }).then(response => response.json())
         .then(function(response) {
 
             if (editedProduct === null) {
@@ -214,7 +193,7 @@ function handleDeleteButtonOnClick() {
         })
         .then(function(response) {
             updateTable();
-            handleReset();
+            document.getElementById("product-form").reset();
         });
     }
 }
@@ -236,7 +215,6 @@ function fillSelectOptions(categories) {
         option["raw-data"] = categories[i];
         option.value = categories[i].id;
         option.innerHTML = categories[i].name;
-
         categorySelect.appendChild(option);
     }
 }
