@@ -7,19 +7,22 @@ public class Basket {
     private long id;
     private long userId;
     private long productId;
+    private Long quantity;
 
     public Basket() {
     }
 
-    public Basket(long userId, long productId) {
+    public Basket(long userId, long productId, Long quantity) {
         this.userId = userId;
         this.productId = productId;
+        this.quantity = quantity;
     }
 
-    public Basket(long id, long userId, long productId) {
+    public Basket(long id, long userId, long productId, Long quantity) {
         this.id = id;
         this.userId = userId;
         this.productId = productId;
+        this.quantity = quantity;
     }
 
     public long getUserId() {
@@ -44,5 +47,13 @@ public class Basket {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public Long getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Long quantity) {
+        this.quantity = quantity;
     }
 }
