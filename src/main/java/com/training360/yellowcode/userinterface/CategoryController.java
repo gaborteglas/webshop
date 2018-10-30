@@ -1,6 +1,7 @@
 package com.training360.yellowcode.userinterface;
 
 import com.training360.yellowcode.businesslogic.CategoryService;
+import com.training360.yellowcode.businesslogic.Response;
 import com.training360.yellowcode.dbTables.Category;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,17 +28,33 @@ public class CategoryController {
     }
 
     @RequestMapping(value = "/api/categories", method = RequestMethod.POST)
-    public void createCategory(@RequestBody Category category) {
-        categoryService.createCategory(category);
+    public Response createCategory(@RequestBody Category category) {
+        try {
+            categoryService.createCategory(category);
+            return new Response(true, "Létrehozva");
+        } catch (IllegalArgumentException iae) {
+            return new Response (false, "A név megadása kötelező");
+        } catch (IllegalStateException ise) {
+            return new Response(false, "A megadott sorszám túl nagy");
+        }
     }
 
     @RequestMapping(value = "/api/categories/{id}", method = RequestMethod.POST)
-    public void updateCategory(@RequestBody Category category) {
-        categoryService.updateCategory(category);
+    public Response updateCategory(@RequestBody Category category) {
+        try {
+            categoryService.updateCategory(category);
+            return new Response(true, "Módosítva");
+        } catch (IllegalArgumentException iae) {
+            return new Response(false, "A név megadása kötelező");
+        } catch (IllegalStateException ise) {
+            return new Response(false, "A megadott sorszám túl nagy");
+        }
+
     }
 
     @RequestMapping(value = "/api/categories/{id}", method = RequestMethod.DELETE)
-    public void deleteCategory(Category category) {
+    public Response deleteCategory(Category category) {
         categoryService.deleteCategory(category);
+        return new Response(true, "Törölve");
     }
 }
