@@ -35,7 +35,7 @@ function createStatusSelectorForSecondReport(orders){
     "október","november","december"];
     let choiceSelector = document.querySelector("#choice-selector");
     choiceSelector.innerHTML = "";
-    createDefaultOption();
+    createDefaultOption("Hónap");
     for(i in monthList){
         let option = document.createElement("option");
         option.innerHTML = monthList[i];
@@ -52,7 +52,7 @@ function createStatusSelectorForFirstReport(orders){
         thead.innerHTML = "";
         let choiceSelector = document.querySelector("#choice-selector");
         choiceSelector.innerHTML = "";
-        let defaultOption = createDefaultOption();
+        let defaultOption = createDefaultOption("Státusz");
 
         choiceSelector.appendChild(defaultOption);
 
@@ -149,14 +149,18 @@ function createHeadForSecondTable(){
             thead.appendChild(headTr);
     }
 
-function createDefaultOption(){
+function createDefaultOption(type){
             let choiceSelector = document.querySelector("#choice-selector");
             choiceSelector.innerHTML = "";
             let defaultOption = document.createElement("option");
             defaultOption.setAttribute("value","");
             defaultOption.setAttribute("disabled","")
             defaultOption.setAttribute("selected","");
-            defaultOption.innerHTML = "SELECT";
+            if(type === "Hónap"){
+                defaultOption.innerHTML = "Hónap";
+            } else {
+                defaultOption.innerHTML = "Státusz";
+            }
             choiceSelector.appendChild(defaultOption);
             return defaultOption;
     }
