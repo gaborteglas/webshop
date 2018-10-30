@@ -8,6 +8,7 @@ function fetchOrders(){
         return response.json();
     })
     .then(function(orderData) {
+        console.log(orderData);
         fillTable(orderData);
     })
 }
