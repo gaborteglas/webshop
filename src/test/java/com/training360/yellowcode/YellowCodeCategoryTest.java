@@ -142,7 +142,7 @@ public class YellowCodeCategoryTest {
 
     @Test
     public void testCategoryDeleteExistingCategoryFromMiddle() {
-        Response response = categoryController.deleteCategory(new Category(2, "b", 2));
+        Response response = categoryController.deleteCategory(2);
         assertTrue(response.isValidRequest());
         List<Category> allCategory = categoryController.listCategorys();
 
