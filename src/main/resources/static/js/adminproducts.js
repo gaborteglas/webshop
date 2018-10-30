@@ -82,7 +82,7 @@ function handleSubmit() {
     let name = nameInput.value;
     let address = addressInput.value;
     let price = priceInput.value;
-    let category = categorySelect.value;
+    let categoryId = categorySelect.value;
 
     let parsedId = Number(id);
     if (isNaN(parsedId) || !Number.isInteger(parsedId)) {
@@ -98,6 +98,18 @@ function handleSubmit() {
         alert("Az ár megadása kötelező, csak egész szám lehet és nem haladhatja meg a 2.000.000 Ft-ot.");
         return false;
     }
+
+    fetch("api/category/" + categoryId)
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function(category) {
+            let category = {
+                            "id": category.id,
+                            "name": category.name,
+                            "positionNumber": category.positionNumber
+                            }
+        });
 
     let product = {"id": id,
                    "producer": producer,
@@ -210,8 +222,13 @@ function fillSelectOptions(categories) {
     let categorySelect = document.querySelector("#category-select")
     for (let i = 0; i < categories.length; i++) {
         let option = document.createElement("option");
-        option.value = categories[i].id;
-        option.innerHTML = categories[i].name;
+        if (categories[i] !== null) {
+            option.value = categories[i].id;
+            option.innerHTML = categories[i].name;
+        } else {
+            option.value = "";
+            option.innerHTML = "";
+        }
         categorySelect.appendChild(option);
     }
 }
