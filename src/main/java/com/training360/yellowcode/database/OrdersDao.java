@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -61,8 +62,8 @@ public class OrdersDao {
 
     public List<OrderItem> listOrderItems(long userId, long orderId) {
         return jdbcTemplate.query(
-                "select orderitem.id, orderitem.order_id, orderitem.product_id, " +
-                        "orderitem.product_price, products.name, products.producer, products.address from orderitem " +
+                "select orderitem.id, orderitem.order_id, orderitem.product_id, orderitem.product_price, " +
+                        "orderitem.quantity, products.name, products.producer, products.address from orderitem " +
                         "join orders on orderitem.order_id = orders.id " +
                         "join products on orderitem.product_id = products.id " +
                         "where orders.id = ? and orders.user_id = ?",
@@ -73,14 +74,15 @@ public class OrdersDao {
                         resultSet.getString("products.name"),
                         resultSet.getString("products.address"),
                         resultSet.getString("products.producer"),
-                        resultSet.getLong("orderitem.product_price")),
+                        resultSet.getLong("orderitem.product_price"),
+                        resultSet.getLong("orderitem.quantity")),
                 orderId, userId);
     }
 
     public List<OrderItem> listOrderItemsForAdmin(long orderId) {
         return jdbcTemplate.query(
-                "select orderitem.id, orderitem.order_id, orderitem.product_id, " +
-                        "orderitem.product_price, products.name, products.producer, products.address from orderitem " +
+                "select orderitem.id, orderitem.order_id, orderitem.product_id, orderitem.product_price, " +
+                        "orderitem.quantity, products.name, products.producer, products.address from orderitem " +
                         "join orders on orderitem.order_id = orders.id " +
                         "join products on orderitem.product_id = products.id " +
                         "where orders.id = ?",
@@ -91,10 +93,10 @@ public class OrdersDao {
                         resultSet.getString("products.name"),
                         resultSet.getString("products.address"),
                         resultSet.getString("products.producer"),
-                        resultSet.getLong("orderitem.product_price")),
+                        resultSet.getLong("orderitem.product_price"),
+                        resultSet.getLong("orderitem.quantity")),
                 orderId);
     }
-
 
 
     public void createOrderAndOrderItems(long userId) {
@@ -109,8 +111,8 @@ public class OrdersDao {
         }, keyHolder);
         long orderId = keyHolder.getKey().longValue();
 
-        jdbcTemplate.update("insert into orderitem (order_id, product_id, product_price) " +
-                "select ?, products.id, products.price from products " +
+        jdbcTemplate.update("insert into orderitem (order_id, product_id, product_price, quantity) " +
+                "select ?, products.id, products.price, basket.quantity from products " +
                 "inner join basket on products.id = basket.product_id " +
                 "where basket.user_id = ?", orderId, userId);
 

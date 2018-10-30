@@ -83,6 +83,10 @@ function handleSubmit() {
     let address = addressInput.value;
     let price = priceInput.value;
     let categoryId = categorySelect.value;
+    if (categoryId == 0) {
+        categoryId = 1;
+    }
+    console.log(categoryId);
 
     let parsedId = Number(id);
     if (isNaN(parsedId) || !Number.isInteger(parsedId)) {
@@ -99,18 +103,28 @@ function handleSubmit() {
         return false;
     }
 
+    findCategoryById(id, producer, name, address, price, categoryId);
+}
+
+
+function findCategoryById(id, producer, name, address, price, categoryId) {
     fetch("api/category/" + categoryId)
         .then(function (response) {
           return response.json();
         })
-        .then(function(category) {
+        .then(function(productCategory) {
             let category = {
-                            "id": category.id,
-                            "name": category.name,
-                            "positionNumber": category.positionNumber
-                            }
+                        "id": productCategory.id,
+                        "name": productCategory.name,
+                        "positionNumber": productCategory.positionNumber
+                        }
+            console.log(category);
+            createProduct(id, producer, name, address, price, category);
         });
+}
 
+function createProduct(id, producer, name, address, price, category) {
+    console.log(category);
     let product = {"id": id,
                    "producer": producer,
                    "name": name,
@@ -130,19 +144,16 @@ function handleSubmit() {
             "Content-Type": "application/json; charset=utf-8"
                 },
         body: JSON.stringify(product)
-    }).then(function(response) {
+    }).then(response => response.json())
+        .then(function(response) {
 
-        if (response.status === 409) {
-            alert("A megadott id vagy cím már foglalt. ");
-        } else {
-            if (editedProduct === null) {
-                alert("Hozzáadva.");
-            } else {
-                alert("Módosítva.")
-            }
-            updateTable();
-            handleReset();
-        }
+    if (editedProduct === null) {
+        alert("Hozzáadva.");
+    } else {
+        alert("Módosítva.")
+    }
+    updateTable();
+    handleReset();
      });
     return false;
 }
@@ -219,16 +230,13 @@ function getCategories() {
 }
 
 function fillSelectOptions(categories) {
-    let categorySelect = document.querySelector("#category-select")
+    let categorySelect = document.querySelector("#category-select");
     for (let i = 0; i < categories.length; i++) {
         let option = document.createElement("option");
-        if (categories[i] !== null) {
-            option.value = categories[i].id;
-            option.innerHTML = categories[i].name;
-        } else {
-            option.value = "";
-            option.innerHTML = "";
-        }
+        option["raw-data"] = categories[i];
+        option.value = categories[i].id;
+        option.innerHTML = categories[i].name;
+
         categorySelect.appendChild(option);
     }
 }

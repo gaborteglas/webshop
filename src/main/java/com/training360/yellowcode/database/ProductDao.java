@@ -29,10 +29,10 @@ public class ProductDao {
     public Optional<Product> findProductByAddress(String address) {
         try {
             Product product = jdbcTemplate.queryForObject(
-                    "SELECT products.id, products.name, address, producer, price, status, category_id, " +
-                            "category.name, category.position_number " +
+                    "SELECT products.id, products.name, products.address, products.producer, products.price, products.status, products.category_id, " +
+                            "category.id, category.name, category.position_number " +
                             "FROM products LEFT JOIN category ON products.category_id = category.id " +
-                            "WHERE address = ?",
+                            "WHERE products.address = ?",
                     new ProductMapper(), address);
             return Optional.of(product);
         } catch (EmptyResultDataAccessException erdae) {
@@ -43,10 +43,10 @@ public class ProductDao {
     public Optional<Product> findProductById(long id) {
         try {
             Product product = jdbcTemplate.queryForObject(
-                    "SELECT products.id, products.name, address, producer, price, status, category_id, " +
-                            "category.name, category.position_number " +
+                    "SELECT products.id, products.name, products.address, products.producer, products.price, products.status, products.category_id, " +
+                            "category.id, category.name, category.position_number " +
                             "FROM products LEFT JOIN category ON products.category_id = category.id " +
-                            "WHERE id = ?",
+                            "WHERE products.id = ?",
                     new ProductMapper(), id);
             return Optional.of(product);
         } catch (EmptyResultDataAccessException erdae) {

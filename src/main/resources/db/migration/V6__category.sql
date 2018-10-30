@@ -8,6 +8,7 @@ CONSTRAINT PK_category PRIMARY KEY(id)
 INSERT INTO category
 (name, position_number)
 VALUES
+("Egyéb", 0),
 ("Ismeretterjesztő", 1),
 ("Regény", 2),
 ("Ezotéria", 3),
