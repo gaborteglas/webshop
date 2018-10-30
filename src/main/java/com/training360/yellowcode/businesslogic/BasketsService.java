@@ -7,6 +7,7 @@ import com.training360.yellowcode.dbTables.Product;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
 import java.text.MessageFormat;
 import java.util.List;
 
@@ -29,15 +30,21 @@ public class BasketsService {
     }
 
     public Response addToBasket(Basket basket) {
-//        List<Basket> sameProductInUserBasket = findBasketByUserIdAndProductId(basket);
-//        if (sameProductInUserBasket.size() == 0) {
+        List<Basket> sameProductInUserBasket = findBasketByUserIdAndProductId(basket);
+        if (sameProductInUserBasket.size() == 0) {
             basketsDao.addToBasket(basket);
             LOGGER.info(MessageFormat.format("Product (productId: {0}) added to basket of user (userId: {1})",
                     basket.getUserId(), basket.getProductId()));
             return new Response(true, "Termék hozzáadva a kosárhoz.");
-//        } else {
-//            return new Response(false, "A termék már szerepel a kosárban.");
-//        }
+        } else {
+            Basket previous = sameProductInUserBasket.get(0);
+            previous.setQuantity(previous.getQuantity() + basket.getQuantity());
+            basketsDao.deleteFromBasketByProductIdAndUserId(previous.getProductId(), previous.getUserId());
+            basketsDao.addToBasket(previous);
+            LOGGER.info(MessageFormat.format("Product (productId: {0}) quantity in basket of user (userId: {1}) " +
+                    "modified by {2}", previous.getProductId(), previous.getUserId(), basket.getQuantity()));
+            return new Response(true, MessageFormat.format("Mennyiség {0}-vel növelve.", basket.getQuantity()));
+        }
     }
 
     public Response deleteFromBasketByUserId(long userId) {
