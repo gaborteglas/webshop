@@ -73,6 +73,7 @@ public class YellowCodeReportsTest {
 
         SecurityContextHolder.getContext().setAuthentication(a);
 
+        ordersController.modifyActiveStatusToDelivered(3);
     }
 
     @Test
@@ -80,9 +81,9 @@ public class YellowCodeReportsTest {
         List<Reports> allReports = reportsController.listReportsByDate();
         Reports report = allReports.get(0);
 
-        assertEquals(1, allReports.size());
-        assertEquals(7, report.getProductCount());
-        assertEquals(44493, report.getTotalPrice());
+        assertEquals(2, allReports.size());
+        assertEquals(4, report.getProductCount());
+        assertEquals(23996, report.getTotalPrice());
         assertEquals(OrderStatus.ACTIVE, report.getStatus());
     }
 
@@ -91,10 +92,9 @@ public class YellowCodeReportsTest {
         List<Reports> allReports = reportsController.listReportsByProductAndDate();
         Reports report = allReports.get(0);
 
-        assertEquals(1, allReports.size());
-        assertEquals(7, report.getProductCount());
-        assertEquals(44493, report.getTotalPrice());
-        assertEquals(OrderStatus.ACTIVE, report.getStatus());
+        assertEquals(3, allReports.size());
+        assertEquals(1, report.getProductCount());
+        assertEquals(9999, report.getTotalPrice());
     }
 
 
