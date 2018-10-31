@@ -1,5 +1,6 @@
 package com.training360.yellowcode.dbTables;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Product {
@@ -11,7 +12,7 @@ public class Product {
     private long currentPrice;
     private ProductStatusType status = ProductStatusType.ACTIVE;
     private Category category;
-    private List<Feedback> feedbacks;
+    private List<Feedback> feedbacks = new ArrayList<>();
 
     public Product() {
     }
@@ -89,5 +90,13 @@ public class Product {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public List<Feedback> getFeedbacks() {
+        return feedbacks;
+    }
+
+    public void setFeedbacks(List<Feedback> feedbacks) {
+        this.feedbacks = feedbacks;
     }
 }
