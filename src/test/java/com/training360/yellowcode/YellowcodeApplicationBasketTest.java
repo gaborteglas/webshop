@@ -1,4 +1,4 @@
-/* package com.training360.yellowcode;
+package com.training360.yellowcode;
 
 import com.training360.yellowcode.dbTables.*;
 import com.training360.yellowcode.userinterface.BasketController;
@@ -56,8 +56,8 @@ public class YellowcodeApplicationBasketTest {
     @Test
     @WithMockUser(username = "user1", roles = "USER")
     public void testBasketDatas() {
-        Basket basket = new Basket(1, 2, 5, 1L);
-        assertEquals(basket.getId(), 1);
+        Basket basket = new Basket(1L, 2, 5, 1L);
+        assertEquals(basket.getId(), new Long(1));
         assertEquals(basket.getUserId(), 2);
         assertEquals(basket.getProductId(), 5);
         assertEquals(1L, basket.getQuantity().longValue());
@@ -123,4 +123,3 @@ public class YellowcodeApplicationBasketTest {
     }
 
 }
-*/
