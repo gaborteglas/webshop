@@ -95,19 +95,19 @@ public class CategoryDao {
         jdbcTemplate.update("update category set position_number = position_number + 1 where id >= ?", id );
     }
 
-    public void updateCategoryPositionMinus(long posOld, long posNew) {
+    public void updateCategoryPositionMinus(Long posOld, Long posNew) {
         jdbcTemplate.update("update category set position_number = position_number - 1 " +
                         "where position_number > ? AND position_number <= ?",
                 posOld, posNew );
     }
 
-    public void updateCategoryPositionPlus(long posOld, long posNew) {
+    public void updateCategoryPositionPlus(Long posOld, Long posNew) {
         jdbcTemplate.update("update category set position_number = position_number + 1 " +
                         "where position_number < ? AND position_number >= ?",
                 posOld, posNew );
     }
 
-    public void updateCategoryPositionAfterDelete(long position) {
+    public void updateCategoryPositionAfterDelete(Long position) {
         jdbcTemplate.update("update category set position_number = position_number - 1 " +
                 "where position_number >= ?", position );
     }

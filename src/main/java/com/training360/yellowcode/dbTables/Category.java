@@ -3,7 +3,7 @@ package com.training360.yellowcode.dbTables;
 public class Category {
     private long id;
     private String name;
-    private long positionNumber;
+    private Long positionNumber;
 
     public Category(long id, String name, long positionNumber) {
         this.id = id;
@@ -30,11 +30,11 @@ public class Category {
         this.name = name;
     }
 
-    public long getPositionNumber() {
+    public Long getPositionNumber() {
         return positionNumber;
     }
 
-    public void setPositionNumber(long positionNumber) {
+    public void setPositionNumber(Long positionNumber) {
         this.positionNumber = positionNumber;
     }
 }
