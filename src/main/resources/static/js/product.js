@@ -3,7 +3,8 @@ window.onload = function() {
     showBasketButton();
     let putIntoBasketButton = document.getElementById("puttobasket");
     putIntoBasketButton.onclick = handlePutIntoBasket;
-
+    let ratingSubmitButton = document.getElementById("rating-submit");
+    ratingSubmitButton.onclick = handleRatingSubmit;
 }
 
 function handlePutIntoBasket(){
@@ -32,15 +33,17 @@ function updateTable() {
     }).catch(error => creatingHeaderForName("Nincs ilyen termék"));
  }
 
-function fillTable(jsonData){
-    let name = jsonData.name;
-    let id = jsonData.id;
-    let producer = jsonData.producer;
-    let currentPrice = jsonData.currentPrice;
-    let categoryName = jsonData.category.name;
+function fillTable(product){
+    let name = product.name;
+    let id = product.id;
+    let producer = product.producer;
+    let currentPrice = product.currentPrice;
+    let categoryName = product.category.name;
+    let feedbackList = product.feedbacks;
+
     creatingHeaderForName(name);
     creatingTableRowForData(id,producer,currentPrice, categoryName);
-
+    creatingFeedbackFields(feedbackList);
 }
 
 function creatingHeaderForName(name){
@@ -66,6 +69,35 @@ function creatingTableRowForData(id,producer,currentPrice, categoryName){
     tr.appendChild(currentPriceTd);
     tr.appendChild(categoryTd);
     tbody.appendChild(tr);
+}
+
+function creatingFeedbackFields(feedbackList) {
+
+    let ratingsDiv = document.querySelector(".product-ratings");
+    for (let i = 0; i < feedbackList.length; i++) {
+        let feedbackDiv = document.createElement("div");
+        let userNameTag = document.createElement("h5");
+        userNameTag.setAttribute("id", "feedback-username")
+        userNameTag.innerHTML = feedbackList[i].user.loginName;
+        feedbackDiv.appendChild(userNameTag);
+
+        let feedbackDate = document.createElement("p");
+        feedbackDate.setAttribute("id", "feedback-date");
+        feedbackDate.innerHTML = new Date(feedbackList[i].ratingDate).toLocaleString();
+        feedbackDiv.appendChild(feedbackDate);
+
+        let feedbackScore = document.createElement("p");
+        feedbackScore.setAttribute("id", "feedback-score");
+        feedbackScore.innerHTML = feedbackList[i].ratingScore;
+        feedbackDiv.appendChild(feedbackScore);
+
+        let feedbackText = document.createElement("p");
+        feedbackText.setAttribute("id", "feedback-text");
+        feedbackText.innerHTML = feedbackList[i].ratingText;
+        feedbackDiv.appendChild(feedbackText);
+
+        ratingsDiv.appendChild(feedbackDiv);
+    }
 }
 
 function showBasketButton() {
@@ -100,4 +132,29 @@ function hideBasketButton() {
 
    let input = document.getElementById("quantity");
    input.style.display = "none";
+}
+
+function handleRatingSubmit() {
+    let productId = document.querySelector("#productId").innerHTML;
+    let ratingScore = document.getElementById("rating-score");
+    let ratingText = document.getElementById("rating-textarea");
+    let feedback = {
+                    "ratingScore": ratingScore.innerHTML,
+                    "ratingText": ratingText.innerHTM
+                    }
+
+
+    fetch("api/products/" + productId + "/feedback", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json; charset=utf-8"
+                    },
+            body: JSON.stringify(feedback)
+        }).then(function(response) {
+            return response.json()
+        }).then(function(jsonData) {
+            updateTable();
+        });
+    return false;
+
 }
