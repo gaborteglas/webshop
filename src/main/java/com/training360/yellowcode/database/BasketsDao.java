@@ -7,6 +7,7 @@ import com.training360.yellowcode.dbTables.ProductStatusType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -40,6 +41,18 @@ public class BasketsDao {
         });
     }
 
+    public void increaseBasketQuantityByOne(Basket basket) {
+        jdbcTemplate.update("update basket set quantity = ? where id = ?",
+                basket.getQuantity() + 1,
+                basket.getId());
+    }
+
+    public void decreaseBasketQuantityByOne(Basket basket) {
+        jdbcTemplate.update("update basket set quantity = ? where id = ?",
+                basket.getQuantity() - 1,
+                basket.getId());
+    }
+
     public List<BasketProduct> listProducts(long userId) {
         return jdbcTemplate.query(
                 "SELECT products.id, products.name, products.address, products.producer, products.price, basket.quantity" +
@@ -47,19 +60,19 @@ public class BasketsDao {
                         "LEFT JOIN basket on products.id = basket.product_id " +
                         "WHERE basket.user_id = ? AND products.status = 'ACTIVE'",
                 (ResultSet resultSet, int i) ->
-                        new BasketProduct (resultSet.getLong("products.id"),
-                                    resultSet.getString("products.name"),
-                                    resultSet.getString("products.address"),
-                                    resultSet.getString("products.producer"),
-                                    resultSet.getLong("products.price"),
-                                    resultSet.getLong("basket.quantity")),
+                        new BasketProduct(resultSet.getLong("products.id"),
+                                resultSet.getString("products.name"),
+                                resultSet.getString("products.address"),
+                                resultSet.getString("products.producer"),
+                                resultSet.getLong("products.price"),
+                                resultSet.getLong("basket.quantity")),
                 userId);
     }
 
     private static class BasketMapper implements RowMapper<Basket> {
         @Override
         public Basket mapRow(ResultSet resultSet, int i) throws SQLException {
-            long id = resultSet.getLong("id");
+            Long id = resultSet.getLong("id");
             long userId = resultSet.getLong("user_id");
             long productId = resultSet.getLong("product_id");
             long quantity = resultSet.getLong("quantity");

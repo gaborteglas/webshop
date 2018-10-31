@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class Basket {
 
-    private long id;
+    private Long id;
     private long userId;
     private long productId;
     private Long quantity;
@@ -18,7 +18,7 @@ public class Basket {
         this.quantity = quantity;
     }
 
-    public Basket(long id, long userId, long productId, Long quantity) {
+    public Basket(Long id, long userId, long productId, Long quantity) {
         this.id = id;
         this.userId = userId;
         this.productId = productId;
@@ -41,11 +41,11 @@ public class Basket {
         this.productId = productId;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
