@@ -30,13 +30,6 @@ public class BasketsDao {
                 basket.getProductId());
     }
 
-    public List<Basket> findBasketById(Long id) {
-        return jdbcTemplate.query("SELECT id, user_id, product_id, quantity" +
-                        " FROM basket WHERE id = ?",
-                new BasketMapper(),
-                id);
-    }
-
     public void addToBasket(Basket basket) {
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement("insert into basket(user_id,product_id, quantity)" +
@@ -51,6 +44,12 @@ public class BasketsDao {
     public void increaseBasketQuantityByOne(Basket basket) {
         jdbcTemplate.update("update basket set quantity = ? where id = ?",
                 basket.getQuantity() + 1,
+                basket.getId());
+    }
+
+    public void decreaseBasketQuantityByOne(Basket basket) {
+        jdbcTemplate.update("update basket set quantity = ? where id = ?",
+                basket.getQuantity() - 1,
                 basket.getId());
     }
 

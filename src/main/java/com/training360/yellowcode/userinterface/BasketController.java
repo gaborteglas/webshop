@@ -76,6 +76,17 @@ public class BasketController {
         }
     }
 
+    @RequestMapping(value = "/api/basket/{prouductId}/{quantity}/decrease", method = RequestMethod.POST)
+    public Response decreaseBasketQuantityByOne(@PathVariable Long prouductId, @PathVariable Long quantity) {
+        User user = getAuthenticatedUserId();
+        if (user != null) {
+            basketsService.decreaseBasketQuantityByOne(new Basket(user.getId(), prouductId, quantity));
+            return new Response(true, "Módosítva");
+        } else {
+            return new Response(false, "A felhasználó nem jogosult a kosár módosítására.");
+        }
+    }
+
 
     private User getAuthenticatedUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

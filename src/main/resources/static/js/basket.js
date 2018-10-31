@@ -108,6 +108,15 @@ function increaseQuantityInSQL(productId, quantity) {
     }).then(responseJson => updateTable())
 }
 
+function decreaseQuantityInSQL(productId, quantity) {
+    let url = "api/basket/" + productId + "/" + quantity + "/decrease";
+    fetch(url, {
+        method: "POST"
+    }).then(function (response) {
+        return response.json();
+    }).then(responseJson => updateTable())
+}
+
 function handleResetButton() {
     if (confirm("Biztos hogy üríteni szeretné a kosár tartalmát?")) {
         fetch("api/basket/", {
@@ -120,20 +129,16 @@ function handleResetButton() {
 
 function increaseQuantityByOne(rowNumber, productId, quantity) {
     increaseQuantityInSQL(productId, quantity);
-    let quantityElement = document.querySelector("#quantityFieldRow" + rowNumber);
-    let newQuantity = quantityElement.value += 1;
-    quantityElement.innerHTML = newQuantity + " db";
 }
 
 function decreaseQuantityByOne(rowNumber, productId, quantity) {
-    if (newQuantity < 1) {
+    if (quantity - 1 < 1) {
         let inputName = "deleteButtonRow" + rowNumber;
         document.querySelector(`input[name=${inputName}]`).click();
         return;
+    } else {
+        decreaseQuantityInSQL(productId, quantity);
     }
-    let quantityElement = document.querySelector("#quantityFieldRow" + rowNumber);
-    let newQuantity = quantityElement.value -= 1;
-    quantityElement.innerHTML = newQuantity + " db";
 }
 
 function handleOrderButton() {

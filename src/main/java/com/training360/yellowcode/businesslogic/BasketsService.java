@@ -64,4 +64,9 @@ public class BasketsService {
         Basket oldBasket = findBasketByUserIdAndProductId(basket).get(0);
         basketsDao.increaseBasketQuantityByOne(oldBasket);
     }
+
+    public void decreaseBasketQuantityByOne(Basket basket) {
+        Basket oldBasket = findBasketByUserIdAndProductId(basket).get(0);
+        basketsDao.decreaseBasketQuantityByOne(oldBasket);
+    }
 }
