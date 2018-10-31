@@ -30,7 +30,7 @@ public class YellowcodeApplication extends
 				.csrf().disable()
 				.authorizeRequests()
 				.antMatchers("/", "/js/**", "/css/**", "/api/products").permitAll()
-				.antMatchers("/adminproducts.html", "/users.html", "/orders.html", "/orderitems.html","/reports.html").hasRole("ADMIN")
+				.antMatchers("/adminproducts.html", "/users.html", "/orders.html", "/orderitems.html","/reports.html", "/categories.html").hasRole("ADMIN")
 				.antMatchers("/basket.html", "/myorders.html", "/myorderitem.html").authenticated()
 				.and()
 				.formLogin().loginPage("/login.html").defaultSuccessUrl("/products.html")
