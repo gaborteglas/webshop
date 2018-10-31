@@ -157,6 +157,7 @@ function handleRatingSubmit() {
                     "ratingText": ratingText
                     }
 
+    console.log(feedback);
 
     fetch("api/products/" + productId + "/feedback", {
             method: "POST",
@@ -166,9 +167,8 @@ function handleRatingSubmit() {
             body: JSON.stringify(feedback)
         }).then(function(response) {
             return response.json()
-        }).then(function(jsonData) {
+        }).then(function(response) {
             updateFeedbacks();
         });
     return false;
-
 }

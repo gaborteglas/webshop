@@ -9,6 +9,8 @@ public class Feedback {
     private LocalDateTime ratingDate;
     private User user;
 
+    public Feedback() {}
+
     public Feedback(int ratingScore, String ratingText, LocalDateTime ratingDate, User user) {
         this.ratingScore = ratingScore;
         this.ratingText = ratingText;
