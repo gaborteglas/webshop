@@ -31,7 +31,7 @@ function updateTable() {
     }).then(function(jsonData) {
         fillTable(jsonData);
     }).catch(error => creatingHeaderForName("Nincs ilyen termék"));
- }
+}
 
 function fillTable(product){
     let name = product.name;
@@ -43,7 +43,6 @@ function fillTable(product){
 
     creatingHeaderForName(name);
     creatingTableRowForData(id,producer,currentPrice, categoryName);
-    creatingFeedbackFields(feedbackList);
 }
 
 function creatingHeaderForName(name){
@@ -69,6 +68,18 @@ function creatingTableRowForData(id,producer,currentPrice, categoryName){
     tr.appendChild(currentPriceTd);
     tr.appendChild(categoryTd);
     tbody.appendChild(tr);
+}
+
+function updateFeedbacks() {
+    let productNameFromUrl = new URL(window.location).searchParams.get("address");
+    let productToFetch = "api/products/" + productNameFromUrl;
+    fetch(productToFetch, {
+        method: "GET"
+    }).then(function(response) {
+         return response.json();
+    }).then(function(product) {
+        creatingFeedbackFields(product.feedbacks);
+    }).catch(error => creatingHeaderForName("Nincs ilyen termék"));
 }
 
 function creatingFeedbackFields(feedbackList) {
@@ -153,7 +164,7 @@ function handleRatingSubmit() {
         }).then(function(response) {
             return response.json()
         }).then(function(jsonData) {
-            updateTable();
+            updateFeedbacks();
         });
     return false;
 
