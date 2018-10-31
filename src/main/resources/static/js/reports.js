@@ -28,8 +28,10 @@ function updateTableForSecondReport(){
 }
 
 function createStatusSelectorForSecondReport(orders){
-    let tbody = document.querySelector("#orders-tbody");
-    tbody.innerHTML = "";
+    let countParagraph = document.querySelector("#countparagraph");
+    countParagraph.innerHTML = "";
+    let sumParagraph = document.querySelector("#sumparagraph");
+    sumParagraph.innerHTML = "";
     let thead = document.querySelector("#orders-thead");
     thead.innerHTML = "";
     let monthList = ["január","február","március","április","május","június","július","augusztus","szeptember",
@@ -50,6 +52,10 @@ function createStatusSelectorForSecondReport(orders){
     }
 
 function createStatusSelectorForFirstReport(orders){
+        let countParagraph = document.querySelector("#countparagraph");
+        countParagraph.innerHTML = "";
+        let sumParagraph = document.querySelector("#sumparagraph");
+        sumParagraph.innerHTML = "";
         let tbody = document.querySelector("#orders-tbody");
         tbody.innerHTML = "";
         let thead = document.querySelector("#orders-thead");
@@ -90,7 +96,12 @@ function updateTableByStatusForFirstReport(orders){
 function fillTableByStatusForSecondReport(orders,selected){
     let tbody = document.querySelector("#orders-tbody");
     tbody.innerHTML = "";
+    let countParagraph = document.querySelector("#countparagraph");
+    let sumParagraph = document.querySelector("#sumparagraph");
+
     console.log(selected);
+    let totalPrice = 0;
+    let totalCount = 0;
     for(i in orders){
         if(orders[i].month == selected){
             let tr = document.createElement("tr");
@@ -103,39 +114,52 @@ function fillTableByStatusForSecondReport(orders,selected){
                     prductPriceTd.innerHTML = orders[i].productPrice + " Ft";
                     tr.appendChild(prductPriceTd);
 
+
                     let productCountTd = document.createElement("td");
                     productCountTd.innerHTML = orders[i].productCount + " db";
                     tr.appendChild(productCountTd);
+                    totalCount += orders[i].productCount;
 
                     let sumTd = document.createElement("td");
                     sumTd.innerHTML = orders[i].totalPrice + " Ft";
                     tr.appendChild(sumTd);
+                    totalPrice += orders[i].totalPrice;
 
                     tbody.appendChild(tr);
             }
         }
-
+        countParagraph.innerHTML = "Összes termék darabszáma : " + totalCount + " db";
+        sumParagraph.innerHTML = "Összes termék összértéke : " + totalPrice + " Ft";
 }
 
 function fillTableByStatusForFirstReport(orders,status){
         let tbody = document.querySelector("#orders-tbody");
         tbody.innerHTML = "";
+        let countParagraph = document.querySelector("#countparagraph");
+        let sumParagraph = document.querySelector("#sumparagraph");
+        sumParagraph.innerHTML = "";
+        let totalPrice = 0;
+        let totalCount = 0;
                 for(i in orders){
                     if(orders[i].status == status){
                         let tr = document.createElement("tr");
                         let monthTd = document.createElement("td");
                         monthTd.innerHTML = orders[i].date;
                         tr.appendChild(monthTd);
-                        let sumTd = document.createElement("td");
-                        sumTd.innerHTML = orders[i].totalPrice + " Ft";
-                        tr.appendChild(sumTd);
-                        tbody.appendChild(tr);
                         let countTd = document.createElement("td");
                         countTd.innerHTML = orders[i].productCount + " db";
+                        totalCount += orders[i].productCount;
                         tr.appendChild(countTd);
+                        let sumTd = document.createElement("td");
+                        sumTd.innerHTML = orders[i].totalPrice + " Ft";
+                        totalPrice += orders[i].totalPrice;
+                        tr.appendChild(sumTd);
+                        tbody.appendChild(tr);
                         tbody.appendChild(tr);
                         }
                 }
+        countParagraph.innerHTML = "Összes termék darabszáma : " + totalCount + " db";
+        sumParagraph.innerHTML = "Összes termék összértéke : " + totalPrice + " Ft";
     }
 
 function createHeadForFirstTable(){
@@ -146,13 +170,13 @@ function createHeadForFirstTable(){
             monthTh.innerHTML = "Hónap";
             headTr.appendChild(monthTh);
 
-            let sumTh = document.createElement("th");
-            sumTh.innerHTML = "Összeg";
-            headTr.appendChild(sumTh);
-
             let countTh = document.createElement("th");
             countTh.innerHTML = "Darabszám";
             headTr.appendChild(countTh);
+
+            let sumTh = document.createElement("th");
+            sumTh.innerHTML = "Összeg";
+            headTr.appendChild(sumTh);
 
             thead.appendChild(headTr);
 }
