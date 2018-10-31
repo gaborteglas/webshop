@@ -59,4 +59,9 @@ public class BasketsService {
                 productId, userId));
         return new Response(true, "A termék törölve lett a kosárból.");
     }
+
+    public void increaseBasketQuantityByOne(Basket basket) {
+        Basket oldBasket = findBasketByUserIdAndProductId(basket).get(0);
+        basketsDao.increaseBasketQuantityByOne(oldBasket);
+    }
 }

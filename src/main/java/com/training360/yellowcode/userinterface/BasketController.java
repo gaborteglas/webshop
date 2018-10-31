@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @RestController
 public class BasketController {
 
@@ -35,7 +36,7 @@ public class BasketController {
     }
 
     @RequestMapping(value = "/api/basket/{productId}/{quantity}", method = RequestMethod.POST)
-    public Response addToBasket(@PathVariable long productId,@PathVariable Long quantity) {
+    public Response addToBasket(@PathVariable long productId, @PathVariable Long quantity) {
         User user = getAuthenticatedUserId();
         if (user != null) {
             return basketsService.addToBasket(new Basket(user.getId(), productId, quantity));
@@ -61,6 +62,17 @@ public class BasketController {
             return basketsService.deleteFromBasketByUserIdAndProductId(user.getId(), productId);
         } else {
             return new Response(false, "A felhasználó nem jogosult a törlésre.");
+        }
+    }
+
+    @RequestMapping(value = "/api/basket/{prouductId}/{quantity}/increase", method = RequestMethod.POST)
+    public Response increaseBasketQuantityByOne(@PathVariable Long prouductId, @PathVariable Long quantity) {
+        User user = getAuthenticatedUserId();
+        if (user != null) {
+            basketsService.increaseBasketQuantityByOne(new Basket(user.getId(), prouductId, quantity));
+            return new Response(true, "Módosítva");
+        } else {
+            return new Response(false, "A felhasználó nem jogosult a kosár módosítására.");
         }
     }
 
