@@ -94,12 +94,23 @@ function fillTableByStatusForSecondReport(orders,selected){
     for(i in orders){
         if(orders[i].month == selected){
             let tr = document.createElement("tr");
+
                     let prductNameTd = document.createElement("td");
                     prductNameTd.innerHTML = orders[i].productName;
                     tr.appendChild(prductNameTd);
+
+                    let prductPriceTd = document.createElement("td");
+                    prductPriceTd.innerHTML = orders[i].productPrice + " Ft";
+                    tr.appendChild(prductPriceTd);
+
                     let productCountTd = document.createElement("td");
                     productCountTd.innerHTML = orders[i].productCount + " db";
                     tr.appendChild(productCountTd);
+
+                    let sumTd = document.createElement("td");
+                    sumTd.innerHTML = orders[i].totalPrice + " Ft";
+                    tr.appendChild(sumTd);
+
                     tbody.appendChild(tr);
             }
         }
@@ -119,6 +130,10 @@ function fillTableByStatusForFirstReport(orders,status){
                         sumTd.innerHTML = orders[i].totalPrice + " Ft";
                         tr.appendChild(sumTd);
                         tbody.appendChild(tr);
+                        let countTd = document.createElement("td");
+                        countTd.innerHTML = orders[i].productCount + " db";
+                        tr.appendChild(countTd);
+                        tbody.appendChild(tr);
                         }
                 }
     }
@@ -135,6 +150,10 @@ function createHeadForFirstTable(){
             sumTh.innerHTML = "Összeg";
             headTr.appendChild(sumTh);
 
+            let countTh = document.createElement("th");
+            countTh.innerHTML = "Darabszám";
+            headTr.appendChild(countTh);
+
             thead.appendChild(headTr);
 }
 
@@ -146,9 +165,19 @@ function createHeadForSecondTable(){
             productNameTh.innerHTML = "Termék neve";
             headTr.appendChild(productNameTh);
 
+            let productPriceTh = document.createElement("th");
+            productPriceTh.innerHTML = "Termék egységára";
+            headTr.appendChild(productPriceTh);
+
             let prouctCountTh = document.createElement("th");
             prouctCountTh.innerHTML = "Darabszám";
             headTr.appendChild(prouctCountTh);
+
+            let sumTh = document.createElement("th");
+            sumTh.innerHTML = "Termékek összértéke";
+            headTr.appendChild(sumTh);
+
+
 
             thead.appendChild(headTr);
     }

@@ -35,7 +35,8 @@ public class ReportsDao {
 
     public List<Reports> listReportsByProductAndDate(){
     return jdbcTemplate.query(
-                    "SELECT products.name,month(orders.date),SUM(quantity) " +
+                    "SELECT products.name,month(orders.date),SUM(quantity)," +
+                    "products.price,products.price*SUM(quantity) " +
                     "FROM orderitem JOIN products on orderitem.product_id = products.id " +
                     "JOIN orders on orderitem.order_id = orders.id " +
                     "WHERE orders.status = 'DELIVERED' AND YEAR(date) = YEAR(CURDATE()) " +
@@ -43,7 +44,9 @@ public class ReportsDao {
             (ResultSet resultSet, int i) -> new Reports(
                         resultSet.getString("products.name"),
                         resultSet.getInt("month(orders.date)"),
-                        resultSet.getLong("SUM(quantity)")
+                        resultSet.getLong("SUM(quantity)"),
+                        resultSet.getLong("products.price"),
+                        resultSet.getLong("products.price*SUM(quantity)")
                 ));
     }
 }

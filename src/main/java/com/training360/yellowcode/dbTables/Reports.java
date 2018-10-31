@@ -12,6 +12,7 @@ public class Reports {
     private OrderStatus status;
     private String productName;
     private long productCount;
+    private long productPrice;
 
     public Reports(long totalPrice, LocalDateTime date, OrderStatus status,long productCount) {
         this.totalPrice = totalPrice;
@@ -20,10 +21,12 @@ public class Reports {
         this.productCount = productCount;
     }
 
-    public Reports(String productName,int month,long productCount) {
+    public Reports(String productName,int month,long productCount,long productPrice,long totalPrice) {
         this.month = month;
         this.productName = productName;
         this.productCount = productCount;
+        this.productPrice = productPrice;
+        this.totalPrice = totalPrice;
     }
 
     public Reports() {
@@ -75,5 +78,13 @@ public class Reports {
 
     public void setMonth(int month) {
         this.month = month;
+    }
+
+    public long getProductPrice() {
+        return productPrice;
+    }
+
+    public void setProductPrice(long productPrice) {
+        this.productPrice = productPrice;
     }
 }
