@@ -11,6 +11,7 @@ function updateTableForFirstReport() {
             return response.json();
         })
         .then(function (orders) {
+            console.log(orders);
             createStatusSelectorForFirstReport(orders);
         });
 }
@@ -36,10 +37,13 @@ function createStatusSelectorForSecondReport(orders){
     let choiceSelector = document.querySelector("#choice-selector");
     choiceSelector.innerHTML = "";
     createDefaultOption("Hónap");
+    let id = 1;
     for(i in monthList){
         let option = document.createElement("option");
         option.innerHTML = monthList[i];
+        option.setAttribute("value",id);
         choiceSelector.appendChild(option);
+        id += 1;
         }
     choiceSelector.addEventListener("change", function () { updateTableByStatusForSecondReport(orders)})
     createHeadForSecondTable()
@@ -71,7 +75,7 @@ function createStatusSelectorForFirstReport(orders){
         createHeadForFirstTable();
 }
 
-function updateTableByStatusForSecondReport(orders){
+function updateTableByStatusForSecondReport(orders,id){
     let statusSelector = document.querySelector("#choice-selector");
     let selected = statusSelector.value;
     fillTableByStatusForSecondReport(orders,selected);
@@ -87,7 +91,7 @@ function fillTableByStatusForSecondReport(orders,selected){
     let tbody = document.querySelector("#orders-tbody");
     tbody.innerHTML = "";
     for(i in orders){
-        if(orders[i].date== selected){
+        if(orders[i].date == selected){
             let tr = document.createElement("tr");
                     let prductNameTd = document.createElement("td");
                     prductNameTd.innerHTML = orders[i].productName;
@@ -102,7 +106,6 @@ function fillTableByStatusForSecondReport(orders,selected){
 }
 
 function fillTableByStatusForFirstReport(orders,status){
-        console.log(orders);
         let tbody = document.querySelector("#orders-tbody");
         tbody.innerHTML = "";
                 for(i in orders){
