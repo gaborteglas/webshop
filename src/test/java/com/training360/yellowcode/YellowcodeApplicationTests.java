@@ -29,11 +29,11 @@ public class YellowcodeApplicationTests {
 
     @Before
     public void init() {
-        productController.createProduct(new Product(1, "Az aliceblue 50 árnyalata", "aliceblue", "E. L. Doe", 9999, ProductStatusType.ACTIVE, new Category(1, "Egyéb", 1)));
-        productController.createProduct(new Product(2, "Legendás programozók és megfigyelésük", "legendas", "J. K. Doe", 3999, ProductStatusType.ACTIVE, new Category(1, "Egyéb", 1)));
-        productController.createProduct(new Product(3, "Az 50 első Trainer osztály", "osztaly", "Jack Doe", 5999, ProductStatusType.ACTIVE, new Category(1, "Egyéb", 1)));
-        productController.createProduct(new Product(4, "Hogyan neveld a junior fejlesztődet", "junior", "Jane Doe", 6499, ProductStatusType.ACTIVE, new Category(1, "Egyéb", 1)));
-        productController.createProduct(new Product(5, "Junior most és mindörökké", "mindorokke", "James Doe", 2999, ProductStatusType.ACTIVE, new Category(1, "Egyéb", 1)));
+        productController.createProduct(new Product(1, "Az aliceblue 50 árnyalata", "aliceblue", "E. L. Doe", 9999, ProductStatusType.ACTIVE, new Category(1, "Egyéb", 1L)));
+        productController.createProduct(new Product(2, "Legendás programozók és megfigyelésük", "legendas", "J. K. Doe", 3999, ProductStatusType.ACTIVE, new Category(1, "Egyéb", 1L)));
+        productController.createProduct(new Product(3, "Az 50 első Trainer osztály", "osztaly", "Jack Doe", 5999, ProductStatusType.ACTIVE, new Category(1, "Egyéb", 1L)));
+        productController.createProduct(new Product(4, "Hogyan neveld a junior fejlesztődet", "junior", "Jane Doe", 6499, ProductStatusType.ACTIVE, new Category(1, "Egyéb", 1L)));
+        productController.createProduct(new Product(5, "Junior most és mindörökké", "mindorokke", "James Doe", 2999, ProductStatusType.ACTIVE, new Category(1, "Egyéb", 1L)));
     }
 
     @Test
@@ -57,7 +57,7 @@ public class YellowcodeApplicationTests {
         List<Product> products = productController.listProducts();
 
         productController.createProduct(new Product(
-                6, "A Java ura: A classok szövetsége", "a-java-ura-a-classok-szovetsege", "J.R.R. Doe", 2899, ProductStatusType.ACTIVE, new Category(1, "Egyéb", 1)
+                6, "A Java ura: A classok szövetsége", "a-java-ura-a-classok-szovetsege", "J.R.R. Doe", 2899, ProductStatusType.ACTIVE, new Category(1, "Egyéb", 1L)
         ));
         List<Product> products2 = productController.listProducts();
         assertEquals(products.size(), 5);
@@ -68,10 +68,10 @@ public class YellowcodeApplicationTests {
     @Test
     public void testUpdateProduct() {
         productController.createProduct(new Product(
-                6, "A Java ura: A classok szövetsége", "a-java-ura-a-classok-szovetsege", "J.R.R. Doe", 2899, ProductStatusType.ACTIVE, new Category(1, "Egyéb", 1)
+                6, "A Java ura: A classok szövetsége", "a-java-ura-a-classok-szovetsege", "J.R.R. Doe", 2899, ProductStatusType.ACTIVE, new Category(1, "Egyéb", 1L)
         ));
         productController.updateProduct(new Product(
-                        6, "A Java ura: A classok szövetsége", "a-java-ura-a-classok-szovetsege", "J.R.R. Doe", 3899, ProductStatusType.ACTIVE, new Category(1, "Egyéb", 1)),
+                        6, "A Java ura: A classok szövetsége", "a-java-ura-a-classok-szovetsege", "J.R.R. Doe", 3899, ProductStatusType.ACTIVE, new Category(1, "Egyéb", 1L)),
                 6);
 
         List<Product> products = productController.listProducts();
@@ -82,7 +82,7 @@ public class YellowcodeApplicationTests {
     @Test
     public void testDeleteProduct() {
         productController.createProduct(new Product(
-                6, "A Java ura: A classok szövetsége", "a-java-ura-a-classok-szovetsege", "J.R.R. Doe", 2899, ProductStatusType.ACTIVE, new Category(1, "Egyéb", 1)
+                6, "A Java ura: A classok szövetsége", "a-java-ura-a-classok-szovetsege", "J.R.R. Doe", 2899, ProductStatusType.ACTIVE, new Category(1, "Egyéb", 1L)
         ));
         productController.deleteProduct(6);
 

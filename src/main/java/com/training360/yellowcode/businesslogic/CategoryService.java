@@ -32,11 +32,12 @@ public class CategoryService {
         }
 
         long allCategoryNumber = listCategorys().size();
-        Long thisCategoryPosition = category.getPositionNumber();
 
-        if (thisCategoryPosition == 0) {
-            thisCategoryPosition = allCategoryNumber;
+        if (category.getPositionNumber() == null || category.getPositionNumber() == 0) {
+            category.setPositionNumber(allCategoryNumber + 1);
         }
+
+        Long thisCategoryPosition = category.getPositionNumber();
 
         if (thisCategoryPosition > allCategoryNumber + 1) {
             throw new IllegalStateException("A megadott szám túl nagy");
@@ -57,6 +58,11 @@ public class CategoryService {
         }
 
         long allCategoryNumber = listCategorys().size();
+
+        if (category.getPositionNumber() == null || category.getPositionNumber() == 0) {
+            category.setPositionNumber(allCategoryNumber);
+        }
+
         Long thisCategoryPosition = findCategoryById(category.getId()).get().getPositionNumber();
         Long newPosition = category.getPositionNumber();
 

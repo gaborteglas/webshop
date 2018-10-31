@@ -30,10 +30,10 @@ public class YellowCodeCategoryTest {
 
     @Before
     public void addCategories() {
-        categoryController.createCategory(new Category(1, "a", 1));
-        categoryController.createCategory(new Category(2, "b", 2));
-        categoryController.createCategory(new Category(3, "c", 3));
-        categoryController.createCategory(new Category(4, "d", 4));
+        categoryController.createCategory(new Category(1, "a", 1L));
+        categoryController.createCategory(new Category(2, "b", 2L));
+        categoryController.createCategory(new Category(3, "c", 3L));
+        categoryController.createCategory(new Category(4, "d", 4L));
     }
 
 
@@ -41,7 +41,7 @@ public class YellowCodeCategoryTest {
     public void testCategoryCreateOrderedInput() {
         List<Category> categories = categoryController.listCategorys();
         assertEquals(4, categories.size());
-        Response response = categoryController.createCategory(new Category(5, "e", 5));
+        Response response = categoryController.createCategory(new Category(5, "e", 5L));
         assertTrue(response.isValidRequest());
         categories = categoryController.listCategorys();
         assertEquals(5, categories.size());
@@ -51,7 +51,7 @@ public class YellowCodeCategoryTest {
     public void testCategoryCreateUnorderedInput() {
         List<Category> categories = categoryController.listCategorys();
         assertEquals(4, categories.size());
-        Response response = categoryController.createCategory(new Category(5, "e", 7));
+        Response response = categoryController.createCategory(new Category(5, "e", 7L));
         assertFalse(response.isValidRequest());
         categories = categoryController.listCategorys();
         assertEquals(4, categories.size());
@@ -61,7 +61,7 @@ public class YellowCodeCategoryTest {
     public void testCategoryCreatePutBetweenTwo() {
         List<Category> categories = categoryController.listCategorys();
         assertEquals(4, categories.size());
-        Response response = categoryController.createCategory(new Category(5, "e", 2));
+        Response response = categoryController.createCategory(new Category(5, "e", 2L));
         assertTrue(response.isValidRequest());
         categories = categoryController.listCategorys();
         assertEquals(5, categories.size());
@@ -83,7 +83,7 @@ public class YellowCodeCategoryTest {
     public void testCategoryCreateWithoutName() {
         List<Category> categories = categoryController.listCategorys();
         assertEquals(4, categories.size());
-        Response response = categoryController.createCategory(new Category(5, null, 2));
+        Response response = categoryController.createCategory(new Category(5, null, 2L));
         assertFalse(response.isValidRequest());
         categories = categoryController.listCategorys();
         assertEquals(4, categories.size());
@@ -99,7 +99,7 @@ public class YellowCodeCategoryTest {
 
     @Test
     public void testCategoryUpdateWithChangedOrder() {
-        Response response = categoryController.updateCategory(new Category(1, "a", 4));
+        Response response = categoryController.updateCategory(new Category(1, "a", 4L));
         assertTrue(response.isValidRequest());
 
         List<Category> allCategory = categoryController.listCategorys();
@@ -116,7 +116,7 @@ public class YellowCodeCategoryTest {
 
     @Test
     public void testCategoryUpdateWithNonFittingPosition() {
-        Response response = categoryController.updateCategory(new Category(1, "a", 6));
+        Response response = categoryController.updateCategory(new Category(1, "a", 6L));
         assertFalse(response.isValidRequest());
         List<Category> allCategory = categoryController.listCategorys();
 
@@ -134,7 +134,7 @@ public class YellowCodeCategoryTest {
     public void testCategoryUpdateWithoutName() {
         List<Category> categories = categoryController.listCategorys();
         assertEquals(4, categories.size());
-        Response response = categoryController.updateCategory(new Category(5, null, 2));
+        Response response = categoryController.updateCategory(new Category(5, null, 2L));
         assertFalse(response.isValidRequest());
         categories = categoryController.listCategorys();
         assertEquals(4, categories.size());
@@ -152,5 +152,16 @@ public class YellowCodeCategoryTest {
         assertEquals(allCategory.get(1).getPositionNumber(), new Long(2));
         assertEquals(allCategory.get(2).getId(), 4);
         assertEquals(allCategory.get(2).getPositionNumber(), new Long(3));
+    }
+
+    @Test
+    public void testCategoryCreateWithNullPosition() {
+        Long position = null;
+        categoryController.createCategory(new Category(5, "Comedy", position));
+        List<Category> allCategory = categoryController.listCategorys();
+
+        assertEquals(5, allCategory.get(4).getId());
+        assertEquals("Comedy", allCategory.get(4).getName());
+        assertEquals(new Long(5), allCategory.get(4).getPositionNumber());
     }
 }
