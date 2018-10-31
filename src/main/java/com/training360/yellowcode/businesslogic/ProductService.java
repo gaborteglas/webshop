@@ -2,6 +2,7 @@ package com.training360.yellowcode.businesslogic;
 
 import com.training360.yellowcode.database.CategoryDao;
 import com.training360.yellowcode.database.DuplicateProductException;
+import com.training360.yellowcode.database.FeedbackDao;
 import com.training360.yellowcode.database.ProductDao;
 import com.training360.yellowcode.dbTables.Product;
 import org.slf4j.Logger;
@@ -21,13 +22,19 @@ public class ProductService {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(ProductService.class);
     private ProductDao productDao;
+    private FeedbackDao feedbackDao;
 
-    public ProductService(ProductDao productDao) {
+    public ProductService(ProductDao productDao, FeedbackDao feedbackDao) {
         this.productDao = productDao;
+        this.feedbackDao = feedbackDao;
     }
 
     public Optional<Product> findProductByAddress(String address) {
-        return productDao.findProductByAddress(address);
+        Optional<Product> product = productDao.findProductByAddress(address);
+        if(product.isPresent()) {
+            product.get().setFeedbacks(feedbackDao.findFeedBacksByProductId(product.get().getId()));
+        }
+        return product;
     }
 
     public List<Product> listProducts() {

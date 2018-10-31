@@ -16,6 +16,11 @@ public class User {
         this.role = role;
     }
 
+    public User(long id, String loginName) {
+        this.id = id;
+        this.loginName = loginName;
+    }
+
     public User(String loginName, String role) {
         this.loginName = loginName;
         this.role = UserRole.valueOf(role);

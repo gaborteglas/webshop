@@ -43,6 +43,7 @@ function fillTable(product){
 
     creatingHeaderForName(name);
     creatingTableRowForData(id,producer,currentPrice, categoryName);
+    creatingFeedbackFields(feedbackList);
 }
 
 function creatingHeaderForName(name){
@@ -169,6 +170,7 @@ function handleRatingSubmit() {
             return response.json()
         }).then(function(response) {
             updateFeedbacks();
+            ratingTextInput.value = "";
         });
     return false;
 }
