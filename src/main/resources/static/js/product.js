@@ -147,11 +147,14 @@ function hideBasketButton() {
 
 function handleRatingSubmit() {
     let productId = document.querySelector("#productId").innerHTML;
-    let ratingScore = document.getElementById("rating-score");
-    let ratingText = document.getElementById("rating-textarea");
+    let ratingScoreInput = document.getElementById("rating-score");
+    let ratingTextInput = document.getElementById("rating-textarea");
+    let ratingScore = ratingScoreInput.value;
+    let ratingText = ratingTextInput.value;
+
     let feedback = {
-                    "ratingScore": ratingScore.innerHTML,
-                    "ratingText": ratingText.innerHTM
+                    "ratingScore": ratingScore,
+                    "ratingText": ratingText
                     }
 
 
