@@ -32,7 +32,7 @@ public class ProductDao {
                     "SELECT products.id, products.name, products.address, products.producer, products.price, products.status, products.category_id, " +
                             "category.id, category.name, category.position_number, AVG(feedback.rating_score) AS averageScore " +
                             "FROM products LEFT JOIN category ON products.category_id = category.id " +
-                            "JOIN feedback on products.id = feedback.product_id " +
+                            "LEFT JOIN feedback on products.id = feedback.product_id " +
                             "WHERE products.address = ? " +
                             "GROUP BY products.id",
                     (ResultSet resultSet, int i) -> new Product(
