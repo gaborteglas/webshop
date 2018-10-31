@@ -1,5 +1,7 @@
 package com.training360.yellowcode.dbTables;
 
+import java.util.List;
+
 public class Product {
 
     private long id;
@@ -9,6 +11,7 @@ public class Product {
     private long currentPrice;
     private ProductStatusType status = ProductStatusType.ACTIVE;
     private Category category;
+    private List<Feedback> feedbacks;
 
     public Product() {
     }

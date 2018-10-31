@@ -2,6 +2,7 @@ CREATE TABLE feedback (
 id BIGINT AUTO_INCREMENT,
 rating_text VARCHAR(255),
 rating_score TINYINT NOT NULL,
+rating_date DATETIME NOT NULL,
 product_id BIGINT,
 user_id BIGINT,
 CONSTRAINT PK_feedback PRIMARY KEY(id),

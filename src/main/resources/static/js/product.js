@@ -39,7 +39,8 @@ function fillTable(jsonData){
     let currentPrice = jsonData.currentPrice;
     let categoryName = jsonData.category.name;
     creatingHeaderForName(name);
-    creatingTableRowForData(id,producer,currentPrice, categoryName)
+    creatingTableRowForData(id,producer,currentPrice, categoryName);
+
 }
 
 function creatingHeaderForName(name){
