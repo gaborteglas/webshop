@@ -19,6 +19,14 @@ public class FeedbackDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    public boolean didUserReviewProduct(long productId, long userId) {
+        List<Long> result = jdbcTemplate.query("select count(*) as reviewCount from feedback " +
+                            "where product_id = ? and user_id = ?",
+                (ResultSet resultSet, int i) -> resultSet.getLong("reviewCount"), productId, userId);
+
+        return result.get(0) != 0;
+    }
+
     public void createFeedback(Feedback feedback, long productId) {
         jdbcTemplate.update(new PreparedStatementCreator() {
             @Override
@@ -41,7 +49,8 @@ public class FeedbackDao {
     public List<Feedback> findFeedBacksByProductId(long productId) {
         return jdbcTemplate.query("select feedback.rating_text, feedback.rating_score, feedback.rating_date, feedback.user_id, " +
                 "users.user_name from feedback join users on feedback.user_id = users.id " +
-                "where feedback.product_id = ?", new FeedbackMapper(), productId);
+                "where feedback.product_id = ? order by feedback.rating_date desc",
+                new FeedbackMapper(), productId);
     }
 
     private static class FeedbackMapper implements RowMapper<Feedback> {

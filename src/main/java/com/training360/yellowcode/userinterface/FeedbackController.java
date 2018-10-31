@@ -25,8 +25,7 @@ public class FeedbackController {
     public Response createFeedback(@RequestBody Feedback feedback, @PathVariable long productId) {
         User user = getAuthenticatedUserId();
         if (user != null) {
-            feedbackService.createFeedback(feedback, productId, user);
-            return new Response(true, "Értékelés hozzáadva.");
+            return feedbackService.createFeedback(feedback, productId, user);
         } else {
             return new Response(false, "Értékelés írásához kérjük, jelentkezz be!");
         }

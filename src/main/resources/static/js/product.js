@@ -89,26 +89,51 @@ function creatingFeedbackFields(feedbackList) {
     ratingsDiv.innerHTML = "";
     for (let i = 0; i < feedbackList.length; i++) {
         let feedbackDiv = document.createElement("div");
+        feedbackDiv.setAttribute("id", "one-feedback-div");
+
+        let leftDiv = document.createElement("div");
+        leftDiv.setAttribute("id", "left-div");
+
         let userNameTag = document.createElement("h5");
         userNameTag.setAttribute("id", "feedback-username")
         userNameTag.innerHTML = feedbackList[i].user.loginName;
-        feedbackDiv.appendChild(userNameTag);
+        leftDiv.appendChild(userNameTag);
 
         let feedbackDate = document.createElement("p");
         feedbackDate.setAttribute("id", "feedback-date");
         feedbackDate.innerHTML = new Date(feedbackList[i].ratingDate).toLocaleString();
-        feedbackDiv.appendChild(feedbackDate);
+        leftDiv.appendChild(feedbackDate);
+
+        let middleDiv = document.createElement("div");
+        middleDiv.setAttribute("id", "middle-div");
 
         let feedbackScore = document.createElement("p");
         feedbackScore.setAttribute("id", "feedback-score");
-        feedbackScore.innerHTML = feedbackList[i].ratingScore;
-        feedbackDiv.appendChild(feedbackScore);
+        feedbackScore.innerHTML = "Értékelés pontszáma: " + feedbackList[i].ratingScore;
+        middleDiv.appendChild(feedbackScore);
 
+        let feedback = feedbackList[i].ratingText;
+        feedback = feedback.replace(new RegExp("&", "g"), "&amp;");
+        feedback = feedback.replace(new RegExp("<", "g"), "&lt;");
+        feedback = feedback.replace(new RegExp(">", "g"), "&gt;");
+        feedback = feedback.replace(new RegExp("\"", "g"), "&quot;");
+        feedback = feedback.replace(new RegExp("'", "g"), "&apos");
         let feedbackText = document.createElement("p");
         feedbackText.setAttribute("id", "feedback-text");
-        feedbackText.innerHTML = feedbackList[i].ratingText;
-        feedbackDiv.appendChild(feedbackText);
+        feedbackText.innerHTML = "Értékelés szövege: " + feedback;
+        middleDiv.appendChild(feedbackText);
 
+        let rightDiv = document.createElement("div");
+        rightDiv.setAttribute("id", "right-div");
+        let editButton = document.createElement("button");
+        editButton.setAttribute("id", "edit-button");
+        editButton.setAttribute("class", "btn btn-secondary");
+        editButton.innerHTML = "Szerkesztés";
+        rightDiv.appendChild(editButton);
+
+        feedbackDiv.appendChild(leftDiv);
+        feedbackDiv.appendChild(middleDiv)
+        feedbackDiv.appendChild(rightDiv);
         ratingsDiv.appendChild(feedbackDiv);
     }
 }
@@ -170,6 +195,7 @@ function handleRatingSubmit() {
         }).then(function(response) {
             return response.json()
         }).then(function(response) {
+            alert(response.message);
             updateFeedbacks();
             ratingTextInput.value = "";
         });

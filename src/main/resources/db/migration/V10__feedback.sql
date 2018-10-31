@@ -1,6 +1,6 @@
 CREATE TABLE feedback (
 id BIGINT AUTO_INCREMENT,
-rating_text VARCHAR(255),
+rating_text TEXT,
 rating_score TINYINT NOT NULL,
 rating_date DATETIME NOT NULL,
 product_id BIGINT,

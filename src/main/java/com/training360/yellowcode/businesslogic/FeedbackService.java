@@ -3,12 +3,9 @@ package com.training360.yellowcode.businesslogic;
 import com.training360.yellowcode.database.FeedbackDao;
 import com.training360.yellowcode.database.ProductDao;
 import com.training360.yellowcode.dbTables.Feedback;
-import com.training360.yellowcode.dbTables.Product;
 import com.training360.yellowcode.dbTables.User;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class FeedbackService {
@@ -21,12 +18,13 @@ public class FeedbackService {
         this.productDao = productDao;
     }
 
-    public void createFeedback(Feedback feedback, long productId, User user) {
+    public Response createFeedback(Feedback feedback, long productId, User user) {
+        if(feedbackDao.didUserReviewProduct(productId, user.getId())) {
+            return new Response(false, "A megadott terméket már értékelte, amennyiben módosítani szeretné értékelését, a szerkesztés gombra kattintva megteheti.");
+        }
         feedback.setUser(user);
-        Optional<Product> product = productDao.findProductById(productId);
-        product.get().addToFeedbackList(feedback);
-
         feedbackDao.createFeedback(feedback, productId);
+        return new Response(true, "Értékelés hozzáadva.");
     }
 
 }
