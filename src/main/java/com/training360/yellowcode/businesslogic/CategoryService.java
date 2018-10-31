@@ -32,7 +32,7 @@ public class CategoryService {
         }
 
         long allCategoryNumber = listCategorys().size();
-        long thisCategoryPosition = category.getPositionNumber();
+        Long thisCategoryPosition = category.getPositionNumber();
 
         if (thisCategoryPosition == 0) {
             thisCategoryPosition = allCategoryNumber;
@@ -57,8 +57,8 @@ public class CategoryService {
         }
 
         long allCategoryNumber = listCategorys().size();
-        long thisCategoryPosition = findCategoryById(category.getId()).get().getPositionNumber();
-        long newPosition = category.getPositionNumber();
+        Long thisCategoryPosition = findCategoryById(category.getId()).get().getPositionNumber();
+        Long newPosition = category.getPositionNumber();
 
         if (newPosition > allCategoryNumber) {
             throw new IllegalStateException("A megadott szám túl nagy");
@@ -76,7 +76,7 @@ public class CategoryService {
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteCategory(long id) {
         Category category = findCategoryById(id).get();
-        long position = category.getPositionNumber();
+        Long position = category.getPositionNumber();
         categoryDao.deleteCategoryUpdateProducts(id);
         categoryDao.deleteCategory(id);
         categoryDao.updateCategoryPositionAfterDelete(position);
