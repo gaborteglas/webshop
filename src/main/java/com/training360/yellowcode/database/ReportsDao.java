@@ -24,7 +24,7 @@ public class ReportsDao {
                         "FROM orderitem " +
                         "JOIN orders on orderitem.order_id = orders.id " +
                         "WHERE YEAR(date) = YEAR(CURDATE()) " +
-                        "GROUP BY mgonth(date),status",
+                        "GROUP BY month(date),status",
                 (ResultSet resultSet, int i) -> new Reports(
                         resultSet.getLong("SUM(product_price * quantity)"),
                         resultSet.getTimestamp("date").toLocalDateTime(),
