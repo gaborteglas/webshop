@@ -63,7 +63,7 @@ public class YellowCodeBasketSameProductsTest {
 
         List<BasketProduct> myBasket = basketController.listProducts();
 
-        assertEquals(new Long(16), myBasket.get(0).getQuantity());
+        assertEquals(Long.valueOf(16), myBasket.get(0).getQuantity());
     }
 
     @Test

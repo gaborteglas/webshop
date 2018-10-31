@@ -13,6 +13,7 @@ public class Product {
     private ProductStatusType status = ProductStatusType.ACTIVE;
     private Category category;
     private List<Feedback> feedbacks = new ArrayList<>();
+    private double averageScore;
 
     public Product() {
     }
@@ -34,6 +35,17 @@ public class Product {
         this.currentPrice = currentPrice;
         this.status = status;
         this.category = category;
+    }
+
+    public Product(long id, String name, String address, String producer, long currentPrice, ProductStatusType status, Category category, double averageScore) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.producer = producer;
+        this.currentPrice = currentPrice;
+        this.status = status;
+        this.category = category;
+        this.averageScore = averageScore;
     }
 
     public long getId() {
@@ -102,5 +114,13 @@ public class Product {
 
     public void addToFeedbackList(Feedback feedback) {
         feedbacks.add(feedback);
+    }
+
+    public double getAverageScore() {
+        return averageScore;
+    }
+
+    public void setAverageScore(double averageScore) {
+        this.averageScore = averageScore;
     }
 }

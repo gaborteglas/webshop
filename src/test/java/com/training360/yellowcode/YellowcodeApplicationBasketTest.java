@@ -57,7 +57,7 @@ public class YellowcodeApplicationBasketTest {
     @WithMockUser(username = "user1", roles = "USER")
     public void testBasketDatas() {
         Basket basket = new Basket(1L, 2, 5, 1L);
-        assertEquals(basket.getId(), new Long(1));
+        assertEquals(basket.getId(), Long.valueOf(1));
         assertEquals(basket.getUserId(), 2);
         assertEquals(basket.getProductId(), 5);
         assertEquals(1L, basket.getQuantity().longValue());

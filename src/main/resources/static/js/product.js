@@ -40,19 +40,23 @@ function fillTable(product){
     let currentPrice = product.currentPrice;
     let categoryName = product.category.name;
     let feedbackList = product.feedbacks;
+    let average = product.averageScore;
 
-    creatingHeaderForName(name);
+    creatingHeaderForName(name, average);
     creatingTableRowForData(id,producer,currentPrice, categoryName);
     creatingFeedbackFields(feedbackList);
 }
 
-function creatingHeaderForName(name){
+function creatingHeaderForName(name, average){
     let productName = document.querySelector("#product-name");
     productName.innerHTML = name;
+    let averageScore = document.querySelector("#product-average-rating-score");
+    averageScore.innerHTML = "Átlag pontszám: " + Math.round(average * 100) / 100;
 }
 
 function creatingTableRowForData(id,producer,currentPrice, categoryName){
     let tbody = document.querySelector("#product-tbody");
+    tbody.innerHTML = "";
     let tr = document.createElement("tr");
     tr["raw-data"] = id;
     let idTd = document.createElement("td");
@@ -69,18 +73,6 @@ function creatingTableRowForData(id,producer,currentPrice, categoryName){
     tr.appendChild(currentPriceTd);
     tr.appendChild(categoryTd);
     tbody.appendChild(tr);
-}
-
-function updateFeedbacks() {
-    let productNameFromUrl = new URL(window.location).searchParams.get("address");
-    let productToFetch = "api/products/" + productNameFromUrl;
-    fetch(productToFetch, {
-        method: "GET"
-    }).then(function(response) {
-         return response.json();
-    }).then(function(product) {
-        creatingFeedbackFields(product.feedbacks);
-    }).catch(error => creatingHeaderForName("Nincs ilyen termék"));
 }
 
 function creatingFeedbackFields(feedbackList) {
@@ -196,7 +188,7 @@ function handleRatingSubmit() {
             return response.json()
         }).then(function(response) {
             alert(response.message);
-            updateFeedbacks();
+            updateTable();
             ratingTextInput.value = "";
         });
     return false;

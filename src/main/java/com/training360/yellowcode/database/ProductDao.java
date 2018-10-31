@@ -30,10 +30,23 @@ public class ProductDao {
         try {
             Product product = jdbcTemplate.queryForObject(
                     "SELECT products.id, products.name, products.address, products.producer, products.price, products.status, products.category_id, " +
-                            "category.id, category.name, category.position_number " +
+                            "category.id, category.name, category.position_number, AVG(feedback.rating_score) AS averageScore " +
                             "FROM products LEFT JOIN category ON products.category_id = category.id " +
-                            "WHERE products.address = ?",
-                    new ProductMapper(), address);
+                            "JOIN feedback on products.id = feedback.product_id " +
+                            "WHERE products.address = ? " +
+                            "GROUP BY products.id",
+                    (ResultSet resultSet, int i) -> new Product(
+                            resultSet.getLong("id"),
+                            resultSet.getString("products.name"),
+                            resultSet.getString("address"),
+                            resultSet.getString("producer"),
+                            resultSet.getLong("price"),
+                            ProductStatusType.valueOf(resultSet.getString("status")),
+                            new Category(resultSet.getLong("category_id"),
+                                    resultSet.getString("category.name"),
+                                    resultSet.getLong("category.position_number")),
+                            resultSet.getDouble("averageScore")),
+                    address);
             return Optional.of(product);
         } catch (EmptyResultDataAccessException erdae) {
             return Optional.empty();
@@ -46,7 +59,9 @@ public class ProductDao {
                         "category.id, category.name, category.position_number " +
                         "FROM products " +
                         "JOIN category ON products.category_id = category.id " +
-                        "WHERE category.id = ?", new ProductMapper(),categoryId);
+                        "WHERE category.id = ?",
+                new ProductMapper(),
+                categoryId);
     }
 
     public Optional<Product> findProductById(long id) {
