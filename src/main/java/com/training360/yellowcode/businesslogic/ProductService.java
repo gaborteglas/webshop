@@ -37,6 +37,10 @@ public class ProductService {
         return product;
     }
 
+    public List<Product> listProductsByCategory(long categoryId) {
+        return productDao.listProductsByCategory(categoryId);
+    }
+
     public List<Product> listProducts() {
         return sortProductsNameIdThenProducer(productDao.listProducts());
     }

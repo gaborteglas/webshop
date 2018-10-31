@@ -23,6 +23,11 @@ public class ProductController {
         return productService.findProductByAddress(address);
     }
 
+    @RequestMapping(value = "/api/products/category/{categoryId}", method = RequestMethod.GET)
+    public List<Product> listProductsByCategory(@PathVariable long categoryId) {
+        return productService.listProductsByCategory(categoryId);
+    }
+
     @RequestMapping(value = "/api/products", method = RequestMethod.GET)
     public List<Product> listProducts() {
         return productService.listProducts();
