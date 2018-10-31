@@ -90,8 +90,9 @@ function updateTableByStatusForFirstReport(orders){
 function fillTableByStatusForSecondReport(orders,selected){
     let tbody = document.querySelector("#orders-tbody");
     tbody.innerHTML = "";
+    console.log(selected);
     for(i in orders){
-        if(orders[i].date == selected){
+        if(orders[i].month == selected){
             let tr = document.createElement("tr");
                     let prductNameTd = document.createElement("td");
                     prductNameTd.innerHTML = orders[i].productName;
