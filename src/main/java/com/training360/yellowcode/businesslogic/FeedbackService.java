@@ -19,10 +19,10 @@ public class FeedbackService {
     }
 
     public Response createFeedback(Feedback feedback, long productId, User user) {
-        /*if(feedbackDao.didUserReviewProduct(productId, user.getId())) {
+        if(feedbackDao.didUserReviewProduct(productId, user.getId())) {
             return new Response(false, "A megadott terméket már értékelte, amennyiben módosítani szeretné értékelését, a szerkesztés gombra kattintva megteheti.");
         }
-        */feedback.setUser(user);
+        feedback.setUser(user);
         feedbackDao.createFeedback(feedback, productId);
         return new Response(true, "Értékelés hozzáadva.");
     }
