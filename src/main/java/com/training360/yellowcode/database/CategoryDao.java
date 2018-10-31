@@ -47,7 +47,7 @@ public class CategoryDao {
         public Category mapRow(ResultSet resultSet, int i) throws SQLException {
             long id = resultSet.getLong("id");
             String name = resultSet.getString("name");
-            long positionNumber = resultSet.getLong("position_number");
+            Long positionNumber = resultSet.getLong("position_number");
             return new Category(id, name, positionNumber);
         }
     }

@@ -5,7 +5,7 @@ public class Category {
     private String name;
     private Long positionNumber;
 
-    public Category(long id, String name, long positionNumber) {
+    public Category(long id, String name, Long positionNumber) {
         this.id = id;
         this.name = name;
         this.positionNumber = positionNumber;
