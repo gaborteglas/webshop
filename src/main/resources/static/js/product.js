@@ -86,6 +86,7 @@ function updateFeedbacks() {
 function creatingFeedbackFields(feedbackList) {
 
     let ratingsDiv = document.querySelector(".product-ratings");
+    ratingsDiv.innerHTML = "";
     for (let i = 0; i < feedbackList.length; i++) {
         let feedbackDiv = document.createElement("div");
         let userNameTag = document.createElement("h5");
