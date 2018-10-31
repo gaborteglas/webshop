@@ -40,6 +40,15 @@ public class ProductDao {
         }
     }
 
+    public List<Product> listProductsByCategory(long categoryId) {
+        return jdbcTemplate.query(
+                "SELECT products.id, products.name, products.address, products.producer, products.price, products.status, products.category_id, " +
+                        "category.id, category.name, category.position_number " +
+                        "FROM products " +
+                        "JOIN category ON products.category_id = category.id " +
+                        "WHERE category.id = ?", new ProductMapper(),categoryId);
+    }
+
     public Optional<Product> findProductById(long id) {
         try {
             Product product = jdbcTemplate.queryForObject(
@@ -53,6 +62,8 @@ public class ProductDao {
             return Optional.empty();
         }
     }
+
+
 
     public List<Product> listProducts() {
         return jdbcTemplate.query(

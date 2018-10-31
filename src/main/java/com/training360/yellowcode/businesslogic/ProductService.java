@@ -30,6 +30,10 @@ public class ProductService {
         return productDao.findProductByAddress(address);
     }
 
+    public List<Product> listProductsByCategory(long categoryId) {
+        return productDao.listProductsByCategory(categoryId);
+    }
+
     public List<Product> listProducts() {
         return sortProductsNameIdThenProducer(productDao.listProducts());
     }

@@ -1,12 +1,12 @@
 package com.training360.yellowcode;
 
+
 import com.training360.yellowcode.dbTables.*;
 import com.training360.yellowcode.userinterface.BasketController;
 import com.training360.yellowcode.userinterface.OrdersController;
 import com.training360.yellowcode.userinterface.ProductController;
 import com.training360.yellowcode.userinterface.UserController;
 import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,18 +14,15 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Sql({"classpath:/clear.sql", "classpath:/clearorders.sql", "classpath:/clearbaskets.sql", "classpath:/clearusers.sql"})
-public class YellowCodeBasketSameProductsTest {
+public class YellowCodeModifyProductCountTest {
 
     @Autowired
     private BasketController basketController;
@@ -52,48 +49,6 @@ public class YellowCodeBasketSameProductsTest {
         userController.createUser(new User(1, "user1", "Test One", "Elsőjelszó1", UserRole.ROLE_USER));
 
         SecurityContextHolder.getContext().setAuthentication(a);
-    }
-
-    @WithMockUser(username = "user1", roles = "USER")
-    @Test
-    public void tesAddSameProductsToBasket() {
-        basketController.addToBasket(2, 5L);
-        basketController.addToBasket(2, 2L);
-        basketController.addToBasket(2, 9L);
-
-        List<BasketProduct> myBasket = basketController.listProducts();
-
-        assertEquals(new Long(16), myBasket.get(0).getQuantity());
-    }
-
-    @Test
-    public void testDeleteSameProductsFromBasket() {
-        basketController.addToBasket(2, 1L);
-        basketController.addToBasket(2, 1L);
-        basketController.addToBasket(2, 1L);
-
-        List<BasketProduct> myBasket = basketController.listProducts();
-
-        basketController.deleteSingleProduct(2);
-
-        List<BasketProduct> myBasketAfterDelete = basketController.listProducts();
-
-        assertEquals(0, myBasketAfterDelete.size());
-    }
-
-    @Test
-    @WithMockUser(username = "user1", roles = "USER")
-    public void testOrderSameProductsFromBasket() {
-        basketController.addToBasket(2, 1L);
-        basketController.addToBasket(2, 1L);
-        basketController.addToBasket(2, 1L);
-
-        ordersController.createOrderAndOrderItems();
-
-        List<OrderItem> orderItemList = ordersController.listOrderItems(1);
-
-        assertEquals(3, orderItemList.get(0).getQuantity());
-        assertEquals(3999, orderItemList.get(0).getProductPrice());
     }
 
 }

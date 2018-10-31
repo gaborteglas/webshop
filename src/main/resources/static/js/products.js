@@ -21,13 +21,20 @@ function fillSelectWithCategories(categories){
     for(i in categories){
         let option = document.createElement("option");
         option.innerHTML = categories[i].name;
+        option.setAttribute("value",categories[i].id)
         select.appendChild(option);
         }
-    select.addEventListener("change", function () { updateTable() })
+    select.addEventListener("change", function () { updateTable(this.value) })
 }
 
-function updateTable() {
-    fetch("api/products")
+function updateTable(categoryId) {
+    let url = "";
+    if(categoryId === undefined || categoryId === "Összes"){
+        url = "api/products";
+        } else {
+        url = "api/products/category/" + categoryId;
+    }
+    fetch(url)
         .then(function (response) {
             return response.json();
         })
@@ -43,41 +50,37 @@ function fillTable(products) {
     let value = categorySelector.value;
     for (let i = 0; i < products.length; i++) {
         let product = products[i];
-            if(value === product.category.name || value === "Összes" || value === ""){
-                let tr = document.createElement("tr");
-                tr.className = "clickable-row";
-                tr["raw-data"] = product;
+            let tr = document.createElement("tr");
+            tr.className = "clickable-row";
+            tr["raw-data"] = product;
 
-                let idTd = document.createElement("td");
-                idTd.innerHTML = product.id;
-                tr.appendChild(idTd);
+            let idTd = document.createElement("td");
+            idTd.innerHTML = product.id;
+            tr.appendChild(idTd);
 
-                let nameTd = document.createElement("td");
-                nameTd.innerHTML = product.name;
-                tr.appendChild(nameTd);
+            let nameTd = document.createElement("td");
+            nameTd.innerHTML = product.name;
+            tr.appendChild(nameTd);
 
-                let addressTd = document.createElement("td");
-                addressTd.innerHTML = product.address;
-                tr.appendChild(addressTd);
+            let addressTd = document.createElement("td");
+            addressTd.innerHTML = product.address;
+            tr.appendChild(addressTd);
 
-                let producerTd = document.createElement("td");
-                producerTd.innerHTML = product.producer;
-                tr.appendChild(producerTd);
+            let producerTd = document.createElement("td");
+            producerTd.innerHTML = product.producer;
+            tr.appendChild(producerTd);
 
-                let priceTd = document.createElement("td");
-                priceTd.innerHTML = product.currentPrice + " Ft";
-                tr.appendChild(priceTd);
+            let priceTd = document.createElement("td");
+            priceTd.innerHTML = product.currentPrice + " Ft";
+            tr.appendChild(priceTd);
 
-                let categoryTd = document.createElement("td");
-                categoryTd.innerHTML = product.category.name;
-                tr.appendChild(categoryTd);
+            let categoryTd = document.createElement("td");
+            categoryTd.innerHTML = product.category.name;
+            tr.appendChild(categoryTd);
 
-                tr.onclick = function () {
-                    window.location = "/product.html?address=" + product.address;
-                }
-
-                tbody.appendChild(tr);
-                }
-
+            tr.onclick = function () {
+                window.location = "/product.html?address=" + product.address;
+            }
+            tbody.appendChild(tr);
     }
 }
