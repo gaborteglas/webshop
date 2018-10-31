@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 
 public class Feedback {
 
-    private long ratingId;
     private int ratingScore;
     private String ratingText;
     private LocalDateTime ratingDate;
