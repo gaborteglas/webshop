@@ -1,6 +1,7 @@
 package com.training360.yellowcode.userinterface;
 
 import com.training360.yellowcode.businesslogic.FeedbackService;
+import com.training360.yellowcode.businesslogic.Response;
 import com.training360.yellowcode.businesslogic.UserService;
 import com.training360.yellowcode.dbTables.Feedback;
 import com.training360.yellowcode.dbTables.User;
@@ -22,9 +23,15 @@ public class FeedbackController {
         this.userService = userService;
     }
 
-    @RequestMapping(value = "/api/products/{productId}/{username}", method = RequestMethod.POST)
-    public void createFeedback(@RequestBody Feedback feedback, @PathVariable long productId, @PathVariable String username) {
-
+    @RequestMapping(value = "/api/products/{productId}/feedback", method = RequestMethod.POST)
+    public Response createFeedback(@RequestBody Feedback feedback, @PathVariable long productId) {
+        User user = getAuthenticatedUserId();
+        if (user != null) {
+            feedbackService.createFeedback(feedback, productId, user);
+            return new Response(true, "Értékelés hozzáadva.");
+        } else {
+            return new Response(false, "Értékelés írásához kérjük, jelentkezz be!");
+        }
     }
 
     private User getAuthenticatedUserId() {

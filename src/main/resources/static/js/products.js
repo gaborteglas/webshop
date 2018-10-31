@@ -1,6 +1,30 @@
 window.onload = function () {
     updateTable();
+    getCategories();
 };
+
+function getCategories(){
+    fetch("/api/categories")
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (categories) {
+            fillSelectWithCategories(categories);
+        });
+}
+
+function fillSelectWithCategories(categories){
+    let select = document.querySelector("#category-selector");
+            let allOption = document.createElement("option");
+            allOption.innerHTML = "Összes";
+            select.appendChild(allOption);
+    for(i in categories){
+        let option = document.createElement("option");
+        option.innerHTML = categories[i].name;
+        select.appendChild(option);
+        }
+    select.addEventListener("change", function () { updateTable() })
+}
 
 function updateTable() {
     fetch("api/products")
@@ -15,42 +39,45 @@ function updateTable() {
 function fillTable(products) {
     let tbody = document.getElementById("products-tbody");
     tbody.innerHTML = "";
+    let categorySelector = document.querySelector("#category-selector");
+    let value = categorySelector.value;
     for (let i = 0; i < products.length; i++) {
         let product = products[i];
-        let tr = document.createElement("tr");
-        tr.className = "clickable-row";
-        tr["raw-data"] = product;
+            if(value === product.category.name || value === "Összes" || value === ""){
+                let tr = document.createElement("tr");
+                tr.className = "clickable-row";
+                tr["raw-data"] = product;
 
-        let idTd = document.createElement("td");
-        idTd.innerHTML = product.id;
-        tr.appendChild(idTd);
+                let idTd = document.createElement("td");
+                idTd.innerHTML = product.id;
+                tr.appendChild(idTd);
 
-        let nameTd = document.createElement("td");
-        nameTd.innerHTML = product.name;
-        tr.appendChild(nameTd);
+                let nameTd = document.createElement("td");
+                nameTd.innerHTML = product.name;
+                tr.appendChild(nameTd);
 
-        let addressTd = document.createElement("td");
-        addressTd.innerHTML = product.address;
-        tr.appendChild(addressTd);
+                let addressTd = document.createElement("td");
+                addressTd.innerHTML = product.address;
+                tr.appendChild(addressTd);
 
-        let producerTd = document.createElement("td");
-        producerTd.innerHTML = product.producer;
-        tr.appendChild(producerTd);
+                let producerTd = document.createElement("td");
+                producerTd.innerHTML = product.producer;
+                tr.appendChild(producerTd);
 
-        let priceTd = document.createElement("td");
-        priceTd.innerHTML = product.currentPrice + " Ft";
-        tr.appendChild(priceTd);
+                let priceTd = document.createElement("td");
+                priceTd.innerHTML = product.currentPrice + " Ft";
+                tr.appendChild(priceTd);
 
-        console.log(product.category);
-        let categoryTd = document.createElement("td");
-        categoryTd.innerHTML = product.category.name;
-        tr.appendChild(categoryTd);
+                let categoryTd = document.createElement("td");
+                categoryTd.innerHTML = product.category.name;
+                tr.appendChild(categoryTd);
 
-        tr.onclick = function () {
-            window.location = "/product.html?address=" + product.address;
-        };
+                tr.onclick = function () {
+                    window.location = "/product.html?address=" + product.address;
+                }
 
-        tbody.appendChild(tr);
+                tbody.appendChild(tr);
+                }
 
     }
 }

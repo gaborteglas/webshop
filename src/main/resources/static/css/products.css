@@ -2,3 +2,6 @@
 cursor: pointer;
 opacity: 0.5;
 }
+#category-selector{
+float: left;
+}
