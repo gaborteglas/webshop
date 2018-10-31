@@ -40,8 +40,38 @@ function fillTable(product){
     let currentPrice = product.currentPrice;
     let categoryName = product.category.name;
     let feedbackList = product.feedbacks;
+
     creatingHeaderForName(name);
     creatingTableRowForData(id,producer,currentPrice, categoryName);
+    creatingFeedbackFields(feedbackList);
+}
+
+function creatingHeaderForName(name){
+    let productName = document.querySelector("#product-name");
+    productName.innerHTML = name;
+}
+
+function creatingTableRowForData(id,producer,currentPrice, categoryName){
+    let tbody = document.querySelector("#product-tbody");
+    let tr = document.createElement("tr");
+    tr["raw-data"] = id;
+    let idTd = document.createElement("td");
+    let producerTd = document.createElement("td");
+    let currentPriceTd = document.createElement("td");
+    let categoryTd = document.createElement("td");
+    idTd.innerHTML = id;
+    idTd.setAttribute("id","productId")
+    producerTd.innerHTML = producer;
+    currentPriceTd.innerHTML = currentPrice + " Ft";
+    categoryTd.innerHTML = categoryName;
+    tr.appendChild(idTd);
+    tr.appendChild(producerTd);
+    tr.appendChild(currentPriceTd);
+    tr.appendChild(categoryTd);
+    tbody.appendChild(tr);
+}
+
+function creatingFeedbackFields(feedbackList) {
 
     let ratingsDiv = document.querySelector(".product-ratings");
     for (let i = 0; i < feedbackList.length; i++) {
@@ -68,31 +98,6 @@ function fillTable(product){
 
         ratingsDiv.appendChild(feedbackDiv);
     }
-}
-
-function creatingHeaderForName(name){
-    let productName = document.querySelector("#product-name");
-    productName.innerHTML = name;
-}
-
-function creatingTableRowForData(id,producer,currentPrice, categoryName){
-    let tbody = document.querySelector("#product-tbody");
-    let tr = document.createElement("tr");
-    tr["raw-data"] = id;
-    let idTd = document.createElement("td");
-    let producerTd = document.createElement("td");
-    let currentPriceTd = document.createElement("td");
-    let categoryTd = document.createElement("td");
-    idTd.innerHTML = id;
-    idTd.setAttribute("id","productId")
-    producerTd.innerHTML = producer;
-    currentPriceTd.innerHTML = currentPrice + " Ft";
-    categoryTd.innerHTML = categoryName;
-    tr.appendChild(idTd);
-    tr.appendChild(producerTd);
-    tr.appendChild(currentPriceTd);
-    tr.appendChild(categoryTd);
-    tbody.appendChild(tr);
 }
 
 function showBasketButton() {
@@ -133,10 +138,9 @@ function handleRatingSubmit() {
     let productId = document.querySelector("#productId").innerHTML;
     let ratingScore = document.getElementById("rating-score");
     let ratingText = document.getElementById("rating-textarea");
-    let ratingDate =
     let feedback = {
                     "ratingScore": ratingScore.innerHTML,
-                    "ratingText": ratingText.innerHTM,
+                    "ratingText": ratingText.innerHTM
                     }
 
 
@@ -151,6 +155,6 @@ function handleRatingSubmit() {
         }).then(function(jsonData) {
             updateTable();
         });
-        return false;
+    return false;
 
 }
