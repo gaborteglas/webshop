@@ -99,4 +99,8 @@ public class Product {
     public void setFeedbacks(List<Feedback> feedbacks) {
         this.feedbacks = feedbacks;
     }
+
+    public void addToFeedbackList(Feedback feedback) {
+        feedbacks.add(feedback);
+    }
 }

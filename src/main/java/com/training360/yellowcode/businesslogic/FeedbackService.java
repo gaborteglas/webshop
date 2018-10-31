@@ -14,16 +14,17 @@ public class FeedbackService {
     private FeedbackDao feedbackDao;
     private ProductDao productDao;
 
-    public FeedbackService(FeedbackDao feedbackDao) {
+    public FeedbackService(FeedbackDao feedbackDao, ProductDao productDao) {
         this.feedbackDao = feedbackDao;
+        this.productDao = productDao;
     }
 
     public void createFeedback(Feedback feedback, long productId, User user) {
         feedback.setUser(user);
-        feedbackDao.createFeedback(feedback, productId);
         Optional<Product> product = productDao.findProductById(productId);
-        List<Feedback> feedbacks = product.get().getFeedbacks();
-        feedbacks.add(feedback);
+        product.get().addToFeedbackList(feedback);
+
+        feedbackDao.createFeedback(feedback, productId);
     }
 
 }
