@@ -20,30 +20,33 @@ public class ReportsDao {
     }
 
     public List<Reports> listReportsByDate() {
-        return jdbcTemplate.query("SELECT SUM(product_price * quantity),date,status,quantity " +
+        return jdbcTemplate.query("SELECT SUM(product_price * quantity),date,status,SUM(quantity) " +
                         "FROM orderitem " +
                         "JOIN orders on orderitem.order_id = orders.id " +
                         "WHERE YEAR(date) = YEAR(CURDATE()) " +
-                        "GROUP BY mgonth(date),status",
+                        "GROUP BY month(date),status",
                 (ResultSet resultSet, int i) -> new Reports(
                         resultSet.getLong("SUM(product_price * quantity)"),
                         resultSet.getTimestamp("date").toLocalDateTime(),
                         OrderStatus.valueOf(resultSet.getString("status")),
-                        resultSet.getLong("quantity")
+                        resultSet.getLong("SUM(quantity)")
                 ));
     }
 
     public List<Reports> listReportsByProductAndDate(){
-    return jdbcTemplate.query("SELECT products.name,orders.date,quantity " +
-                    "FROM orderitem " +
-                    "JOIN products on orderitem.product_id = products.id " +
+    return jdbcTemplate.query(
+                    "SELECT products.name,month(orders.date),SUM(quantity)," +
+                    "products.price,products.price*SUM(quantity) " +
+                    "FROM orderitem JOIN products on orderitem.product_id = products.id " +
                     "JOIN orders on orderitem.order_id = orders.id " +
-                    "WHERE orders.status = 'DELIVERED'" +
-                    "GROUP BY month(orders.date), products.name",
+                    "WHERE orders.status = 'DELIVERED' AND YEAR(date) = YEAR(CURDATE()) " +
+                    "GROUP BY month(orders.date), products.id,products.name",
             (ResultSet resultSet, int i) -> new Reports(
                         resultSet.getString("products.name"),
-                        resultSet.getTimestamp("orders.date").toLocalDateTime(),
-                        resultSet.getLong("quantity")
+                        resultSet.getInt("month(orders.date)"),
+                        resultSet.getLong("SUM(quantity)"),
+                        resultSet.getLong("products.price"),
+                        resultSet.getLong("products.price*SUM(quantity)")
                 ));
     }
 }
