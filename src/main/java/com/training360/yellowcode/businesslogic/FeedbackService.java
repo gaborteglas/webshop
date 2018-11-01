@@ -37,15 +37,12 @@ public class FeedbackService {
     }
 
     public Response modifyFeedbackByUser(Feedback feedback, long productId, User user) {
-        if (!feedbackDao.didUserReviewProduct(productId, user.getId())) {
+        if (!feedbackDao.didUserReviewProduct(productId, user.getId()) ||
+                feedbackDao.findFeedBackByProductIdAndUserId(productId, user.getId()).getId() != feedback.getId()) {
             return new Response(false, "Csak a saját értékelését módosíthatja!");
         }
         feedback.setUser(user);
         feedbackDao.modifyFeedbackByUser(feedback, productId);
         return new Response(true, "Értékelés módosítva");
-    }
-
-    public long findProductIdByFeedbackId(long feedbackId) {
-        return feedbackDao.findProductIdByFeedbackId(feedbackId);
     }
 }

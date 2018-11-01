@@ -62,14 +62,6 @@ public class FeedbackDao {
                 new FeedbackMapper(), productId, userId);
     }
 
-    public long findProductIdByFeedbackId(long feedbackId) {
-        Feedback feedback = jdbcTemplate.queryForObject("select feedback.id, feedback.rating_text, feedback.rating_score, " +
-                        "feedback.rating_date, feedback.user_id, users.user_name from feedback join users on feedback.user_id = users.id " +
-                        "where feedback.id = ?",
-                new FeedbackMapper(), feedbackId);
-        return feedback.getId();
-    }
-
     private static class FeedbackMapper implements RowMapper<Feedback> {
         @Override
         public Feedback mapRow(ResultSet resultSet, int i) throws SQLException {
@@ -90,8 +82,8 @@ public class FeedbackDao {
     }
 
     public void modifyFeedbackByUser(Feedback feedback, long productId) {
-        jdbcTemplate.update("update feedback set rating_text = ?, rating_score = ? where product_id = ? and user.id = ?",
-                productId, feedback.getUser().getId());
+        jdbcTemplate.update("update feedback set rating_text = ?, rating_score = ? where product_id = ? and user_id = ?",
+                feedback.getRatingText(), feedback.getRatingScore(), productId, feedback.getUser().getId());
     }
 
 

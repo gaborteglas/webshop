@@ -40,9 +40,8 @@ public class FeedbackController {
         return user;
     }
 
-    @RequestMapping(value = "/api/products/feedback/{feedbackId}", method = RequestMethod.DELETE)
-    public Response deleteFeedbackByUser(@PathVariable long feedbackId) {
-        long productId = feedbackService.findProductIdByFeedbackId(feedbackId);
+    @RequestMapping(value = "/api/products/{productId}/feedback/{feedbackId}", method = RequestMethod.DELETE)
+    public Response deleteFeedbackByUser(@PathVariable long productId, @PathVariable long feedbackId) {
         User user = getAuthenticatedUserId();
         if (user != null) {
             return feedbackService.deleteFeedbackByUser(productId, feedbackId, user);
@@ -51,8 +50,8 @@ public class FeedbackController {
         }
     }
 
-    @RequestMapping(value = "/api/products/{productId}/feedbackstatus", method = RequestMethod.POST)
-    public Response modifyFeedbackByUser(@RequestBody Feedback feedback, @PathVariable long productId) {
+    @RequestMapping(value = "/api/products/{productId}/feedbackstatus/{feedbackId}", method = RequestMethod.POST)
+    public Response modifyFeedbackByUser(@RequestBody Feedback feedback, @PathVariable long productId, @PathVariable long feedbackId) {
         User user = getAuthenticatedUserId();
         if (user != null) {
             return feedbackService.modifyFeedbackByUser(feedback, productId, user);
