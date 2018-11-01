@@ -58,27 +58,29 @@ public class YellowCodeEditFeedbackTest {
         SecurityContextHolder.getContext().setAuthentication(a);
     }
 
-//    @Test
-//    @WithMockUser(username = "feedbackUser", roles = "USER")
-//    public void editFeedback() {
-//        User user = new User(1, "feedbackUser", "Feedback User",
-//                "Feedback1", UserRole.ROLE_USER );
-//
-//        Feedback testFeedback = new Feedback(4, "Naggyon király", LocalDateTime.now(), user);
-//        feedbackController.createFeedback(testFeedback, 1);
-//        Product product = productController.findProductByAddress("aliceblue"). get();
-//        List<Feedback> allFeedbacks = feedbackDao.findFeedBacksByProductId(1);
-//        assertEquals(1, allFeedbacks.size());
-//        assertEquals(4, allFeedbacks.get(0).getRatingScore());
-//        testFeedback.setRatingScore(1);
-//        testFeedback.setRatingText("Meh");
-//        Response response = feedbackController.modifyFeedbackByUser(testFeedback, 1,
-//                1);
-//        System.out.println(response.getMessage());
-//        assertTrue(response.isValidRequest());
-//        allFeedbacks = feedbackDao.findFeedBacksByProductId(1);
-//        assertEquals(2, allFeedbacks.get(0).getRatingScore());
-//    }
+    @Test
+    @WithMockUser(username = "feedbackUser", roles = "USER")
+    public void editFeedback() {
+        User user = new User(1, "feedbackUser", "Feedback User",
+                "Feedback1", UserRole.ROLE_USER );
+
+        Feedback testFeedback = new Feedback(4, "Naggyon király", LocalDateTime.now(), user);
+        feedbackController.createFeedback(testFeedback, 1);
+        Product product = productController.findProductByAddress("aliceblue"). get();
+        List<Feedback> allFeedbacks = feedbackDao.findFeedBacksByProductId(1);
+        assertEquals(1, allFeedbacks.size());
+        assertEquals(4, allFeedbacks.get(0).getRatingScore());
+
+        Feedback testFeedback2 = feedbackDao.findFeedBackByProductIdAndUserId(1, 1);
+        testFeedback2.setRatingScore(1);
+        testFeedback2.setRatingText("Meh");
+        Response response = feedbackController.modifyFeedbackByUser(testFeedback2, 1,
+                1);
+        System.out.println(response.getMessage());
+        assertTrue(response.isValidRequest());
+        allFeedbacks = feedbackDao.findFeedBacksByProductId(1);
+        assertEquals(1, allFeedbacks.get(0).getRatingScore());
+    }
 
     @Test
     @WithMockUser(username = "feedbackUser", roles = "USER")
