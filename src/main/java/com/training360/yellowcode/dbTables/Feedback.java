@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 public class Feedback {
 
+    private int id;
     private int ratingScore;
     private String ratingText;
     private LocalDateTime ratingDate;
@@ -12,6 +13,14 @@ public class Feedback {
     public Feedback() {}
 
     public Feedback(int ratingScore, String ratingText, LocalDateTime ratingDate, User user) {
+        this.ratingScore = ratingScore;
+        this.ratingText = ratingText;
+        this.ratingDate = ratingDate;
+        this.user = user;
+    }
+
+    public Feedback(int id, int ratingScore, String ratingText, LocalDateTime ratingDate, User user) {
+        this.id = id;
         this.ratingScore = ratingScore;
         this.ratingText = ratingText;
         this.ratingDate = ratingDate;
@@ -48,5 +57,13 @@ public class Feedback {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

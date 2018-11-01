@@ -40,4 +40,24 @@ public class FeedbackController {
         return user;
     }
 
+    @RequestMapping(value = "/api/products/feedback/{feedbackId}", method = RequestMethod.DELETE)
+    public Response deleteFeedbackByUser(@PathVariable long feedbackId) {
+        long productId = feedbackService.findProductIdByFeedbackId(feedbackId);
+        User user = getAuthenticatedUserId();
+        if (user != null) {
+            return feedbackService.deleteFeedbackByUser(productId, feedbackId, user);
+        } else {
+            return new Response(false, "Értékelés törléséhez kérjük, jelentkezz be!");
+        }
+    }
+
+    @RequestMapping(value = "/api/products/{productId}/feedbackstatus", method = RequestMethod.POST)
+    public Response modifyFeedbackByUser(@RequestBody Feedback feedback, @PathVariable long productId) {
+        User user = getAuthenticatedUserId();
+        if (user != null) {
+            return feedbackService.modifyFeedbackByUser(feedback, productId, user);
+        } else {
+            return new Response(false, "Értékelés módosításához kérjük, jelentkezz be!");
+        }
+    }
 }

@@ -99,9 +99,15 @@ function creatingFeedbackFields(feedbackList) {
         let middleDiv = document.createElement("div");
         middleDiv.setAttribute("id", "middle-div");
 
+        let feedbackId = document.createElement("p");
+        feedbackId.setAttribute("id", "feedback-id");
+        feedbackId.setAttribute("display", "hidden");
+        feedbackId.innerHTML = feedbackList[i].id;
+        middleDiv.appendChild(feedbackId)
+
         let feedbackScore = document.createElement("p");
         feedbackScore.setAttribute("id", "feedback-score");
-        feedbackScore.innerHTML = "Értékelés pontszáma: " + feedbackList[i].ratingScore;
+        feedbackScore.innerHTML = " Értékelés pontszáma: " + feedbackList[i].ratingScore;
         middleDiv.appendChild(feedbackScore);
 
         let feedback = feedbackList[i].ratingText;
@@ -125,6 +131,7 @@ function creatingFeedbackFields(feedbackList) {
         deleteButton.setAttribute("id", "delete-button");
         deleteButton.setAttribute("class", "btn btn-danger");
         deleteButton.innerHTML = "Törlés";
+        deleteButton.onclick = handleRatingDelete;
         rightDiv.appendChild(editButton);
         rightDiv.appendChild(deleteButton);
 
@@ -197,4 +204,23 @@ function handleRatingSubmit() {
             ratingTextInput.value = "";
         });
     return false;
+}
+
+function handleRatingDelete() {
+let productId = document.querySelector("#productId").innerHTML;
+let feedbackId = document.getElementById("feedback-id").innerHTML;
+
+var result = confirm("Biztosan törli a kijelölt értékelést?");
+    if (result) {
+        fetch("api/products/feedback/" + feedbackId, {
+            method: "DELETE",
+        })
+        .then(function(response) {
+            return response.json()
+        })
+        .then(function(response) {
+            alert(response.message)
+            updateTable();
+        });
+    }
 }
