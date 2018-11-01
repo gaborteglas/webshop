@@ -121,7 +121,12 @@ function creatingFeedbackFields(feedbackList) {
         editButton.setAttribute("id", "edit-button");
         editButton.setAttribute("class", "btn btn-secondary");
         editButton.innerHTML = "Szerkesztés";
+        let deleteButton = document.createElement("button");
+        deleteButton.setAttribute("id", "delete-button");
+        deleteButton.setAttribute("class", "btn btn-danger");
+        deleteButton.innerHTML = "Törlés";
         rightDiv.appendChild(editButton);
+        rightDiv.appendChild(deleteButton);
 
         feedbackDiv.appendChild(leftDiv);
         feedbackDiv.appendChild(middleDiv)
