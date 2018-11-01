@@ -57,7 +57,9 @@ function creatingHeaderForName(name, average){
     let productName = document.querySelector("#product-name");
     productName.innerHTML = name;
     let averageScore = document.querySelector("#product-average-rating-score");
-    averageScore.innerHTML = "Átlag pontszám: " + Math.round(average * 100) / 100;
+    if(average > 0) {
+        averageScore.innerHTML = "Átlag pontszám: " + Math.round(average * 100) / 100;
+    }
 }
 
 function creatingTableRowForData(id,producer,currentPrice, categoryName){
