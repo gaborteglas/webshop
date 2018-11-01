@@ -22,6 +22,9 @@ public class FeedbackService {
         if(feedbackDao.didUserReviewProduct(productId, user.getId())) {
             return new Response(false, "A megadott terméket már értékelte, amennyiben módosítani szeretné értékelését, a szerkesztés gombra kattintva megteheti.");
         }
+        if (!feedbackDao.hasUserReceivedProduct(productId, user.getId())) {
+            return new Response(false, "Kizárólag olyan termékeket tud értékelni, amelyeket már kiszállítottunk Önnek.");
+        }
         feedback.setUser(user);
         feedbackDao.createFeedback(feedback, productId);
         return new Response(true, "Értékelés hozzáadva.");
