@@ -148,7 +148,7 @@ public class ProductDao {
         List<Product> lastSoldProducts = new ArrayList<>();
 
         List<Long> producIds = jdbcTemplate.queryForList("SELECT orderitem.product_id FROM `orderitem` JOIN orders ON " +
-                "orderitem.order_id = orders.id ORDER BY orders.date LIMIT 3", Long.class);
+                "orderitem.order_id = orders.id ORDER BY orders.date DESC LIMIT 3", Long.class);
 
         for (Long l: producIds) {
             lastSoldProducts.add(findProductById(l).get());
