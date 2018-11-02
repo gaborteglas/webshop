@@ -88,7 +88,7 @@ public class YellowCodeBasketSameProductsTest {
         basketController.addToBasket(2, 1L);
         basketController.addToBasket(2, 1L);
 
-        ordersController.createOrderAndOrderItems();
+        ordersController.createOrderAndOrderItems("valami");
 
         List<OrderItem> orderItemList = ordersController.listOrderItems(1);
 

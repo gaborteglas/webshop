@@ -79,7 +79,7 @@ function fillTable(products) {
     sumParagraph.innerHTML = "A kosár tartalmának ára összesen : " + totalPrice + " Ft";
 
     let orderButton = document.querySelector("#order-button");
-    orderButton.disabled = products.length === 0;
+    orderButton.disabled = products.length === 0;;
 
     let resetButton = document.querySelector("#reset-button");
     resetButton.disabled = products.length === 0;
@@ -142,9 +142,19 @@ function decreaseQuantityByOne(rowNumber, productId, quantity) {
 }
 
 function handleOrderButton() {
+
+    let zipCode = document.querySelector("#zip-code-field").value.trim();
+    let city = document.querySelector("#city-field").value.trim();
+    let street = document.querySelector("#street-field").value.trim();
+    let address = zipCode + " " + city + ", " + street;
+
     if (confirm("Megrendeli a termékeket?")) {
         fetch("/api/myorders", {
-            method: "POST"
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json; charset=utf-8"
+            },
+            body: JSON.stringify(address)
         }).then(function (response) {
             window.location = "/myorders.html"
         });

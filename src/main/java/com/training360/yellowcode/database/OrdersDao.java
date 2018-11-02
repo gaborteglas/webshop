@@ -99,14 +99,15 @@ public class OrdersDao {
     }
 
 
-    public void createOrderAndOrderItems(long userId) {
+    public void createOrderAndOrderItems(long userId, String address) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(
-                    "insert into orders(user_id, date, status) values(?, ?, 'ACTIVE')",
+                    "insert into orders(user_id, date, status, delivery_address) values(?, ?, 'ACTIVE', ?)",
                     Statement.RETURN_GENERATED_KEYS);
             ps.setLong(1, userId);
             ps.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
+            ps.setString(3, address);
             return ps;
         }, keyHolder);
         long orderId = keyHolder.getKey().longValue();

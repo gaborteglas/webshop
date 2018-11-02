@@ -51,9 +51,9 @@ public class OrdersService {
         return ordersDao.listOrderItems(userId, orderId);
     }
 
-    public void createOrderAndOrderItems(long userId) {
+    public void createOrderAndOrderItems(long userId, String address) {
         if (productDao.listProducts().size() != 0) {
-            ordersDao.createOrderAndOrderItems(userId);
+            ordersDao.createOrderAndOrderItems(userId, address);
             List<Orders> orders = listOrdersByUserId(userId);
             List<OrderItem> orderItems = listOrderItems(userId, orders.get(orders.size() - 1).getId());
             LOGGER.info(MessageFormat.format("Order created(id: {0}, userId: {1}, date: {2}, status: {3})",
