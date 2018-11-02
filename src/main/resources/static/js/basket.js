@@ -118,7 +118,23 @@ function fillSelectWithAddresses(addresses) {
         option.setAttribute("value", addresses[i])
         select.appendChild(option);
     }
-    select.addEventListener("change", function () { updateTable(this.value) })
+    select.addEventListener("change", function () { fillDeliveryAddress(this.value) })
+}
+
+function fillDeliveryAddress(address) {
+
+    let splittedAddressArray = address.split(" ");
+    let splittedAddress = splittedAddressArray.splice(0,2);
+    splittedAddress.push(splittedAddressArray.join(" "));
+
+    let zipCode = document.querySelector("#zip-code-field");
+    zipCode.value = splittedAddress[0];
+
+    let city = document.querySelector("#city-field");
+    city.value = splittedAddress[1].substring(0, splittedAddress[1].length - 1);
+
+    let street = document.querySelector("#street-field");
+    street.value = splittedAddress[2];
 }
 
 function increaseQuantityInSQL(productId, quantity) {
