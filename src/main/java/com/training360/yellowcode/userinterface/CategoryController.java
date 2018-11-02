@@ -29,6 +29,16 @@ public class CategoryController {
 
     @RequestMapping(value = "/api/categories", method = RequestMethod.POST)
     public Response createCategory(@RequestBody Category category) {
+        if (findCategoryById(category.getId()).isPresent()) {
+            category.setId(0);
+        }
+
+        for (Category c: categoryService.listCategorys()) {
+            if (c.getName().equals(category.getName())) {
+                return new Response(false, "A megadott nevű kategória már létezik!");
+            }
+        }
+
         try {
             categoryService.createCategory(category);
             return new Response(true, "Létrehozva");
@@ -41,6 +51,9 @@ public class CategoryController {
 
     @RequestMapping(value = "/api/categories/{id}", method = RequestMethod.POST)
     public Response updateCategory(@RequestBody Category category) {
+        if (category.getId() == 0) {
+            return new Response(false, "Hiba, kattintson a kategória létrehozása gombra!");
+        }
         try {
             categoryService.updateCategory(category);
             return new Response(true, "Módosítva");

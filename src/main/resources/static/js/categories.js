@@ -10,6 +10,9 @@ function updateTable() {
         });
         handleModifyButton();
         handleCreateButton();
+        let idInput = document.getElementById("id-input");
+        idInput.setAttribute("style","display:none");
+        idInput.value = 0;
 }
 
 function fillTable(categories) {
@@ -53,6 +56,7 @@ function editButtonClick() {
     let category = this.parentElement.parentElement["raw-data"];
 
     let idInput = document.getElementById("id-input");
+    idInput.value = 0;
     idInput.value = category.id;
     let nameInput = document.getElementById("name-input");
     nameInput.value = category.name;
@@ -99,6 +103,7 @@ function modifyCategory() {
         alert(response.message);
         updateTable();
         handleReset();
+        idInput.value = 0;
     });
         return false;
 }
@@ -132,6 +137,7 @@ function createCategory() {
     }).then(function(response) {
         alert(response.message);
         updateTable();
+        idInput.value = 0;
     });
 }
 

@@ -59,7 +59,7 @@ public class CategoryDao {
                 PreparedStatement ps = connection.prepareStatement(
                         "insert into category(id, name, position_number) values(?, ?, ?)"
                 );
-                ps.setLong(1, category.getId());
+                ps.setLong(1, 0);
                 ps.setString(2, category.getName());
                 ps.setLong(3, category.getPositionNumber());
 
@@ -91,8 +91,8 @@ public class CategoryDao {
         jdbcTemplate.update("delete from category where id = ?", id);
     }
 
-    public void updateCategoryPosition(long id) {
-        jdbcTemplate.update("update category set position_number = position_number + 1 where id >= ?", id );
+    public void updateCategoryPosition(long position) {
+        jdbcTemplate.update("update category set position_number = position_number + 1 where position_number >= ?", position);
     }
 
     public void updateCategoryPositionMinus(Long posOld, Long posNew) {
