@@ -35,6 +35,16 @@ public class CategoryDao {
         }
     }
 
+    public Optional<Category> findCategoryByName(String name) {
+        try {
+            Category category = jdbcTemplate.queryForObject(
+                    "SELECT id, name, position_number FROM category WHERE name = ?",
+                    new CategoryMapper(), name);
+            return Optional.of(category);
+        } catch (EmptyResultDataAccessException erdae) {
+            return Optional.empty();
+        }
+    }
 
     public List<Category> listCategorys() {
         return jdbcTemplate.query(
@@ -57,11 +67,10 @@ public class CategoryDao {
             @Override
             public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
                 PreparedStatement ps = connection.prepareStatement(
-                        "insert into category(id, name, position_number) values(?, ?, ?)"
+                        "insert into category(name, position_number) values(?, ?)"
                 );
-                ps.setLong(1, 0);
-                ps.setString(2, category.getName());
-                ps.setLong(3, category.getPositionNumber());
+                ps.setString(1, category.getName());
+                ps.setLong(2, category.getPositionNumber());
 
                 return ps;
             }
@@ -69,17 +78,20 @@ public class CategoryDao {
     }
 
     public void updateCategory(Category category) {
-        String oldCategory = findCategoryById(category.getId()).get().getName();
+        String oldCategoryName = findCategoryById(category.getId()).get().getName();
 
-        if (oldCategory.equals(category.getName())) {
+        if (oldCategoryName.equals(category.getName())) {
             jdbcTemplate.update("update category set position_number = ? where id = ?",
                     category.getPositionNumber(),
                     category.getId());
-        } else { jdbcTemplate.update(
+        } else if (!oldCategoryName.equals(category.getName()) && !findCategoryByName(category.getName()).isPresent()) {
+            jdbcTemplate.update(
                 "update category set name = ?, position_number = ? where id = ?",
                 category.getName(),
                 category.getPositionNumber(),
                 category.getId());
+        } else {
+            throw new DuplicateCategoryException("A megadott név már foglalt.");
         }
     }
 
