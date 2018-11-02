@@ -11,6 +11,11 @@ public class Category {
         this.positionNumber = positionNumber;
     }
 
+    public Category(String name, Long positionNumber) {
+        this.name = name;
+        this.positionNumber = positionNumber;
+    }
+
     public Category() {
     }
 

@@ -1,4 +1,10 @@
-window.addEventListener('load', updateTable);
+window.onload = function() {
+    updateTable();
+
+    let categoryForm = document.getElementById("category-form");
+    categoryForm.onsubmit = handleSubmit;
+    categoryForm.onreset = handleReset;
+}
 
 function updateTable() {
     fetch("api/categories")
@@ -8,11 +14,6 @@ function updateTable() {
         .then(function(jsonData) {
             fillTable(jsonData);
         });
-        handleModifyButton();
-        handleCreateButton();
-        let idInput = document.getElementById("id-input");
-        idInput.setAttribute("style","display:none");
-        idInput.value = 0;
 }
 
 function fillTable(categories) {
@@ -36,62 +37,62 @@ function fillTable(categories) {
         tr.appendChild(positionTd);
 
         let buttonsTd = document.createElement("td");
-                let editButton = document.createElement("button");
-                let deleteButton = document.createElement("button");
-                editButton.setAttribute("class", "btn btn-primary");
-                deleteButton.setAttribute("class", "btn btn-danger");
-                editButton.innerHTML = "Szerkesztés";
-                deleteButton.innerHTML = "Törlés";
-                editButton.onclick = editButtonClick;
-                deleteButton.onclick = handleDeleteButtonOnClick;
-                buttonsTd.appendChild(editButton);
-                buttonsTd.appendChild(deleteButton);
-                tr.appendChild(buttonsTd);
+        let editButton = document.createElement("button");
+        let deleteButton = document.createElement("button");
+        editButton.setAttribute("class", "btn btn-primary");
+        deleteButton.setAttribute("class", "btn btn-danger");
+        editButton.innerHTML = "Szerkesztés";
+        deleteButton.innerHTML = "Törlés";
+        editButton.onclick = handleEditButtonOnclick;
+        deleteButton.onclick = handleDeleteButtonOnClick;
+        buttonsTd.appendChild(editButton);
+        buttonsTd.appendChild(deleteButton);
+        tr.appendChild(buttonsTd);
 
         tbody.appendChild(tr);
- }
     }
+}
 
-function editButtonClick() {
+let editedCategory = null;
+
+function handleEditButtonOnclick() {
     let category = this.parentElement.parentElement["raw-data"];
+    editedCategory = category;
 
-    let idInput = document.getElementById("id-input");
-    idInput.value = 0;
-    idInput.value = category.id;
     let nameInput = document.getElementById("name-input");
     nameInput.value = category.name;
+
     let positionInput = document.getElementById("position-input");
     positionInput.value = category.positionNumber;
+
+    let submitButton = document.getElementById("submit-button");
+    submitButton.value = "Mentés";
 }
 
 function handleReset() {
-    let idInput = document.getElementById("id-input");
-    idInput.value = "";
+    editedCategory = null;
+    let submitButton = document.getElementById("submit-button");
+    submitButton.value = "Kategória létrehozása";
+}
+
+function handleSubmit() {
     let nameInput = document.getElementById("name-input");
-    nameInput.value = "";
     let positionInput = document.getElementById("position-input");
-    positionInput.value = "";
-}
 
-function modifyCategory() {
-    let idInput = document.getElementById("id-input");
-        let nameInput = document.getElementById("name-input");
-        let positionInput = document.getElementById("position-input");
-
-    let id = idInput.value;
     let name = nameInput.value;
     let position = positionInput.value;
 
-    let category = {"id": id,
-               };
+    let category = {"name": name,
+                    "positionNumber": position
+                    }
 
-    if (name.length != 0) {
-        category.name = name;
+    let url = "api/categories";
+    if (editedCategory !== null) {
+        category.id = editedCategory.id;
+        url += "/update";
     }
 
-    category.positionNumber = position;
-
-    fetch("api/categories/" + id, {
+    fetch(url, {
         method: "POST",
         headers: {
             "Content-Type": "application/json; charset=utf-8"
@@ -102,43 +103,10 @@ function modifyCategory() {
     }).then(function(response) {
         alert(response.message);
         updateTable();
-        handleReset();
-        idInput.value = 0;
+        document.getElementById("category-form").reset();
+
     });
-        return false;
-}
-
-function createCategory() {
-    let idInput = document.getElementById("id-input");
-        let nameInput = document.getElementById("name-input");
-        let positionInput = document.getElementById("position-input");
-
-    let id = idInput.value;
-    let name = nameInput.value;
-    let position = positionInput.value;
-
-    let category = {"id": id,
-               };
-
-    if (name.length != 0) {
-        category.name = name;
-    }
-
-    category.positionNumber = position;
-
-    fetch("api/categories/", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json; charset=utf-8"
-                },
-        body: JSON.stringify(category)
-    }).then(function(response) {
-        return response.json()
-    }).then(function(response) {
-        alert(response.message);
-        updateTable();
-        idInput.value = 0;
-    });
+    return false;
 }
 
 function handleDeleteButtonOnClick() {
@@ -151,16 +119,7 @@ function handleDeleteButtonOnClick() {
         })
         .then(function(response) {
             updateTable();
+            document.getElementById("category-form").reset();
         })
     }
-}
-
-function handleModifyButton() {
-    let modifyButton = document.getElementById("submit-button");
-    modifyButton.onclick = modifyCategory;
-}
-
-function handleCreateButton() {
-    let createButton = document.getElementById("create-button");
-    createButton.onclick = createCategory;
 }

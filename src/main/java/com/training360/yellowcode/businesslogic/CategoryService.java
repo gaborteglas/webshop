@@ -1,6 +1,7 @@
 package com.training360.yellowcode.businesslogic;
 
 import com.training360.yellowcode.database.CategoryDao;
+import com.training360.yellowcode.database.DuplicateCategoryException;
 import com.training360.yellowcode.dbTables.Category;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,9 @@ public class CategoryService {
         if (category.getName() == null || "".equals(category.getName().trim())) {
             throw new IllegalArgumentException("A név kitöltése kötelező!");
         }
+        if (categoryDao.findCategoryByName(category.getName()).isPresent()) {
+            throw new DuplicateCategoryException("A megadott nevű kategória már létezik!");
+        }
 
         long allCategoryNumber = listCategorys().size();
 
@@ -40,7 +44,7 @@ public class CategoryService {
         Long thisCategoryPosition = category.getPositionNumber();
 
         if (thisCategoryPosition > allCategoryNumber + 1) {
-            throw new IllegalStateException("A megadott szám túl nagy");
+            throw new IllegalStateException("A megadott szám túl nagy.");
         }
 
         if (thisCategoryPosition ==  allCategoryNumber + 1) {
@@ -67,7 +71,7 @@ public class CategoryService {
         Long newPosition = category.getPositionNumber();
 
         if (newPosition > allCategoryNumber) {
-            throw new IllegalStateException("A megadott szám túl nagy");
+            throw new IllegalStateException("A megadott nevű kategória már létezik!");
         }
 
         if (newPosition > thisCategoryPosition) {

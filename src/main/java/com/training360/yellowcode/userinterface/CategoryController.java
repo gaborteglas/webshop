@@ -2,6 +2,7 @@ package com.training360.yellowcode.userinterface;
 
 import com.training360.yellowcode.businesslogic.CategoryService;
 import com.training360.yellowcode.businesslogic.Response;
+import com.training360.yellowcode.database.DuplicateCategoryException;
 import com.training360.yellowcode.dbTables.Category;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,38 +30,29 @@ public class CategoryController {
 
     @RequestMapping(value = "/api/categories", method = RequestMethod.POST)
     public Response createCategory(@RequestBody Category category) {
-        if (findCategoryById(category.getId()).isPresent()) {
-            category.setId(0);
-        }
-
-        for (Category c: categoryService.listCategorys()) {
-            if (c.getName().equals(category.getName())) {
-                return new Response(false, "A megadott nevű kategória már létezik!");
-            }
-        }
-
         try {
             categoryService.createCategory(category);
-            return new Response(true, "Létrehozva");
+            return new Response(true, "Létrehozva.");
         } catch (IllegalArgumentException iae) {
-            return new Response (false, "A név megadása kötelező");
+            return new Response (false, "A név megadása kötelező.");
         } catch (IllegalStateException ise) {
-            return new Response(false, "A megadott sorszám túl nagy");
+            return new Response(false, "A megadott sorszám túl nagy.");
+        } catch (DuplicateCategoryException dce) {
+            return new Response(false, "A megadott nevű kategória már létezik!");
         }
     }
 
-    @RequestMapping(value = "/api/categories/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/categories/update", method = RequestMethod.POST)
     public Response updateCategory(@RequestBody Category category) {
-        if (category.getId() == 0) {
-            return new Response(false, "Hiba, kattintson a kategória létrehozása gombra!");
-        }
         try {
             categoryService.updateCategory(category);
-            return new Response(true, "Módosítva");
+            return new Response(true, "Módosítva.");
         } catch (IllegalArgumentException iae) {
-            return new Response(false, "A név megadása kötelező");
+            return new Response(false, "A név megadása kötelező.");
         } catch (IllegalStateException ise) {
-            return new Response(false, "A megadott sorszám túl nagy");
+            return new Response(false, "A megadott sorszám túl nagy.");
+        } catch (DuplicateCategoryException dce) {
+            return new Response(false, "A megadott nevű kategória már létezik!");
         }
 
     }
@@ -68,6 +60,6 @@ public class CategoryController {
     @RequestMapping(value = "/api/categories/{id}", method = RequestMethod.DELETE)
     public Response deleteCategory(@PathVariable long id) {
         categoryService.deleteCategory(id);
-        return new Response(true, "Törölve");
+        return new Response(true, "Törölve.");
     }
 }
