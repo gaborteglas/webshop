@@ -9,7 +9,10 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class OrdersDao {
@@ -142,9 +145,30 @@ public class OrdersDao {
     }
 
     public List<String> listDeliveryAddressesOfUser(long userId) {
-        return jdbcTemplate.queryForList("SELECT delivery_address FROM orders WHERE user_id = ?",
-                String.class,
-                userId);
+        return filterDuplicatesAndNulls(
+                jdbcTemplate.queryForList("SELECT delivery_address FROM orders WHERE user_id = ?",
+                        String.class,
+                        userId)
+        );
+    }
+
+    private List<String> filterDuplicatesAndNulls(List<String> addresses) {
+        List<String> filteredAddresses = new ArrayList<>();
+        boolean found = false;
+        for (String address : addresses) {
+            if (address.length() != 0) {
+                for (String filteredAddress : filteredAddresses) {
+                    if (address.toLowerCase().equals(filteredAddress.toLowerCase())) {
+                        found = true;
+                    }
+                }
+            }
+            if (!found) {
+                filteredAddresses.add(address);
+            }
+            found = false;
+        }
+        return filteredAddresses;
     }
 
     private static class OrderMapper implements RowMapper<Orders> {
