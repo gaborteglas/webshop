@@ -1,5 +1,6 @@
 window.onload = function () {
     updateTable();
+    getAddressesForUser();
     let resetButton = document.querySelector("#reset-button");
     resetButton.onclick = handleResetButton;
     let orderButton = document.querySelector("#order-button");
@@ -97,6 +98,27 @@ function clickingOnResetProductButtons(clickEvent) {
             return response.json()
         }).then(responseJson => updateTable())
     }
+}
+
+function getAddressesForUser() {
+    fetch("/api/orders/addresses")
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (addresses) {
+            fillSelectWithAddresses(addresses);
+        });
+}
+
+function fillSelectWithAddresses(addresses) {
+    let select = document.querySelector("#address-selector");
+    for (let i = 0; i < addresses.length; i++) {
+        let option = document.createElement("option");
+        option.innerHTML = addresses[i];
+        option.setAttribute("value", addresses[i])
+        select.appendChild(option);
+    }
+    select.addEventListener("change", function () { updateTable(this.value) })
 }
 
 function increaseQuantityInSQL(productId, quantity) {
