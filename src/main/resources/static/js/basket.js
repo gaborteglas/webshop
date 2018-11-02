@@ -154,7 +154,7 @@ function handleOrderButton() {
             headers: {
                 "Content-Type": "application/json; charset=utf-8"
             },
-            body: JSON.stringify(address)
+            body: address
         }).then(function (response) {
             window.location = "/myorders.html"
         });
