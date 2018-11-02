@@ -57,18 +57,18 @@ public class YellowcodeApplicationDashboardTests {
 
         basketController.addToBasket(1, 1L);
         basketController.addToBasket(2, 1L);
-        ordersController.createOrderAndOrderItems();
+        ordersController.createOrderAndOrderItems("valami");
 
         SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken("user2", "user", List.of(new SimpleGrantedAuthority("ROLE_USER"))));
 
         basketController.addToBasket(2, 1L);
         basketController.addToBasket(3, 1L);
-        ordersController.createOrderAndOrderItems();
+        ordersController.createOrderAndOrderItems("valami");
 
         basketController.addToBasket(1, 1L);
         basketController.addToBasket(4, 1L);
         basketController.addToBasket(2, 1L);
-        ordersController.createOrderAndOrderItems();
+        ordersController.createOrderAndOrderItems("valami");
 
         SecurityContextHolder.getContext().setAuthentication(a);
     }

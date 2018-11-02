@@ -65,11 +65,11 @@ public class OrdersController {
     }
 
     @RequestMapping(value = "/api/myorders", method = RequestMethod.POST)
-    public Response createOrderAndOrderItems() {
+    public Response createOrderAndOrderItems(@RequestBody String address) {
         User user = getAuthenticatedUserId();
         if (user != null) {
             try {
-                ordersService.createOrderAndOrderItems(user.getId());
+                ordersService.createOrderAndOrderItems(user.getId(), address);
                 return new Response(true, "Sikeres rendelés.");
             } catch (IllegalStateException ise) {
                 return new Response(false, "A kosár üres");

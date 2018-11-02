@@ -76,12 +76,12 @@ public class YellowCodeApplicationOrdersTest {
     @Test
     @WithMockUser(username = "user1", roles = "USER")
     public void testListOrdersByUserId() {
-        ordersController.createOrderAndOrderItems();
+        ordersController.createOrderAndOrderItems("valami");
         List<Orders> ordersList1 = ordersController.listOrdersByUserId();
         assertEquals(ordersList1.size(), 1);
 
         basketController.addToBasket(2, 1L);
-        ordersController.createOrderAndOrderItems();
+        ordersController.createOrderAndOrderItems("valami");
         List<Orders> ordersList2 = ordersController.listOrdersByUserId();
         assertEquals(ordersList2.size(), 2);
     }
@@ -90,7 +90,7 @@ public class YellowCodeApplicationOrdersTest {
     @WithMockUser(username = "user1", roles = "USER")
     public void testListOrderItems() {
         basketController.addToBasket(2, 1L);
-        ordersController.createOrderAndOrderItems();
+        ordersController.createOrderAndOrderItems("valami");
 
         List<OrderItem> orderItemList = ordersController.listOrderItems(1);
         assertEquals(orderItemList.size(), 2);
@@ -99,7 +99,7 @@ public class YellowCodeApplicationOrdersTest {
     @Test
     @WithMockUser(username = "user1", roles = "USER")
     public void testOrderItemDatas() {
-        ordersController.createOrderAndOrderItems();
+        ordersController.createOrderAndOrderItems("valami");
 
         List<OrderItem> orderItemList = ordersController.listOrderItems(1);
         assertEquals(orderItemList.get(0).getProductName(), "Az aliceblue 50 árnyalata");
@@ -112,7 +112,7 @@ public class YellowCodeApplicationOrdersTest {
         basketController.addToBasket(2, 1L);
         basketController.addToBasket(3, 1L);
 
-        ordersController.createOrderAndOrderItems();
+        ordersController.createOrderAndOrderItems("valami");
         List<Orders> ordersList = ordersController.listOrdersByUserId();
         List<OrderItem> orderItemList = ordersController.listOrderItems(1);
 
@@ -128,7 +128,7 @@ public class YellowCodeApplicationOrdersTest {
     public void testOrderWithEmptyBasket() {
         basketController.deleteSingleProduct(1);
         assertEquals(0, basketController.listProducts().size());
-        Response response = ordersController.createOrderAndOrderItems();
+        Response response = ordersController.createOrderAndOrderItems("valami");
         assertEquals(response.getMessage(), "A kosár üres");
         assertFalse(response.isValidRequest());
     }
@@ -136,7 +136,7 @@ public class YellowCodeApplicationOrdersTest {
     @Test
     @WithMockUser(username = "admin1", roles = "ADMIN")
     public void deleteOrder() {
-        ordersController.createOrderAndOrderItems();
+        ordersController.createOrderAndOrderItems("valami");
         List<Orders> orders = ordersController.listOrders();
         assertEquals(1, orders.size());
         ordersController.deleteOrder(orders.get(0).getId());
@@ -149,7 +149,7 @@ public class YellowCodeApplicationOrdersTest {
     public void deleteOrderItem() {
         basketController.addToBasket(2, 1L);
         basketController.addToBasket(3, 1L);
-        ordersController.createOrderAndOrderItems();
+        ordersController.createOrderAndOrderItems("valami");
         List<Orders> orders = ordersController.listOrders();
         assertEquals(1, orders.size());
         List<OrderItem> orderItems = ordersController.listOrderItems(orders.get(0).getId());
@@ -164,7 +164,7 @@ public class YellowCodeApplicationOrdersTest {
     public void deliveredOrderTest() {
         basketController.addToBasket(2, 1L);
         basketController.addToBasket(3, 1L);
-        ordersController.createOrderAndOrderItems();
+        ordersController.createOrderAndOrderItems("valami");
         List<Orders> orders = ordersController.listOrders();
         assertEquals(1, orders.size());
         List<OrderItem> orderItems = ordersController.listOrderItems(orders.get(0).getId());
