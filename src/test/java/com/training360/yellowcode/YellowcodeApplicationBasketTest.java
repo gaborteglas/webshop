@@ -65,7 +65,7 @@ public class YellowcodeApplicationBasketTest {
 
     @Test
     @WithMockUser(username = "admin1", roles = "ADMIN")
-    public void testListBasketProductsWithEmpty() {
+    public void testListBasketProductsWithEmptyBasket() {
         List<BasketProduct> basketItems = basketController.listProducts();
         assertEquals(basketItems.size(), 0);
     }
@@ -77,6 +77,7 @@ public class YellowcodeApplicationBasketTest {
 
         List<BasketProduct> basketItems = basketController.listProducts();
         assertEquals(basketItems.size(), 1);
+        assertEquals(basketItems.get(0).getName(), "Hogyan neveld a junior fejlesztődet");
     }
 
     @WithMockUser(username = "user1", roles = "USER")

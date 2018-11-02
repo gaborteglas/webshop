@@ -42,4 +42,9 @@ public class PasswordStrengthValidatorTest {
     public void passwordStrengthValidatorTestTooShort() {
         assertFalse(new PasswordValidator().passwordStrengthValidator("Valami1"));
     }
+
+    @Test
+    public void passwordStrengthValidatorTestWithoutLowercaseLetter() {
+        assertFalse(new PasswordValidator().passwordStrengthValidator("JOHNDOE2018"));
+    }
 }

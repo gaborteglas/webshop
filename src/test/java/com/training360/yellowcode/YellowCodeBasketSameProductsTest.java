@@ -62,22 +62,21 @@ public class YellowCodeBasketSameProductsTest {
         basketController.addToBasket(2, 9L);
 
         List<BasketProduct> myBasket = basketController.listProducts();
-
         assertEquals(Long.valueOf(16), myBasket.get(0).getQuantity());
     }
 
     @Test
+    @WithMockUser(username = "user1", roles = "USER")
     public void testDeleteSameProductsFromBasket() {
         basketController.addToBasket(2, 1L);
         basketController.addToBasket(2, 1L);
         basketController.addToBasket(2, 1L);
 
         List<BasketProduct> myBasket = basketController.listProducts();
+        assertEquals(Long.valueOf(3), myBasket.get(0).getQuantity());
 
         basketController.deleteSingleProduct(2);
-
         List<BasketProduct> myBasketAfterDelete = basketController.listProducts();
-
         assertEquals(0, myBasketAfterDelete.size());
     }
 
@@ -94,6 +93,29 @@ public class YellowCodeBasketSameProductsTest {
 
         assertEquals(3, orderItemList.get(0).getQuantity());
         assertEquals(3999, orderItemList.get(0).getProductPrice());
+    }
+
+    @Test
+    @WithMockUser(username = "user1", roles = "USER")
+    public void testincreaseBasketQuantityByOne() {
+        basketController.addToBasket(2, 1L);
+        basketController.increaseBasketQuantityByOne(2L, 1L);
+
+        List<BasketProduct> myBasket = basketController.listProducts();
+        assertEquals(Long.valueOf(2), myBasket.get(0).getQuantity());
+    }
+
+    @Test
+    @WithMockUser(username = "user1", roles = "USER")
+    public void testdecreaseBasketQuantityByOne() {
+        basketController.addToBasket(2, 1L);
+        basketController.addToBasket(2, 1L);
+        basketController.addToBasket(2, 1L);
+
+        basketController.decreaseBasketQuantityByOne(2L, 1L);
+
+        List<BasketProduct> myBasket = basketController.listProducts();
+        assertEquals(Long.valueOf(2), myBasket.get(0).getQuantity());
     }
 
 }
