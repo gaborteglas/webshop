@@ -61,4 +61,9 @@ public class ProductController {
     public void deleteProduct(@PathVariable long id) {
         productService.deleteProduct(id);
     }
+
+    @RequestMapping (value = "/api/products/lastsold", method = RequestMethod.GET)
+    public List<Product> showLastThreeSoldProducts() {
+        return productService.showLastThreeSoldProducts();
+    }
 }

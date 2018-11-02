@@ -113,5 +113,7 @@ public class ProductService {
         }
     }
 
-
+    public List<Product> showLastThreeSoldProducts() {
+        return productDao.showLastThreeSoldProducts();
+    }
 }

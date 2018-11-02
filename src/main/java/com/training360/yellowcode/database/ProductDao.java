@@ -13,6 +13,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -141,5 +142,18 @@ public class ProductDao {
 
     public void deleteProduct(long id) {
         jdbcTemplate.update("update products set status = 'INACTIVE' where id = ?", id);
+    }
+
+    public List<Product> showLastThreeSoldProducts() {
+        List<Product> lastSoldProducts = new ArrayList<>();
+
+        List<Long> producIds = jdbcTemplate.queryForList("SELECT orderitem.product_id FROM `orderitem` JOIN orders ON " +
+                "orderitem.order_id = orders.id ORDER BY orders.date LIMIT 3", Long.class);
+
+        for (Long l: producIds) {
+            lastSoldProducts.add(findProductById(l).get());
+        }
+
+        return lastSoldProducts;
     }
 }
