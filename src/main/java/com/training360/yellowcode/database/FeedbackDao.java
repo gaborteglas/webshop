@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public class FeedbackDao {
@@ -86,5 +85,12 @@ public class FeedbackDao {
                 feedback.getRatingText(), feedback.getRatingScore(), productId, feedback.getUser().getId());
     }
 
+    public boolean hasUserReceivedProduct(long productId, long userId) {
+        List<Long> result = jdbcTemplate.query("select count(*) as deliveredProductCount from orderitem " +
+                "join orders on orderitem.order_id = orders.id " +
+                "where orders.status = 'DELIVERED' and orders.user_id = ? and orderitem.product_id = ?",
+        (ResultSet resultSet, int i) -> resultSet.getLong("deliveredProductCount"), userId, productId);
+        return result.get(0) != 0;
+    }
 
 }
