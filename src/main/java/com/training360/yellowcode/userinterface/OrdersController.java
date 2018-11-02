@@ -94,6 +94,16 @@ public class OrdersController {
         ordersService.modifyActiveStatusToDelivered(orderId);
     }
 
+    @RequestMapping(value = "api/orders/addresses", method = RequestMethod.GET)
+    public List<String> listDeliveryAddressesOfUser() {
+        User user = getAuthenticatedUserId();
+        if (user != null) {
+            return ordersService.listDeliveryAddressesOfUser(user.getId());
+        } else {
+            return new ArrayList<>();
+        }
+    }
+
     private User getAuthenticatedUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {     //nincs bejelentkezve

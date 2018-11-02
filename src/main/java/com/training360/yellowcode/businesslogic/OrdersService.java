@@ -89,4 +89,7 @@ public class OrdersService {
         LOGGER.info(MessageFormat.format("Order (orderId:{0}) status changed from active to delivered", orderId));
     }
 
+    public List<String> listDeliveryAddressesOfUser(long userId) {
+        return ordersDao.listDeliveryAddressesOfUser(userId);
+    }
 }

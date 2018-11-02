@@ -141,6 +141,12 @@ public class OrdersDao {
         jdbcTemplate.update("update orders set status = 'DELIVERED' where id = ? and status = 'ACTIVE'", orderId);
     }
 
+    public List<String> listDeliveryAddressesOfUser(long userId) {
+        return jdbcTemplate.queryForList("SELECT delivery_address FROM orders WHERE user_id = ?",
+                String.class,
+                userId);
+    }
+
     private static class OrderMapper implements RowMapper<Orders> {
         @Override
         public Orders mapRow(ResultSet resultSet, int i) throws SQLException {
