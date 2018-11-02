@@ -55,11 +55,21 @@ public class YellowCodeEditFeedbackTest {
                 new Product(1, "Az aliceblue 50 árnyalata", "aliceblue", "E. L. Doe",
                         9999, ProductStatusType.ACTIVE, new Category(1, "Egyéb", 1L)));
 
-
         userController.createUser(new User(1, "feedbackUser", "Feedback User",
                 "Feedback1", UserRole.ROLE_USER ));
 
         SecurityContextHolder.getContext().setAuthentication(a);
+
+        basketController.addToBasket(1, 1L);
+        ordersController.createOrderAndOrderItems("szállítási cím");
+
+        Authentication b = SecurityContextHolder.getContext().getAuthentication();
+        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken("testadmin", "admin", List.of(new SimpleGrantedAuthority("ROLE_ADMIN"))));
+
+        ordersController.modifyActiveStatusToDelivered(1);
+
+        SecurityContextHolder.getContext().setAuthentication(b);
+
     }
 
     @Test
@@ -67,16 +77,6 @@ public class YellowCodeEditFeedbackTest {
     public void editFeedback() {
         User user = new User(1, "feedbackUser", "Feedback User",
                 "Feedback1", UserRole.ROLE_USER );
-
-        basketController.addToBasket(1, 1L);
-        ordersController.createOrderAndOrderItems("szállítási cím");
-
-        Authentication a = SecurityContextHolder.getContext().getAuthentication();
-        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken("testadmin", "admin", List.of(new SimpleGrantedAuthority("ROLE_ADMIN"))));
-
-        ordersController.modifyActiveStatusToDelivered(1);
-
-        SecurityContextHolder.getContext().setAuthentication(a);
 
         Feedback testFeedback = new Feedback(4, "Naggyon király", LocalDateTime.now(), user);
         feedbackController.createFeedback(testFeedback, 1);
@@ -101,16 +101,6 @@ public class YellowCodeEditFeedbackTest {
     public void deleteFeedback() {
         User user = new User(1, "feedbackUser", "Feedback User",
                 "Feedback1", UserRole.ROLE_USER );
-
-        basketController.addToBasket(1, 1L);
-        ordersController.createOrderAndOrderItems("szállítási cím");
-
-        Authentication a = SecurityContextHolder.getContext().getAuthentication();
-        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken("testadmin", "admin", List.of(new SimpleGrantedAuthority("ROLE_ADMIN"))));
-
-        ordersController.modifyActiveStatusToDelivered(1);
-
-        SecurityContextHolder.getContext().setAuthentication(a);
 
         Feedback testFeedback = new Feedback(4, "Naggyon király", LocalDateTime.now(), user);
         feedbackController.createFeedback(testFeedback, 1);
