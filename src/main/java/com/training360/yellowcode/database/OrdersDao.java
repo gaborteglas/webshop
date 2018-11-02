@@ -162,11 +162,11 @@ public class OrdersDao {
                         found = true;
                     }
                 }
+                if (!found) {
+                    filteredAddresses.add(address);
+                }
+                found = false;
             }
-            if (!found) {
-                filteredAddresses.add(address);
-            }
-            found = false;
         }
         return filteredAddresses;
     }

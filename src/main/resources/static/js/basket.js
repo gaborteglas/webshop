@@ -1,5 +1,6 @@
 window.onload = function () {
     updateTable();
+    getAddressesForUser();
     let resetButton = document.querySelector("#reset-button");
     resetButton.onclick = handleResetButton;
     let orderButton = document.querySelector("#order-button");
@@ -97,6 +98,43 @@ function clickingOnResetProductButtons(clickEvent) {
             return response.json()
         }).then(responseJson => updateTable())
     }
+}
+
+function getAddressesForUser() {
+    fetch("/api/orders/addresses")
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (addresses) {
+            fillSelectWithAddresses(addresses);
+        });
+}
+
+function fillSelectWithAddresses(addresses) {
+    let select = document.querySelector("#address-selector");
+    for (let i = 0; i < addresses.length; i++) {
+        let option = document.createElement("option");
+        option.innerHTML = addresses[i];
+        option.setAttribute("value", addresses[i])
+        select.appendChild(option);
+    }
+    select.addEventListener("change", function () { fillDeliveryAddress(this.value) })
+}
+
+function fillDeliveryAddress(address) {
+
+    let splittedAddressArray = address.split(" ");
+    let splittedAddress = splittedAddressArray.splice(0,2);
+    splittedAddress.push(splittedAddressArray.join(" "));
+
+    let zipCode = document.querySelector("#zip-code-field");
+    zipCode.value = splittedAddress[0];
+
+    let city = document.querySelector("#city-field");
+    city.value = splittedAddress[1].substring(0, splittedAddress[1].length - 1);
+
+    let street = document.querySelector("#street-field");
+    street.value = splittedAddress[2];
 }
 
 function increaseQuantityInSQL(productId, quantity) {
