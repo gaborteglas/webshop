@@ -46,6 +46,10 @@ function fillTable(orders) {
         }
         tr.appendChild(statusTd);
 
+        let addressTd = document.createElement("td");
+        addressTd.innerHTML = order.deliveryAddress;
+        tr.appendChild(addressTd);
+
         let quantityTd = document.createElement("td");
         quantityTd.innerHTML = order.quantity + " db";
         tr.appendChild(quantityTd);
@@ -109,12 +113,12 @@ function deliveredButtonClick(event) {
 
 function activeButtonClick() {
     fetch("api/activeorders/")
-    .then(function (response) {
-    return response.json();
-    })
-    .then(function (jsonData) {
-    fillTable(jsonData);
-    })
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (jsonData) {
+            fillTable(jsonData);
+        })
 }
 
 function filterActiveButtonClick() {

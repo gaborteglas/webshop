@@ -21,41 +21,46 @@ public class OrdersDao {
     }
 
     public List<Orders> listOrders() {
-        return jdbcTemplate.query("select orders.id, orders.user_id, orders.date, orders.status, " +
-                        "count(orderitem.id) as quantity, sum(orderitem.product_price) as price from orders " +
-                        "left join orderitem on orders.id = orderitem.order_id " +
-                        "group by orders.id " +
-                        "order by orders.date desc",
+        return jdbcTemplate.query("SELECT orders.id, orders.user_id, orders.date, orders.status, " +
+                        "orders.delivery_address, COUNT(orderitem.id) AS quantity, " +
+                        "SUM(orderitem.product_price) AS price FROM orders " +
+                        "LEFT JOIN orderitem ON orders.id = orderitem.order_id " +
+                        "GROUP BY orders.id " +
+                        "ORDER BY orders.date DESC",
                 (ResultSet resultSet, int i) -> new Orders(
                         resultSet.getLong("orders.id"),
                         resultSet.getLong("orders.user_id"),
                         resultSet.getTimestamp("orders.date").toLocalDateTime(),
                         OrderStatus.valueOf(resultSet.getString("orders.status")),
                         resultSet.getLong("quantity"),
-                        resultSet.getLong("price")
+                        resultSet.getLong("price"),
+                        resultSet.getString("orders.delivery_address")
                 ));
     }
 
     public List<Orders> listActiveOrders() {
-        return jdbcTemplate.query("select orders.id, orders.user_id, orders.date, orders.status, " +
-                        "count(orderitem.id) as quantity, sum(orderitem.product_price) as price from orders " +
-                        "left join orderitem on orders.id = orderitem.order_id " +
-                        "where orders.status = 'ACTIVE' " +
-                        "group by orders.id " +
-                        "order by orders.date desc",
+        return jdbcTemplate.query("SELECT orders.id, orders.user_id, orders.date, orders.status, " +
+                        "orders.delivery_address, COUNT(orderitem.id) AS quantity, " +
+                        "SUM(orderitem.product_price) AS price FROM orders " +
+                        "LEFT JOIN orderitem ON orders.id = orderitem.order_id " +
+                        "WHERE orders.status = 'ACTIVE' " +
+                        "GROUP BY orders.id " +
+                        "ORDER BY orders.date DESC",
                 (ResultSet resultSet, int i) -> new Orders(
                         resultSet.getLong("orders.id"),
                         resultSet.getLong("orders.user_id"),
                         resultSet.getTimestamp("orders.date").toLocalDateTime(),
                         OrderStatus.valueOf(resultSet.getString("orders.status")),
                         resultSet.getLong("quantity"),
-                        resultSet.getLong("price")
+                        resultSet.getLong("price"),
+                        resultSet.getString("orders.delivery_address")
                 ));
     }
 
     public List<Orders> listOrdersByUserId(long userId) {
-        return jdbcTemplate.query("select id, user_id, date, status from orders where user_id = ? " +
-                        "order by date desc",
+        return jdbcTemplate.query("SELECT id, user_id, date, status, delivery_address" +
+                        " FROM orders where user_id = ? " +
+                        "ORDER BY date DESC",
                 new OrderMapper(),
                 userId);
     }
@@ -143,7 +148,8 @@ public class OrdersDao {
             long userId = resultSet.getLong("user_id");
             LocalDateTime localDateTime = resultSet.getTimestamp("date").toLocalDateTime();
             OrderStatus status = OrderStatus.valueOf(resultSet.getString("status"));
-            return new Orders(id, userId, localDateTime, status);
+            String deliveryAddress = resultSet.getString("delivery_address");
+            return new Orders(id, userId, localDateTime, status, deliveryAddress);
         }
     }
 }

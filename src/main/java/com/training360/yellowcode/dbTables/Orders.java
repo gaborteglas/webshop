@@ -10,21 +10,25 @@ public class Orders {
     private OrderStatus status;
     private long quantity;
     private long price;
+    private String deliveryAddress;
 
-    public Orders(long id, long userId, LocalDateTime date, OrderStatus status) {
+    public Orders(long id, long userId, LocalDateTime date, OrderStatus status, String deliveryAddress) {
         this.id = id;
         this.userId = userId;
         this.date = date;
         this.status = status;
+        this.deliveryAddress = deliveryAddress;
     }
 
-    public Orders(long id, long userId, LocalDateTime date, OrderStatus status, long quantity, long price) {
+    public Orders(long id, long userId, LocalDateTime date, OrderStatus status, long quantity, long price,
+                  String deliveryAddress) {
         this.id = id;
         this.userId = userId;
         this.date = date;
         this.status = status;
         this.quantity = quantity;
         this.price = price;
+        this.deliveryAddress = deliveryAddress;
     }
 
     public Orders(long userId) {
@@ -80,5 +84,13 @@ public class Orders {
 
     public void setPrice(long price) {
         this.price = price;
+    }
+
+    public String getDeliveryAddress() {
+        return deliveryAddress;
+    }
+
+    public void setDeliveryAddress(String deliveryAddress) {
+        this.deliveryAddress = deliveryAddress;
     }
 }
