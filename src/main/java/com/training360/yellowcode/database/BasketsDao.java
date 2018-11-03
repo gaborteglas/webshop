@@ -53,6 +53,12 @@ public class BasketsDao {
                 basket.getId());
     }
 
+    public void setBasketQuantity(Basket basket, long quantity) {
+        jdbcTemplate.update("update basket set quantity = ? where id = ?",
+                quantity,
+                basket.getId());
+    }
+
     public List<BasketProduct> listProducts(long userId) {
         return jdbcTemplate.query(
                 "SELECT products.id, products.name, products.address, products.producer, products.price, basket.quantity" +

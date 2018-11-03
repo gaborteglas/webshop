@@ -69,4 +69,9 @@ public class BasketsService {
         Basket oldBasket = findBasketByUserIdAndProductId(basket).get(0);
         basketsDao.decreaseBasketQuantityByOne(oldBasket);
     }
+
+    public void setBasketQuantity(Basket basket, long quantity) {
+        Basket oldBasket = findBasketByUserIdAndProductId(basket).get(0);
+        basketsDao.setBasketQuantity(oldBasket, quantity);
+    }
 }

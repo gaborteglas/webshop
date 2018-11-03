@@ -87,6 +87,18 @@ public class BasketController {
         }
     }
 
+    @RequestMapping(value = "/api/basket/{prouductId}/{oldQuantity}/{newQuantity}", method = RequestMethod.POST)
+    public Response setBasketQuantity(@PathVariable Long prouductId, @PathVariable Long oldQuantity,
+                                      @PathVariable Long newQuantity) {
+        User user = getAuthenticatedUserId();
+        if (user != null) {
+            basketsService.setBasketQuantity(new Basket(user.getId(), prouductId, oldQuantity), newQuantity);
+            return new Response(true, "Módosítva");
+        } else {
+            return new Response(false, "A felhasználó nem jogosult a kosár módosítására.");
+        }
+    }
+
 
     private User getAuthenticatedUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
