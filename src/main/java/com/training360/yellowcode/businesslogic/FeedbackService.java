@@ -35,7 +35,7 @@ public class FeedbackService {
             return new Response(false, "Csak a saját értékelését törölheti!");
         }
         feedbackDao.deleteFeedbackByUser(productId, user.getId());
-        return new Response(true, "Értékelés törölve");
+        return new Response(true, "Értékelés törölve.");
     }
 
     public Response modifyFeedbackByUser(Feedback feedback, long productId, User user) {
@@ -44,6 +44,6 @@ public class FeedbackService {
         }
         feedback.setUser(user);
         feedbackDao.modifyFeedbackByUser(feedback, productId);
-        return new Response(true, "Értékelés módosítva");
+        return new Response(true, "Értékelés módosítva.");
     }
 }

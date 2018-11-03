@@ -204,7 +204,6 @@ function handleRatingSubmit() {
         }).then(function(response) {
             return response.json()
         }).then(function(response) {
-            alert(response.message);
             updateTable();
             ratingTextInput.value = "";
         });

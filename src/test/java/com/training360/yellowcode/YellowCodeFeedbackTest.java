@@ -76,8 +76,7 @@ public class YellowCodeFeedbackTest {
     @Test
     @WithMockUser(username = "feedbackUser", roles = "USER")
     public void testCreateFeedbackWithoutDeliveredProduct() {
-        User user = new User(1, "feedbackUser", "Feedback User", "Feedback1", UserRole.ROLE_USER );
-
+        User user = userController.getUser(SecurityContextHolder.getContext().getAuthentication());
         Feedback testFeedback = new Feedback(4, "Naggyon király", LocalDateTime.now(), user);
         Response response = feedbackController.createFeedback(testFeedback, 1);
 
@@ -85,7 +84,6 @@ public class YellowCodeFeedbackTest {
         assertFalse(response.isValidRequest());
 
         List<Feedback> feedbacks = productController.findProductByAddress("aliceblue").get().getFeedbacks();
-
         assertEquals(0, feedbacks.size());
     }
 
@@ -93,19 +91,16 @@ public class YellowCodeFeedbackTest {
     @Test
     @WithMockUser(username = "feedbackUser", roles = "USER")
     public void testFeedbackByBuyer() {
-        User testUser = new User(1, "feedbackUser", "Feedback User", "Feedback1", UserRole.ROLE_USER );
-
+        User user = userController.getUser(SecurityContextHolder.getContext().getAuthentication());
         basketController.addToBasket(1, 1L);
         ordersController.createOrderAndOrderItems("szállítási cím");
 
         Authentication a = SecurityContextHolder.getContext().getAuthentication();
         SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken("testadmin", "admin", List.of(new SimpleGrantedAuthority("ROLE_ADMIN"))));
-
         ordersController.modifyActiveStatusToDelivered(1);
-
         SecurityContextHolder.getContext().setAuthentication(a);
 
-        Response response = feedbackController.createFeedback(new Feedback(4, "Naggyon király", LocalDateTime.now(), testUser), 1 );
+        Response response = feedbackController.createFeedback(new Feedback(4, "Naggyon király", LocalDateTime.now(), user), 1 );
 
         assertEquals("Értékelés hozzáadva.", response.getMessage());
         assertTrue(response.isValidRequest());
@@ -117,55 +112,54 @@ public class YellowCodeFeedbackTest {
         assertEquals(4, feedbacks.get(0).getRatingScore());
     }
 
+
     @Test
     @WithMockUser(username = "feedbackUser", roles = "USER")
     public void testCreateSecondFeedbackSameUser() {
-        User user = new User(1, "feedbackUser", "Feedback User", "Feedback1", UserRole.ROLE_USER );
+        User user = userController.getUser(SecurityContextHolder.getContext().getAuthentication());
 
         basketController.addToBasket(1, 1L);
         ordersController.createOrderAndOrderItems("szállítási cím");
 
         Authentication a = SecurityContextHolder.getContext().getAuthentication();
         SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken("testadmin", "admin", List.of(new SimpleGrantedAuthority("ROLE_ADMIN"))));
-
         ordersController.modifyActiveStatusToDelivered(1);
-
         SecurityContextHolder.getContext().setAuthentication(a);
 
         Feedback testFeedback = new Feedback(4, "Naggyon király", LocalDateTime.now(), user);
-        feedbackController.createFeedback(testFeedback, 1);
+        Response response1 = feedbackController.createFeedback(testFeedback, 1);
+        assertEquals("Értékelés hozzáadva.", response1.getMessage());
+        assertTrue(response1.isValidRequest());
 
-        Response response = feedbackController.createFeedback(testFeedback, 1);
-
+        Response response2 = feedbackController.createFeedback(testFeedback, 1);
         assertEquals("A megadott terméket már értékelte, amennyiben módosítani szeretné értékelését, a szerkesztés gombra kattintva megteheti.",
-                response.getMessage());
-        assertFalse(response.isValidRequest());
+                response2.getMessage());
+        assertFalse(response2.isValidRequest());
     }
+
 
     @Test
     @WithMockUser(username = "feedbackUser", roles = "USER")
     public void testListFeedback() {
-        User user2 = new User(2, "feedbackUser", "Feedback User", "Feedback2", UserRole.ROLE_USER );
+        User user = userController.getUser(SecurityContextHolder.getContext().getAuthentication());
 
         basketController.addToBasket(1, 1L);
         ordersController.createOrderAndOrderItems("szállítási cím");
 
         Authentication a = SecurityContextHolder.getContext().getAuthentication();
         SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken("testadmin", "admin", List.of(new SimpleGrantedAuthority("ROLE_ADMIN"))));
-
         ordersController.modifyActiveStatusToDelivered(1);
-
         SecurityContextHolder.getContext().setAuthentication(a);
 
-        Feedback testFeedback2 = new Feedback(5, "Még nagyobb király", LocalDateTime.now(), user2);
-        feedbackController.createFeedback(testFeedback2, 1);
+        Feedback testFeedback = new Feedback(5, "Még nagyobb király", LocalDateTime.now(), user);
+        feedbackController.createFeedback(testFeedback, 1);
 
         List<Feedback> allFeedbacks = productController.findProductByAddress("aliceblue").get().getFeedbacks();
 
         assertEquals(1, allFeedbacks.size());
         assertEquals(5, allFeedbacks.get(0).getRatingScore());
         assertEquals("Még nagyobb király", allFeedbacks.get(0).getRatingText());
-        assertEquals(user2.getLoginName(), allFeedbacks.get(0).getUser().getLoginName());
+        assertEquals(user.getLoginName(), allFeedbacks.get(0).getUser().getLoginName());
     }
 
 
