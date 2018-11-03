@@ -36,6 +36,12 @@ public class YellowCodeCategoryTest {
         categoryController.createCategory(new Category(4, "d", 4L));
     }
 
+    @Test
+    public void testCategoryCreatWithAlreadyTakenName() {
+        Response response = categoryController.createCategory(new Category("a", 5L));
+        assertFalse(response.isValidRequest());
+        assertEquals("A megadott nevű kategória már létezik!", response.getMessage());
+    }
 
     @Test
     public void testCategoryCreateOrderedInput() {
@@ -66,15 +72,15 @@ public class YellowCodeCategoryTest {
         categories = categoryController.listCategorys();
         assertEquals(5, categories.size());
 
-        assertEquals(categories.get(1).getPositionNumber(), new Long(2));
+        assertEquals(categories.get(1).getPositionNumber(), Long.valueOf(2));
         assertEquals(categories.get(1).getId(), 5);
         assertEquals(categories.get(1).getName(), "e");
 
-        assertEquals(categories.get(2).getPositionNumber(), new Long(3));
+        assertEquals(categories.get(2).getPositionNumber(), Long.valueOf(3));
         assertEquals(categories.get(2).getId(), 2);
         assertEquals(categories.get(2).getName(), "b");
 
-        assertEquals(categories.get(0).getPositionNumber(), new Long(1));
+        assertEquals(categories.get(0).getPositionNumber(), Long.valueOf(1));
         assertEquals(categories.get(0).getId(), 1);
         assertEquals(categories.get(0).getName(), "a");
     }
@@ -97,6 +103,13 @@ public class YellowCodeCategoryTest {
         assertEquals("a", category.get().getName());
     }
 
+
+    @Test
+    public void testCategoryUpdateWithAlreadyTakenName() {
+        Response response = categoryController.updateCategory(new Category(1,"b", 1L));
+        assertFalse(response.isValidRequest());
+        assertEquals("A megadott nevű kategória már létezik!", response.getMessage());
+    }
     @Test
     public void testCategoryUpdateWithChangedOrder() {
         Response response = categoryController.updateCategory(new Category(1, "a", 4L));
@@ -105,13 +118,13 @@ public class YellowCodeCategoryTest {
         List<Category> allCategory = categoryController.listCategorys();
 
         assertEquals(allCategory.get(0).getId(), 2);
-        assertEquals(allCategory.get(0).getPositionNumber(), new Long(1));
+        assertEquals(allCategory.get(0).getPositionNumber(), Long.valueOf(1));
         assertEquals(allCategory.get(1).getId(), 3);
-        assertEquals(allCategory.get(1).getPositionNumber(), new Long(2));
+        assertEquals(allCategory.get(1).getPositionNumber(), Long.valueOf(2));
         assertEquals(allCategory.get(2).getId(), 4);
-        assertEquals(allCategory.get(2).getPositionNumber(), new Long(3));
+        assertEquals(allCategory.get(2).getPositionNumber(), Long.valueOf(3));
         assertEquals(allCategory.get(3).getId(), 1);
-        assertEquals(allCategory.get(3).getPositionNumber(), new Long(4));
+        assertEquals(allCategory.get(3).getPositionNumber(), Long.valueOf(4));
     }
 
     @Test
@@ -121,13 +134,13 @@ public class YellowCodeCategoryTest {
         List<Category> allCategory = categoryController.listCategorys();
 
         assertEquals(allCategory.get(0).getId(), 1);
-        assertEquals(allCategory.get(0).getPositionNumber(), new Long(1));
+        assertEquals(allCategory.get(0).getPositionNumber(), Long.valueOf(1));
         assertEquals(allCategory.get(1).getId(), 2);
-        assertEquals(allCategory.get(1).getPositionNumber(), new Long(2));
+        assertEquals(allCategory.get(1).getPositionNumber(), Long.valueOf(2));
         assertEquals(allCategory.get(2).getId(), 3);
-        assertEquals(allCategory.get(2).getPositionNumber(), new Long(3));
+        assertEquals(allCategory.get(2).getPositionNumber(), Long.valueOf(3));
         assertEquals(allCategory.get(3).getId(), 4);
-        assertEquals(allCategory.get(3).getPositionNumber(), new Long(4));
+        assertEquals(allCategory.get(3).getPositionNumber(), Long.valueOf(4));
     }
 
     @Test
@@ -147,11 +160,11 @@ public class YellowCodeCategoryTest {
         List<Category> allCategory = categoryController.listCategorys();
 
         assertEquals(allCategory.get(0).getId(), 1);
-        assertEquals(allCategory.get(0).getPositionNumber(), new Long(1));
+        assertEquals(allCategory.get(0).getPositionNumber(), Long.valueOf(1));
         assertEquals(allCategory.get(1).getId(), 3);
-        assertEquals(allCategory.get(1).getPositionNumber(), new Long(2));
+        assertEquals(allCategory.get(1).getPositionNumber(), Long.valueOf(2));
         assertEquals(allCategory.get(2).getId(), 4);
-        assertEquals(allCategory.get(2).getPositionNumber(), new Long(3));
+        assertEquals(allCategory.get(2).getPositionNumber(), Long.valueOf(3));
     }
 
     @Test
