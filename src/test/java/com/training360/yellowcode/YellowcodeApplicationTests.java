@@ -1,5 +1,6 @@
 package com.training360.yellowcode;
 
+import com.training360.yellowcode.businesslogic.Response;
 import com.training360.yellowcode.dbTables.*;
 import com.training360.yellowcode.userinterface.ProductController;
 import com.training360.yellowcode.userinterface.UserController;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -61,12 +63,24 @@ public class YellowcodeApplicationTests {
         List<Product> products = productController.listProducts();
 
         productController.createProduct(new Product(
-                6, "A Java ura: A classok szövetsége", "a-java-ura-a-classok-szovetsege", "J.R.R. Doe", 2899, ProductStatusType.ACTIVE, new Category(1, "Egyéb", 1L)
-        ));
+                6, "A Java ura: A classok szövetsége", "a-java-ura-a-classok-szovetsege", "J.R.R. Doe", 2899, ProductStatusType.ACTIVE,
+                new Category(1, "Egyéb", 1L)));
         List<Product> products2 = productController.listProducts();
         assertEquals(products.size(), 5);
         assertEquals(products2.size(), 6);
 
+    }
+
+    @Test
+    public void createProductWithTheSameAddress() {
+        Response response = productController.createProduct(new Product(
+                6, "A Java ura: A classok szövetsége", "aliceblue", "J.R.R. Doe", 2899, ProductStatusType.ACTIVE,
+                new Category(1, "Egyéb", 1L)));
+        assertEquals("A megadott id vagy cím már foglalt.", response.getMessage());
+        assertFalse(response.isValidRequest());
+
+        List<Product> products = productController.listProducts();
+        assertEquals(products.size(), 5);
     }
 
     @Test
@@ -81,6 +95,19 @@ public class YellowcodeApplicationTests {
         List<Product> products = productController.listProducts();
         assertEquals(products.size(), 6);
         assertEquals(productController.findProductByAddress("a-java-ura-a-classok-szovetsege").get().getCurrentPrice(), 3899);
+    }
+
+    @Test
+    public void testUpdateProductWithAlreadyTakenAddress() {
+        productController.createProduct(new Product(
+                6, "A Java ura: A classok szövetsége", "a-java-ura-a-classok-szovetsege", "J.R.R. Doe", 2899, ProductStatusType.ACTIVE, new Category(1, "Egyéb", 1L)
+        ));
+        Response response = productController.updateProduct(new Product(
+                        6, "A Java ura: A classok szövetsége", "aliceblue", "J.R.R. Doe", 3899, ProductStatusType.ACTIVE, new Category(1, "Egyéb", 1L)),
+                6);
+
+        assertFalse(response.isValidRequest());
+        assertEquals("A megadott id vagy cím már foglalt.", response.getMessage());
     }
 
     @Test
