@@ -41,9 +41,13 @@ function fillTable(products) {
         tr.appendChild(currentPriceTd);
 
         let quantityTd = document.createElement("td");
+        quantityTd.className = "quantity-field";
         quantityTd.id = "quantityField" + "Row" + k;
         quantityTd.innerHTML = products[k].quantity + " db";
         quantityTd.value = products[k].quantity;
+        quantityTd.addEventListener("click", function () {
+            modifyQuantity(k, products[k].id, products[k].quantity);
+        });
         tr.appendChild(quantityTd);
 
         let sumButton = document.createElement("button");
@@ -59,9 +63,10 @@ function fillTable(products) {
         subButton.className = "sumSubButtons";
         subButton.id = "subButton" + "Row" + k;
         subButton.innerHTML = "-";
-        subButton.addEventListener("click", function () {
-            decreaseQuantityByOne(k, products[k].id, products[k].quantity);
-        });
+        subButton.addEventListener("click",
+            function () {
+                decreaseQuantityByOne(k, products[k].id, products[k].quantity);
+            });
         tr.appendChild(subButton);
 
         deleteButton = document.createElement("input");
@@ -124,7 +129,7 @@ function fillSelectWithAddresses(addresses) {
 function fillDeliveryAddress(address) {
 
     let splittedAddressArray = address.split(" ");
-    let splittedAddress = splittedAddressArray.splice(0,2);
+    let splittedAddress = splittedAddressArray.splice(0, 2);
     splittedAddress.push(splittedAddressArray.join(" "));
 
     let zipCode = document.querySelector("#zip-code-field");
@@ -177,6 +182,17 @@ function decreaseQuantityByOne(rowNumber, productId, quantity) {
     } else {
         decreaseQuantityInSQL(productId, quantity);
     }
+}
+
+
+function modifyQuantity(rowNumber, productId, quantity) {
+    var newQuantity = prompt("Adja meg a kívánt mennyiséget", quantity);
+    let url = "api/basket/" + productId + "/" + quantity + "/" + newQuantity;
+    fetch(url, {
+        method: "POST"
+    }).then(function (response) {
+        return response.json();
+    }).then(responseJson => updateTable())
 }
 
 function handleOrderButton() {
