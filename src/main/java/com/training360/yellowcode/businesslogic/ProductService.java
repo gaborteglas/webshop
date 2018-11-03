@@ -4,7 +4,9 @@ import com.training360.yellowcode.database.CategoryDao;
 import com.training360.yellowcode.database.DuplicateProductException;
 import com.training360.yellowcode.database.FeedbackDao;
 import com.training360.yellowcode.database.ProductDao;
+import com.training360.yellowcode.dbTables.Feedback;
 import com.training360.yellowcode.dbTables.Product;
+import com.training360.yellowcode.dbTables.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,10 +31,18 @@ public class ProductService {
         this.feedbackDao = feedbackDao;
     }
 
-    public Optional<Product> findProductByAddress(String address) {
+    public Optional<Product> findProductByAddress(String address, User user) {
         Optional<Product> product = productDao.findProductByAddress(address);
         if(product.isPresent()) {
             product.get().setFeedbacks(feedbackDao.findFeedBacksByProductId(product.get().getId()));
+            List<Feedback> feedbackList = product.get().getFeedbacks();
+            for (Feedback feedback : feedbackList) {
+                if (user != null && feedback.getUser().getId() == user.getId()) {
+                    feedback.setCanEditOrDelete(true);
+                } else {
+                    feedback.setCanEditOrDelete(false);
+                }
+            }
         }
         return product;
     }

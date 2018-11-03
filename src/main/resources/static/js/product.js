@@ -5,12 +5,6 @@ window.onload = function() {
     putIntoBasketButton.onclick = handlePutIntoBasket;
     let ratingSubmitButton = document.getElementById("rating-submit");
     ratingSubmitButton.onclick = handleRatingSubmit;
-    let ratingTextInput = document.getElementById("rating-textarea");
-    let feedbackId = document.createElement("p");
-    feedbackId.setAttribute("id", "modify-input-id");
-    feedbackId.setAttribute("style","display:none");
-    feedbackId.innerHTML = "";
-    ratingTextInput.appendChild(feedbackId);
 }
 
 function handlePutIntoBasket(){
@@ -59,6 +53,8 @@ function creatingHeaderForName(name, average){
     let averageScore = document.querySelector("#product-average-rating-score");
     if(average > 0) {
         averageScore.innerHTML = "Átlag pontszám: " + Math.round(average * 100) / 100;
+    } else {
+        averageScore.innerHTML = "";
     }
 }
 
@@ -87,6 +83,11 @@ function creatingFeedbackFields(feedbackList) {
 
     let ratingsDiv = document.querySelector(".product-ratings");
     ratingsDiv.innerHTML = "";
+    if (feedbackList.length > 0) {
+        let title = document.createElement("h5");
+        title.innerHTML = "Vásárlói értékelések:"
+        ratingsDiv.appendChild(title);
+    }
     for (let i = 0; i < feedbackList.length; i++) {
         let feedbackDiv = document.createElement("div");
         feedbackDiv.setAttribute("id", "one-feedback-div");
@@ -126,24 +127,21 @@ function creatingFeedbackFields(feedbackList) {
 
         let rightDiv = document.createElement("div");
         rightDiv.setAttribute("id", "right-div");
-        let editButton = document.createElement("button");
-        editButton.setAttribute("id", "edit-button");
-        editButton.setAttribute("class", "btn btn-secondary");
-        editButton.innerHTML = "Szerkesztés";
-        editButton.onclick = handleRatingModifyButtonClick;
-        let deleteButton = document.createElement("button");
-        deleteButton.setAttribute("id", "delete-button");
-        deleteButton.setAttribute("class", "btn btn-danger");
-        deleteButton.innerHTML = "Törlés";
-        deleteButton.onclick = handleRatingDelete;
-        let feedbackId = document.createElement("p");
-        feedbackId.setAttribute("id", "modify-id");
-        feedbackId.setAttribute("style","display:none");
-        feedbackId.innerHTML = feedbackList[i].id;
-        deleteButton.appendChild(feedbackId)
-        rightDiv.appendChild(editButton);
-        rightDiv.appendChild(deleteButton);
 
+        if(feedbackList[i].canEditOrDelete === true) {
+            let editButton = document.createElement("button");
+            editButton.setAttribute("id", "edit-button");
+            editButton.setAttribute("class", "btn btn-secondary");
+            editButton.innerHTML = "Szerkesztés";
+            editButton.onclick = handleRatingModifyButtonClick;
+            let deleteButton = document.createElement("button");
+            deleteButton.setAttribute("id", "delete-button");
+            deleteButton.setAttribute("class", "btn btn-danger");
+            deleteButton.innerHTML = "Törlés";
+            deleteButton.onclick = handleRatingDelete;
+            rightDiv.appendChild(editButton);
+            rightDiv.appendChild(deleteButton);
+        }
         feedbackDiv.appendChild(leftDiv);
         feedbackDiv.appendChild(middleDiv)
         feedbackDiv.appendChild(rightDiv);
@@ -169,11 +167,9 @@ function showBasketButton() {
 
 function switchBasketButton() {
     let button = document.getElementById("puttobasket");
-    button.style.display = "block";
     button.setAttribute("style","display:block");
 
     let input = document.getElementById("quantity");
-    input.style.display = "block";
     input.setAttribute("style","display:block");
 }
 
@@ -216,57 +212,50 @@ function handleRatingSubmit() {
 }
 
 function handleRatingDelete() {
-let productId = document.querySelector("#productId").innerHTML;
-let feedbackId = this.children[0].innerHTML;
+    let productId = document.querySelector("#productId").innerHTML;
 
-var result = confirm("Biztosan törli a kijelölt értékelést?");
-    if (result) {
-        fetch("api/products/" +productId + "/feedback/" + feedbackId, {
-            method: "DELETE",
-        })
-        .then(function(response) {
-            return response.json()
-        })
-        .then(function(response) {
-            alert(response.message)
-            updateTable();
-        });
-    }
+    var result = confirm("Biztosan törli a kijelölt értékelést?");
+        if (result) {
+            fetch("api/products/" + productId + "/feedback", {
+                method: "DELETE",
+            })
+            .then(function(response) {
+                return response.json()
+            })
+            .then(function(response) {
+                updateTable();
+            });
+        }
 }
 
 function handleRatingModifyButtonClick() {
-let modifyButton = document.getElementById("rating-submit");
-modifyButton.innerHTML = "Értékelés módosítása";
-modifyButton.onclick = handleModify;
+    let modifyButton = document.getElementById("rating-submit");
+    modifyButton.innerHTML = "Értékelés módosítása";
+    modifyButton.onclick = handleModify;
 
-let feedback = this.parentElement.parentElement["raw-data"];
+    let feedback = this.parentElement.parentElement["raw-data"];
 
-let ratingInput = document.getElementById("rating-score");
-ratingInput.value = feedback.ratingScore;
-let textInput = document.getElementById("rating-textarea");
-textInput.value = feedback.ratingText;
-
-let feedbackId = document.getElementById("modify-input-id");
-feedbackId.innerHTML = feedback.id;
+    let ratingInput = document.getElementById("rating-score");
+    ratingInput.value = feedback.ratingScore;
+    let textInput = document.getElementById("rating-textarea");
+    textInput.value = feedback.ratingText;
 }
 
 function handleModify() {
-let feedbackId = document.getElementById("modify-input-id").innerHTML;
-let ratingScoreInput = document.getElementById("rating-score");
-let ratingTextInput = document.getElementById("rating-textarea");
-let ratingScore = ratingScoreInput.value;
-let ratingText = ratingTextInput.value;
-let modifyButton = document.getElementById("rating-submit");
-let productId = document.querySelector("#productId").innerHTML;
+    let ratingScoreInput = document.getElementById("rating-score");
+    let ratingTextInput = document.getElementById("rating-textarea");
+    let ratingScore = ratingScoreInput.value;
+    let ratingText = ratingTextInput.value;
+    let modifyButton = document.getElementById("rating-submit");
+    let productId = document.querySelector("#productId").innerHTML;
 
-let feedback = {
-       "ratingScore": ratingScore,
-       "ratingText": ratingText,
-       "id": feedbackId
-                }
+    let feedback = {
+                   "ratingScore": ratingScore,
+                   "ratingText": ratingText
+                   }
 
 
-fetch("api/products/" + productId + "/feedbackstatus/" + feedbackId, {
+    fetch("api/products/" + productId + "/edit-feedback", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json; charset=utf-8"
@@ -280,7 +269,6 @@ fetch("api/products/" + productId + "/feedbackstatus/" + feedbackId, {
             ratingTextInput.value = "";
             modifyButton.onclick = handleRatingSubmit;
             modifyButton.innerHTML = "Értékelés elküldése";
-            feedbackId.innerHTML = "";
         });
     return false;
 }
