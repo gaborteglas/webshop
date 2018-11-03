@@ -187,12 +187,14 @@ function decreaseQuantityByOne(rowNumber, productId, quantity) {
 
 function modifyQuantity(rowNumber, productId, quantity) {
     var newQuantity = prompt("Adja meg a kívánt mennyiséget", quantity);
-    let url = "api/basket/" + productId + "/" + quantity + "/" + newQuantity;
-    fetch(url, {
-        method: "POST"
-    }).then(function (response) {
-        return response.json();
-    }).then(responseJson => updateTable())
+    if (new Quantity > 0) {
+        let url = "api/basket/" + productId + "/" + quantity + "/" + newQuantity;
+        fetch(url, {
+            method: "POST"
+        }).then(function (response) {
+            return response.json();
+        }).then(responseJson => updateTable())
+    }
 }
 
 function handleOrderButton() {
