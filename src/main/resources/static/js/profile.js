@@ -20,23 +20,21 @@ function updateDatas(userData){
     name = nameInput.value;
     password = passwordInput.value;
     secondPassword = secondPasswordInput.value;
-    if(password !== secondPassword || name == ""){
-        console.log("bukta");
+    if(password !== secondPassword){
         secondPasswordInput.value = "";
         passwordInput.value = "";
-        nameInput.value = "";
-        alert("Hibás felhasználó név vagy jelszó!");
+        alert("A két jelszó nem egyezik meg.");
         return;
     }
 
     let user = {"id": userData.id,
                    };
     if (name.length != 0) {
-            user.fullName = name;
-        }
-        if (password.length != 0) {
-            user.password = password;
-        }
+        user.fullName = name;
+    }
+    if (password.length != 0) {
+        user.password = password;
+    }
 
     fetch("api/users/update", {
             method: "POST",

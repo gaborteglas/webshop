@@ -67,7 +67,7 @@ function handleReset() {
     let nameInput = document.getElementById("fullname-input");
     nameInput.value = "";
     let passwordInput = document.getElementById("password-input");
-    producerInput.value = "";
+    passwordInput.value = "";
 }
 
 function modifyUser() {
