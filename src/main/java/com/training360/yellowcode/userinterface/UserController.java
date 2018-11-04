@@ -5,8 +5,10 @@ import com.training360.yellowcode.businesslogic.UserService;
 import com.training360.yellowcode.database.DuplicateUserException;
 import com.training360.yellowcode.dbTables.User;
 import com.training360.yellowcode.dbTables.UserRole;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
@@ -54,17 +56,31 @@ public class UserController {
 
     @RequestMapping(value = "/api/users/update", method = RequestMethod.POST)
     public Response updateUser(@RequestBody User user) {
-        try {
-            userService.updateUser(user.getId(), user.getFullName(), user.getPassword());
-            return new Response(true, "Sikeresen frissítve.");
-        } catch (IllegalArgumentException iae) {
-            return new Response(false, "Érvénytelen név vagy jelszó.");
+        User authenticatedUser = getAuthenticatedUser();
+        if (authenticatedUser != null && (authenticatedUser.getRole().equals("ROLE_ADMIN") || authenticatedUser.getId() == user.getId())) {
+            try {
+                userService.updateUser(user.getId(), user.getFullName(), user.getPassword());
+                return new Response(true, "Sikeresen frissítve.");
+            } catch (IllegalArgumentException iae) {
+                return new Response(false, "Érvénytelen név vagy jelszó.");
+            }
+        } else {
+            return new Response(false, "Nem jogosult az adott felhasználó adatainak módosítására.");
         }
     }
 
     @RequestMapping(value = "/api/users/{id}", method = RequestMethod.DELETE)
     public void deleteUser(@PathVariable long id) {
         userService.deleteUser(id);
+    }
+
+    private User getAuthenticatedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {     //nincs bejelentkezve
+            return null;
+        }
+        User user = userService.findUserByUserName(authentication.getName()).get();
+        return user;
     }
 
 }
