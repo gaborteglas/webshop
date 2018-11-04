@@ -49,6 +49,7 @@ public class YellowCodeCategoryTest {
         assertEquals(4, categories.size());
         Response response = categoryController.createCategory(new Category(5, "e", 5L));
         assertTrue(response.isValidRequest());
+        assertEquals("Létrehozva.", response.getMessage());
         categories = categoryController.listCategorys();
         assertEquals(5, categories.size());
     }
@@ -59,6 +60,7 @@ public class YellowCodeCategoryTest {
         assertEquals(4, categories.size());
         Response response = categoryController.createCategory(new Category(5, "e", 7L));
         assertFalse(response.isValidRequest());
+        assertEquals("A megadott sorszám túl nagy.", response.getMessage());
         categories = categoryController.listCategorys();
         assertEquals(4, categories.size());
     }
@@ -96,11 +98,19 @@ public class YellowCodeCategoryTest {
     }
 
     @Test
-    public void testFindCategorById() {
+    public void testFindCategoryById() {
         Optional<Category> category = categoryController.findCategoryById(1);
 
         assertTrue(category.isPresent());
         assertEquals("a", category.get().getName());
+    }
+
+    @Test
+    public void testFindCategoryByInvalidId() {
+        Optional<Category> category = categoryController.findCategoryById(5);
+
+        assertFalse(category.isPresent());
+        assertEquals(Optional.empty(), category);
     }
 
 
