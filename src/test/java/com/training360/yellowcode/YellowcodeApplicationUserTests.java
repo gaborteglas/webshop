@@ -1,5 +1,6 @@
 package com.training360.yellowcode;
 
+import com.training360.yellowcode.businesslogic.UserService;
 import com.training360.yellowcode.dbTables.User;
 import com.training360.yellowcode.dbTables.UserRole;
 import com.training360.yellowcode.userinterface.UserController;
@@ -25,64 +26,72 @@ public class YellowcodeApplicationUserTests {
     @Autowired
     private UserController userController;
 
+    @Autowired
+    private UserService userService;
+
     @Before
     public void init() {
-        userController.createUser(new User(1, "login1", "Test One", "Elsőjelszó1", UserRole.ROLE_USER));
-        userController.createUser(new User(2, "login2", "Test Two", "Másodikjelszó2", UserRole.ROLE_USER));
-        userController.createUser(new User(3, "login3", "Test Three", "harmadikJelszó3",UserRole.ROLE_USER));
+        userController.createUser(new User(1, "testadmin", "Test Admin", "Testadmin1",UserRole.ROLE_ADMIN));
+        userController.createUser(new User(2, "login1", "Test One", "Elsőjelszó1", UserRole.ROLE_USER));
+        userController.createUser(new User(3, "login2", "Test Two", "Másodikjelszó2", UserRole.ROLE_USER));
+        userController.createUser(new User(4, "login3", "Test Three", "harmadikJelszó3",UserRole.ROLE_USER));
     }
 
     @Test
     public void testListUsers() {
         List<User> users1 = userController.listUsers();
 
-        assertEquals(users1.size(), 3);
+        assertEquals(users1.size(), 4);
     }
 
     @Test
     public void testCreateUsers() {
         List<User> users1 = userController.listUsers();
 
-        userController.createUser(new User(4, "login4", "Test Four", "4nEgyEdikjelszó!", UserRole.ROLE_USER));
+        userController.createUser(new User(5, "login4", "Test Four", "4nEgyEdikjelszó!", UserRole.ROLE_USER));
 
         List<User> users2 = userController.listUsers();
 
-        assertEquals(users1.size(), 3);
-        assertEquals(users2.size(), 4);
+        assertEquals(users1.size(), 4);
+        assertEquals(users2.size(), 5);
     }
 
     @Test
     public void testCreateUserWithExistingUserName() {
         List<User> users1 = userController.listUsers();
-        userController.createUser(new User(4, "login3", "Test Four", "4nEgyEdikjelszó!", UserRole.ROLE_USER));
+        userController.createUser(new User(5, "login3", "Test Four", "4nEgyEdikjelszó!", UserRole.ROLE_USER));
 
         List<User> users2 = userController.listUsers();
 
-        assertEquals(users1.size(), 3);
-        assertEquals(users2.size(), 3);
+        assertEquals(users1.size(), 4);
+        assertEquals(users2.size(), 4);
     }
 
     @Test
     public void testDeleteUser() {
-        userController.createUser(new User(4, "login4", "Test Four", "4nEgyEdikjelszó!", UserRole.ROLE_USER));
+        userController.createUser(new User(5, "login4", "Test Four", "4nEgyEdikjelszó!", UserRole.ROLE_USER));
         List<User> users1 = userController.listUsers();
 
-        assertEquals(users1.size(), 4);
+        assertEquals(users1.size(), 5);
 
-        userController.deleteUser(4);
+        userController.deleteUser(5);
         List<User> users2 = userController.listUsers();
 
-        assertEquals(users2.size(), 3);
+        assertEquals(users2.size(), 4);
     }
 
     @Test
     public void testUpdateUser() {
-        userController.createUser(new User(4, "login4", "Test Four", "4nEgyEdikjelszó!", UserRole.ROLE_USER));
+        userController.createUser(new User(5, "login4", "Test Four", "4nEgyEdikjelszó!", UserRole.ROLE_USER));
 
-        userController.updateUser(new User(4, "login4", "changed", "Új&Jelszó4", UserRole.ROLE_USER));
+        userController.updateUser(new User(5, "login4", "changed", "Új&Jelszó4", UserRole.ROLE_USER));
         List<User> users1 = userController.listUsers();
 
-        assertEquals(users1.get(3).getFullName(), "changed");
+        assertEquals(users1.size(), 5);
+
+        User login4User = userService.findUserByUserName("login4").get();
+        assertEquals(login4User.getId(), 5);
+        assertEquals(login4User.getFullName(), "changed");
     }
 
 
