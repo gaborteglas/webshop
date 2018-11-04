@@ -31,7 +31,7 @@ public class YellowcodeApplication extends
 				.authorizeRequests()
 				.antMatchers("/", "/js/**", "/css/**", "/api/products").permitAll()
 				.antMatchers("/adminproducts.html", "/users.html", "/orders.html", "/orderitems.html","/reports.html", "/categories.html").hasRole("ADMIN")
-				.antMatchers("/basket.html", "/myorders.html", "/myorderitem.html").authenticated()
+				.antMatchers("/basket.html", "/myorders.html", "/myorderitem.html","/profile.html").authenticated()
 				.and()
 				.formLogin().loginPage("/login.html").defaultSuccessUrl("/products.html")
 				.and()
