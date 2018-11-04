@@ -3,13 +3,9 @@ package com.training360.yellowcode.userinterface;
 import com.training360.yellowcode.businesslogic.OrdersService;
 import com.training360.yellowcode.businesslogic.Response;
 import com.training360.yellowcode.businesslogic.UserService;
-import com.training360.yellowcode.database.DuplicateProductException;
 import com.training360.yellowcode.dbTables.OrderItem;
 import com.training360.yellowcode.dbTables.Orders;
-import com.training360.yellowcode.dbTables.Product;
 import com.training360.yellowcode.dbTables.User;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -46,7 +42,7 @@ public class OrdersController {
 
     @RequestMapping(value = "/api/myorders", method = RequestMethod.GET)
     public List<Orders> listOrdersByUserId() {
-        User user = getAuthenticatedUserId();
+        User user = getAuthenticatedUser();
         if (user != null) {
             return ordersService.listOrdersByUserId(user.getId());
         } else {
@@ -56,7 +52,7 @@ public class OrdersController {
 
     @RequestMapping(value = "/api/myorderitems/{orderId}", method = RequestMethod.GET)
     public List<OrderItem> listOrderItems(@PathVariable long orderId) {
-        User user = getAuthenticatedUserId();
+        User user = getAuthenticatedUser();
         if (user != null) {
             return ordersService.listOrderItems(user.getId(), orderId);
         } else {
@@ -66,7 +62,7 @@ public class OrdersController {
 
     @RequestMapping(value = "/api/myorders", method = RequestMethod.POST)
     public Response createOrderAndOrderItems(@RequestBody String address) {
-        User user = getAuthenticatedUserId();
+        User user = getAuthenticatedUser();
         if (user != null) {
             try {
                 ordersService.createOrderAndOrderItems(user.getId(), address);
@@ -96,7 +92,7 @@ public class OrdersController {
 
     @RequestMapping(value = "api/orders/addresses", method = RequestMethod.GET)
     public List<String> listDeliveryAddressesOfUser() {
-        User user = getAuthenticatedUserId();
+        User user = getAuthenticatedUser();
         if (user != null) {
             return ordersService.listDeliveryAddressesOfUser(user.getId());
         } else {
@@ -104,7 +100,7 @@ public class OrdersController {
         }
     }
 
-    private User getAuthenticatedUserId() {
+    private User getAuthenticatedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {     //nincs bejelentkezve
             return null;

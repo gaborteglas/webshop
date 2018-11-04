@@ -23,7 +23,7 @@ public class FeedbackController {
 
     @RequestMapping(value = "/api/products/{productId}/feedback", method = RequestMethod.POST)
     public Response createFeedback(@RequestBody Feedback feedback, @PathVariable long productId) {
-        User user = getAuthenticatedUserId();
+        User user = getAuthenticatedUser();
         if (user != null) {
             return feedbackService.createFeedback(feedback, productId, user);
         } else {
@@ -31,7 +31,7 @@ public class FeedbackController {
         }
     }
 
-    private User getAuthenticatedUserId() {
+    private User getAuthenticatedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {     //nincs bejelentkezve
             return null;
@@ -42,7 +42,7 @@ public class FeedbackController {
 
     @RequestMapping(value = "/api/products/{productId}/feedback", method = RequestMethod.DELETE)
     public Response deleteFeedbackByUser(@PathVariable long productId) {
-        User user = getAuthenticatedUserId();
+        User user = getAuthenticatedUser();
         if (user != null) {
             return feedbackService.deleteFeedbackByUser(productId, user);
         } else {
@@ -52,7 +52,7 @@ public class FeedbackController {
 
     @RequestMapping(value = "/api/products/{productId}/edit-feedback", method = RequestMethod.POST)
     public Response modifyFeedbackByUser(@RequestBody Feedback feedback, @PathVariable long productId) {
-        User user = getAuthenticatedUserId();
+        User user = getAuthenticatedUser();
         if (user != null) {
             return feedbackService.modifyFeedbackByUser(feedback, productId, user);
         } else {

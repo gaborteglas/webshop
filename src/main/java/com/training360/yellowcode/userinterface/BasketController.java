@@ -27,7 +27,7 @@ public class BasketController {
 
     @RequestMapping(value = "/api/basket", method = RequestMethod.GET)
     public List<BasketProduct> listProducts() {
-        User user = getAuthenticatedUserId();
+        User user = getAuthenticatedUser();
         if (user != null) {
             return basketsService.listProducts(user.getId());
         } else {
@@ -37,7 +37,7 @@ public class BasketController {
 
     @RequestMapping(value = "/api/basket/{productId}/{quantity}", method = RequestMethod.POST)
     public Response addToBasket(@PathVariable long productId, @PathVariable Long quantity) {
-        User user = getAuthenticatedUserId();
+        User user = getAuthenticatedUser();
         if (user != null) {
             return basketsService.addToBasket(new Basket(user.getId(), productId, quantity));
         } else {
@@ -47,7 +47,7 @@ public class BasketController {
 
     @RequestMapping(value = "/api/basket", method = RequestMethod.DELETE)
     public Response deleteWholeBasket() {
-        User user = getAuthenticatedUserId();
+        User user = getAuthenticatedUser();
         if (user != null) {
             return basketsService.deleteFromBasketByUserId(user.getId());
         } else {
@@ -57,7 +57,7 @@ public class BasketController {
 
     @RequestMapping(value = "/api/basket/{productId}", method = RequestMethod.DELETE)
     public Response deleteSingleProduct(@PathVariable long productId) {
-        User user = getAuthenticatedUserId();
+        User user = getAuthenticatedUser();
         if (user != null) {
             return basketsService.deleteFromBasketByUserIdAndProductId(user.getId(), productId);
         } else {
@@ -67,7 +67,7 @@ public class BasketController {
 
     @RequestMapping(value = "/api/basket/{prouductId}/{quantity}/increase", method = RequestMethod.POST)
     public Response increaseBasketQuantityByOne(@PathVariable Long prouductId, @PathVariable Long quantity) {
-        User user = getAuthenticatedUserId();
+        User user = getAuthenticatedUser();
         if (user != null) {
             basketsService.increaseBasketQuantityByOne(new Basket(user.getId(), prouductId, quantity));
             return new Response(true, "Módosítva");
@@ -78,7 +78,7 @@ public class BasketController {
 
     @RequestMapping(value = "/api/basket/{prouductId}/{quantity}/decrease", method = RequestMethod.POST)
     public Response decreaseBasketQuantityByOne(@PathVariable Long prouductId, @PathVariable Long quantity) {
-        User user = getAuthenticatedUserId();
+        User user = getAuthenticatedUser();
         if (user != null) {
             basketsService.decreaseBasketQuantityByOne(new Basket(user.getId(), prouductId, quantity));
             return new Response(true, "Módosítva");
@@ -90,7 +90,7 @@ public class BasketController {
     @RequestMapping(value = "/api/basket/{prouductId}/{oldQuantity}/{newQuantity}", method = RequestMethod.POST)
     public Response setBasketQuantity(@PathVariable Long prouductId, @PathVariable Long oldQuantity,
                                       @PathVariable Long newQuantity) {
-        User user = getAuthenticatedUserId();
+        User user = getAuthenticatedUser();
         if (user != null) {
             basketsService.setBasketQuantity(new Basket(user.getId(), prouductId, oldQuantity), newQuantity);
             return new Response(true, "Módosítva");
@@ -100,7 +100,7 @@ public class BasketController {
     }
 
 
-    private User getAuthenticatedUserId() {
+    private User getAuthenticatedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {     //nincs bejelentkezve
             return null;
