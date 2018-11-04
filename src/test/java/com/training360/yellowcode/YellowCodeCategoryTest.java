@@ -93,6 +93,7 @@ public class YellowCodeCategoryTest {
         assertEquals(4, categories.size());
         Response response = categoryController.createCategory(new Category(5, null, 2L));
         assertFalse(response.isValidRequest());
+        assertEquals("A név megadása kötelező.", response.getMessage());
         categories = categoryController.listCategorys();
         assertEquals(4, categories.size());
     }
@@ -120,6 +121,30 @@ public class YellowCodeCategoryTest {
         assertFalse(response.isValidRequest());
         assertEquals("A megadott nevű kategória már létezik!", response.getMessage());
     }
+
+    @Test
+    public void testUpdateCategoryNameAndPositionNumber() {
+        Response response = categoryController.updateCategory(new Category(1,"aa", 2L));
+        assertTrue(response.isValidRequest());
+        assertEquals("Módosítva.", response.getMessage());
+
+        List<Category> allCategory = categoryController.listCategorys();
+
+        assertEquals(allCategory.get(0).getId(), 2);
+        assertEquals(allCategory.get(0).getName(), "b");
+        assertEquals(allCategory.get(0).getPositionNumber(), Long.valueOf(1));
+        assertEquals(allCategory.get(1).getId(), 1);
+        assertEquals(allCategory.get(1).getName(), "aa");
+        assertEquals(allCategory.get(1).getPositionNumber(), Long.valueOf(2));
+        assertEquals(allCategory.get(2).getId(), 3);
+        assertEquals(allCategory.get(2).getName(), "c");
+        assertEquals(allCategory.get(2).getPositionNumber(), Long.valueOf(3));
+        assertEquals(allCategory.get(3).getId(), 4);
+        assertEquals(allCategory.get(3).getName(), "d");
+        assertEquals(allCategory.get(3).getPositionNumber(), Long.valueOf(4));
+
+    }
+
     @Test
     public void testCategoryUpdateWithChangedOrder() {
         Response response = categoryController.updateCategory(new Category(1, "a", 4L));
@@ -179,12 +204,15 @@ public class YellowCodeCategoryTest {
 
     @Test
     public void testCategoryCreateWithNullPosition() {
-        Long position = null;
-        categoryController.createCategory(new Category(5, "Comedy", position));
+        Category category = new Category();
+        category.setId(5);
+        category.setName("Comedy");
+        categoryController.createCategory(category);
+
         List<Category> allCategory = categoryController.listCategorys();
 
         assertEquals(5, allCategory.get(4).getId());
         assertEquals("Comedy", allCategory.get(4).getName());
-        assertEquals(new Long(5), allCategory.get(4).getPositionNumber());
+        assertEquals(Long.valueOf(5), allCategory.get(4).getPositionNumber());
     }
 }
