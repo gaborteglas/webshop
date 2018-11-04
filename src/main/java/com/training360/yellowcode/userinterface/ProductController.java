@@ -2,8 +2,13 @@ package com.training360.yellowcode.userinterface;
 
 import com.training360.yellowcode.businesslogic.ProductService;
 import com.training360.yellowcode.businesslogic.Response;
+import com.training360.yellowcode.businesslogic.UserService;
 import com.training360.yellowcode.database.DuplicateProductException;
 import com.training360.yellowcode.dbTables.Product;
+import com.training360.yellowcode.dbTables.User;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,14 +21,17 @@ import java.util.Optional;
 public class ProductController {
 
     private ProductService productService;
+    private UserService userService;
 
-    public ProductController(ProductService productService) {
+    public ProductController(ProductService productService, UserService userService) {
         this.productService = productService;
+        this.userService = userService;
     }
 
     @RequestMapping(value = "/api/products/{address}", method = RequestMethod.GET)
     public Optional<Product> findProductByAddress(@PathVariable String address) {
-        return productService.findProductByAddress(address);
+        User user = getAuthenticatedUser();
+        return productService.findProductByAddress(address, user);
     }
 
     @RequestMapping(value = "/api/products/category/{categoryId}", method = RequestMethod.GET)
@@ -76,8 +84,17 @@ public class ProductController {
             byte[] imageBytes = file.getBytes();
             productService.uploadPicture(imageBytes, id);
         } catch (IOException ioe) {
-            return new Response(false, "Egy");
+            return new Response(false, "Hiba, próbálja újra!");
         }
-        return new Response(true, "Kettő");
+        return new Response(true, "Sikeres feltöltés!");
+    }
+
+    private User getAuthenticatedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {     //nincs bejelentkezve
+            return null;
+        }
+        User user = userService.findUserByUserName(authentication.getName()).get();
+        return user;
     }
 }
