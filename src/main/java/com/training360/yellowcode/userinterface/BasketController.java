@@ -88,11 +88,11 @@ public class BasketController {
     }
 
     @RequestMapping(value = "/api/basket/{prouductId}/{oldQuantity}/{newQuantity}", method = RequestMethod.POST)
-    public Response setBasketQuantity(@PathVariable Long prouductId, @PathVariable Long oldQuantity,
+    public Response setBasketQuantity(@PathVariable Long productId, @PathVariable Long oldQuantity,
                                       @PathVariable Long newQuantity) {
         User user = getAuthenticatedUser();
         if (user != null) {
-            basketsService.setBasketQuantity(new Basket(user.getId(), prouductId, oldQuantity), newQuantity);
+            basketsService.setBasketQuantity(new Basket(user.getId(), productId, oldQuantity), newQuantity);
             return new Response(true, "Módosítva");
         } else {
             return new Response(false, "A felhasználó nem jogosult a kosár módosítására.");

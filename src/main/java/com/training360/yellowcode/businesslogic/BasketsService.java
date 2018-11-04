@@ -3,7 +3,6 @@ package com.training360.yellowcode.businesslogic;
 import com.training360.yellowcode.database.BasketsDao;
 import com.training360.yellowcode.dbTables.Basket;
 import com.training360.yellowcode.dbTables.BasketProduct;
-import com.training360.yellowcode.dbTables.Product;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
