@@ -71,7 +71,7 @@ public class CategoryService {
         Long newPosition = category.getPositionNumber();
 
         if (newPosition > allCategoryNumber) {
-            throw new IllegalStateException("A megadott nevű kategória már létezik!");
+            throw new IllegalStateException("A megadott szám túl nagy.");
         }
 
         if (newPosition > thisCategoryPosition) {

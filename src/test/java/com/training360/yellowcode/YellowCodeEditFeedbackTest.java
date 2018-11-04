@@ -51,67 +51,75 @@ public class YellowCodeEditFeedbackTest {
         Authentication a = SecurityContextHolder.getContext().getAuthentication();
         SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken("testadmin", "admin", List.of(new SimpleGrantedAuthority("ROLE_ADMIN"))));
 
-        productController.createProduct(
-                new Product(1, "Az aliceblue 50 árnyalata", "aliceblue", "E. L. Doe",
-                        9999, ProductStatusType.ACTIVE, new Category(1, "Egyéb", 1L)));
-
-        userController.createUser(new User(1, "feedbackUser", "Feedback User",
-                "Feedback1", UserRole.ROLE_USER ));
+        productController.createProduct(new Product(1, "Az aliceblue 50 árnyalata", "aliceblue", "E. L. Doe", 9999, ProductStatusType.ACTIVE, new Category(1, "Egyéb", 1L)));
+        productController.createProduct(new Product(2, "Legendás programozók és megfigyelésük", "legendas", "J. K. Doe", 3999, ProductStatusType.ACTIVE, new Category(1, "Egyéb", 1L)));
+        productController.createProduct(new Product(3, "Az 50 első Trainer osztály", "osztaly", "Jack Doe", 5999, ProductStatusType.ACTIVE, new Category(1, "Egyéb", 1L)));
+        userController.createUser(new User(1, "feedbackUser", "Feedback User", "Feedback1", UserRole.ROLE_USER ));
 
         SecurityContextHolder.getContext().setAuthentication(a);
 
         basketController.addToBasket(1, 1L);
+        basketController.addToBasket(2, 1L);
+        basketController.addToBasket(3, 1L);
         ordersController.createOrderAndOrderItems("szállítási cím");
 
-        Authentication b = SecurityContextHolder.getContext().getAuthentication();
         SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken("testadmin", "admin", List.of(new SimpleGrantedAuthority("ROLE_ADMIN"))));
 
         ordersController.modifyActiveStatusToDelivered(1);
 
-        SecurityContextHolder.getContext().setAuthentication(b);
-
+        SecurityContextHolder.getContext().setAuthentication(a);
     }
 
     @Test
     @WithMockUser(username = "feedbackUser", roles = "USER")
     public void editFeedback() {
-        User user = new User(1, "feedbackUser", "Feedback User",
-                "Feedback1", UserRole.ROLE_USER );
+        User user = userController.getUser(SecurityContextHolder.getContext().getAuthentication());
 
-        Feedback testFeedback = new Feedback(4, "Naggyon király", LocalDateTime.now(), user);
+        Feedback testFeedback = new Feedback(4, "Király", LocalDateTime.now(), user);
         feedbackController.createFeedback(testFeedback, 1);
-        Product product = productController.findProductByAddress("aliceblue"). get();
-        List<Feedback> allFeedbacks = feedbackDao.findFeedBacksByProductId(1);
-        assertEquals(1, allFeedbacks.size());
-        assertEquals(4, allFeedbacks.get(0).getRatingScore());
 
-        Feedback testFeedback2 = feedbackDao.findFeedBackByProductIdAndUserId(1, 1);
-        testFeedback2.setRatingScore(1);
-        testFeedback2.setRatingText("Meh");
-        Response response = feedbackController.modifyFeedbackByUser(testFeedback2, 1,
-                1);
-        System.out.println(response.getMessage());
+        List<Feedback> feedbackList = feedbackDao.findFeedBacksByProductId(1);
+        assertEquals(1, feedbackList.size());
+        assertEquals(4, feedbackList.get(0).getRatingScore());
+        assertEquals("Király", feedbackList.get(0).getRatingText());
+
+        Response response = feedbackController.modifyFeedbackByUser(
+                new Feedback(5, "Naggyon király", LocalDateTime.now(), user), 1);
+
         assertTrue(response.isValidRequest());
-        allFeedbacks = feedbackDao.findFeedBacksByProductId(1);
-        assertEquals(1, allFeedbacks.get(0).getRatingScore());
+        assertEquals("Értékelés módosítva.", response.getMessage());
+
+        feedbackList = feedbackDao.findFeedBacksByProductId(1);
+        assertEquals(1, feedbackList.size());
+        assertEquals(5, feedbackList.get(0).getRatingScore());
+        assertEquals("Naggyon király", feedbackList.get(0).getRatingText());
     }
 
     @Test
     @WithMockUser(username = "feedbackUser", roles = "USER")
     public void deleteFeedback() {
-        User user = new User(1, "feedbackUser", "Feedback User",
-                "Feedback1", UserRole.ROLE_USER );
+        User user = userController.getUser(SecurityContextHolder.getContext().getAuthentication());
 
-        Feedback testFeedback = new Feedback(4, "Naggyon király", LocalDateTime.now(), user);
-        feedbackController.createFeedback(testFeedback, 1);
-        Product product = productController.findProductByAddress("aliceblue"). get();
-        List<Feedback> allFeedbacks = product.getFeedbacks();
-        assertEquals(1, allFeedbacks.size());
-        assertEquals(4, allFeedbacks.get(0).getRatingScore());
-        Response response = feedbackController.deleteFeedbackByUser(product.getId(), allFeedbacks.get(0).getId());
-        assertTrue(response.isValidRequest());
-        System.out.printf(response.getMessage());
-        List<Feedback> allFeedbacks2 = feedbackDao.findFeedBacksByProductId(1);
-        assertEquals(0, allFeedbacks2.size());
+        Feedback testFeedback1 = new Feedback(5, "Király", LocalDateTime.now(), user);
+        feedbackController.createFeedback(testFeedback1, 2);
+        Feedback testFeedback2 = new Feedback(4, "Naggyon király", LocalDateTime.now(), user);
+        Response response1 = feedbackController.createFeedback(testFeedback2, 1);
+        assertTrue(response1.isValidRequest());
+        assertEquals("Értékelés hozzáadva.", response1.getMessage());
+
+        List<Feedback> feedbackList1 = feedbackDao.findFeedBacksByProductId(1);
+        assertEquals(1, feedbackList1.size());
+        assertEquals(4, feedbackList1.get(0).getRatingScore());
+        assertEquals("Naggyon király", feedbackList1.get(0).getRatingText());
+
+        Response response2 = feedbackController.deleteFeedbackByUser(1);
+        assertTrue(response2.isValidRequest());
+        assertEquals("Értékelés törölve.", response2.getMessage());
+
+        feedbackList1 = feedbackDao.findFeedBacksByProductId(1);
+        assertEquals(0, feedbackList1.size());
+
+        List<Feedback> feedbackList2 = feedbackDao.findFeedBacksByProductId(2);
+        assertEquals(1, feedbackList2.size());
     }
 }

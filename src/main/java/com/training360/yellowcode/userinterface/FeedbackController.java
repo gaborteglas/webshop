@@ -40,18 +40,18 @@ public class FeedbackController {
         return user;
     }
 
-    @RequestMapping(value = "/api/products/{productId}/feedback/{feedbackId}", method = RequestMethod.DELETE)
-    public Response deleteFeedbackByUser(@PathVariable long productId, @PathVariable long feedbackId) {
+    @RequestMapping(value = "/api/products/{productId}/feedback", method = RequestMethod.DELETE)
+    public Response deleteFeedbackByUser(@PathVariable long productId) {
         User user = getAuthenticatedUserId();
         if (user != null) {
-            return feedbackService.deleteFeedbackByUser(productId, feedbackId, user);
+            return feedbackService.deleteFeedbackByUser(productId, user);
         } else {
             return new Response(false, "Értékelés törléséhez kérjük, jelentkezz be!");
         }
     }
 
-    @RequestMapping(value = "/api/products/{productId}/feedbackstatus/{feedbackId}", method = RequestMethod.POST)
-    public Response modifyFeedbackByUser(@RequestBody Feedback feedback, @PathVariable long productId, @PathVariable long feedbackId) {
+    @RequestMapping(value = "/api/products/{productId}/edit-feedback", method = RequestMethod.POST)
+    public Response modifyFeedbackByUser(@RequestBody Feedback feedback, @PathVariable long productId) {
         User user = getAuthenticatedUserId();
         if (user != null) {
             return feedbackService.modifyFeedbackByUser(feedback, productId, user);

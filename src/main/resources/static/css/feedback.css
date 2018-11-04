@@ -2,11 +2,11 @@
     display: flex;
 }
 
-#one-feedback-div:nth-child(odd) {
+#one-feedback-div:nth-child(even) {
     background-color: #DEE2E6;
 }
 
-#one-feedback-div:nth-child(even) {
+#one-feedback-div:nth-child(odd) {
     background-color: #FFF;
 }
 

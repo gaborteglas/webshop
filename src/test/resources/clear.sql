@@ -1,1 +1,2 @@
-DELETE from products;
+truncate products;
+truncate users;
