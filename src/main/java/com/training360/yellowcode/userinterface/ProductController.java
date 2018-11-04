@@ -5,7 +5,10 @@ import com.training360.yellowcode.businesslogic.Response;
 import com.training360.yellowcode.database.DuplicateProductException;
 import com.training360.yellowcode.dbTables.Product;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.Optional;
 
@@ -65,5 +68,16 @@ public class ProductController {
     @RequestMapping (value = "/api/products/lastsold", method = RequestMethod.GET)
     public List<Product> showLastThreeSoldProducts() {
         return productService.showLastThreeSoldProducts();
+    }
+
+    @RequestMapping(value = "/api/upload/{id}", method = RequestMethod.POST)
+    public Response uploadPicture(@RequestBody MultipartFile file, @PathVariable long id) {
+        try {
+            byte[] imageBytes = file.getBytes();
+            productService.uploadPicture(imageBytes, id);
+        } catch (IOException ioe) {
+            return new Response(false, "Egy");
+        }
+        return new Response(true, "Kettő");
     }
 }

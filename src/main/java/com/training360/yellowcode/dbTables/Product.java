@@ -14,6 +14,7 @@ public class Product {
     private Category category;
     private List<Feedback> feedbacks = new ArrayList<>();
     private double averageScore;
+    private byte[] image;
 
     public Product() {
     }
@@ -46,6 +47,30 @@ public class Product {
         this.status = status;
         this.category = category;
         this.averageScore = averageScore;
+    }
+
+    public Product(long id, String name, String address, String producer, long currentPrice, ProductStatusType status, Category category, byte[] image) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.producer = producer;
+        this.currentPrice = currentPrice;
+        this.status = status;
+        this.category = category;
+        this.averageScore = averageScore;
+        this.image = image;
+    }
+
+    public Product(long id, String name, String address, String producer, long currentPrice, ProductStatusType status, Category category, double averageScore, byte[] image) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.producer = producer;
+        this.currentPrice = currentPrice;
+        this.status = status;
+        this.category = category;
+        this.averageScore = averageScore;
+        this.image = image;
     }
 
     public long getId() {
@@ -122,5 +147,13 @@ public class Product {
 
     public void setAverageScore(double averageScore) {
         this.averageScore = averageScore;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 }

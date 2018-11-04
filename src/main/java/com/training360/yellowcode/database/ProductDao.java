@@ -9,10 +9,10 @@ import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import javax.sql.rowset.serial.SerialBlob;
+import java.io.ByteArrayInputStream;
+import java.nio.charset.Charset;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -30,12 +30,7 @@ public class ProductDao {
     public Optional<Product> findProductByAddress(String address) {
         try {
             Product product = jdbcTemplate.queryForObject(
-                    "SELECT products.id, products.name, products.address, products.producer, products.price, products.status, products.category_id, " +
-                            "category.id, category.name, category.position_number, AVG(feedback.rating_score) AS averageScore " +
-                            "FROM products LEFT JOIN category ON products.category_id = category.id " +
-                            "LEFT JOIN feedback on products.id = feedback.product_id " +
-                            "WHERE products.address = ? " +
-                            "GROUP BY products.id",
+                    "SELECT products.id, products.name, products.address, products.producer, products.price, products.status, products.category_id, category.id, category.name, category.position_number, AVG(feedback.rating_score) AS averageScore, products.image FROM products LEFT JOIN category ON products.category_id = category.id LEFT JOIN feedback on products.id = feedback.product_id WHERE products.address = ? GROUP BY products.id",
                     (ResultSet resultSet, int i) -> new Product(
                             resultSet.getLong("id"),
                             resultSet.getString("products.name"),
@@ -46,7 +41,8 @@ public class ProductDao {
                             new Category(resultSet.getLong("category_id"),
                                     resultSet.getString("category.name"),
                                     resultSet.getLong("category.position_number")),
-                            resultSet.getDouble("averageScore")),
+                            resultSet.getDouble("averageScore"),
+                            resultSet.getBytes("products.image")),
                     address);
             return Optional.of(product);
         } catch (EmptyResultDataAccessException erdae) {
@@ -57,7 +53,7 @@ public class ProductDao {
     public List<Product> listProductsByCategory(long categoryId) {
         return jdbcTemplate.query(
                 "SELECT products.id, products.name, products.address, products.producer, products.price, products.status, products.category_id, " +
-                        "category.id, category.name, category.position_number " +
+                        "category.id, category.name, category.position_number, products.image " +
                         "FROM products " +
                         "JOIN category ON products.category_id = category.id " +
                         "WHERE category.id = ?",
@@ -69,7 +65,7 @@ public class ProductDao {
         try {
             Product product = jdbcTemplate.queryForObject(
                     "SELECT products.id, products.name, products.address, products.producer, products.price, products.status, products.category_id, " +
-                            "category.id, category.name, category.position_number " +
+                            "category.id, category.name, category.position_number, products.image " +
                             "FROM products LEFT JOIN category ON products.category_id = category.id " +
                             "WHERE products.id = ?",
                     new ProductMapper(), id);
@@ -79,14 +75,9 @@ public class ProductDao {
         }
     }
 
-
-
     public List<Product> listProducts() {
         return jdbcTemplate.query(
-                "SELECT products.id, products.name, address, producer, price, status, category_id, " +
-                        "category.name, category.position_number " +
-                        "FROM products LEFT JOIN category ON products.category_id = category.id " +
-                        "WHERE status = 'ACTIVE'", new ProductMapper());
+                "SELECT products.id, products.name, address, producer, price, status, category_id, category.name, category.position_number, products.image FROM products LEFT JOIN category ON products.category_id = category.id WHERE status = 'ACTIVE'", new ProductMapper());
     }
 
     private static class ProductMapper implements RowMapper<Product> {
@@ -101,8 +92,10 @@ public class ProductDao {
             long categoryId = resultSet.getLong("category_id");
             String categoryName = resultSet.getString("category.name");
             long positionNumber = resultSet.getLong("category.position_number");
+            byte[] bytes = resultSet.getBytes("products.image");
             return new Product(id, name, address, producer, currentPrice, status,
-                    new Category(categoryId, categoryName, positionNumber));
+                    new Category(categoryId, categoryName, positionNumber), bytes);
+
         }
     }
 
@@ -120,13 +113,20 @@ public class ProductDao {
                 ps.setString(4, product.getProducer());
                 ps.setLong(5, product.getCurrentPrice());
                 ps.setLong(6, product.getCategory().getId());
-
                 return ps;
             }
         });
     }
 
     public void updateProduct(long id, Product product) {
+        byte[] bytes = product.getImage();
+        Blob blob=null;
+        try {
+            blob=new SerialBlob(bytes);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         jdbcTemplate.update(
                 "update products set id = ?, name = ?, address = ?, producer = ?, price = ?, status = ?, category_id = ?" +
                         " where id = ?",
@@ -155,5 +155,15 @@ public class ProductDao {
         }
 
         return lastSoldProducts;
+    }
+
+    public void uploadPicture(byte[] bytes, long productID) {
+        try {
+            Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
+        } catch (SQLException se) {
+            System.out.println("ajjaj");
+        }
+
+        jdbcTemplate.update("update products set image = ? where id = ?", bytes, productID);
     }
 }

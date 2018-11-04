@@ -116,4 +116,8 @@ public class ProductService {
     public List<Product> showLastThreeSoldProducts() {
         return productDao.showLastThreeSoldProducts();
     }
+
+    public void uploadPicture(byte[] bytes, long productID) {
+        productDao.uploadPicture(bytes, productID);
+    }
 }

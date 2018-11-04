@@ -51,6 +51,10 @@ function fillTable(product){
     creatingHeaderForName(name, average);
     creatingTableRowForData(id,producer,currentPrice, categoryName);
     creatingFeedbackFields(feedbackList);
+
+    let image = document.querySelector("#product-image");
+
+    image.src = "data:image/png;base64, " + product.image;
 }
 
 function creatingHeaderForName(name, average){
@@ -284,3 +288,4 @@ fetch("api/products/" + productId + "/feedbackstatus/" + feedbackId, {
         });
     return false;
 }
+

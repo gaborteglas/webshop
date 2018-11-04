@@ -5,6 +5,8 @@ window.onload = function() {
     let productForm = document.getElementById("product-form");
     productForm.onsubmit = handleSubmit;
     productForm.onreset = handleReset;
+    let imageForm = document.getElementById("picture-form");
+    imageForm.onsubmit = uploadImage;
 }
 
 function updateTable() {
@@ -109,7 +111,8 @@ function handleSubmit() {
                    "currentPrice": price,
                    "category": {
                                 "id": categoryId
-                               }
+                               },
+                   "image": image
                   };
 
     let url = "api/products";
@@ -134,6 +137,7 @@ function handleSubmit() {
             updateTable();
             document.getElementById("product-form").reset();
         });
+
     return false;
 }
 
@@ -218,3 +222,27 @@ function fillSelectOptions(categories) {
         categorySelect.appendChild(option);
     }
 }
+
+function uploadImage() {
+  let idInput = document.getElementById("id-input");
+  let id = idInput.value;
+  let formData = new FormData();
+  let fileInput = document.getElementById('picture-select');
+  formData.append('file', fileInput.files[0]);
+  let xhr = new XMLHttpRequest();
+  let url = '/api/upload/' + id;
+  xhr.open('POST', url);
+  xhr.onreadystatechange = function () {
+    var DONE = 4;
+    var OK = 200;
+    if (xhr.readyState === DONE) {
+      if (xhr.status === OK) {
+        updateTable();
+      } else {
+        console.log('Error: ' + xhr.status);
+      }
+    }
+  };
+  xhr.send(formData);
+}
+

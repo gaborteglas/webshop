@@ -59,7 +59,7 @@
 
             <h1>Termékek</h1>
 
-            <form id="product-form">
+            <form id="product-form" enctype="multipart/form-data">
 
                 <div class="form-group row">
                     <label for="id-input" class="col-sm-2 col-form-label">Azonosító</label>
@@ -100,9 +100,18 @@
                     </div>
                 </div>
 
-
                 <input type="submit" id="submit-button" value="Új termék hozzáadása" class="btn btn-primary"/>
             <input type="reset" id="reset-button" value="Mégse" class="btn btn-secondary" />
+        </form>
+
+        <form id="picture-form">
+            <div class="form-group row">
+                <label for="picture-select" class="col-sm-2 col-form-label">Kép feltöltése</label>
+                <div class="col-sm-10">
+                    <input type="file" id="picture-select" accept="image/*">
+                </div>
+            </div>
+            <input type="submit" id="submit-picture" value="Kép feltöltése" class="btn btn-primary"/>
         </form>
 
         <table class="table table-striped">
