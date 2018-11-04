@@ -127,6 +127,7 @@ public class ProductService {
         return productDao.showLastThreeSoldProducts();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public void uploadPicture(byte[] bytes, long productID) {
         productDao.uploadPicture(bytes, productID);
     }

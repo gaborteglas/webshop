@@ -52,6 +52,8 @@ function showForUser() {
  menuToHideReportsForUser.style.display = "none";
  let menuToHideCategoriesForUser = document.getElementById("to-hide-categories");
  menuToHideCategoriesForUser.style.display = "none";
+ let menuToShowIndexUser = document.getElementById("to-hide-index");
+ menuToShowIndexUser.style.display = "block";
 }
 
 function showForAdmin() {
@@ -77,6 +79,8 @@ let menuToShowReportsForAdmin = document.getElementById("to-hide-reports");
 menuToShowReportsForAdmin.style.display = "block"
 let menuToShowCategoriesForAdmin = document.getElementById("to-hide-categories");
 menuToShowCategoriesForAdmin.style.display = "block"
+let menuToHideIndexAdmin = document.getElementById("to-hide-index");
+menuToHideIndexAdmin.style.display = "none";
 }
 
 function showForUnregistered() {
@@ -102,4 +106,6 @@ let menuToHideReportsForUnreg = document.getElementById("to-hide-reports");
 menuToHideReportsForUnreg.style.display = "none";
 let menuToHideCategoriesForUnreg = document.getElementById("to-hide-categories");
 menuToHideCategoriesForUnreg.style.display = "none";
+let menuToShowIndexUnreg = document.getElementById("to-hide-index");
+ menuToShowIndexUnreg.style.display = "block";
 }
