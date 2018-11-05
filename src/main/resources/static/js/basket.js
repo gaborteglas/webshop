@@ -57,7 +57,7 @@ function fillTable(products) {
         tr.appendChild(quantityTd);
 
         let sumButton = document.createElement("button");
-        sumButton.className = "sumSubButtons";
+        sumButton.classList.add("btn", "btn-info", "sumSubButtons");
         sumButton.id = "sumButton" + "Row" + k;
         sumButton.innerHTML = "+";
         sumButton.addEventListener("click", function () {
@@ -66,7 +66,7 @@ function fillTable(products) {
         tr.appendChild(sumButton);
 
         let subButton = document.createElement("button");
-        subButton.className = "sumSubButtons";
+        subButton.classList.add("btn", "btn-info", "sumSubButtons");
         subButton.id = "subButton" + "Row" + k;
         subButton.innerHTML = "-";
         subButton.addEventListener("click",
