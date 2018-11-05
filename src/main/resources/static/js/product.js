@@ -285,40 +285,31 @@ function handleModify() {
 let score = 5;
 
 function oneStarOnclick() {
-    document.querySelector("#star-2").setAttribute("style", "background: url(\"/img/star-solid-gray.svg\") no-repeat");
-    document.querySelector("#star-3").setAttribute("style", "background: url(\"/img/star-solid-gray.svg\") no-repeat");
-    document.querySelector("#star-4").setAttribute("style", "background: url(\"/img/star-solid-gray.svg\") no-repeat");
-    document.querySelector("#star-5").setAttribute("style", "background: url(\"/img/star-solid-gray.svg\") no-repeat");
-    let oneStar = document.querySelector("#star-1");
-    oneStar.setAttribute("style", "background: url(\"/img/star-solid-yellow.svg\") no-repeat");
+    document.getElementById("star-1").parentElement.classList.add("selected");
     score = 1;
 }
 
 function twoStarOnclick() {
     oneStarOnclick();
-    let twoStar = document.querySelector("#star-2");
-    twoStar.setAttribute("style", "background: url(\"/img/star-solid-yellow.svg\") no-repeat");
+    document.getElementById("star-2").parentElement.classList.add("selected");
     score = 2;
 }
 
 function threeStarOnclick() {
     twoStarOnclick();
-    let threeStar = document.querySelector("#star-3");
-    threeStar.setAttribute("style", "background: url(\"/img/star-solid-yellow.svg\") no-repeat");
+    document.getElementById("star-3").parentElement.classList.add("selected");
     score = 3;
 }
 
 function fourStarOnclick() {
     threeStarOnclick();
-    let fourStar = document.querySelector("#star-4");
-    fourStar.setAttribute("style", "background: url(\"/img/star-solid-yellow.svg\") no-repeat");
+    document.getElementById("star-4").parentElement.classList.add("selected");
     score = 4;
 }
 
 function fiveStarOnclick() {
     fourStarOnclick();
-    let fiveStar = document.querySelector("#star-5");
-    fiveStar.setAttribute("style", "background: url(\"/img/star-solid-yellow.svg\") no-repeat");
+    document.getElementById("star-5").parentElement.classList.add("selected");
     score = 5;
 }
 

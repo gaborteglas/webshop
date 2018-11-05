@@ -57,7 +57,9 @@ function editButtonClick() {
 
     let idInput = document.getElementById("id-input");
     idInput.value = user.id;
-    console.log(editedUser);
+
+    let nameInput = document.getElementById("fullname-input");
+    nameInput.value= user.fullName;
 }
 
 function handleReset() {
