@@ -119,14 +119,6 @@ public class ProductDao {
     }
 
     public void updateProduct(long id, Product product) {
-        byte[] bytes = product.getImage();
-        Blob blob=null;
-        try {
-            blob=new SerialBlob(bytes);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
         jdbcTemplate.update(
                 "update products set id = ?, name = ?, address = ?, producer = ?, price = ?, status = ?, category_id = ?" +
                         " where id = ?",
