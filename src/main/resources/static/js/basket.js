@@ -187,7 +187,7 @@ function decreaseQuantityByOne(rowNumber, productId, quantity) {
 
 function modifyQuantity(rowNumber, productId, quantity) {
     var newQuantity = prompt("Adja meg a kívánt mennyiséget", quantity);
-    if (new Quantity > 0) {
+    if (newQuantity > 0) {
         let url = "api/basket/" + productId + "/" + quantity + "/" + newQuantity;
         fetch(url, {
             method: "POST"

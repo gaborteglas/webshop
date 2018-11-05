@@ -119,14 +119,6 @@ public class ProductDao {
     }
 
     public void updateProduct(long id, Product product) {
-        byte[] bytes = product.getImage();
-        Blob blob=null;
-        try {
-            blob=new SerialBlob(bytes);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
         jdbcTemplate.update(
                 "update products set id = ?, name = ?, address = ?, producer = ?, price = ?, status = ?, category_id = ?" +
                         " where id = ?",
@@ -147,7 +139,7 @@ public class ProductDao {
     public List<Product> showLastThreeSoldProducts() {
         List<Product> lastSoldProducts = new ArrayList<>();
 
-        List<Long> producIds = jdbcTemplate.queryForList("SELECT orderitem.product_id FROM `orderitem` JOIN orders ON " +
+        List<Long> producIds = jdbcTemplate.queryForList("SELECT DISTINCT orderitem.product_id FROM `orderitem` JOIN orders ON " +
                 "orderitem.order_id = orders.id ORDER BY orders.date DESC LIMIT 3", Long.class);
 
         for (Long l: producIds) {
