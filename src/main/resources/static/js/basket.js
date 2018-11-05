@@ -52,12 +52,12 @@ function fillTable(products) {
         quantityTd.innerHTML = products[k].quantity + " db";
         quantityTd.value = products[k].quantity;
         quantityTd.addEventListener("click", function () {
-            modifyQuantity(k, products[k].id, products[k].quantity);
+            modifyQuantity(k, products[k].id, products[k].quantity, quantityTd.id);
         });
         tr.appendChild(quantityTd);
 
         let sumButton = document.createElement("button");
-        sumButton.classList.add("btn", "btn-info", "sumSubButtons");
+        sumButton.classList.add("btn", "btn-info", "sumSubButtons", "sumButtons");
         sumButton.id = "sumButton" + "Row" + k;
         sumButton.innerHTML = "+";
         sumButton.addEventListener("click", function () {
@@ -66,7 +66,7 @@ function fillTable(products) {
         tr.appendChild(sumButton);
 
         let subButton = document.createElement("button");
-        subButton.classList.add("btn", "btn-info", "sumSubButtons");
+        subButton.classList.add("btn", "btn-info", "sumSubButtons", "subButtons");
         subButton.id = "subButton" + "Row" + k;
         subButton.innerHTML = "-";
         subButton.addEventListener("click",
@@ -193,11 +193,36 @@ function decreaseQuantityByOne(rowNumber, productId, quantity) {
     }
 }
 
+function modifyQuantity(rowNumber, productId, quantity, quantityTdId) {
+    let quantityTd = document.querySelector(`#${quantityTdId}`);
+    let newQuantityTd = document.createElement("td");
+    inputFieldForQuantity = document.createElement("input");
+    inputFieldForQuantity.setAttribute("type", "number");
+    inputFieldForQuantity.style.width = "50px";
+    inputFieldForQuantity.id = "input" + quantityTdId;
+    inputFieldForQuantity.value = quantityTd.value;
+    inputFieldForQuantity.addEventListener("keydown", function (event) {
+        modifyQuantityInInput(event, rowNumber, productId, quantityTdId, quantity);
+    }
+    );
+    newQuantityTd.appendChild(inputFieldForQuantity);
+    quantityTd.parentNode.replaceChild(newQuantityTd, quantityTd);
+}
 
-function modifyQuantity(rowNumber, productId, quantity) {
-    var newQuantity = prompt("Adja meg a kívánt mennyiséget", quantity);
-    if (newQuantity > 0) {
-        let url = "api/basket/" + productId + "/" + quantity + "/" + newQuantity;
+function modifyQuantityInInput(event, rowNumber, productId, quantityTdId, quantity) {
+    let inputField = document.querySelector(`#input${quantityTdId}`);
+    if (event.key === "Enter") {
+        var newQuantity = inputField.value;
+        if (newQuantity > 0) {
+            let url = "api/basket/" + productId + "/" + quantity + "/" + newQuantity;
+            fetch(url, {
+                method: "POST"
+            }).then(function (response) {
+                return response.json();
+            }).then(responseJson => updateTable())
+        }
+    } else if (event.key === "Escape") {
+        let url = "api/basket/" + productId + "/" + quantity + "/" + quantity;
         fetch(url, {
             method: "POST"
         }).then(function (response) {
