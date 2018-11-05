@@ -3,9 +3,12 @@ package com.training360.yellowcode.businesslogic;
 import com.training360.yellowcode.database.CategoryDao;
 import com.training360.yellowcode.database.DuplicateCategoryException;
 import com.training360.yellowcode.dbTables.Category;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +16,7 @@ import java.util.Optional;
 public class CategoryService {
 
     private CategoryDao categoryDao;
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProductService.class);
 
     public CategoryService(CategoryDao categoryDao) {
         this.categoryDao = categoryDao;
@@ -53,6 +57,8 @@ public class CategoryService {
             categoryDao.updateCategoryPosition(thisCategoryPosition);
             categoryDao.createCategory(category);
         }
+        LOGGER.info(MessageFormat.format("Category created(name: {0}, id: {1}, position: {2})",
+                category.getName(), category.getId(), category.getPositionNumber()));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -80,6 +86,8 @@ public class CategoryService {
                 categoryDao.updateCategoryPositionPlus(thisCategoryPosition, newPosition);
             }
             categoryDao.updateCategory(category);
+        LOGGER.info(MessageFormat.format("Category modified(name: {0}, id: {1}, position: {2})",
+                category.getName(), category.getId(), category.getPositionNumber()));
         }
 
 
@@ -90,5 +98,7 @@ public class CategoryService {
         categoryDao.deleteCategoryUpdateProducts(id);
         categoryDao.deleteCategory(id);
         categoryDao.updateCategoryPositionAfterDelete(position);
+        LOGGER.info(MessageFormat.format("Category deleted(id: {0})",
+                category.getId()));
     }
 }
