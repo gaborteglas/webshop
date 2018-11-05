@@ -31,12 +31,15 @@ function creatingLastSold(productList) {
 
         let categoryDiv = document.createElement("h6")
         categoryDiv.innerHTML = product.producer;
-        nameDiv.appendChild(newLine);
         nameDiv.appendChild(categoryDiv);
-        nameDiv.appendChild(newLine);
+
+        let imgDiv = document.createElement("img");
+        imgDiv.src = "data:image/png;base64, " + product.image;
+        categoryDiv.appendChild(imgDiv);
 
         let priceDiv = document.createElement("h7");
         priceDiv.innerHTML = product.currentPrice + " Ft";
+
         nameDiv.appendChild(priceDiv);
 
         soldDiv.appendChild(nameDiv);
@@ -45,7 +48,7 @@ function creatingLastSold(productList) {
         buttonDiv.setAttribute("id", "button-div");
         let linkButton = document.createElement("button");
         linkButton.setAttribute("id", "link-button");
-        linkButton.setAttribute("class", "btn btn-secondary");
+        linkButton.setAttribute("class", "btn-info");
         linkButton.innerHTML = "Megnézem";
         function visitPage(){
                 window.location="/product.html?address=" + product.address;
