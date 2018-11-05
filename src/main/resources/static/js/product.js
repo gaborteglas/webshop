@@ -189,8 +189,14 @@ function handleRatingSubmit() {
     let ratingScore = ratingScoreInput.value;
     let ratingText = ratingTextInput.value;
 
-    if (ratingText.trim().length === 0) {
-        alert("Kérjük, szövegesen is értékeld a terméket!");
+    if (ratingText.trim().length === 0 && score === null) {
+        alert("Kérjük, szövegesen és csillaggal is értékelje a terméket!");
+        return;
+    } else if (ratingText.trim().length === 0) {
+        alert("Kérjük, szövegesen is értékelje a terméket!");
+        return;
+    } else if (score === null) {
+        alert("Kérjük, csillaggal is értékelje a terméket!");
         return;
     }
 
@@ -213,6 +219,7 @@ function handleRatingSubmit() {
             alert(response.message);
             updateTable();
             ratingTextInput.value = "";
+            starReset();
         });
     return false;
 }
@@ -255,6 +262,17 @@ function handleModify() {
     let modifyButton = document.getElementById("rating-submit");
     let productId = document.querySelector("#product-id").innerHTML;
 
+    if (ratingText.trim().length === 0 && score === null) {
+        alert("Kérjük, hogy szövegesen és csillaggal is értékelje a terméket!");
+        return;
+    } else if (ratingText.trim().length === 0) {
+        alert("Kérjük, hogy szövegesen is értékelje a terméket!");
+        return;
+    } else if (score === null) {
+        alert("Kérjük, hogy csillaggal is értékelje a terméket!");
+        return;
+    }
+
     let feedback = {
                    "ratingScore": score,
                    "ratingText": ratingText
@@ -273,40 +291,55 @@ function handleModify() {
             alert(response.message);
             updateTable();
             ratingTextInput.value = "";
+            starReset();
             modifyButton.onclick = handleRatingSubmit;
             modifyButton.innerHTML = "Értékelés elküldése";
         });
     return false;
 }
 
-let score = 5;
+let score = null;
+
+function starReset() {
+    score = null;
+    let starHolders = document.querySelectorAll(".star-holder");
+    for(let i = 0; i < starHolders.length; i++) {
+        starHolders[i].classList.remove("selected");
+    }
+}
 
 function oneStarOnclick() {
-    document.getElementById("star-1").parentElement.classList.add("selected");
+    starReset();
+    let oneStar = document.getElementById("star-1");
+    oneStar.parentElement.classList.add("selected");
     score = 1;
 }
 
 function twoStarOnclick() {
     oneStarOnclick();
-    document.getElementById("star-2").parentElement.classList.add("selected");
+    let twoStar = document.getElementById("star-2");
+    twoStar.parentElement.classList.add("selected");
     score = 2;
 }
 
 function threeStarOnclick() {
     twoStarOnclick();
-    document.getElementById("star-3").parentElement.classList.add("selected");
+    let threeStar = document.getElementById("star-3");
+    threeStar.parentElement.classList.add("selected");
     score = 3;
 }
 
 function fourStarOnclick() {
     threeStarOnclick();
-    document.getElementById("star-4").parentElement.classList.add("selected");
+    let fourStar = document.getElementById("star-4");
+    fourStar.parentElement.classList.add("selected");
     score = 4;
 }
 
 function fiveStarOnclick() {
     fourStarOnclick();
-    document.getElementById("star-5").parentElement.classList.add("selected");
+    let fiveStar = document.getElementById("star-5");
+    fiveStar.parentElement.classList.add("selected");
     score = 5;
 }
 
