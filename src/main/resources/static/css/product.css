@@ -17,5 +17,16 @@ img:hover {
 }
 
 table {
-     border: 3px inset;
- }
+    border: 3px inset;
+}
+
+.star {
+    float: left;
+    width: 1em;
+    height: 1em;
+    background: url("/img/star-solid-gray.svg") no-repeat;
+}
+
+.star-holder:hover > .star {
+    background: url("/img/star-solid-yellow.svg") no-repeat;
+}

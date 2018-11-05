@@ -118,4 +118,19 @@ public class YellowCodeBasketSameProductsTest {
         assertEquals(Long.valueOf(2), myBasket.get(0).getQuantity());
     }
 
+    @Test
+    @WithMockUser(username = "user1", roles = "USER")
+    public void testSetBasketQuantity() {
+        basketController.addToBasket(2, 1L);
+        basketController.setBasketQuantity(2L, 1L, 5L);
+        List<BasketProduct> myBasket = basketController.listProducts();
+
+        assertEquals(myBasket.size(), 1);
+        assertEquals(myBasket.get(0).getId(), 2L);
+        assertEquals(myBasket.get(0).getName(), "Legendás programozók és megfigyelésük");
+        assertEquals(myBasket.get(0).getCurrentPrice(), 3999);
+        assertEquals(myBasket.get(0).getQuantity(), Long.valueOf(5));
+
+    }
+
 }

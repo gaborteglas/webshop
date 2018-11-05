@@ -79,12 +79,18 @@ public class YellowCodeReportsTest {
     @Test
     public void testReportByDate() {
         List<Reports> allReports = reportsController.listReportsByDate();
-        Reports report = allReports.get(0);
+        Reports report1 = allReports.get(0);
+        Reports report2 = allReports.get(1);
 
         assertEquals(2, allReports.size());
-        assertEquals(4, report.getProductCount());
-        assertEquals(23996, report.getTotalPrice());
-        assertEquals(OrderStatus.ACTIVE, report.getStatus());
+
+        assertEquals(4, report1.getProductCount());
+        assertEquals(23996, report1.getTotalPrice());
+        assertEquals(OrderStatus.ACTIVE, report1.getStatus());
+
+        assertEquals(3, report2.getProductCount());
+        assertEquals(20497, report2.getTotalPrice());
+        assertEquals(OrderStatus.DELIVERED, report2.getStatus());
     }
 
     @Test
@@ -94,7 +100,8 @@ public class YellowCodeReportsTest {
 
         assertEquals(3, allReports.size());
         assertEquals(1, report.getProductCount());
-        assertEquals(9999, report.getTotalPrice());
+        assertEquals("Az aliceblue 50 árnyalata", report.getProductName());
+        assertEquals(9999, report.getProductPrice());
     }
 
 
