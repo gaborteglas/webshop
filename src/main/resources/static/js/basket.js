@@ -206,16 +206,19 @@ function handleOrderButton() {
     let city = document.querySelector("#city-field").value.trim();
     let street = document.querySelector("#street-field").value.trim();
     let address = zipCode + " " + city + ", " + street;
-
-    if (confirm("Megrendeli a termékeket?")) {
-        fetch("/api/myorders", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json; charset=utf-8"
-            },
-            body: address
-        }).then(function (response) {
-            window.location = "/myorders.html"
-        });
+    if (zipCode === "" || city === "" || street === "") {
+        alert("Minden mező kitöltése kötelező!")
+    } else {
+        if (confirm("Megrendeli a termékeket?")) {
+            fetch("/api/myorders", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json; charset=utf-8"
+                },
+                body: address
+            }).then(function (response) {
+                window.location = "/myorders.html"
+            });
+        }
     }
 }
