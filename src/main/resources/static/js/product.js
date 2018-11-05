@@ -111,6 +111,7 @@ function creatingFeedbackFields(feedbackList) {
         middleDiv.setAttribute("id", "middle-div");
 
         let ratingStarDiv = document.createElement("div");
+        ratingStarDiv.setAttribute("class", "rating-star-div");
         for (let j = 0; j < feedbackList[i].ratingScore; j++) {
             let star = document.createElement("div");
             star.setAttribute("class", "star");
@@ -251,6 +252,18 @@ function handleRatingModifyButtonClick() {
 
     let feedback = this.parentElement.parentElement["raw-data"];
 
+    if (feedback.ratingScore == 5) {
+        fiveStarOnclick();
+    } else if (feedback.ratingScore == 4) {
+        fourStarOnclick();
+    } else if (feedback.ratingScore == 3) {
+        threeStarOnclick();
+    } else if (feedback.ratingScore == 2) {
+        twoStarOnclick();
+    } else {
+        oneStarOnclick();
+    }
+
     let textInput = document.getElementById("rating-textarea");
     textInput.value = feedback.ratingText;
 }
@@ -258,6 +271,7 @@ function handleRatingModifyButtonClick() {
 function handleModify() {
     let ratingTextInput = document.getElementById("rating-textarea");
     let ratingText = ratingTextInput.value;
+
     let modifyButton = document.getElementById("rating-submit");
     let productId = document.querySelector("#product-id").innerHTML;
 
