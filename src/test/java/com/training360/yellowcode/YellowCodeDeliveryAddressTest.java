@@ -50,21 +50,22 @@ public class YellowCodeDeliveryAddressTest {
         productController.createProduct(new Product(4, "Hogyan neveld a junior fejlesztődet", "junior", "Jane Doe", 6499, ProductStatusType.ACTIVE, new Category(1, "Egyéb", 1L)));
         productController.createProduct(new Product(5, "Junior most és mindörökké", "mindorokke", "James Doe", 2999, ProductStatusType.ACTIVE, new Category(1, "Egyéb", 1L)));
 
-        userController.createUser(new User(1, "user1", "Test One", "Elsőjelszó1", UserRole.ROLE_USER));
+        userController.createUser(new User(1, "admin1", "Test One", "Elsőjelszó1", UserRole.ROLE_ADMIN));
+        userController.createUser(new User(1, "user1", "Test One", "Elsőjelszó2", UserRole.ROLE_USER));
 
         SecurityContextHolder.getContext().setAuthentication(a);
     }
 
     @Test
-    @WithMockUser(username = "user1", roles = "USER")
+    @WithMockUser(username = "admin1", roles = "ADMIN")
     public void testSingleDeliveryAddress() {
         basketController.addToBasket(1,3L);
         ordersController.createOrderAndOrderItems("Liget utca 5.");
 
-        List<String> deliveryAddresses = ordersController.listDeliveryAddressesOfUser();
+        List<Orders> orders = ordersController.listOrders();
 
-        assertEquals(deliveryAddresses.size(), 1);
-        assertEquals("Liget utca 5.", deliveryAddresses.get(0));
+        assertEquals(orders.size(), 1);
+        assertEquals("Liget utca 5.", orders.get(0).getDeliveryAddress());
     }
 
     @Test
