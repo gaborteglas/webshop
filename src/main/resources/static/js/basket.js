@@ -5,6 +5,12 @@ window.onload = function () {
     resetButton.onclick = handleResetButton;
     let orderButton = document.querySelector("#order-button");
     orderButton.onclick = handleOrderButton;
+    let zipCodeField = document.querySelector("#zip-code-field");
+    zipCodeField.addEventListener("focusout", zipCodeValidator);
+    let cityField = document.querySelector("#city-field");
+    cityField.addEventListener("focusout", cityValidator);
+    let streetField = document.querySelector("#street-field");
+    streetField.addEventListener("focusout", streetValidator);
 };
 
 function updateTable() {
@@ -51,7 +57,7 @@ function fillTable(products) {
         tr.appendChild(quantityTd);
 
         let sumButton = document.createElement("button");
-        sumButton.className = "sumSubButtons";
+        sumButton.classList.add("btn", "btn-info", "sumSubButtons");
         sumButton.id = "sumButton" + "Row" + k;
         sumButton.innerHTML = "+";
         sumButton.addEventListener("click", function () {
@@ -60,7 +66,7 @@ function fillTable(products) {
         tr.appendChild(sumButton);
 
         let subButton = document.createElement("button");
-        subButton.className = "sumSubButtons";
+        subButton.classList.add("btn", "btn-info", "sumSubButtons");
         subButton.id = "subButton" + "Row" + k;
         subButton.innerHTML = "-";
         subButton.addEventListener("click",
@@ -200,13 +206,8 @@ function modifyQuantity(rowNumber, productId, quantity) {
     }
 }
 
-function handleOrderButton() {
-
-    let zipCode = document.querySelector("#zip-code-field").value.trim().replace(/ /g, '');
-    let city = document.querySelector("#city-field").value.trim();
-    let street = document.querySelector("#street-field").value.trim();
-    let address = zipCode + " " + city + ", " + street;
-
+function zipCodeValidator() {
+    let zipCode = document.querySelector("#zip-code-field").value;
     let zipCodeDiv = document.querySelector(".zip-code-div");
     let zipCodeField = document.querySelector("#zip-code-field");
     if (zipCode === "") {
@@ -222,10 +223,13 @@ function handleOrderButton() {
         zipCodeField.classList.remove("is-invalid");
         zipCodeField.classList.add("is-valid");
     }
+}
 
+function cityValidator() {
+    let city = document.querySelector("#city-field").value;
     let cityDiv = document.querySelector(".city-div");
     let cityField = document.querySelector("#city-field");
-    if (zipCode === "") {
+    if (city === "") {
         cityField.classList.remove("is-valid");
         cityField.classList.add("is-invalid");
         let feedback = document.createElement("div");
@@ -238,7 +242,10 @@ function handleOrderButton() {
         cityField.classList.remove("is-invalid");
         cityField.classList.add("is-valid");
     }
+}
 
+function streetValidator() {
+    let street = document.querySelector("#street-field").value.trim();
     let streetDiv = document.querySelector(".street-div");
     let streetField = document.querySelector("#street-field");
     if (street === "") {
@@ -254,6 +261,14 @@ function handleOrderButton() {
         streetField.classList.remove("is-invalid");
         streetField.classList.add("is-valid");
     }
+}
+
+function handleOrderButton() {
+
+    let zipCode = document.querySelector("#zip-code-field").value.trim().replace(/ /g, '');
+    let city = document.querySelector("#city-field").value.trim();
+    let street = document.querySelector("#street-field").value.trim();
+    let address = zipCode + " " + city + ", " + street;
 
     if (zipCode !== "" && city !== "" && street !== "") {
         if (confirm("Megrendeli a termékeket?")) {
@@ -267,5 +282,9 @@ function handleOrderButton() {
                 window.location = "/myorders.html"
             });
         }
+    } else {
+        zipCodeValidator();
+        cityValidator();
+        streetValidator();
     }
 }
