@@ -110,10 +110,15 @@ function creatingFeedbackFields(feedbackList) {
         let middleDiv = document.createElement("div");
         middleDiv.setAttribute("id", "middle-div");
 
-        let feedbackScore = document.createElement("p");
-        feedbackScore.setAttribute("id", "feedback-score");
-        feedbackScore.innerHTML = " Értékelés pontszáma: " + feedbackList[i].ratingScore;
-        middleDiv.appendChild(feedbackScore);
+        let ratingStarDiv = document.createElement("div");
+        for (let j = 0; j < feedbackList[i].ratingScore; j++) {
+            let star = document.createElement("div");
+            star.setAttribute("class", "star");
+            star.setAttribute("style", "background: url(\"/img/star-solid-yellow.svg\") no-repeat;");
+            ratingStarDiv.appendChild(star);
+        }
+        middleDiv.appendChild(ratingStarDiv);
+        middleDiv.appendChild(document.createElement("br"));
 
         let feedback = feedbackList[i].ratingText;
         feedback = feedback.replace(new RegExp("&", "g"), "&amp;");
@@ -123,7 +128,7 @@ function creatingFeedbackFields(feedbackList) {
         feedback = feedback.replace(new RegExp("'", "g"), "&apos");
         let feedbackText = document.createElement("p");
         feedbackText.setAttribute("id", "feedback-text");
-        feedbackText.innerHTML = "Értékelés szövege: " + feedback;
+        feedbackText.innerHTML = feedback;
         middleDiv.appendChild(feedbackText);
 
         let rightDiv = document.createElement("div");
@@ -184,9 +189,7 @@ function hideBasketButton() {
 
 function handleRatingSubmit() {
     let productId = document.querySelector("#product-id").innerHTML;
-    let ratingScoreInput = document.getElementById("rating-score");
     let ratingTextInput = document.getElementById("rating-textarea");
-    let ratingScore = ratingScoreInput.value;
     let ratingText = ratingTextInput.value;
 
     if (ratingText.trim().length === 0 && score === null) {
@@ -248,16 +251,12 @@ function handleRatingModifyButtonClick() {
 
     let feedback = this.parentElement.parentElement["raw-data"];
 
-    let ratingInput = document.getElementById("rating-score");
-    ratingInput.value = feedback.ratingScore;
     let textInput = document.getElementById("rating-textarea");
     textInput.value = feedback.ratingText;
 }
 
 function handleModify() {
-    let ratingScoreInput = document.getElementById("rating-score");
     let ratingTextInput = document.getElementById("rating-textarea");
-    let ratingScore = ratingScoreInput.value;
     let ratingText = ratingTextInput.value;
     let modifyButton = document.getElementById("rating-submit");
     let productId = document.querySelector("#product-id").innerHTML;
