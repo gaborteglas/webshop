@@ -206,9 +206,56 @@ function handleOrderButton() {
     let city = document.querySelector("#city-field").value.trim();
     let street = document.querySelector("#street-field").value.trim();
     let address = zipCode + " " + city + ", " + street;
-    if (zipCode === "" || city === "" || street === "") {
-        alert("Minden mező kitöltése kötelező!")
+
+    let zipCodeDiv = document.querySelector(".zip-code-div");
+    let zipCodeField = document.querySelector("#zip-code-field");
+    if (zipCode === "") {
+        zipCodeField.classList.remove("is-valid");
+        zipCodeField.classList.add("is-invalid");
+        let feedback = document.createElement("div");
+        feedback.setAttribute("class", "invalid-feedback");
+        feedback.innerHTML = "Az irányítószám megadása kötelező!";
+        if (zipCodeDiv.querySelector(".invalid-feedback") == null) {
+            zipCodeDiv.appendChild(feedback);
+        }
     } else {
+        zipCodeField.classList.remove("is-invalid");
+        zipCodeField.classList.add("is-valid");
+    }
+
+    let cityDiv = document.querySelector(".city-div");
+    let cityField = document.querySelector("#city-field");
+    if (zipCode === "") {
+        cityField.classList.remove("is-valid");
+        cityField.classList.add("is-invalid");
+        let feedback = document.createElement("div");
+        feedback.setAttribute("class", "invalid-feedback");
+        feedback.innerHTML = "A város megadása kötelező!";
+        if (cityDiv.querySelector(".invalid-feedback") == null) {
+            cityDiv.appendChild(feedback);
+        }
+    } else {
+        cityField.classList.remove("is-invalid");
+        cityField.classList.add("is-valid");
+    }
+
+    let streetDiv = document.querySelector(".street-div");
+    let streetField = document.querySelector("#street-field");
+    if (street === "") {
+        streetField.classList.remove("is-valid");
+        streetField.classList.add("is-invalid");
+        let feedback = document.createElement("div");
+        feedback.setAttribute("class", "invalid-feedback");
+        feedback.innerHTML = "Az utca és a házszám megadása kötelező!";
+        if (streetDiv.querySelector(".invalid-feedback") == null) {
+            streetDiv.appendChild(feedback);
+        }
+    } else {
+        streetField.classList.remove("is-invalid");
+        streetField.classList.add("is-valid");
+    }
+
+    if (zipCode !== "" && city !== "" && street !== "") {
         if (confirm("Megrendeli a termékeket?")) {
             fetch("/api/myorders", {
                 method: "POST",
