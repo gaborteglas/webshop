@@ -40,7 +40,7 @@ function fillTable(orderItems){
         tr.appendChild(productNameTd);
 
         let quantityTd = document.createElement("td");
-        quantityTd.innerHTML = "1 db";
+        quantityTd.innerHTML = orderitem.quantity + " db";
         tr.appendChild(quantityTd);
 
         let productPriceTd = document.createElement("td");
@@ -57,7 +57,7 @@ function fillTable(orderItems){
 
         tbody.appendChild(tr);
 
-        totalPrice += orderitem.productPrice;
+        totalPrice += orderitem.productPrice * orderitem.quantity;
     }
     let pTagForTotalPrice = document.querySelector("#totalPrice");
     pTagForTotalPrice.innerHTML = "A rendelés összértéke: " + totalPrice + " Ft"
