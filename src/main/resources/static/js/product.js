@@ -192,8 +192,13 @@ function handleRatingSubmit() {
     let ratingScore = ratingScoreInput.value;
     let ratingText = ratingTextInput.value;
 
+    if (ratingText.trim().length === 0) {
+        alert("Kérjük, szövegesen is értékeld a terméket!");
+        return;
+    }
+
     let feedback = {
-                    "ratingScore": ratingScore,
+                    "ratingScore": score,
                     "ratingText": ratingText
                     }
 
@@ -254,7 +259,7 @@ function handleModify() {
     let productId = document.querySelector("#productId").innerHTML;
 
     let feedback = {
-                   "ratingScore": ratingScore,
+                   "ratingScore": score,
                    "ratingText": ratingText
                    }
 
@@ -275,5 +280,45 @@ function handleModify() {
             modifyButton.innerHTML = "Értékelés elküldése";
         });
     return false;
+}
+
+let score = 5;
+
+function oneStarOnclick() {
+    document.querySelector("#star-2").setAttribute("style", "background: url(\"/img/star-solid-gray.svg\") no-repeat");
+    document.querySelector("#star-3").setAttribute("style", "background: url(\"/img/star-solid-gray.svg\") no-repeat");
+    document.querySelector("#star-4").setAttribute("style", "background: url(\"/img/star-solid-gray.svg\") no-repeat");
+    document.querySelector("#star-5").setAttribute("style", "background: url(\"/img/star-solid-gray.svg\") no-repeat");
+    let oneStar = document.querySelector("#star-1");
+    oneStar.setAttribute("style", "background: url(\"/img/star-solid-yellow.svg\") no-repeat");
+    score = 1;
+}
+
+function twoStarOnclick() {
+    oneStarOnclick();
+    let twoStar = document.querySelector("#star-2");
+    twoStar.setAttribute("style", "background: url(\"/img/star-solid-yellow.svg\") no-repeat");
+    score = 2;
+}
+
+function threeStarOnclick() {
+    twoStarOnclick();
+    let threeStar = document.querySelector("#star-3");
+    threeStar.setAttribute("style", "background: url(\"/img/star-solid-yellow.svg\") no-repeat");
+    score = 3;
+}
+
+function fourStarOnclick() {
+    threeStarOnclick();
+    let fourStar = document.querySelector("#star-4");
+    fourStar.setAttribute("style", "background: url(\"/img/star-solid-yellow.svg\") no-repeat");
+    score = 4;
+}
+
+function fiveStarOnclick() {
+    fourStarOnclick();
+    let fiveStar = document.querySelector("#star-5");
+    fiveStar.setAttribute("style", "background: url(\"/img/star-solid-yellow.svg\") no-repeat");
+    score = 5;
 }
 

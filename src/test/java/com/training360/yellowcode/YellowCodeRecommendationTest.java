@@ -19,6 +19,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
 
@@ -57,13 +58,13 @@ public class YellowCodeRecommendationTest {
 
     @Test
     @WithMockUser(username = "user1", roles = "USER")
-    public void testLastThreeProductsFromOrders() {
+    public void testLastThreeProductsWithSingleOrder() {
         basketController.addToBasket(1,3L);
         basketController.addToBasket(3,2L);
         basketController.addToBasket(5,1L);
         basketController.addToBasket(2,3L);
 
-        ordersController.createOrderAndOrderItems("valami");
+        ordersController.createOrderAndOrderItems("Fő utca 4.");
 
         List<Product> lastThreeProducts = productController.showLastThreeSoldProducts();
 
@@ -71,5 +72,33 @@ public class YellowCodeRecommendationTest {
         assertEquals("Az aliceblue 50 árnyalata", lastThreeProducts.get(0).getName());
         assertEquals("Az 50 első Trainer osztály", lastThreeProducts.get(1).getName());
         assertEquals("Junior most és mindörökké", lastThreeProducts.get(2).getName());
+    }
+    @Test
+    @WithMockUser(username = "user1", roles = "USER")
+    public void testLastThreeProductsWithMultipleOrders() {
+        basketController.addToBasket(1,3L);
+        basketController.addToBasket(3,2L);
+        basketController.addToBasket(5,1L);
+        basketController.addToBasket(2,3L);
+
+        ordersController.createOrderAndOrderItems("Liget utca 5.");
+
+        try {
+            TimeUnit.SECONDS.sleep(3);
+        } catch (InterruptedException ie){
+            throw new RuntimeException("Sleep method is interrupted!",ie);
+        }
+
+        basketController.addToBasket(4,1L);
+        basketController.addToBasket(3,3L);
+
+        ordersController.createOrderAndOrderItems("Liget utca 5.");
+
+        List<Product> lastThreeProducts = productController.showLastThreeSoldProducts();
+        assertEquals(lastThreeProducts.size(), 3);
+        assertEquals("Hogyan neveld a junior fejlesztődet", lastThreeProducts.get(0).getName());
+        assertEquals("Az aliceblue 50 árnyalata", lastThreeProducts.get(1).getName());
+        assertEquals("Az 50 első Trainer osztály", lastThreeProducts.get(2).getName());
+
     }
 }
