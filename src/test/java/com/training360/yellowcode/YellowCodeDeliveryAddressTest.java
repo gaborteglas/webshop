@@ -24,7 +24,7 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Sql("classpath:/clearForRecommendationTest.sql")
+@Sql("classpath:/clearForDeliveryTest.sql")
 public class YellowCodeDeliveryAddressTest {
 
     @Autowired
@@ -81,6 +81,21 @@ public class YellowCodeDeliveryAddressTest {
 
         assertEquals(deliveryAddresses.size(), 2);
         assertEquals("Kossuth utca 1.", deliveryAddresses.get(1));
+    }
+
+    @Test
+    @WithMockUser(username = "user1", roles = "USER")
+    public void testSameDeliveryAddresses() {
+        basketController.addToBasket(1,3L);
+        ordersController.createOrderAndOrderItems("Liget utca 9.");
+
+        basketController.addToBasket(3,1L);
+        ordersController.createOrderAndOrderItems("Liget utca 9.");
+
+        List<String> deliveryAddresses = ordersController.listDeliveryAddressesOfUser();
+
+        assertEquals(deliveryAddresses.size(), 1);
+        assertEquals("Liget utca 9.", deliveryAddresses.get(0));
     }
 }
 
