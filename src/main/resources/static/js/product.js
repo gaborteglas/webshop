@@ -8,7 +8,7 @@ window.onload = function() {
 }
 
 function handlePutIntoBasket(){
-    let productId = document.querySelector("#productId").innerHTML;
+    let productId = document.querySelector("#product-id").innerHTML;
     let quantity = document.querySelector("#quantity").value;
 
     fetch("api/basket/" + productId + "/" + quantity, {
@@ -30,28 +30,46 @@ function updateTable() {
          return response.json();
     }).then(function(jsonData) {
         fillTable(jsonData);
-    }).catch(error => creatingHeaderForName("Nincs ilyen termék"));
+    })
+    .catch(error => creatingHeaderForName("Nincs ilyen termék"));
 }
 
 function fillTable(product){
     let name = product.name;
     let id = product.id;
+    let address = product.address;
     let producer = product.producer;
     let currentPrice = product.currentPrice;
     let categoryName = product.category.name;
     let feedbackList = product.feedbacks;
     let average = product.averageScore;
+    let image = product.image;
 
-    creatingHeaderForName(name, average);
-    creatingTableRowForData(id,producer,currentPrice, categoryName);
+    let nameDiv = document.getElementById("product-name");
+    nameDiv.innerHTML = name;
+    let idDiv = document.getElementById("product-id");
+    idDiv.innerHTML = id;
+    let producerDiv = document.getElementById("product-author");
+    producerDiv.innerHTML = producer;
+    let priceDiv = document.getElementById("product-price");
+    priceDiv.innerHTML = currentPrice + " Ft";
+    let categoryDiv = document.getElementById("product-category");
+    categoryDiv.innerHTML = categoryName;
+    let addressDiv = document.getElementById("product-address");
+    addressDiv.innerHTML = "URL: " + address;
+    let averageDiv = document.getElementById("product-average");
+    if(average > 0) {
+            averageDiv.innerHTML = "Átlag pontszám: " + Math.round(average * 100) / 100;
+        } else {
+            averageDiv.innerHTML = "";
+        }
+    let imageDiv = document.getElementById("image-src");
+    imageDiv.src = "data:image/png;base64, " + image;
+
     creatingFeedbackFields(feedbackList);
-
-    let image = document.querySelector("#product-image");
-
-    image.src = "data:image/png;base64, " + product.image;
 }
 
-function creatingHeaderForName(name, average){
+function creatingHeaderNull(name, average){
     let productName = document.querySelector("#product-name");
     productName.innerHTML = name;
     let averageScore = document.querySelector("#product-average-rating-score");
@@ -62,26 +80,6 @@ function creatingHeaderForName(name, average){
     }
 }
 
-function creatingTableRowForData(id,producer,currentPrice, categoryName){
-    let tbody = document.querySelector("#product-tbody");
-    tbody.innerHTML = "";
-    let tr = document.createElement("tr");
-    tr["raw-data"] = id;
-    let idTd = document.createElement("td");
-    let producerTd = document.createElement("td");
-    let currentPriceTd = document.createElement("td");
-    let categoryTd = document.createElement("td");
-    idTd.innerHTML = id;
-    idTd.setAttribute("id","productId")
-    producerTd.innerHTML = producer;
-    currentPriceTd.innerHTML = currentPrice + " Ft";
-    categoryTd.innerHTML = categoryName;
-    tr.appendChild(idTd);
-    tr.appendChild(producerTd);
-    tr.appendChild(currentPriceTd);
-    tr.appendChild(categoryTd);
-    tbody.appendChild(tr);
-}
 
 function creatingFeedbackFields(feedbackList) {
 
@@ -186,7 +184,7 @@ function hideBasketButton() {
 }
 
 function handleRatingSubmit() {
-    let productId = document.querySelector("#productId").innerHTML;
+    let productId = document.querySelector("#product-id").innerHTML;
     let ratingScoreInput = document.getElementById("rating-score");
     let ratingTextInput = document.getElementById("rating-textarea");
     let ratingScore = ratingScoreInput.value;
@@ -221,7 +219,7 @@ function handleRatingSubmit() {
 }
 
 function handleRatingDelete() {
-    let productId = document.querySelector("#productId").innerHTML;
+    let productId = document.querySelector("#product-id").innerHTML;
 
     var result = confirm("Biztosan törli a kijelölt értékelést?");
         if (result) {
@@ -256,7 +254,7 @@ function handleModify() {
     let ratingScore = ratingScoreInput.value;
     let ratingText = ratingTextInput.value;
     let modifyButton = document.getElementById("rating-submit");
-    let productId = document.querySelector("#productId").innerHTML;
+    let productId = document.querySelector("#product-id").innerHTML;
 
     let feedback = {
                    "ratingScore": score,
