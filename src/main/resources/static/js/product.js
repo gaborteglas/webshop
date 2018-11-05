@@ -31,7 +31,7 @@ function updateTable() {
     }).then(function(jsonData) {
         fillTable(jsonData);
     })
-    .catch(error => creatingHeaderForName("Nincs ilyen termék"));
+    .catch(error => creatingHeaderNull());
 }
 
 function fillTable(product){
@@ -69,17 +69,16 @@ function fillTable(product){
     creatingFeedbackFields(feedbackList);
 }
 
-function creatingHeaderNull(name, average){
-    let productName = document.querySelector("#product-name");
-    productName.innerHTML = name;
-    let averageScore = document.querySelector("#product-average-rating-score");
-    if(average > 0) {
-        averageScore.innerHTML = "Átlag pontszám: " + Math.round(average * 100) / 100;
-    } else {
-        averageScore.innerHTML = "";
+function creatingHeaderNull(){
+    let ulDiv = document.getElementById("to-append");
+    let noProduct = document.getElementById("if-hided");
+    noProduct.innerHTML = "Sajnáljuk, nincs ilyen termék!"
+    ulDiv.appendChild(noProduct);
+    let divToHide = document.querySelector(".container-2");
+    divToHide.style.display = "none";
+    let feedbackToHide = document.getElementById("feedback-hide");
+    feedbackToHide.style.display = "none";
     }
-}
-
 
 function creatingFeedbackFields(feedbackList) {
 
