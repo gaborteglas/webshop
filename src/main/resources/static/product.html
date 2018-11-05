@@ -101,27 +101,26 @@
     <div>
         <h3>Értékelje termékünket!</h3>
         <div class="rating-score-div">
-            <label for="rating-score">Pontszám:</label>
-            <input type="number" id="rating-score" min="1" max="5" value="5"/>
-        </div>
-        <div class="rating-text-div">
-            <label for="rating-textarea">Szöveges értékelés:</label>
-            <textarea class="form-control rounded-0" id="rating-textarea" rows="5"></textarea>
-        </div>
-        <div class="star-holder">
-            <div class="star" id="star-1" onclick="oneStarOnclick()"></div>
+            <span>Mennyire tetszik a termék?</span>
             <div class="star-holder">
-                <div class="star" id="star-2" onclick="twoStarOnclick()"></div>
+                <div class="star" id="star-1" onclick="oneStarOnclick()"></div>
                 <div class="star-holder">
-                    <div class="star" id="star-3" onclick="threeStarOnclick()"></div>
+                    <div class="star" id="star-2" onclick="twoStarOnclick()"></div>
                     <div class="star-holder">
-                        <div class="star" id="star-4" onclick="fourStarOnclick()"></div>
+                        <div class="star" id="star-3" onclick="threeStarOnclick()"></div>
                         <div class="star-holder">
-                            <div class="star" id="star-5" onclick="fiveStarOnclick()"></div>
+                            <div class="star" id="star-4" onclick="fourStarOnclick()"></div>
+                            <div class="star-holder">
+                                <div class="star" id="star-5" onclick="fiveStarOnclick()"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="rating-text-div">
+            <label for="rating-textarea">Szöveges értékelés:</label>
+            <textarea class="form-control rounded-0" id="rating-textarea" rows="5"></textarea>
         </div>
         <button type="button" id="rating-submit" class="btn btn-success">Értékelés elküldése</button>
     </div>
