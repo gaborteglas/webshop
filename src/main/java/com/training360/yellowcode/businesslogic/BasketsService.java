@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 public class BasketsService {
 
-    public static final Logger LOGGER = LoggerFactory.getLogger(ProductService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProductService.class);
     private BasketsDao basketsDao;
 
     public BasketsService(BasketsDao basketsDao) {
@@ -62,15 +62,24 @@ public class BasketsService {
     public void increaseBasketQuantityByOne(Basket basket) {
         Basket oldBasket = findBasketByUserIdAndProductId(basket).get(0);
         basketsDao.increaseBasketQuantityByOne(oldBasket);
+        LOGGER.info(MessageFormat.format("Item quantity in basket(userId: {0}, productId: {1}, " +
+                        "originalQuantity: {2}) is increased by 1", basket.getUserId(),
+                basket.getProductId(), basket.getQuantity()));
     }
 
     public void decreaseBasketQuantityByOne(Basket basket) {
         Basket oldBasket = findBasketByUserIdAndProductId(basket).get(0);
         basketsDao.decreaseBasketQuantityByOne(oldBasket);
+        LOGGER.info(MessageFormat.format("Item quantity in basket(userId: {0}, productId: {1}, " +
+                        "originalQuantity: {2}) is decreased by 1", basket.getUserId(),
+                basket.getProductId(), basket.getQuantity()));
     }
 
     public void setBasketQuantity(Basket basket, long quantity) {
         Basket oldBasket = findBasketByUserIdAndProductId(basket).get(0);
         basketsDao.setBasketQuantity(oldBasket, quantity);
+        LOGGER.info(MessageFormat.format("Item quantity in basket(userId: {0}, productId: {1}, " +
+                        "originalQuantity: {2}) is set to {3}", basket.getUserId(),
+                basket.getProductId(), basket.getQuantity(), quantity));
     }
 }
