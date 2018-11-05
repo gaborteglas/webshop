@@ -129,17 +129,20 @@ function fillSelectWithAddresses(addresses) {
 function fillDeliveryAddress(address) {
 
     let splittedAddressArray = address.split(" ");
-    let splittedAddress = splittedAddressArray.splice(0, 2);
-    splittedAddress.push(splittedAddressArray.join(" "));
+    let zipCodeValue = splittedAddressArray[0];
+    let splittedAddressWithoutZipCode = splittedAddressArray.splice(1).join(" ");
+    let splittedAddressCityAndStreet = splittedAddressWithoutZipCode.split(",");
+    let cityValue = splittedAddressCityAndStreet[0];
+    let streetValue = splittedAddressCityAndStreet[1].trim();
 
     let zipCode = document.querySelector("#zip-code-field");
-    zipCode.value = splittedAddress[0];
+    zipCode.value = zipCodeValue;
 
     let city = document.querySelector("#city-field");
-    city.value = splittedAddress[1].substring(0, splittedAddress[1].length - 1);
+    city.value = cityValue;
 
     let street = document.querySelector("#street-field");
-    street.value = splittedAddress[2];
+    street.value = streetValue;
 }
 
 function increaseQuantityInSQL(productId, quantity) {
@@ -199,20 +202,23 @@ function modifyQuantity(rowNumber, productId, quantity) {
 
 function handleOrderButton() {
 
-    let zipCode = document.querySelector("#zip-code-field").value.trim();
+    let zipCode = document.querySelector("#zip-code-field").value.trim().replace(/ /g, '');
     let city = document.querySelector("#city-field").value.trim();
     let street = document.querySelector("#street-field").value.trim();
     let address = zipCode + " " + city + ", " + street;
-
-    if (confirm("Megrendeli a termékeket?")) {
-        fetch("/api/myorders", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json; charset=utf-8"
-            },
-            body: address
-        }).then(function (response) {
-            window.location = "/myorders.html"
-        });
+    if (zipCode === "" || city === "" || street === "") {
+        alert("Minden mező kitöltése kötelező!")
+    } else {
+        if (confirm("Megrendeli a termékeket?")) {
+            fetch("/api/myorders", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json; charset=utf-8"
+                },
+                body: address
+            }).then(function (response) {
+                window.location = "/myorders.html"
+            });
+        }
     }
 }
