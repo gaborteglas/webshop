@@ -87,7 +87,7 @@ public class BasketController {
         }
     }
 
-    @RequestMapping(value = "/api/basket/{prouductId}/{oldQuantity}/{newQuantity}", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/basket/{productId}/{oldQuantity}/{newQuantity}", method = RequestMethod.POST)
     public Response setBasketQuantity(@PathVariable Long productId, @PathVariable Long oldQuantity,
                                       @PathVariable Long newQuantity) {
         User user = getAuthenticatedUser();
