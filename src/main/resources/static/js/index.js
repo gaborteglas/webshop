@@ -34,6 +34,7 @@ function creatingLastSold(productList) {
         nameDiv.appendChild(categoryDiv);
 
         let imgDiv = document.createElement("img");
+        imgDiv.setAttribute("class", "book-image");
         imgDiv.src = "data:image/png;base64, " + product.image;
         categoryDiv.appendChild(imgDiv);
 
