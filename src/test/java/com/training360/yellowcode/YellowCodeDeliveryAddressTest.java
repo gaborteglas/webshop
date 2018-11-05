@@ -19,14 +19,13 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Sql("classpath:/clearForRecommendationTest.sql")
-public class YellowCodeRecommendationTest {
+@Sql("classpath:/clearForDeliveryTest.sql")
+public class YellowCodeDeliveryAddressTest {
 
     @Autowired
     private OrdersController ordersController;
@@ -51,54 +50,52 @@ public class YellowCodeRecommendationTest {
         productController.createProduct(new Product(4, "Hogyan neveld a junior fejlesztődet", "junior", "Jane Doe", 6499, ProductStatusType.ACTIVE, new Category(1, "Egyéb", 1L)));
         productController.createProduct(new Product(5, "Junior most és mindörökké", "mindorokke", "James Doe", 2999, ProductStatusType.ACTIVE, new Category(1, "Egyéb", 1L)));
 
-        userController.createUser(new User(1, "user1", "Test One", "Elsőjelszó1", UserRole.ROLE_USER));
+        userController.createUser(new User(1, "admin1", "Test One", "Elsőjelszó1", UserRole.ROLE_ADMIN));
+        userController.createUser(new User(1, "user1", "Test One", "Elsőjelszó2", UserRole.ROLE_USER));
 
         SecurityContextHolder.getContext().setAuthentication(a);
     }
 
     @Test
-    @WithMockUser(username = "user1", roles = "USER")
-    public void testLastThreeProductsWithSingleOrder() {
+    @WithMockUser(username = "admin1", roles = "ADMIN")
+    public void testSingleDeliveryAddress() {
         basketController.addToBasket(1,3L);
-        basketController.addToBasket(3,2L);
-        basketController.addToBasket(5,1L);
-        basketController.addToBasket(2,3L);
+        ordersController.createOrderAndOrderItems("Liget utca 5.");
 
-        ordersController.createOrderAndOrderItems("Fő utca 4.");
+        List<Orders> orders = ordersController.listOrders();
 
-        List<Product> lastThreeProducts = productController.showLastThreeSoldProducts();
-
-        assertEquals(lastThreeProducts.size(), 3);
-        assertEquals("Az aliceblue 50 árnyalata", lastThreeProducts.get(0).getName());
-        assertEquals("Az 50 első Trainer osztály", lastThreeProducts.get(1).getName());
-        assertEquals("Junior most és mindörökké", lastThreeProducts.get(2).getName());
+        assertEquals(orders.size(), 1);
+        assertEquals("Liget utca 5.", orders.get(0).getDeliveryAddress());
     }
+
     @Test
     @WithMockUser(username = "user1", roles = "USER")
-    public void testLastThreeProductsWithMultipleOrders() {
+    public void testMultipleDeliveryAddresses() {
         basketController.addToBasket(1,3L);
-        basketController.addToBasket(3,2L);
-        basketController.addToBasket(5,1L);
-        basketController.addToBasket(2,3L);
+        ordersController.createOrderAndOrderItems("Liget utca 9.");
 
-        ordersController.createOrderAndOrderItems("Liget utca 5.");
+        basketController.addToBasket(3,1L);
+        ordersController.createOrderAndOrderItems("Kossuth utca 1.");
 
-        try {
-            TimeUnit.SECONDS.sleep(3);
-        } catch (InterruptedException ie){
-            throw new RuntimeException("Sleep method is interrupted!",ie);
-        }
+        List<String> deliveryAddresses = ordersController.listDeliveryAddressesOfUser();
 
-        basketController.addToBasket(4,1L);
-        basketController.addToBasket(3,3L);
+        assertEquals(deliveryAddresses.size(), 2);
+        assertEquals("Kossuth utca 1.", deliveryAddresses.get(1));
+    }
 
-        ordersController.createOrderAndOrderItems("Liget utca 5.");
+    @Test
+    @WithMockUser(username = "user1", roles = "USER")
+    public void testSameDeliveryAddresses() {
+        basketController.addToBasket(1,3L);
+        ordersController.createOrderAndOrderItems("Liget utca 9.");
 
-        List<Product> lastThreeProducts = productController.showLastThreeSoldProducts();
-        assertEquals(lastThreeProducts.size(), 3);
-        assertEquals("Hogyan neveld a junior fejlesztődet", lastThreeProducts.get(0).getName());
-        assertEquals("Az aliceblue 50 árnyalata", lastThreeProducts.get(1).getName());
-        assertEquals("Az 50 első Trainer osztály", lastThreeProducts.get(2).getName());
+        basketController.addToBasket(3,1L);
+        ordersController.createOrderAndOrderItems("Liget utca 9.");
 
+        List<String> deliveryAddresses = ordersController.listDeliveryAddressesOfUser();
+
+        assertEquals(deliveryAddresses.size(), 1);
+        assertEquals("Liget utca 9.", deliveryAddresses.get(0));
     }
 }
+
