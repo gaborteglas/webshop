@@ -29,7 +29,7 @@ import static org.junit.Assert.assertFalse;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Sql(scripts = "classpath:/clearorders.sql")
+@Sql({"classpath:/clear.sql", "classpath:/clearorders.sql", "classpath:/clearbaskets.sql", "classpath:/clearusers.sql"})
 public class YellowCodeApplicationOrdersTest {
 
     @Autowired

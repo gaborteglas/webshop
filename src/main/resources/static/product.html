@@ -12,7 +12,7 @@
 
 <div class="container">
 
-    <ul class="nav nav-pills nav-fill">
+    <ul class="nav nav-pills nav-fill" id ="to-append">
         <li class="nav-item nav-item-index" id="to-hide-index">
             <a class="nav-link" href="/index.html">Főoldal</a>
         </li>
@@ -62,30 +62,47 @@
 
     </ul>
 
+    <span>
+    <h1 id="if-hided"></h1>
+    </span>
 
-    <h1 id="product-name"></h1>
-    <h5 id="product-average-rating-score"></h5>
+    <div class="container-2">
 
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>Azonosító</th>
-            <th>Szerző</th>
-            <th>Ár</th>
-            <th>Kategória</th>
-        </tr>
-        </thead>
-        <tbody id="product-tbody">
+    <div class="left-column">
+        <img src="" id="image-src">
+    </div>
 
-        </tbody>
-    </table>
-    <br>
-    <img id="product-image">
-    <br>
-    <input type="number" name="quantity" value="1" id="quantity" min="1">
-    <button type="button" id="puttobasket" class="btn btn-success">Kosárba</button>
 
-    <div>
+    <!-- Right Column -->
+    <div class="right-column">
+
+        <!-- Product Description -->
+        <div class="product-description">
+            <span id ="product-category"></span>
+            <h1 id="product-name"></h1>
+            <h3 id="product-author"> </h3>
+            <h5 id="product-average"></h5>
+        </div>
+
+        <div id="product-desc">
+            <span id ="product-id"></span>
+            <br>
+            <span id ="product-address"></span>
+            <br>
+        </div>
+
+        <!-- Product Pricing -->
+        <div class="product-price">
+            <span id="product-price"></span>
+        </div>
+        <br>
+        <input type="number" name="quantity" value="1" id="quantity" min="1">
+        <button type="button" id="puttobasket" class="btn btn-success">Kosárba</button>
+    </div>
+    </div>
+
+
+    <div id ="feedback-hide">
         <h3>Értékelje termékünket!</h3>
         <div class="rating-score-div">
             <label for="rating-score">Pontszám:</label>

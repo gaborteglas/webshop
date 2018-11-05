@@ -34,6 +34,8 @@ function createStatusSelectorForSecondReport(orders){
     sumParagraph.innerHTML = "";
     let thead = document.querySelector("#orders-thead");
     thead.innerHTML = "";
+    let tbody = document.querySelector("#orders-tbody");
+    tbody.innerHTML = "";
     let monthList = ["január","február","március","április","május","június","július","augusztus","szeptember",
     "október","november","december"];
     let choiceSelector = document.querySelector("#choice-selector");
