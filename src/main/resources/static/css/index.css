@@ -33,6 +33,10 @@ margin-left:auto;
 margin-right:auto;
 }
 
+.black-text {
+color: black !important;
+}
+
 .book-image {
     width:125px;
     height:200px;
