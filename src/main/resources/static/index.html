@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Főoldal</title>
@@ -38,6 +39,7 @@
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <!--===============================================================================================-->
 </head>
+
 <body class="animsition">
 
 <!-- Header -->
@@ -54,13 +56,13 @@
             </div>
 
             <span class="topbar-child1">
-					Free shipping for standard order over $100
-				</span>
+                    Free shipping for standard order over $100
+                </span>
 
             <div class="topbar-child2">
-					<span class="topbar-email">
-						fashe@example.com
-					</span>
+                    <span class="topbar-email">
+                        fashe@example.com
+                    </span>
 
                 <div class="topbar-language rs1-select2">
                     <select class="selection-1" name="time">
@@ -81,16 +83,44 @@
             <div class="wrap_menu">
                 <nav class="menu">
                     <ul class="main_menu">
-                        <li>
-                            <a href="index.html">Főoldal</a>
+                        <li class="sale-noti" id="to-hide-index">
+                            <a href="/index.html">Főoldal</a>
                         </li>
-
-                        <li>
-                            <a href="products.html">Termékek</a>
+                        <li id="to-hide-allproducts">
+                            <a href="/products.html">Termékek</a>
                         </li>
-
-                        <li class="sale-noti">
-                            <a href="login.html">Bejelentkezés</a>
+                        <li id="to-hide-basket">
+                            <a href="/basket.html">Kosár</a>
+                        </li>
+                        <li id="to-hide-myorder">
+                            <a href="/myorders.html">Rendeléseim</a>
+                        </li>
+                        <li id="to-hide-profile">
+                            <a href="/profile.html">Profil</a>
+                        </li>
+                        <li id="to-hide-login">
+                            <a href="/login.html">Bejelentkezés</a>
+                        </li>
+                        <li id="to-hide-product">
+                            <a href="/adminproducts.html">Termék-adminisztráció</a>
+                        </li>
+                        <li id="to-hide-user">
+                            <a href="/users.html">Felhasználók</a>
+                        </li>
+                        <li id="to-hide-orders">
+                            <a href="/orders.html">Rendelések</a>
+                        </li>
+                        <li id="to-hide-categories">
+                            <a href="/categories.html">Kategóriák</a>
+                        </li>
+                        <li id="to-hide-dashboard">
+                            <a href="/dashboard.html">Statisztikák</a>
+                        </li>
+                        <li id="to-hide-reports">
+                            <a href="/reports.html">Havi jelentések</a>
+                        </li>
+                        <li id="to-hide-logout">
+                            <a href="/logout">Kijelentkezés</a>
                         </li>
                     </ul>
                 </nav>
@@ -98,7 +128,11 @@
 
             <!-- Header Icon -->
             <div class="header-icons">
-                <a href="#" class="header-wrapicon1 dis-block">
+
+                <span class="topbar-email" id="username"></span>
+                <input type="hidden" id="id-hidden-input"/>
+
+                <a href="/profile.html" class="header-wrapicon1 dis-block">
                     <img src="images/icons/icon-header-01.png" class="header-icon1" alt="ICON">
                 </a>
 
@@ -117,7 +151,8 @@
                         <div class="header-cart-buttons">
                             <div class="header-cart-wrapbtn">
                                 <!-- Button -->
-                                <button class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4" id="basket-reset-button">
+                                <button class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4"
+                                        id="basket-reset-button">
                                     Ürítés
                                 </button>
                             </div>
@@ -170,8 +205,8 @@
                                     </a>
 
                                     <span class="header-cart-item-info">
-											1 x $19.00
-										</span>
+                                            1 x $19.00
+                                        </span>
                                 </div>
                             </li>
 
@@ -186,8 +221,8 @@
                                     </a>
 
                                     <span class="header-cart-item-info">
-											1 x $39.00
-										</span>
+                                            1 x $39.00
+                                        </span>
                                 </div>
                             </li>
 
@@ -202,8 +237,8 @@
                                     </a>
 
                                     <span class="header-cart-item-info">
-											1 x $17.00
-										</span>
+                                            1 x $17.00
+                                        </span>
                                 </div>
                             </li>
                         </ul>
@@ -232,9 +267,9 @@
             </div>
 
             <div class="btn-show-menu-mobile hamburger hamburger--squeeze">
-					<span class="hamburger-box">
-						<span class="hamburger-inner"></span>
-					</span>
+                    <span class="hamburger-box">
+                        <span class="hamburger-inner"></span>
+                    </span>
             </div>
         </div>
     </div>
@@ -244,16 +279,16 @@
         <nav class="side-menu">
             <ul class="main-menu">
                 <li class="item-topbar-mobile p-l-20 p-t-8 p-b-8">
-						<span class="topbar-child1">
-							Free shipping for standard order over $100
-						</span>
+                        <span class="topbar-child1">
+                            Free shipping for standard order over $100
+                        </span>
                 </li>
 
                 <li class="item-topbar-mobile p-l-20 p-t-8 p-b-8">
                     <div class="topbar-child2-mobile">
-							<span class="topbar-email">
-								fashe@example.com
-							</span>
+                            <span class="topbar-email">
+                                fashe@example.com
+                            </span>
 
                         <div class="topbar-language rs1-select2">
                             <select class="selection-1" name="time">
@@ -297,13 +332,12 @@
         <div class="slick1">
             <div class="item-slick1 item1-slick1" style="background-image: url(images/master-slide-02.jpg);">
                 <div class="wrap-content-slide1 sizefull flex-col-c-m p-l-15 p-r-15 p-t-150 p-b-170">
-						<span class="caption1-slide1 m-text1 t-center animated visible-false m-b-15"
+                        <span class="caption1-slide1 m-text1 t-center animated visible-false m-b-15"
                               data-appear="fadeInDown">
-							Women Collection 2018
-						</span>
+                            Women Collection 2018
+                        </span>
 
-                    <h2 class="caption2-slide1 xl-text1 t-center animated visible-false m-b-37"
-                        data-appear="fadeInUp">
+                    <h2 class="caption2-slide1 xl-text1 t-center animated visible-false m-b-37" data-appear="fadeInUp">
                         New arrivals
                     </h2>
 
@@ -318,10 +352,10 @@
 
             <div class="item-slick1 item2-slick1" style="background-image: url(images/master-slide-03.jpg);">
                 <div class="wrap-content-slide1 sizefull flex-col-c-m p-l-15 p-r-15 p-t-150 p-b-170">
-						<span class="caption1-slide1 m-text1 t-center animated visible-false m-b-15"
+                        <span class="caption1-slide1 m-text1 t-center animated visible-false m-b-15"
                               data-appear="rollIn">
-							Women Collection 2018
-						</span>
+                            Women Collection 2018
+                        </span>
 
                     <h2 class="caption2-slide1 xl-text1 t-center animated visible-false m-b-37"
                         data-appear="lightSpeedIn">
@@ -339,10 +373,10 @@
 
             <div class="item-slick1 item3-slick1" style="background-image: url(images/master-slide-04.jpg);">
                 <div class="wrap-content-slide1 sizefull flex-col-c-m p-l-15 p-r-15 p-t-150 p-b-170">
-						<span class="caption1-slide1 m-text1 t-center animated visible-false m-b-15"
+                        <span class="caption1-slide1 m-text1 t-center animated visible-false m-b-15"
                               data-appear="rotateInDownLeft">
-							Women Collection 2018
-						</span>
+                            Women Collection 2018
+                        </span>
 
                     <h2 class="caption2-slide1 xl-text1 t-center animated visible-false m-b-37"
                         data-appear="rotateInUpRight">
@@ -402,8 +436,8 @@
                             </a>
 
                             <span class="block2-price m-text6 p-r-5">
-									$75.00
-								</span>
+                                    $75.00
+                                </span>
                         </div>
                     </div>
                 </div>
@@ -435,8 +469,8 @@
                             </a>
 
                             <span class="block2-price m-text6 p-r-5">
-									$92.50
-								</span>
+                                    $92.50
+                                </span>
                         </div>
                     </div>
                 </div>
@@ -470,12 +504,12 @@
                             </a>
 
                             <span class="block2-oldprice m-text7 p-r-5">
-									$29.50
-								</span>
+                                    $29.50
+                                </span>
 
                             <span class="block2-newprice m-text8 p-r-5">
-									$15.90
-								</span>
+                                    $15.90
+                                </span>
                         </div>
                     </div>
                 </div>
@@ -614,8 +648,7 @@
 
             <form>
                 <div class="effect1 w-size9">
-                    <input class="s-text7 bg6 w-full p-b-5" type="text" name="email"
-                           placeholder="email@example.com">
+                    <input class="s-text7 bg6 w-full p-b-5" type="text" name="email" placeholder="email@example.com">
                     <span class="effect1-line"></span>
                 </div>
 
@@ -653,8 +686,8 @@
 
         <div class="t-center s-text8 p-t-20">
             Copyright © 2018 All rights reserved. | This template is made with <i class="fa fa-heart-o"
-                                                                                  aria-hidden="true"></i> by <a
-                href="https://colorlib.com" target="_blank">Colorlib</a>
+                                                                                  aria-hidden="true"></i>
+            by <a href="https://colorlib.com" target="_blank">Colorlib</a>
         </div>
     </div>
 </footer>
@@ -662,9 +695,9 @@
 
 <!-- Back to top -->
 <div class="btn-back-to-top bg0-hov" id="myBtn">
-		<span class="symbol-btn-back-to-top">
-			<i class="fa fa-angle-double-up" aria-hidden="true"></i>
-		</span>
+        <span class="symbol-btn-back-to-top">
+            <i class="fa fa-angle-double-up" aria-hidden="true"></i>
+        </span>
 </div>
 
 <!-- Container Selection1 -->
@@ -681,10 +714,21 @@
 <!--===============================================================================================-->
 <script type="text/javascript" src="vendor/select2/select2.min.js"></script>
 <script type="text/javascript">
-		$(".selection-1").select2({
-			minimumResultsForSearch: 20,
-			dropdownParent: $('#dropDownSelect1')
-		});
+        $(".selection-1").select2({
+            minimumResultsForSearch: 20,
+            dropdownParent: $('#dropDownSelect1')
+        });
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -709,19 +753,30 @@
 <!--===============================================================================================-->
 <script type="text/javascript" src="vendor/sweetalert/sweetalert.min.js"></script>
 <script type="text/javascript">
-		$('.block2-btn-addcart').each(function(){
-			var nameProduct = $(this).parent().parent().parent().find('.block2-name').html();
-			$(this).on('click', function(){
-				swal(nameProduct, "is added to cart !", "success");
-			});
-		});
+        $('.block2-btn-addcart').each(function () {
+            var nameProduct = $(this).parent().parent().parent().find('.block2-name').html();
+            $(this).on('click', function () {
+                swal(nameProduct, "is added to cart !", "success");
+            });
+        });
 
-		$('.block2-btn-addwishlist').each(function(){
-			var nameProduct = $(this).parent().parent().parent().find('.block2-name').html();
-			$(this).on('click', function(){
-				swal(nameProduct, "is added to wishlist !", "success");
-			});
-		});
+        $('.block2-btn-addwishlist').each(function () {
+            var nameProduct = $(this).parent().parent().parent().find('.block2-name').html();
+            $(this).on('click', function () {
+                swal(nameProduct, "is added to wishlist !", "success");
+            });
+        });
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -742,4 +797,5 @@
 <script src="js/index.js"></script>
 <script src="js/menubar.js"></script>
 </body>
+
 </html>
