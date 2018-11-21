@@ -111,8 +111,7 @@ function handleSubmit() {
                    "currentPrice": price,
                    "category": {
                                 "id": categoryId
-                               },
-                   "image": image
+                               }
                   };
 
     let url = "api/products";
