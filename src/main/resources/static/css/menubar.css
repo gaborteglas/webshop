@@ -17,3 +17,10 @@ margin: 0;
 .card-body {
 padding: 7%;
 }
+
+.logo {
+    width: 10em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
