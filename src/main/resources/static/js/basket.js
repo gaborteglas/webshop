@@ -111,15 +111,13 @@ function fillTable(products) {
         totalPriceTd.innerHTML = products[k].currentPrice * products[k].quantity + " Ft";
         tr.appendChild(totalPriceTd);
 
-        //        totalPrice += products[k].currentPrice * products[k].quantity;
-        //        tr.appendChild(deleteButton);
+                totalPrice += products[k].currentPrice * products[k].quantity;
         tbody.appendChild(tr);
     }
-    //    let sumParagraph = document.querySelector("#totalPrice");
-    //    sumParagraph.innerHTML = "A kosár tartalmának ára összesen : " + totalPrice + " Ft";
+    document.querySelector("#total-price-span").innerHTML = totalPrice + " Ft";
 
     let orderButton = document.querySelector("#order-button");
-    orderButton.disabled = products.length === 0;;
+    orderButton.disabled = products.length === 0;
 
     //        let resetButton = document.querySelector("#reset-button");
     //        resetButton.disabled = products.length === 0;
