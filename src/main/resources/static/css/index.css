@@ -37,6 +37,14 @@ margin-right:auto;
 color: black !important;
 }
 
+.yellow-text {
+color: #FFCA00 !important;
+}
+
+.white-text {
+color: white !important;
+}
+
 .book-image {
     width:125px;
     height:200px;

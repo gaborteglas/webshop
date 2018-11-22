@@ -3967,8 +3967,8 @@ EFFECT   EFFECT   EFFECT   EFFECT   EFFECT   EFFECT  EFFECT
 ///////////////////////////////////////////////////////////
 */
 .hov1:hover {
-    background-color: #e65540;
-  	color: white;
+    background-color: #ffca00;
+  	color: black
 }
 
 .hov2:hover {
