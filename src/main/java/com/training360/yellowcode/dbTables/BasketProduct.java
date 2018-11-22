@@ -8,18 +8,20 @@ public class BasketProduct {
     private String producer;
     private long currentPrice;
     private Long quantity;
+    private byte[] image;
 
     public BasketProduct() {
     }
 
     public BasketProduct(long id, String name, String address, String producer, long currentPrice,
-                         Long quantity) {
+                         Long quantity, byte[] image) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.producer = producer;
         this.currentPrice = currentPrice;
         this.quantity = quantity;
+        this.image = image;
     }
 
     public long getId() {
@@ -68,5 +70,13 @@ public class BasketProduct {
 
     public void setQuantity(Long quantity) {
         this.quantity = quantity;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 }

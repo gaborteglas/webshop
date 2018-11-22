@@ -42,7 +42,7 @@ function fillTable(products) {
         imageDiv.setAttribute("id", "deleteButton" + "Id" + products[k].id);
         imageDiv.addEventListener("click", clickingOnResetProductButtons);
         let image = document.createElement("img");
-        image.src = "images/item-10.jpg";
+        image.src = "data:image/png;base64, " + products[k].image;
         image.alt = "IMG-PRODUCT";
         imageDiv.appendChild(image);
         imageTd.appendChild(imageDiv);

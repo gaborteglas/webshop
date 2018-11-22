@@ -61,7 +61,7 @@ public class BasketsDao {
 
     public List<BasketProduct> listProducts(long userId) {
         return jdbcTemplate.query(
-                "SELECT products.id, products.name, products.address, products.producer, products.price, basket.quantity" +
+                "SELECT products.id, products.name, products.address, products.producer, products.price, products.image, basket.quantity" +
                         " FROM products " +
                         "LEFT JOIN basket on products.id = basket.product_id " +
                         "WHERE basket.user_id = ? AND products.status = 'ACTIVE'",
@@ -71,7 +71,9 @@ public class BasketsDao {
                                 resultSet.getString("products.address"),
                                 resultSet.getString("products.producer"),
                                 resultSet.getLong("products.price"),
-                                resultSet.getLong("basket.quantity")),
+                                resultSet.getLong("basket.quantity"),
+                                resultSet.getBytes("products.image")),
+
                 userId);
     }
 
