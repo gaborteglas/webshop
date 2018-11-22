@@ -156,13 +156,12 @@ function fillSelectWithAddresses(addresses) {
         option.setAttribute("value", addresses[i])
         select.appendChild(option);
     }
-    select.addEventListener("change", function () {
-        alert(this.value);
-    }, false);
+    select.onchange = function(){
+    fillDeliveryAddress(this.value);
+    };
 }
 
 function fillDeliveryAddress(address) {
-    alert(address);
     let splittedAddressArray = address.split(" ");
     let zipCodeValue = splittedAddressArray[0];
     let splittedAddressWithoutZipCode = splittedAddressArray.splice(1).join(" ");
@@ -318,7 +317,6 @@ function streetValidator() {
 }
 
 function handleOrderButton() {
-
     let zipCode = document.querySelector("#zip-code-field").value.trim().replace(/ /g, '');
     let city = document.querySelector("#city-field").value.trim();
     let street = document.querySelector("#street-field").value.trim();
