@@ -148,7 +148,7 @@ function fillCart(products) {
         imageHolderDiv.className = "header-cart-item-img";
 
         let imageOfProduct = document.createElement("img");
-        imageOfProduct.src = "images/item-cart-01.jpg";
+        imageOfProduct.src = "data:image/png;base64, " + products[k].image;
         imageOfProduct.alt = "IMG";
 
         imageHolderDiv.appendChild(imageOfProduct);
@@ -157,7 +157,7 @@ function fillCart(products) {
         textHolderDiv.className = "header-cart-item-txt";
 
         let anchor = document.createElement("a");
-        anchor.href = "#";
+        anchor.href = "/product.html?address=" + products[k].address;
         anchor.className = "header-cart-item-name";
         anchor.innerHTML = products[k].name;
 
