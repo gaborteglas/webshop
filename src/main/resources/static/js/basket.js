@@ -1,16 +1,16 @@
 window.onload = function () {
     updateTable();
-    getAddressesForUser();
-    let resetButton = document.querySelector("#reset-button");
-    resetButton.onclick = handleResetButton;
-    let orderButton = document.querySelector("#order-button");
-    orderButton.onclick = handleOrderButton;
-    let zipCodeField = document.querySelector("#zip-code-field");
-    zipCodeField.addEventListener("focusout", zipCodeValidator);
-    let cityField = document.querySelector("#city-field");
-    cityField.addEventListener("focusout", cityValidator);
-    let streetField = document.querySelector("#street-field");
-    streetField.addEventListener("focusout", streetValidator);
+    //    getAddressesForUser();
+    //    let resetButton = document.querySelector("#reset-button");
+    //    resetButton.onclick = handleResetButton;
+    //    let orderButton = document.querySelector("#order-button");
+    //    orderButton.onclick = handleOrderButton;
+    //    let zipCodeField = document.querySelector("#zip-code-field");
+    //    zipCodeField.addEventListener("focusout", zipCodeValidator);
+    //    let cityField = document.querySelector("#city-field");
+    //    cityField.addEventListener("focusout", cityValidator);
+    //    let streetField = document.querySelector("#street-field");
+    //    streetField.addEventListener("focusout", streetValidator);
 };
 
 function updateTable() {
@@ -29,78 +29,112 @@ function fillTable(products) {
     tbody.innerHTML = "";
     for (let k = 0; k < products.length; k++) {
         let tr = document.createElement("tr");
+        tr.className = "table-row";
+
+        let imageTd = document.createElement("td");
+        imageTd.className = "column-1";
+        let imageDiv = document.createElement("div");
+        imageDiv.className = "cart-img-product b-rad-4 o-f-hidden";
+        imageDiv.setAttribute("name", "deleteButton" + "Row" + k);
+        imageDiv.setAttribute("id", "deleteButton" + "Id" + products[k].id);
+        imageDiv.addEventListener("click", clickingOnResetProductButtons);
+        let image = document.createElement("img");
+        image.src = "images/item-10.jpg";
+        image.alt = "IMG-PRODUCT";
+        imageDiv.appendChild(image);
+        imageTd.appendChild(imageDiv);
+        tr.appendChild(imageTd);
 
         let idTd = document.createElement("td");
+        idTd.className = "column-2";
         idTd.innerHTML = products[k].id;
         tr.appendChild(idTd);
 
         let nameTd = document.createElement("td");
+        nameTd.className = "column-2";
         nameTd.innerHTML = products[k].name;
         tr.appendChild(nameTd);
 
         let producerTd = document.createElement("td");
+        producerTd.className = "column-2";
         producerTd.innerHTML = products[k].producer;
         tr.appendChild(producerTd);
 
         let currentPriceTd = document.createElement("td");
+        currentPriceTd.className = "column-3";
         currentPriceTd.innerHTML = products[k].currentPrice + " Ft";
         tr.appendChild(currentPriceTd);
 
         let quantityTd = document.createElement("td");
-        quantityTd.className = "quantity-field";
-        quantityTd.id = "quantityField" + "Row" + k;
-        quantityTd.innerHTML = products[k].quantity + " db";
-        quantityTd.value = products[k].quantity;
-        quantityTd.addEventListener("click", function () {
-            modifyQuantity(k, products[k].id, products[k].quantity, quantityTd.id);
-        });
-        tr.appendChild(quantityTd);
+        quantityTd.className = "column-4";
+        let quantityDiv = document.createElement("div");
+        quantityDiv.className = "flex-w bo5 of-hidden w-size17";
 
-        let sumButton = document.createElement("button");
-        sumButton.classList.add("btn", "btn-info", "sumSubButtons", "sumButtons");
-        sumButton.id = "sumButton" + "Row" + k;
-        sumButton.innerHTML = "+";
-        sumButton.addEventListener("click", function () {
-            increaseQuantityByOne(k, products[k].id, products[k].quantity);
-        });
-        tr.appendChild(sumButton);
-
-        let subButton = document.createElement("button");
-        subButton.classList.add("btn", "btn-info", "sumSubButtons", "subButtons");
-        subButton.id = "subButton" + "Row" + k;
-        subButton.innerHTML = "-";
-        subButton.addEventListener("click",
+        let minusButton = document.createElement("button");
+        minusButton.className = "btn-num-product-down color1 flex-c-m size7 bg8 eff2";
+        let minusIcon = document.createElement("i");
+        minusIcon.className = "fs-12 fa fa-minus";
+        minusButton.id = "subButton" + "Row" + k;
+        minusButton.addEventListener("click",
             function () {
                 decreaseQuantityByOne(k, products[k].id, products[k].quantity);
             });
-        tr.appendChild(subButton);
+        minusButton.appendChild(minusIcon);
 
-        deleteButton = document.createElement("input");
-        deleteButton.setAttribute("type", "reset");
-        deleteButton.setAttribute("id", "deleteButton" + "Id" + products[k].id);
-        deleteButton.setAttribute("name", "deleteButton" + "Row" + k);
-        deleteButton.setAttribute("class", "btn btn-danger resetProductButtons")
-        deleteButton.setAttribute("value", "Törlés");
-        deleteButton.onclick = clickingOnResetProductButtons;
+        let quantityInput = document.createElement("input");
+        quantityInput.className = "size8 m-text18 t-center num-product";
+        quantityInput.type = "number";
+        quantityInput.name = "num-product" + k;
+        quantityInput.value = products[k].quantity;
 
-        totalPrice += products[k].currentPrice * products[k].quantity;
-        tr.appendChild(deleteButton);
+        let plusButton = document.createElement("button");
+        plusButton.className = "btn-num-product-up color1 flex-c-m size7 bg8 eff2";
+        let plusIcon = document.createElement("i");
+        plusIcon.className = "fs-12 fa fa-plus";
+        plusButton.id = "sumButton" + "Row" + k;
+        plusButton.addEventListener("click", function () {
+            increaseQuantityByOne(k, products[k].id, products[k].quantity);
+        });
+        plusButton.appendChild(plusIcon);
+
+        quantityDiv.appendChild(minusButton);
+        quantityDiv.appendChild(quantityInput);
+        quantityDiv.appendChild(plusButton);
+        quantityTd.appendChild(quantityDiv);
+        tr.appendChild(quantityTd);
+
+
+        //        deleteButton = document.createElement("input");
+        //        deleteButton.setAttribute("type", "reset");
+        //        deleteButton.setAttribute("id", "deleteButton" + "Id" + products[k].id);
+        //        deleteButton.setAttribute("name", "deleteButton" + "Row" + k);
+        //        deleteButton.setAttribute("class", "btn btn-danger resetProductButtons")
+        //        deleteButton.setAttribute("value", "Törlés");
+        //        deleteButton.onclick = clickingOnResetProductButtons;
+
+
+        let totalPriceTd = document.createElement("td");
+        totalPriceTd.className = "column-5";
+        totalPriceTd.innerHTML = products[k].currentPrice * products[k].quantity + " Ft";
+        tr.appendChild(totalPriceTd);
+
+        //        totalPrice += products[k].currentPrice * products[k].quantity;
+        //        tr.appendChild(deleteButton);
         tbody.appendChild(tr);
     }
-    let sumParagraph = document.querySelector("#totalPrice");
-    sumParagraph.innerHTML = "A kosár tartalmának ára összesen : " + totalPrice + " Ft";
-
-    let orderButton = document.querySelector("#order-button");
-    orderButton.disabled = products.length === 0;;
-
-    let resetButton = document.querySelector("#reset-button");
-    resetButton.disabled = products.length === 0;
+    //    let sumParagraph = document.querySelector("#totalPrice");
+    //    sumParagraph.innerHTML = "A kosár tartalmának ára összesen : " + totalPrice + " Ft";
+    //
+    //    let orderButton = document.querySelector("#order-button");
+    //    orderButton.disabled = products.length === 0;;
+    //
+    //    let resetButton = document.querySelector("#reset-button");
+    //    resetButton.disabled = products.length === 0;
 }
 
 function clickingOnResetProductButtons(clickEvent) {
     let deleteButtonId = this.getAttribute("id");
     let productId = parseInt(deleteButtonId.substring(deleteButtonId.indexOf("Id") + 2));
-    console.log(productId);
     let url = "api/basket/" + productId;
     if (confirm("Biztos szeretné törölni ezt az elemet a kosárból?")) {
         fetch(url, {
