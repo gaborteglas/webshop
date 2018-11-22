@@ -215,7 +215,7 @@ function increaseQuantityByOne(rowNumber, productId, quantity) {
 function decreaseQuantityByOne(rowNumber, productId, quantity) {
     if (quantity - 1 < 1) {
         let inputName = "deleteButtonRow" + rowNumber;
-        document.querySelector(`input[name=${inputName}]`).click();
+        document.querySelector(`div[name=${inputName}]`).click();
         return;
     } else {
         decreaseQuantityInSQL(productId, quantity);
