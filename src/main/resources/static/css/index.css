@@ -45,6 +45,11 @@ color: #FFCA00 !important;
 color: white !important;
 }
 
+.slide-size {
+font-size: 18px;
+font-weight: 450;
+}
+
 .book-image {
     width:125px;
     height:200px;
