@@ -3,7 +3,7 @@ window.onload = function () {
     getCategories();
 };
 
-function getCategories(){
+function getCategories() {
     fetch("/api/categories")
         .then(function (response) {
             return response.json();
@@ -13,25 +13,35 @@ function getCategories(){
         });
 }
 
-function fillSelectWithCategories(categories){
-    let select = document.querySelector("#category-selector");
-            let allOption = document.createElement("option");
-            allOption.innerHTML = "Összes";
-            select.appendChild(allOption);
-    for(i in categories){
-        let option = document.createElement("option");
-        option.innerHTML = categories[i].name;
-        option.setAttribute("value",categories[i].id)
-        select.appendChild(option);
-        }
-    select.addEventListener("change", function () { updateTable(this.value) })
+function fillSelectWithCategories(categories) {
+    let categoryList = document.querySelector("#category-list");
+    let allOptionListElement = document.createElement("li");
+    allOptionListElement.className = "p-t-4";
+    allOptionListElementAnchor = document.createElement("a");
+    allOptionListElementAnchor.className = "s-text13 active1";
+    allOptionListElementAnchor.innerHTML = "Összes";
+    allOptionListElementAnchor.href = "#";
+    allOptionListElement.appendChild(allOptionListElementAnchor);
+    categoryList.appendChild(allOptionListElement);
+
+    for (i in categories) {
+        let option = document.createElement("li");
+        option.className = "p-t-4";
+        optionListElementAnchor = document.createElement("a");
+        optionListElementAnchor.className = "s-text13";
+        optionListElementAnchor.innerHTML = categories[i].name;
+        optionListElementAnchor.href = "#";
+        option.appendChild(optionListElementAnchor);
+        categoryList.appendChild(option);
+    }
+    //    select.addEventListener("change", function () { updateTable(this.value) })
 }
 
 function updateTable(categoryId) {
     let url = "";
-    if(categoryId === undefined || categoryId === "Összes"){
+    if (categoryId === undefined || categoryId === "Összes") {
         url = "api/products";
-        } else {
+    } else {
         url = "api/products/category/" + categoryId;
     }
     fetch(url)
@@ -50,37 +60,37 @@ function fillTable(products) {
     let value = categorySelector.value;
     for (let i = 0; i < products.length; i++) {
         let product = products[i];
-            let tr = document.createElement("tr");
-            tr.className = "clickable-row";
-            tr["raw-data"] = product;
+        let tr = document.createElement("tr");
+        tr.className = "clickable-row";
+        tr["raw-data"] = product;
 
-            let idTd = document.createElement("td");
-            idTd.innerHTML = product.id;
-            tr.appendChild(idTd);
+        let idTd = document.createElement("td");
+        idTd.innerHTML = product.id;
+        tr.appendChild(idTd);
 
-            let nameTd = document.createElement("td");
-            nameTd.innerHTML = product.name;
-            tr.appendChild(nameTd);
+        let nameTd = document.createElement("td");
+        nameTd.innerHTML = product.name;
+        tr.appendChild(nameTd);
 
-            let addressTd = document.createElement("td");
-            addressTd.innerHTML = product.address;
-            tr.appendChild(addressTd);
+        let addressTd = document.createElement("td");
+        addressTd.innerHTML = product.address;
+        tr.appendChild(addressTd);
 
-            let producerTd = document.createElement("td");
-            producerTd.innerHTML = product.producer;
-            tr.appendChild(producerTd);
+        let producerTd = document.createElement("td");
+        producerTd.innerHTML = product.producer;
+        tr.appendChild(producerTd);
 
-            let priceTd = document.createElement("td");
-            priceTd.innerHTML = product.currentPrice + " Ft";
-            tr.appendChild(priceTd);
+        let priceTd = document.createElement("td");
+        priceTd.innerHTML = product.currentPrice + " Ft";
+        tr.appendChild(priceTd);
 
-            let categoryTd = document.createElement("td");
-            categoryTd.innerHTML = product.category.name;
-            tr.appendChild(categoryTd);
+        let categoryTd = document.createElement("td");
+        categoryTd.innerHTML = product.category.name;
+        tr.appendChild(categoryTd);
 
-            tr.onclick = function () {
-                window.location = "/product.html?address=" + product.address;
-            }
-            tbody.appendChild(tr);
+        tr.onclick = function () {
+            window.location = "/product.html?address=" + product.address;
+        }
+        tbody.appendChild(tr);
     }
 }
