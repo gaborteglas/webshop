@@ -3578,6 +3578,11 @@ SHAPE SHAPE SHAPE SHAPE SHAPE SHAPE SHAPE SHAPE SHAPE SHAPE
 	height: 100%;
 }
 
+.size25{
+	max-width: 100%;
+	height: 40px;
+}
+
 /*[ Width Size ]
 ///////////////////////////////////////////////////////////
 */

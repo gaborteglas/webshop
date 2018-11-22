@@ -1,16 +1,19 @@
-window.onload = function () {
-    updateTable();
-    //    getAddressesForUser();
+window.addEventListener('load', updateTable());
+window.addEventListener('load', getAddressesForUser());
+window.addEventListener('load', activateCartResetButton());
+window.addEventListener('load', addressValidatorStarter);
+
+function addressValidatorStarter() {
     //    let resetButton = document.querySelector("#reset-button");
     //    resetButton.onclick = handleResetButton;
-    //    let orderButton = document.querySelector("#order-button");
-    //    orderButton.onclick = handleOrderButton;
-    //    let zipCodeField = document.querySelector("#zip-code-field");
-    //    zipCodeField.addEventListener("focusout", zipCodeValidator);
-    //    let cityField = document.querySelector("#city-field");
-    //    cityField.addEventListener("focusout", cityValidator);
-    //    let streetField = document.querySelector("#street-field");
-    //    streetField.addEventListener("focusout", streetValidator);
+    let orderButton = document.querySelector("#order-button");
+    orderButton.onclick = handleOrderButton;
+    let zipCodeField = document.querySelector("#zip-code-field");
+    zipCodeField.addEventListener("focusout", zipCodeValidator);
+    let cityField = document.querySelector("#city-field");
+    cityField.addEventListener("focusout", cityValidator);
+    let streetField = document.querySelector("#street-field");
+    streetField.addEventListener("focusout", streetValidator);
 };
 
 function updateTable() {
@@ -103,16 +106,6 @@ function fillTable(products) {
         quantityTd.appendChild(quantityDiv);
         tr.appendChild(quantityTd);
 
-
-        //        deleteButton = document.createElement("input");
-        //        deleteButton.setAttribute("type", "reset");
-        //        deleteButton.setAttribute("id", "deleteButton" + "Id" + products[k].id);
-        //        deleteButton.setAttribute("name", "deleteButton" + "Row" + k);
-        //        deleteButton.setAttribute("class", "btn btn-danger resetProductButtons")
-        //        deleteButton.setAttribute("value", "Törlés");
-        //        deleteButton.onclick = clickingOnResetProductButtons;
-
-
         let totalPriceTd = document.createElement("td");
         totalPriceTd.className = "column-5";
         totalPriceTd.innerHTML = products[k].currentPrice * products[k].quantity + " Ft";
@@ -124,12 +117,12 @@ function fillTable(products) {
     }
     //    let sumParagraph = document.querySelector("#totalPrice");
     //    sumParagraph.innerHTML = "A kosár tartalmának ára összesen : " + totalPrice + " Ft";
-    //
-    //    let orderButton = document.querySelector("#order-button");
-    //    orderButton.disabled = products.length === 0;;
-    //
-    //    let resetButton = document.querySelector("#reset-button");
-    //    resetButton.disabled = products.length === 0;
+
+    let orderButton = document.querySelector("#order-button");
+    orderButton.disabled = products.length === 0;;
+
+    //        let resetButton = document.querySelector("#reset-button");
+    //        resetButton.disabled = products.length === 0;
 }
 
 function clickingOnResetProductButtons(clickEvent) {
@@ -163,11 +156,13 @@ function fillSelectWithAddresses(addresses) {
         option.setAttribute("value", addresses[i])
         select.appendChild(option);
     }
-    select.addEventListener("change", function () { fillDeliveryAddress(this.value) })
+    select.addEventListener("change", function () {
+        alert(this.value);
+    }, false);
 }
 
 function fillDeliveryAddress(address) {
-
+    alert(address);
     let splittedAddressArray = address.split(" ");
     let zipCodeValue = splittedAddressArray[0];
     let splittedAddressWithoutZipCode = splittedAddressArray.splice(1).join(" ");
@@ -267,7 +262,7 @@ function modifyQuantityInInput(event, rowNumber, productId, quantityTdId, quanti
 
 function zipCodeValidator() {
     let zipCode = document.querySelector("#zip-code-field").value;
-    let zipCodeDiv = document.querySelector(".zip-code-div");
+    let zipCodeDiv = document.querySelector("#zip-code-div");
     let zipCodeField = document.querySelector("#zip-code-field");
     if (zipCode === "") {
         zipCodeField.classList.remove("is-valid");
@@ -286,7 +281,7 @@ function zipCodeValidator() {
 
 function cityValidator() {
     let city = document.querySelector("#city-field").value;
-    let cityDiv = document.querySelector(".city-div");
+    let cityDiv = document.querySelector("#city-div");
     let cityField = document.querySelector("#city-field");
     if (city === "") {
         cityField.classList.remove("is-valid");
@@ -305,7 +300,7 @@ function cityValidator() {
 
 function streetValidator() {
     let street = document.querySelector("#street-field").value.trim();
-    let streetDiv = document.querySelector(".street-div");
+    let streetDiv = document.querySelector("#street-div");
     let streetField = document.querySelector("#street-field");
     if (street === "") {
         streetField.classList.remove("is-valid");
