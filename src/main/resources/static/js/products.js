@@ -83,7 +83,7 @@ function fillTable(products) {
          let textHolder = document.createElement("div");
          textHolder.className = "block2-txt p-t-20";
          let textHolderAnchor = document.createElement("a");
-         textHolderAnchor.href = "product-detail.html";
+         textHolderAnchor.href = "/product.html?address=" + product.address;
          textHolderAnchor.className = "block2-name dis-block s-text3 p-b-5";
          textHolderAnchor.innerHTML = product.producer + " - " + product.name;
          let priceSpan = document.createElement("span");
@@ -100,11 +100,5 @@ function fillTable(products) {
          block.appendChild(textHolder);
          productDiv.appendChild(block);
          productContainer.appendChild(productDiv);
-
-
-
-//        tr.onclick = function () {
-//            window.location = "/product.html?address=" + product.address;
-//        }
     }
 }
