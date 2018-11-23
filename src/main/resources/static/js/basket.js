@@ -1,13 +1,15 @@
 window.addEventListener('load', updateTable());
 window.addEventListener('load', getAddressesForUser());
 window.addEventListener('load', activateCartResetButton());
+window.addEventListener('load', activateCartOrderButton());
 window.addEventListener('load', addressValidatorStarter);
 
-function addressValidatorStarter() {
-    //    let resetButton = document.querySelector("#reset-button");
-    //    resetButton.onclick = handleResetButton;
+function activateCartOrderButton() {
     let orderButton = document.querySelector("#order-button");
     orderButton.onclick = handleOrderButton;
+}
+
+function addressValidatorStarter() {
     let zipCodeField = document.querySelector("#zip-code-field");
     zipCodeField.addEventListener("focusout", zipCodeValidator);
     let cityField = document.querySelector("#city-field");
@@ -89,6 +91,13 @@ function fillTable(products) {
         quantityInput.type = "number";
         quantityInput.name = "num-product" + k;
         quantityInput.value = products[k].quantity;
+        quantityInput.addEventListener("keydown", function (event) {
+            modifyQuantityInInput(event.key, products[k].quantity, products[k].id, this);
+        });
+        quantityInput.addEventListener("focusout", function (event) {
+            modifyQuantityInInput("Enter", products[k].quantity, products[k].id, this);
+        }
+        );
 
         let plusButton = document.createElement("button");
         plusButton.className = "btn-num-product-up color1 flex-c-m size7 bg8 eff2";
@@ -111,16 +120,13 @@ function fillTable(products) {
         totalPriceTd.innerHTML = (products[k].currentPrice * products[k].quantity).toLocaleString() + " Ft";
         tr.appendChild(totalPriceTd);
 
-                totalPrice += products[k].currentPrice * products[k].quantity;
+        totalPrice += products[k].currentPrice * products[k].quantity;
         tbody.appendChild(tr);
     }
     document.querySelector("#total-price-span").innerHTML = totalPrice.toLocaleString() + " Ft";
 
     let orderButton = document.querySelector("#order-button");
     orderButton.disabled = products.length === 0;
-
-    //        let resetButton = document.querySelector("#reset-button");
-    //        resetButton.disabled = products.length === 0;
 }
 
 function clickingOnResetProductButtons(clickEvent) {
@@ -154,8 +160,8 @@ function fillSelectWithAddresses(addresses) {
         option.setAttribute("value", addresses[i])
         select.appendChild(option);
     }
-    select.onchange = function(){
-    fillDeliveryAddress(this.value);
+    select.onchange = function () {
+        fillDeliveryAddress(this.value);
     };
 }
 
@@ -195,16 +201,6 @@ function decreaseQuantityInSQL(productId, quantity) {
     }).then(responseJson => updateTable())
 }
 
-function handleResetButton() {
-    if (confirm("Biztos hogy üríteni szeretné a kosár tartalmát?")) {
-        fetch("api/basket/", {
-            method: "DELETE"
-        }).then(function (response) {
-            return response.json()
-        }).then(responseJson => updateTable())
-    }
-}
-
 function increaseQuantityByOne(rowNumber, productId, quantity) {
     increaseQuantityInSQL(productId, quantity);
 }
@@ -219,36 +215,19 @@ function decreaseQuantityByOne(rowNumber, productId, quantity) {
     }
 }
 
-function modifyQuantity(rowNumber, productId, quantity, quantityTdId) {
-    let quantityTd = document.querySelector(`#${quantityTdId}`);
-    let newQuantityTd = document.createElement("td");
-    inputFieldForQuantity = document.createElement("input");
-    inputFieldForQuantity.setAttribute("type", "number");
-    inputFieldForQuantity.style.width = "50px";
-    inputFieldForQuantity.id = "input" + quantityTdId;
-    inputFieldForQuantity.value = quantityTd.value;
-    inputFieldForQuantity.addEventListener("keydown", function (event) {
-        modifyQuantityInInput(event, rowNumber, productId, quantityTdId, quantity);
-    }
-    );
-    newQuantityTd.appendChild(inputFieldForQuantity);
-    quantityTd.parentNode.replaceChild(newQuantityTd, quantityTd);
-}
-
-function modifyQuantityInInput(event, rowNumber, productId, quantityTdId, quantity) {
-    let inputField = document.querySelector(`#input${quantityTdId}`);
-    if (event.key === "Enter") {
-        var newQuantity = inputField.value;
+function modifyQuantityInInput(eventKey, oldQuantity, productId, quantityInput) {
+    if (eventKey === "Enter") {
+        var newQuantity = quantityInput.value;
         if (newQuantity > 0) {
-            let url = "api/basket/" + productId + "/" + quantity + "/" + newQuantity;
+            let url = "api/basket/" + productId + "/" + oldQuantity + "/" + newQuantity;
             fetch(url, {
                 method: "POST"
             }).then(function (response) {
                 return response.json();
             }).then(responseJson => updateTable())
-        }
-    } else if (event.key === "Escape") {
-        let url = "api/basket/" + productId + "/" + quantity + "/" + quantity;
+        }  modifyQuantityInInput("Escape", oldQuantity, productId, quantityInput);
+    } else if (eventKey === "Escape") {
+        let url = "api/basket/" + productId + "/" + oldQuantity + "/" + newQuantity;
         fetch(url, {
             method: "POST"
         }).then(function (response) {
