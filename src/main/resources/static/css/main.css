@@ -2367,4 +2367,8 @@ input.num-product::-webkit-inner-spin-button {
     padding-right: 15px;
 }
 
+div.header-wrapicon2.disabled {
+   pointer-events: none;
+   cursor: default;
+}
 

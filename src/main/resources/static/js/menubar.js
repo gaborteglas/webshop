@@ -63,6 +63,8 @@ function showForUser() {
     menuToShowIndexUser.style.display = "block";
     let menuToShowProfileForUser = document.getElementById("to-hide-profile");
     menuToShowProfileForUser.style.display = "block";
+    let basketIcon = document.querySelector(".header-wrapicon2");
+    basketIcon.classList.remove("disabled");
 
 }
 
@@ -93,6 +95,8 @@ function showForAdmin() {
     menuToHideIndexAdmin.style.display = "none";
     let menuToShowProfileForUser = document.getElementById("to-hide-profile");
     menuToShowProfileForUser.style.display = "none";
+    let basketIcon = document.querySelector(".header-wrapicon2");
+    basketIcon.classList.remove("disabled");
 }
 
 function showForUnregistered() {
@@ -122,6 +126,8 @@ function showForUnregistered() {
     menuToShowIndexUnreg.style.display = "block";
     let menuToShowProfileForUser = document.getElementById("to-hide-profile");
     menuToShowProfileForUser.style.display = "none";
+    let basketIcon = document.querySelector(".header-wrapicon2");
+    basketIcon.classList.add("disabled");
 }
 
 function updateCart() {
