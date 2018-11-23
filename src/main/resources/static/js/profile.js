@@ -8,9 +8,10 @@ function getUserDatas() {
             return response.json();
         })
         .then(function (userData) {
-            let submitButton = document.querySelector("#submit-button");
-            submitButton.addEventListener("click", function () { updateDatas(userData)})
+            let userForm = document.querySelector("#user-form");
+            userForm.onsubmit = function () { updateDatas(userData); return false;}
         });
+
 }
 
 function updateDatas(userData){
@@ -46,7 +47,8 @@ function updateDatas(userData){
             return response.json()
         }).then(function(response) {
             alert(response.message);
-            location.reload();
+            setUserName();
+            document.getElementById("user-form").reset();
         });
-        return false;
+
 }
