@@ -72,6 +72,9 @@ function fillTable(product){
     imageDiv.appendChild(imageTag);
 
     creatingFeedbackFields(feedbackList);
+
+    let categoryHrefDiv = document.getElementById("category-href");
+    categoryHrefDiv.innerHTML = categoryName;
 }
 
 function creatingHeaderNull(){
