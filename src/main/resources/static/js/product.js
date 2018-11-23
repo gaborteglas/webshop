@@ -38,10 +38,10 @@ function fillTable(product){
     let name = product.name;
     let id = product.id;
     let address = product.address;
-//    let producer = product.producer;
+    let producer = product.producer;
     let currentPrice = product.currentPrice;
     let categoryName = product.category.name;
-//    let feedbackList = product.feedbacks;
+    let feedbackList = product.feedbacks;
 //    let average = product.averageScore;
     let image = product.image;
 
@@ -51,8 +51,8 @@ function fillTable(product){
     nameH4.innerHTML = name;
     let idSpan = document.getElementById("product-id");
     idSpan.innerHTML = "Id: " + id;
-//    let producerDiv = document.getElementById("product-author");
-//    producerDiv.innerHTML = producer;
+    let producerH5 = document.getElementById("product-producer-h5");
+    producerH5.innerHTML = producer;
     let priceSpan = document.getElementById("price-span");
     priceSpan.innerHTML = currentPrice + " Ft";
     let categorySpan = document.getElementById("product-category");
@@ -71,7 +71,7 @@ function fillTable(product){
     imageTag.alt = "IMG-PRODUCT";
     imageDiv.appendChild(imageTag);
 
-//    creatingFeedbackFields(feedbackList);
+    creatingFeedbackFields(feedbackList);
 }
 
 function creatingHeaderNull(){
@@ -87,78 +87,95 @@ function creatingHeaderNull(){
 
 function creatingFeedbackFields(feedbackList) {
 
-    let ratingsDiv = document.querySelector(".product-ratings");
-    ratingsDiv.innerHTML = "";
-    if (feedbackList.length > 0) {
-        let title = document.createElement("h5");
-        title.innerHTML = "Vásárlói értékelések:"
-        ratingsDiv.appendChild(title);
-    }
+    let reviewCount = document.querySelector("#reviews-count");
+    reviewCount.innerHTML = "Értékelések (" + feedbackList.length + ")";
+    let reviewDiv = document.querySelector("#single-review");
+
+//    let ratingsDiv = document.querySelector(".product-ratings");
+//    ratingsDiv.innerHTML = "";
+//    if (feedbackList.length > 0) {
+//        let title = document.createElement("h5");
+//        title.innerHTML = "Vásárlói értékelések:"
+//        ratingsDiv.appendChild(title);
+//    }
     for (let i = 0; i < feedbackList.length; i++) {
-        let feedbackDiv = document.createElement("div");
-        feedbackDiv.setAttribute("id", "one-feedback-div");
-        feedbackDiv["raw-data"] = feedbackList[i];
-
-        let leftDiv = document.createElement("div");
-        leftDiv.setAttribute("id", "left-div");
-
-        let userNameTag = document.createElement("h5");
-        userNameTag.setAttribute("id", "feedback-username")
-        userNameTag.innerHTML = feedbackList[i].user.loginName;
-        leftDiv.appendChild(userNameTag);
-
-        let feedbackDate = document.createElement("p");
-        feedbackDate.setAttribute("id", "feedback-date");
-        feedbackDate.innerHTML = new Date(feedbackList[i].ratingDate).toLocaleString();
-        leftDiv.appendChild(feedbackDate);
-
-        let middleDiv = document.createElement("div");
-        middleDiv.setAttribute("id", "middle-div");
-
-        let ratingStarDiv = document.createElement("div");
-        ratingStarDiv.setAttribute("class", "rating-star-div");
-        for (let j = 0; j < feedbackList[i].ratingScore; j++) {
-            let star = document.createElement("div");
-            star.setAttribute("class", "star");
-            star.setAttribute("style", "background: url(\"/img/star-solid-yellow.svg\") no-repeat;");
-            ratingStarDiv.appendChild(star);
-        }
-        middleDiv.appendChild(ratingStarDiv);
-        middleDiv.appendChild(document.createElement("br"));
-
-        let feedback = feedbackList[i].ratingText;
-        feedback = feedback.replace(new RegExp("&", "g"), "&amp;");
-        feedback = feedback.replace(new RegExp("<", "g"), "&lt;");
-        feedback = feedback.replace(new RegExp(">", "g"), "&gt;");
-        feedback = feedback.replace(new RegExp("\"", "g"), "&quot;");
-        feedback = feedback.replace(new RegExp("'", "g"), "&apos");
-        let feedbackText = document.createElement("p");
-        feedbackText.setAttribute("id", "feedback-text");
-        feedbackText.innerHTML = feedback;
-        middleDiv.appendChild(feedbackText);
-
-        let rightDiv = document.createElement("div");
-        rightDiv.setAttribute("id", "right-div");
-
-        if(feedbackList[i].canEditOrDelete === true) {
-            let editButton = document.createElement("button");
-            editButton.setAttribute("id", "edit-button");
-            editButton.setAttribute("class", "btn btn-secondary");
-            editButton.innerHTML = "Szerkesztés";
-            editButton.onclick = handleRatingModifyButtonClick;
-            let deleteButton = document.createElement("button");
-            deleteButton.setAttribute("id", "delete-button");
-            deleteButton.setAttribute("class", "btn btn-danger");
-            deleteButton.innerHTML = "Törlés";
-            deleteButton.onclick = handleRatingDelete;
-            rightDiv.appendChild(editButton);
-            rightDiv.appendChild(deleteButton);
-        }
-        feedbackDiv.appendChild(leftDiv);
-        feedbackDiv.appendChild(middleDiv)
-        feedbackDiv.appendChild(rightDiv);
-        ratingsDiv.appendChild(feedbackDiv);
+    let reviewDate = document.createElement("p");
+    reviewDate.className = "s-text8";
+    reviewDate.innerHTML = new Date(feedbackList[i].ratingDate).toLocaleString();
+    let reviewText = document.createElement("p");
+        reviewText.className = "s-text8";
+        reviewText.innerHTML = feedbackList[i].ratingText;
+        let reviewAuthor = document.createElement("p");
+            reviewAuthor.className = "s-text8";
+            reviewAuthor.innerHTML = feedbackList[i].user.loginName;
+            reviewDiv.appendChild(reviewDate);
+            reviewDiv.appendChild(reviewText);
+            reviewDiv.appendChild(reviewAuthor);
     }
+//        let feedbackDiv = document.createElement("div");
+//        feedbackDiv.setAttribute("id", "one-feedback-div");
+//        feedbackDiv["raw-data"] = feedbackList[i];
+//
+//        let leftDiv = document.createElement("div");
+//        leftDiv.setAttribute("id", "left-div");
+//
+//        let userNameTag = document.createElement("h5");
+//        userNameTag.setAttribute("id", "feedback-username")
+//        userNameTag.innerHTML = feedbackList[i].user.loginName;
+//        leftDiv.appendChild(userNameTag);
+//
+//        let feedbackDate = document.createElement("p");
+//        feedbackDate.setAttribute("id", "feedback-date");
+//        feedbackDate.innerHTML = new Date(feedbackList[i].ratingDate).toLocaleString();
+//        leftDiv.appendChild(feedbackDate);
+//
+//        let middleDiv = document.createElement("div");
+//        middleDiv.setAttribute("id", "middle-div");
+//
+//        let ratingStarDiv = document.createElement("div");
+//        ratingStarDiv.setAttribute("class", "rating-star-div");
+//        for (let j = 0; j < feedbackList[i].ratingScore; j++) {
+//            let star = document.createElement("div");
+//            star.setAttribute("class", "star");
+//            star.setAttribute("style", "background: url(\"/img/star-solid-yellow.svg\") no-repeat;");
+//            ratingStarDiv.appendChild(star);
+//        }
+//        middleDiv.appendChild(ratingStarDiv);
+//        middleDiv.appendChild(document.createElement("br"));
+//
+//        let feedback = feedbackList[i].ratingText;
+//        feedback = feedback.replace(new RegExp("&", "g"), "&amp;");
+//        feedback = feedback.replace(new RegExp("<", "g"), "&lt;");
+//        feedback = feedback.replace(new RegExp(">", "g"), "&gt;");
+//        feedback = feedback.replace(new RegExp("\"", "g"), "&quot;");
+//        feedback = feedback.replace(new RegExp("'", "g"), "&apos");
+//        let feedbackText = document.createElement("p");
+//        feedbackText.setAttribute("id", "feedback-text");
+//        feedbackText.innerHTML = feedback;
+//        middleDiv.appendChild(feedbackText);
+//
+//        let rightDiv = document.createElement("div");
+//        rightDiv.setAttribute("id", "right-div");
+//
+//        if(feedbackList[i].canEditOrDelete === true) {
+//            let editButton = document.createElement("button");
+//            editButton.setAttribute("id", "edit-button");
+//            editButton.setAttribute("class", "btn btn-secondary");
+//            editButton.innerHTML = "Szerkesztés";
+//            editButton.onclick = handleRatingModifyButtonClick;
+//            let deleteButton = document.createElement("button");
+//            deleteButton.setAttribute("id", "delete-button");
+//            deleteButton.setAttribute("class", "btn btn-danger");
+//            deleteButton.innerHTML = "Törlés";
+//            deleteButton.onclick = handleRatingDelete;
+//            rightDiv.appendChild(editButton);
+//            rightDiv.appendChild(deleteButton);
+//        }
+//        feedbackDiv.appendChild(leftDiv);
+//        feedbackDiv.appendChild(middleDiv)
+//        feedbackDiv.appendChild(rightDiv);
+//        ratingsDiv.appendChild(feedbackDiv);
+//    }
 }
 
 function showBasketButton() {
@@ -179,18 +196,18 @@ function showBasketButton() {
 
 function switchBasketButton() {
     let button = document.getElementById("puttobasket");
-    button.setAttribute("style","display:block");
+    button.setAttribute("style","visibility:visible");
 
     let input = document.getElementById("quantity");
-    input.setAttribute("style","display:block");
+    input.setAttribute("style","visibility:visible");
 }
 
 function hideBasketButton() {
    let button1 = document.getElementById("puttobasket");
-   button1.style.display = "none";
+   button1.style.visibility = "hidden";
 
    let input = document.getElementById("quantity");
-   input.style.display = "none";
+   input.style.visibility = "hidden";
 }
 
 function handleRatingSubmit() {
