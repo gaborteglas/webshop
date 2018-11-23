@@ -2079,21 +2079,38 @@ li.sale-noti > a {
 .table-shopping-cart .column-1 {
   width: 225px;
   padding-left: 50px;
+	padding-right: 15px;
 }
 .table-shopping-cart .column-2 {
-  width: 330px;
-  padding-right: 30px;
+  width: 150px;
+  padding-right: 15px;
+text-align: center;
 }
 .table-shopping-cart .column-3 {
-  width: 133px;
+  width: 330px;
   padding-right: 30px;
+text-align: center;
 }
 .table-shopping-cart .column-4 {
-  width: 355px;
+  width: 330px;
   padding-right: 30px;
+text-align: center;
 }
 .table-shopping-cart .column-5 {
+	width: 150px;
   padding-right: 30px;
+text-align: center;
+}
+.table-shopping-cart .column-6 {
+padding-right: 30px;
+    width: 300px;
+    padding-left: 0px;
+    text-align: -webkit-center
+}
+.table-shopping-cart .column-7 {
+	width: 150px;
+  padding-right: 30px;
+text-align: center;
 }
 
 .table-shopping-cart .table-head th {

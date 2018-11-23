@@ -54,22 +54,22 @@ function fillTable(products) {
         tr.appendChild(idTd);
 
         let nameTd = document.createElement("td");
-        nameTd.className = "column-2";
+        nameTd.className = "column-3";
         nameTd.innerHTML = products[k].name;
         tr.appendChild(nameTd);
 
         let producerTd = document.createElement("td");
-        producerTd.className = "column-2";
+        producerTd.className = "column-4";
         producerTd.innerHTML = products[k].producer;
         tr.appendChild(producerTd);
 
         let currentPriceTd = document.createElement("td");
-        currentPriceTd.className = "column-3";
+        currentPriceTd.className = "column-5";
         currentPriceTd.innerHTML = products[k].currentPrice + " Ft";
         tr.appendChild(currentPriceTd);
 
         let quantityTd = document.createElement("td");
-        quantityTd.className = "column-4";
+        quantityTd.className = "column-6";
         let quantityDiv = document.createElement("div");
         quantityDiv.className = "flex-w bo5 of-hidden w-size17";
 
@@ -107,7 +107,7 @@ function fillTable(products) {
         tr.appendChild(quantityTd);
 
         let totalPriceTd = document.createElement("td");
-        totalPriceTd.className = "column-5";
+        totalPriceTd.className = "column-7";
         totalPriceTd.innerHTML = products[k].currentPrice * products[k].quantity + " Ft";
         tr.appendChild(totalPriceTd);
 
