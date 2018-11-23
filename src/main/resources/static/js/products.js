@@ -20,7 +20,7 @@ function fillSelectWithCategories(categories) {
     allOptionListElementAnchor = document.createElement("a");
     allOptionListElementAnchor.className = "s-text13 active1";
     allOptionListElementAnchor.innerHTML = "Összes";
-    allOptionListElementAnchor.href = "#";
+    allOptionListElementAnchor.addEventListener("click", function(){updateTable()}, false);
     allOptionListElement.appendChild(allOptionListElementAnchor);
     categoryList.appendChild(allOptionListElement);
 
@@ -30,7 +30,8 @@ function fillSelectWithCategories(categories) {
         optionListElementAnchor = document.createElement("a");
         optionListElementAnchor.className = "s-text13";
         optionListElementAnchor.innerHTML = categories[i].name;
-        optionListElementAnchor.href = "#";
+        let catId = categories[i].id;
+        option.onclick = function(){updateTable(catId)}
         option.appendChild(optionListElementAnchor);
         categoryList.appendChild(option);
     }
@@ -55,6 +56,7 @@ function updateTable(categoryId) {
 
 function fillTable(products) {
     let productContainer = document.getElementById("product-container");
+    productContainer.innerHTML = "";
     //törölni while-lal
     //    let categorySelector = document.querySelector("#category-selector");
     //    let value = categorySelector.value;
