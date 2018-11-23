@@ -163,7 +163,7 @@ function fillCart(products) {
 
         let price = document.createElement("span");
         price.className = "header-cart-item-info";
-        price.innerHTML = products[k].quantity + " x " + products[k].currentPrice + " Ft";
+        price.innerHTML = products[k].quantity + " x " + products[k].currentPrice.toLocaleString() + " Ft";
 
         textHolderDiv.appendChild(anchor);
         textHolderDiv.appendChild(price);
@@ -176,7 +176,7 @@ function fillCart(products) {
         totalQuantity += products[k].quantity;
     }
     cartQuantity.innerHTML = totalQuantity;
-    totalPriceField.innerHTML = "Összesen: " + totalPrice + " Ft";
+    totalPriceField.innerHTML = "Összesen: " + totalPrice.toLocaleString() + " Ft";
 }
 
 function emptyCartVisually() {

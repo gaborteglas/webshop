@@ -55,7 +55,7 @@ function fillTable(product) {
     let producerH5 = document.getElementById("product-producer-h5");
     producerH5.innerHTML = producer;
     let priceSpan = document.getElementById("price-span");
-    priceSpan.innerHTML = currentPrice + " Ft";
+    priceSpan.innerHTML = currentPrice.toLocaleString() + " Ft";
     let categorySpan = document.getElementById("product-category");
     categorySpan.innerHTML = "Kategória: " + categoryName;
     let addressSpan = document.getElementById("product-address");

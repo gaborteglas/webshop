@@ -65,7 +65,7 @@ function fillTable(products) {
 
         let currentPriceTd = document.createElement("td");
         currentPriceTd.className = "column-5";
-        currentPriceTd.innerHTML = products[k].currentPrice + " Ft";
+        currentPriceTd.innerHTML = products[k].currentPrice.toLocaleString() + " Ft";
         tr.appendChild(currentPriceTd);
 
         let quantityTd = document.createElement("td");
@@ -108,13 +108,13 @@ function fillTable(products) {
 
         let totalPriceTd = document.createElement("td");
         totalPriceTd.className = "column-7";
-        totalPriceTd.innerHTML = products[k].currentPrice * products[k].quantity + " Ft";
+        totalPriceTd.innerHTML = (products[k].currentPrice * products[k].quantity).toLocaleString() + " Ft";
         tr.appendChild(totalPriceTd);
 
                 totalPrice += products[k].currentPrice * products[k].quantity;
         tbody.appendChild(tr);
     }
-    document.querySelector("#total-price-span").innerHTML = totalPrice + " Ft";
+    document.querySelector("#total-price-span").innerHTML = totalPrice.toLocaleString() + " Ft";
 
     let orderButton = document.querySelector("#order-button");
     orderButton.disabled = products.length === 0;

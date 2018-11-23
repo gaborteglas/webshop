@@ -90,7 +90,7 @@ function fillTable(products) {
         textHolderAnchor.innerHTML = product.producer + " - " + product.name;
         let priceSpan = document.createElement("span");
         priceSpan.className = "block2-price m-text6 p-r-5";
-        priceSpan.innerHTML = product.currentPrice + " Ft";
+        priceSpan.innerHTML = product.currentPrice.toLocaleString() + " Ft";
 
         textHolder.appendChild(textHolderAnchor);
         textHolder.appendChild(priceSpan);

@@ -25,7 +25,7 @@ window.onload = function () {
 
                 let price = "price-" + i;
                 let priceDiv = document.getElementById(price);
-                priceDiv.innerHTML = product.currentPrice + " Ft";
+                priceDiv.innerHTML = product.currentPrice.toLocaleString() + " Ft";
 
                 let image = "picture-" + i;
                 let imageDiv = document.getElementById(image);
