@@ -42,7 +42,7 @@ function fillTable(product){
     let currentPrice = product.currentPrice;
     let categoryName = product.category.name;
     let feedbackList = product.feedbacks;
-//    let average = product.averageScore;
+    let average = product.averageScore;
     let image = product.image;
 
     let nameSpan = document.getElementById("product-name-span");
@@ -59,12 +59,12 @@ function fillTable(product){
     categorySpan.innerHTML = "Kategória: " + categoryName;
     let addressSpan = document.getElementById("product-address");
     addressSpan.innerHTML = "URL: " + address;
-//    let averageDiv = document.getElementById("product-average");
-//    if(average > 0) {
-//            averageDiv.innerHTML = "Átlag pontszám: " + Math.round(average * 100) / 100;
-//        } else {
-//            averageDiv.innerHTML = "";
-//        }
+    let averageSpan = document.getElementById("product-average");
+    if(average > 0) {
+            averageSpan.innerHTML = "Átlag pontszám: " + Math.round(average * 100) / 100;
+        } else {
+            averageSpan.innerHTML = "";
+        }
     let imageDiv = document.getElementById("image-holder-div");
     let imageTag = document.createElement("img");
     imageTag.src = "data:image/png;base64, " + image;
