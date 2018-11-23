@@ -49,6 +49,12 @@ function updateDatas(userData){
             alert(response.message);
             setUserName();
             document.getElementById("user-form").reset();
+            nameInput.classList.remove("has-val");
+            nameInput.blur();
+            passwordInput.classList.remove("has-val");
+            passwordInput.blur();
+            secondPasswordInput.classList.remove("has-val");
+            secondPasswordInput.blur();
         });
 
 }
