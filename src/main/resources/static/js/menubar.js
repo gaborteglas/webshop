@@ -163,6 +163,7 @@ function fillCart(products) {
 
         let price = document.createElement("span");
         price.className = "header-cart-item-info";
+        price.id = "header-cart-price-" + products[k].id;
         price.innerHTML = products[k].quantity + " x " + products[k].currentPrice.toLocaleString() + " Ft";
 
         textHolderDiv.appendChild(anchor);

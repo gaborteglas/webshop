@@ -25,6 +25,7 @@ function updateTable() {
         })
         .then(function (products) {
             fillTable(products);
+            fillCart(products);
         });
 }
 
@@ -225,9 +226,11 @@ function modifyQuantityInInput(eventKey, oldQuantity, productId, quantityInput) 
             }).then(function (response) {
                 return response.json();
             }).then(responseJson => updateTable())
-        }  modifyQuantityInInput("Escape", oldQuantity, productId, quantityInput);
+        } else {
+            modifyQuantityInInput("Escape", oldQuantity, productId, quantityInput);
+        }
     } else if (eventKey === "Escape") {
-        let url = "api/basket/" + productId + "/" + oldQuantity + "/" + newQuantity;
+        let url = "api/basket/" + productId + "/" + oldQuantity + "/" + oldQuantity;
         fetch(url, {
             method: "POST"
         }).then(function (response) {
@@ -316,4 +319,51 @@ function handleOrderButton() {
         cityValidator();
         streetValidator();
     }
+}
+
+function fillCart(products) {
+    let totalPrice = 0
+    let totalQuantity = 0;
+    let cart = document.querySelector(".header-cart-wrapitem");
+    cart.innerHTML = "";
+    let totalPriceField = document.querySelector(".header-cart-total");
+    let cartQuantity = document.querySelector(".header-icons-noti");
+    for (let k = 0; k < products.length; k++) {
+        let cartElement = document.createElement("li");
+        cartElement.className = "header-cart-item";
+
+        let imageHolderDiv = document.createElement("div");
+        imageHolderDiv.className = "header-cart-item-img";
+
+        let imageOfProduct = document.createElement("img");
+        imageOfProduct.src = "data:image/png;base64, " + products[k].image;
+        imageOfProduct.alt = "IMG";
+
+        imageHolderDiv.appendChild(imageOfProduct);
+
+        let textHolderDiv = document.createElement("div");
+        textHolderDiv.className = "header-cart-item-txt";
+
+        let anchor = document.createElement("a");
+        anchor.href = "/product.html?address=" + products[k].address;
+        anchor.className = "header-cart-item-name";
+        anchor.innerHTML = products[k].name;
+
+        let price = document.createElement("span");
+        price.className = "header-cart-item-info";
+        price.id = "header-cart-price-" + products[k].id;
+        price.innerHTML = products[k].quantity + " x " + products[k].currentPrice.toLocaleString() + " Ft";
+
+        textHolderDiv.appendChild(anchor);
+        textHolderDiv.appendChild(price);
+
+        cartElement.appendChild(imageHolderDiv);
+        cartElement.appendChild(textHolderDiv);
+        cart.appendChild(cartElement);
+
+        totalPrice = totalPrice + (products[k].quantity * products[k].currentPrice);
+        totalQuantity += products[k].quantity;
+    }
+    cartQuantity.innerHTML = totalQuantity;
+    totalPriceField.innerHTML = "Összesen: " + totalPrice.toLocaleString() + " Ft";
 }
