@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Product Detail</title>
+    <title>Termék részletek</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--===============================================================================================-->
@@ -30,6 +30,7 @@
     <link rel="stylesheet" type="text/css" href="css/util.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="css/product.css">
 </head>
 <body class="animsition">
 
@@ -409,7 +410,8 @@
 
                         <div class="btn-addcart-product-detail size9 trans-0-4 m-t-10 m-b-10">
                             <!-- Button -->
-                            <button class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4" id="puttobasket">
+                            <button class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4 visibility-hidden"
+                                    id="puttobasket">
                                 Kosárba
                             </button>
                         </div>
@@ -965,6 +967,7 @@
 
 
 
+
 </script>
 <!--===============================================================================================-->
 <script type="text/javascript" src="vendor/slick/slick.min.js"></script>
@@ -992,6 +995,7 @@
 				swal(nameProduct, "is added to wishlist !", "success");
 			});
 		});
+
 
 
 
