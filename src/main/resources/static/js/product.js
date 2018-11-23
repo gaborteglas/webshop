@@ -1,8 +1,8 @@
 window.onload = function() {
     updateTable();
-//    showBasketButton();
-//    let putIntoBasketButton = document.getElementById("puttobasket");
-//    putIntoBasketButton.onclick = handlePutIntoBasket;
+    showBasketButton();
+    let putIntoBasketButton = document.getElementById("puttobasket");
+    putIntoBasketButton.onclick = handlePutIntoBasket;
 //    let ratingSubmitButton = document.getElementById("rating-submit");
 //    ratingSubmitButton.onclick = handleRatingSubmit;
 }
@@ -35,28 +35,30 @@ function updateTable() {
 }
 
 function fillTable(product){
-//    let name = product.name;
-//    let id = product.id;
-//    let address = product.address;
+    let name = product.name;
+    let id = product.id;
+    let address = product.address;
 //    let producer = product.producer;
-//    let currentPrice = product.currentPrice;
-//    let categoryName = product.category.name;
+    let currentPrice = product.currentPrice;
+    let categoryName = product.category.name;
 //    let feedbackList = product.feedbacks;
 //    let average = product.averageScore;
     let image = product.image;
 
-//    let nameDiv = document.getElementById("product-name");
-//    nameDiv.innerHTML = name;
-//    let idDiv = document.getElementById("product-id");
-//    idDiv.innerHTML = id;
+    let nameSpan = document.getElementById("product-name-span");
+    nameSpan.innerHTML = name;
+    let nameH4 = document.getElementById("product-name-h4");
+    nameH4.innerHTML = name;
+    let idSpan = document.getElementById("product-id");
+    idSpan.innerHTML = "Id: " + id;
 //    let producerDiv = document.getElementById("product-author");
 //    producerDiv.innerHTML = producer;
-//    let priceDiv = document.getElementById("product-price");
-//    priceDiv.innerHTML = currentPrice + " Ft";
-//    let categoryDiv = document.getElementById("product-category");
-//    categoryDiv.innerHTML = categoryName;
-//    let addressDiv = document.getElementById("product-address");
-//    addressDiv.innerHTML = "URL: " + address;
+    let priceSpan = document.getElementById("price-span");
+    priceSpan.innerHTML = currentPrice + " Ft";
+    let categorySpan = document.getElementById("product-category");
+    categorySpan.innerHTML = "Kategória: " + categoryName;
+    let addressSpan = document.getElementById("product-address");
+    addressSpan.innerHTML = "URL: " + address;
 //    let averageDiv = document.getElementById("product-average");
 //    if(average > 0) {
 //            averageDiv.innerHTML = "Átlag pontszám: " + Math.round(average * 100) / 100;
