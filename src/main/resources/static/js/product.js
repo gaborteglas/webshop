@@ -1,21 +1,22 @@
-window.onload = function() {
+window.onload = function () {
     updateTable();
     showBasketButton();
     let putIntoBasketButton = document.getElementById("puttobasket");
     putIntoBasketButton.onclick = handlePutIntoBasket;
-//    let ratingSubmitButton = document.getElementById("rating-submit");
-//    ratingSubmitButton.onclick = handleRatingSubmit;
+    //    let ratingSubmitButton = document.getElementById("rating-submit");
+    //    ratingSubmitButton.onclick = handleRatingSubmit;
 }
 
-function handlePutIntoBasket(){
+function handlePutIntoBasket() {
     let productId = document.querySelector("#product-id").innerHTML;
-    let quantity = document.querySelector("#quantity").value;
+    let quantity = document.querySelector("#quantity-number").value;
+    productId = productId.substring(productId.length - 1);
 
     fetch("api/basket/" + productId + "/" + quantity, {
         method: "POST"
-    }).then(function(response) {
+    }).then(function (response) {
         return response.json()
-    }).then(function(jsonData) {
+    }).then(function (jsonData) {
         alert(jsonData.message);
     });
     return false;
@@ -26,15 +27,15 @@ function updateTable() {
     let productToFetch = "api/products/" + productNameFromUrl;
     fetch(productToFetch, {
         method: "GET"
-    }).then(function(response) {
-         return response.json();
-    }).then(function(jsonData) {
+    }).then(function (response) {
+        return response.json();
+    }).then(function (jsonData) {
         fillTable(jsonData);
     })
-    .catch(error => creatingHeaderNull());
+        .catch(error => creatingHeaderNull());
 }
 
-function fillTable(product){
+function fillTable(product) {
     let name = product.name;
     let id = product.id;
     let address = product.address;
@@ -60,11 +61,11 @@ function fillTable(product){
     let addressSpan = document.getElementById("product-address");
     addressSpan.innerHTML = "URL: " + address;
     let averageSpan = document.getElementById("product-average");
-    if(average > 0) {
-            averageSpan.innerHTML = "Átlag pontszám: " + Math.round(average * 100) / 100;
-        } else {
-            averageSpan.innerHTML = "";
-        }
+    if (average > 0) {
+        averageSpan.innerHTML = "Átlag pontszám: " + Math.round(average * 100) / 100;
+    } else {
+        averageSpan.innerHTML = "";
+    }
     let imageDiv = document.getElementById("image-holder-div");
     let imageTag = document.createElement("img");
     imageTag.src = "data:image/png;base64, " + image;
@@ -77,7 +78,7 @@ function fillTable(product){
     categoryHrefDiv.innerHTML = categoryName;
 }
 
-function creatingHeaderNull(){
+function creatingHeaderNull() {
     let ulDiv = document.getElementById("to-append");
     let noProduct = document.getElementById("if-hided");
     noProduct.innerHTML = "Sajnáljuk, nincs ilyen termék!"
@@ -86,7 +87,7 @@ function creatingHeaderNull(){
     divToHide.style.display = "none";
     let feedbackToHide = document.getElementById("feedback-hide");
     feedbackToHide.style.display = "none";
-    }
+}
 
 function creatingFeedbackFields(feedbackList) {
 
@@ -94,123 +95,123 @@ function creatingFeedbackFields(feedbackList) {
     reviewCount.innerHTML = "Értékelések (" + feedbackList.length + ")";
     let reviewDiv = document.querySelector("#single-review");
 
-//    let ratingsDiv = document.querySelector(".product-ratings");
-//    ratingsDiv.innerHTML = "";
-//    if (feedbackList.length > 0) {
-//        let title = document.createElement("h5");
-//        title.innerHTML = "Vásárlói értékelések:"
-//        ratingsDiv.appendChild(title);
-//    }
+    //    let ratingsDiv = document.querySelector(".product-ratings");
+    //    ratingsDiv.innerHTML = "";
+    //    if (feedbackList.length > 0) {
+    //        let title = document.createElement("h5");
+    //        title.innerHTML = "Vásárlói értékelések:"
+    //        ratingsDiv.appendChild(title);
+    //    }
     for (let i = 0; i < feedbackList.length; i++) {
-    let reviewDate = document.createElement("p");
-    reviewDate.className = "s-text8";
-    reviewDate.innerHTML = new Date(feedbackList[i].ratingDate).toLocaleString();
-    let reviewText = document.createElement("p");
+        let reviewDate = document.createElement("p");
+        reviewDate.className = "s-text8";
+        reviewDate.innerHTML = new Date(feedbackList[i].ratingDate).toLocaleString();
+        let reviewText = document.createElement("p");
         reviewText.className = "s-text8";
         reviewText.innerHTML = feedbackList[i].ratingText;
         let reviewAuthor = document.createElement("p");
-            reviewAuthor.className = "s-text8";
-            reviewAuthor.innerHTML = feedbackList[i].user.loginName;
-            reviewDiv.appendChild(reviewDate);
-            reviewDiv.appendChild(reviewText);
-            reviewDiv.appendChild(reviewAuthor);
+        reviewAuthor.className = "s-text8";
+        reviewAuthor.innerHTML = feedbackList[i].user.loginName;
+        reviewDiv.appendChild(reviewDate);
+        reviewDiv.appendChild(reviewText);
+        reviewDiv.appendChild(reviewAuthor);
     }
-//        let feedbackDiv = document.createElement("div");
-//        feedbackDiv.setAttribute("id", "one-feedback-div");
-//        feedbackDiv["raw-data"] = feedbackList[i];
-//
-//        let leftDiv = document.createElement("div");
-//        leftDiv.setAttribute("id", "left-div");
-//
-//        let userNameTag = document.createElement("h5");
-//        userNameTag.setAttribute("id", "feedback-username")
-//        userNameTag.innerHTML = feedbackList[i].user.loginName;
-//        leftDiv.appendChild(userNameTag);
-//
-//        let feedbackDate = document.createElement("p");
-//        feedbackDate.setAttribute("id", "feedback-date");
-//        feedbackDate.innerHTML = new Date(feedbackList[i].ratingDate).toLocaleString();
-//        leftDiv.appendChild(feedbackDate);
-//
-//        let middleDiv = document.createElement("div");
-//        middleDiv.setAttribute("id", "middle-div");
-//
-//        let ratingStarDiv = document.createElement("div");
-//        ratingStarDiv.setAttribute("class", "rating-star-div");
-//        for (let j = 0; j < feedbackList[i].ratingScore; j++) {
-//            let star = document.createElement("div");
-//            star.setAttribute("class", "star");
-//            star.setAttribute("style", "background: url(\"/img/star-solid-yellow.svg\") no-repeat;");
-//            ratingStarDiv.appendChild(star);
-//        }
-//        middleDiv.appendChild(ratingStarDiv);
-//        middleDiv.appendChild(document.createElement("br"));
-//
-//        let feedback = feedbackList[i].ratingText;
-//        feedback = feedback.replace(new RegExp("&", "g"), "&amp;");
-//        feedback = feedback.replace(new RegExp("<", "g"), "&lt;");
-//        feedback = feedback.replace(new RegExp(">", "g"), "&gt;");
-//        feedback = feedback.replace(new RegExp("\"", "g"), "&quot;");
-//        feedback = feedback.replace(new RegExp("'", "g"), "&apos");
-//        let feedbackText = document.createElement("p");
-//        feedbackText.setAttribute("id", "feedback-text");
-//        feedbackText.innerHTML = feedback;
-//        middleDiv.appendChild(feedbackText);
-//
-//        let rightDiv = document.createElement("div");
-//        rightDiv.setAttribute("id", "right-div");
-//
-//        if(feedbackList[i].canEditOrDelete === true) {
-//            let editButton = document.createElement("button");
-//            editButton.setAttribute("id", "edit-button");
-//            editButton.setAttribute("class", "btn btn-secondary");
-//            editButton.innerHTML = "Szerkesztés";
-//            editButton.onclick = handleRatingModifyButtonClick;
-//            let deleteButton = document.createElement("button");
-//            deleteButton.setAttribute("id", "delete-button");
-//            deleteButton.setAttribute("class", "btn btn-danger");
-//            deleteButton.innerHTML = "Törlés";
-//            deleteButton.onclick = handleRatingDelete;
-//            rightDiv.appendChild(editButton);
-//            rightDiv.appendChild(deleteButton);
-//        }
-//        feedbackDiv.appendChild(leftDiv);
-//        feedbackDiv.appendChild(middleDiv)
-//        feedbackDiv.appendChild(rightDiv);
-//        ratingsDiv.appendChild(feedbackDiv);
-//    }
+    //        let feedbackDiv = document.createElement("div");
+    //        feedbackDiv.setAttribute("id", "one-feedback-div");
+    //        feedbackDiv["raw-data"] = feedbackList[i];
+    //
+    //        let leftDiv = document.createElement("div");
+    //        leftDiv.setAttribute("id", "left-div");
+    //
+    //        let userNameTag = document.createElement("h5");
+    //        userNameTag.setAttribute("id", "feedback-username")
+    //        userNameTag.innerHTML = feedbackList[i].user.loginName;
+    //        leftDiv.appendChild(userNameTag);
+    //
+    //        let feedbackDate = document.createElement("p");
+    //        feedbackDate.setAttribute("id", "feedback-date");
+    //        feedbackDate.innerHTML = new Date(feedbackList[i].ratingDate).toLocaleString();
+    //        leftDiv.appendChild(feedbackDate);
+    //
+    //        let middleDiv = document.createElement("div");
+    //        middleDiv.setAttribute("id", "middle-div");
+    //
+    //        let ratingStarDiv = document.createElement("div");
+    //        ratingStarDiv.setAttribute("class", "rating-star-div");
+    //        for (let j = 0; j < feedbackList[i].ratingScore; j++) {
+    //            let star = document.createElement("div");
+    //            star.setAttribute("class", "star");
+    //            star.setAttribute("style", "background: url(\"/img/star-solid-yellow.svg\") no-repeat;");
+    //            ratingStarDiv.appendChild(star);
+    //        }
+    //        middleDiv.appendChild(ratingStarDiv);
+    //        middleDiv.appendChild(document.createElement("br"));
+    //
+    //        let feedback = feedbackList[i].ratingText;
+    //        feedback = feedback.replace(new RegExp("&", "g"), "&amp;");
+    //        feedback = feedback.replace(new RegExp("<", "g"), "&lt;");
+    //        feedback = feedback.replace(new RegExp(">", "g"), "&gt;");
+    //        feedback = feedback.replace(new RegExp("\"", "g"), "&quot;");
+    //        feedback = feedback.replace(new RegExp("'", "g"), "&apos");
+    //        let feedbackText = document.createElement("p");
+    //        feedbackText.setAttribute("id", "feedback-text");
+    //        feedbackText.innerHTML = feedback;
+    //        middleDiv.appendChild(feedbackText);
+    //
+    //        let rightDiv = document.createElement("div");
+    //        rightDiv.setAttribute("id", "right-div");
+    //
+    //        if(feedbackList[i].canEditOrDelete === true) {
+    //            let editButton = document.createElement("button");
+    //            editButton.setAttribute("id", "edit-button");
+    //            editButton.setAttribute("class", "btn btn-secondary");
+    //            editButton.innerHTML = "Szerkesztés";
+    //            editButton.onclick = handleRatingModifyButtonClick;
+    //            let deleteButton = document.createElement("button");
+    //            deleteButton.setAttribute("id", "delete-button");
+    //            deleteButton.setAttribute("class", "btn btn-danger");
+    //            deleteButton.innerHTML = "Törlés";
+    //            deleteButton.onclick = handleRatingDelete;
+    //            rightDiv.appendChild(editButton);
+    //            rightDiv.appendChild(deleteButton);
+    //        }
+    //        feedbackDiv.appendChild(leftDiv);
+    //        feedbackDiv.appendChild(middleDiv)
+    //        feedbackDiv.appendChild(rightDiv);
+    //        ratingsDiv.appendChild(feedbackDiv);
+    //    }
 }
 
 function showBasketButton() {
-      fetch("api/user")
-              .then(function (response) {
-                  return response.json();
-              })
-              .then(function(jsonData) {
-                  if (jsonData.role == "ROLE_USER") {
-                      switchBasketButton();
-                  }
-                  if (jsonData.role == "ROLE_ADMIN") {
-                      hideBasketButton();
-                  }
-              })
-              .catch(error => hideBasketButton());
+    fetch("api/user")
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (jsonData) {
+            if (jsonData.role == "ROLE_USER") {
+                switchBasketButton();
+            }
+            if (jsonData.role == "ROLE_ADMIN") {
+                hideBasketButton();
+            }
+        })
+        .catch(error => hideBasketButton());
 }
 
 function switchBasketButton() {
     let button = document.getElementById("puttobasket");
-    button.setAttribute("style","visibility:visible");
+    button.setAttribute("style", "visibility:visible");
 
     let input = document.getElementById("quantity");
-    input.setAttribute("style","visibility:visible");
+    input.setAttribute("style", "visibility:visible");
 }
 
 function hideBasketButton() {
-   let button1 = document.getElementById("puttobasket");
-   button1.style.visibility = "hidden";
+    let button1 = document.getElementById("puttobasket");
+    button1.style.visibility = "hidden";
 
-   let input = document.getElementById("quantity");
-   input.style.visibility = "hidden";
+    let input = document.getElementById("quantity");
+    input.style.visibility = "hidden";
 }
 
 function handleRatingSubmit() {
@@ -230,26 +231,26 @@ function handleRatingSubmit() {
     }
 
     let feedback = {
-                    "ratingScore": score,
-                    "ratingText": ratingText
-                    }
+        "ratingScore": score,
+        "ratingText": ratingText
+    }
 
     console.log(feedback);
 
     fetch("api/products/" + productId + "/feedback", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json; charset=utf-8"
-                    },
-            body: JSON.stringify(feedback)
-        }).then(function(response) {
-            return response.json()
-        }).then(function(response) {
-            alert(response.message);
-            updateTable();
-            ratingTextInput.value = "";
-            starReset();
-        });
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json; charset=utf-8"
+        },
+        body: JSON.stringify(feedback)
+    }).then(function (response) {
+        return response.json()
+    }).then(function (response) {
+        alert(response.message);
+        updateTable();
+        ratingTextInput.value = "";
+        starReset();
+    });
     return false;
 }
 
@@ -257,17 +258,17 @@ function handleRatingDelete() {
     let productId = document.querySelector("#product-id").innerHTML;
 
     var result = confirm("Biztosan törli a kijelölt értékelést?");
-        if (result) {
-            fetch("api/products/" + productId + "/feedback", {
-                method: "DELETE",
-            })
-            .then(function(response) {
+    if (result) {
+        fetch("api/products/" + productId + "/feedback", {
+            method: "DELETE",
+        })
+            .then(function (response) {
                 return response.json()
             })
-            .then(function(response) {
+            .then(function (response) {
                 updateTable();
             });
-        }
+    }
 }
 
 function handleRatingModifyButtonClick() {
@@ -312,27 +313,27 @@ function handleModify() {
     }
 
     let feedback = {
-                   "ratingScore": score,
-                   "ratingText": ratingText
-                   }
+        "ratingScore": score,
+        "ratingText": ratingText
+    }
 
 
     fetch("api/products/" + productId + "/edit-feedback", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json; charset=utf-8"
-                    },
-            body: JSON.stringify(feedback)
-        }).then(function(response) {
-            return response.json()
-        }).then(function(response) {
-            alert(response.message);
-            updateTable();
-            ratingTextInput.value = "";
-            starReset();
-            modifyButton.onclick = handleRatingSubmit;
-            modifyButton.innerHTML = "Értékelés elküldése";
-        });
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json; charset=utf-8"
+        },
+        body: JSON.stringify(feedback)
+    }).then(function (response) {
+        return response.json()
+    }).then(function (response) {
+        alert(response.message);
+        updateTable();
+        ratingTextInput.value = "";
+        starReset();
+        modifyButton.onclick = handleRatingSubmit;
+        modifyButton.innerHTML = "Értékelés elküldése";
+    });
     return false;
 }
 
@@ -341,7 +342,7 @@ let score = null;
 function starReset() {
     score = null;
     let starHolders = document.querySelectorAll(".star-holder");
-    for(let i = 0; i < starHolders.length; i++) {
+    for (let i = 0; i < starHolders.length; i++) {
         starHolders[i].classList.remove("selected");
     }
 }
