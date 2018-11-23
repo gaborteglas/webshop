@@ -334,6 +334,8 @@ function fillCart(products) {
 
         let imageHolderDiv = document.createElement("div");
         imageHolderDiv.className = "header-cart-item-img";
+         imageHolderDiv.id = "deleteButtonId" + products[k].id;
+                imageHolderDiv.onclick = clickingOnResetProductButtons;
 
         let imageOfProduct = document.createElement("img");
         imageOfProduct.src = "data:image/png;base64, " + products[k].image;
