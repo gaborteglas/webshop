@@ -1,100 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Bejelentkezés</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="css/menubar.css"/>
+	<title>Login V6</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="css/login_util.css">
+	<link rel="stylesheet" type="text/css" href="css/login_main.css">
+<!--===============================================================================================-->
 </head>
 <body>
+	
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100 p-t-85 p-b-20">
+				<form class="login100-form validate-form">
+					<span class="login100-form-title p-b-70">
+						Üdvözöljük
+					</span>
+					<span class="login100-form-avatar">
+						<img src="images/avatar-01.jpg" alt="AVATAR">
+					</span>
 
-    <div class="container">
+					<div class="wrap-input100 validate-input m-t-85 m-b-35" data-validate = "Enter username">
+						<input class="input100" type="text" name="username">
+						<span class="focus-input100" data-placeholder="Felhasználónév"></span>
+					</div>
 
-        <ul class="nav nav-pills nav-fill">
-            <li class="nav-item nav-item-index" id="to-hide-index">
-                <a class="nav-link" href="/index.html">Főoldal</a>
-            </li>
-            <li class="nav-item nav-item-products" id="to-hide-allproducts">
-                <a class="nav-link" href="/products.html">Termékek</a>
-            </li>
-            <li class="nav-item nav-item-user-basket" id="to-hide-basket">
-                <a class="nav-link" href="/basket.html">Kosár</a>
-            </li>
-            <li class="nav-item nav-item-user-order" id="to-hide-myorder">
-                <a class="nav-link" href="/myorders.html">Rendeléseim</a>
-            </li>
-            <li class="nav-item nav-item-user-profile" id="to-hide-profile">
-                <a class="nav-link" href="/profile.html">Profil</a>
-            </li>
-            <li class="nav-item nav-item-login" id = "to-hide-login">
-                <a class="nav-link" href="/login.html">Bejelentkezés</a>
-            </li>
-            <li class="nav-item nav-item-admin" id = "to-hide-product">
-                <a class="nav-link" href="/adminproducts.html">Termék-adminisztráció</a>
-            </li>
-            <li class="nav-item nav-item-users" id = "to-hide-user">
-                <a class="nav-link" href="/users.html">Felhasználók</a>
-            </li>
-            <li class="nav-item nav-item-orders" id = "to-hide-orders">
-                <a class="nav-link" href="/orders.html">Rendelések</a>
-            </li>
-            <li class="nav-item nav-item-categories" id = "to-hide-categories">
-                <a class="nav-link" href="/categories.html">Kategóriák</a>
-            </li>
-            <li class="nav-item nav-item-dashboard" id = "to-hide-dashboard">
-                <a class="nav-link" href="/dashboard.html">Statisztikák</a>
-            </li>
-            <li class="nav-item nav-item-reports" id = "to-hide-reports">
-                <a class="nav-link" href="/reports.html">Havi jelentések</a>
-            </li>
-            <li class="nav-item nav-item-logout" id = "to-hide-logout">
-                <a class="nav-link" href="/logout">Kijelentkezés</a>
-            </li>
+					<div class="wrap-input100 validate-input m-b-50" data-validate="Enter password">
+						<input class="input100" type="password" name="pass">
+						<span class="focus-input100" data-placeholder="Jelszó"></span>
+					</div>
 
-            <div class="card" style="width: 12rem;">
-                <div class="card-body">
-                    <h5 class="card-title" id="username"></h5>
-                    <img src="/img/logo.png" class="logo">
-                    <input type="hidden" id="id-hidden-input"/>
-                </div>
-            </div>
+					<div class="container-login100-form-btn">
+						<button class="login100-form-btn">
+							Bejelentkezés
+						</button>
+					</div>
 
-        </ul>
+					<ul class="login-more p-t-190">
+						<li>
+							<span class="txt1">
+								Még nincs felhasználói fiókja?
+							</span>
 
-        <h1>Bejelentkezés</h1>
+							<a href="#" class="txt2">
+								Regisztráció
+							</a>
+						</li>
+					</ul>
+				</form>
+			</div>
+		</div>
+	</div>
+	
 
-        <hr />
-
-        <form method="post">
-            <div class="form-group row">
-                <label for="inputName" class="col-sm-2 col-form-label">Felhasználónév</label>
-                <div class="col-5">
-                    <input name="username" type="text" class="form-control" id="inputName" placeholder="Felhasználónév" />
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="inputPassword1" class="col-sm-2 col-form-label">Jelszó</label>
-                <div class="col-5">
-                    <input name="password" type="password" class="form-control" id="inputPassword1" placeholder="Jelszó" />
-                </div>
-            </div>
-            <button type="submit" class="btn btn-primary">Bejelentkezés</button>
-        </form>
-
-        <hr />
-
-        <div class="card" style="width: 18rem;">
-            <div class="card-body">
-                <h5 class="card-title">Még nem regisztrált?</h5>
-                <p class="card-text">Az alábbi gombra kattintva megteheti!</p>
-                <a href="register.html" class="btn btn-primary">Regisztráció</a>
-            </div>
-        </div>
-
-    </div>
-
-    <script src="js/menubar.js"></script>
+	<div id="dropDownSelect1"></div>
+	
+<!--===============================================================================================-->
+	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/animsition/js/animsition.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/bootstrap/js/popper.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/daterangepicker/moment.min.js"></script>
+	<script src="vendor/daterangepicker/daterangepicker.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/countdowntime/countdowntime.js"></script>
+<!--===============================================================================================-->
+	<script src="js/main.js"></script>
+	<script src="js/menubar.js"></script>
 
 </body>
-
 </html>
