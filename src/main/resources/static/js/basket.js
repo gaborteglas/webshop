@@ -328,44 +328,51 @@ function fillCart(products) {
     cart.innerHTML = "";
     let totalPriceField = document.querySelector(".header-cart-total");
     let cartQuantity = document.querySelector(".header-icons-noti");
-    for (let k = 0; k < products.length; k++) {
-        let cartElement = document.createElement("li");
-        cartElement.className = "header-cart-item";
+    if (products.length === 0) {
+        let basketIcon = document.querySelector(".header-wrapicon2");
+        basketIcon.classList.add("disabled");
+    } else {
+        let basketIcon = document.querySelector(".header-wrapicon2");
+        basketIcon.classList.remove("disabled");
+        for (let k = 0; k < products.length; k++) {
+            let cartElement = document.createElement("li");
+            cartElement.className = "header-cart-item";
 
-        let imageHolderDiv = document.createElement("div");
-        imageHolderDiv.className = "header-cart-item-img";
-         imageHolderDiv.id = "deleteButtonId" + products[k].id;
-                imageHolderDiv.onclick = clickingOnResetProductButtons;
+            let imageHolderDiv = document.createElement("div");
+            imageHolderDiv.className = "header-cart-item-img";
+            imageHolderDiv.id = "deleteButtonId" + products[k].id;
+            imageHolderDiv.onclick = clickingOnResetProductButtons;
 
-        let imageOfProduct = document.createElement("img");
-        imageOfProduct.src = "data:image/png;base64, " + products[k].image;
-        imageOfProduct.alt = "IMG";
+            let imageOfProduct = document.createElement("img");
+            imageOfProduct.src = "data:image/png;base64, " + products[k].image;
+            imageOfProduct.alt = "IMG";
 
-        imageHolderDiv.appendChild(imageOfProduct);
+            imageHolderDiv.appendChild(imageOfProduct);
 
-        let textHolderDiv = document.createElement("div");
-        textHolderDiv.className = "header-cart-item-txt";
+            let textHolderDiv = document.createElement("div");
+            textHolderDiv.className = "header-cart-item-txt";
 
-        let anchor = document.createElement("a");
-        anchor.href = "/product.html?address=" + products[k].address;
-        anchor.className = "header-cart-item-name";
-        anchor.innerHTML = products[k].name;
+            let anchor = document.createElement("a");
+            anchor.href = "/product.html?address=" + products[k].address;
+            anchor.className = "header-cart-item-name";
+            anchor.innerHTML = products[k].name;
 
-        let price = document.createElement("span");
-        price.className = "header-cart-item-info";
-        price.id = "header-cart-price-" + products[k].id;
-        price.innerHTML = products[k].quantity + " x " + products[k].currentPrice.toLocaleString() + " Ft";
+            let price = document.createElement("span");
+            price.className = "header-cart-item-info";
+            price.id = "header-cart-price-" + products[k].id;
+            price.innerHTML = products[k].quantity + " x " + products[k].currentPrice.toLocaleString() + " Ft";
 
-        textHolderDiv.appendChild(anchor);
-        textHolderDiv.appendChild(price);
+            textHolderDiv.appendChild(anchor);
+            textHolderDiv.appendChild(price);
 
-        cartElement.appendChild(imageHolderDiv);
-        cartElement.appendChild(textHolderDiv);
-        cart.appendChild(cartElement);
+            cartElement.appendChild(imageHolderDiv);
+            cartElement.appendChild(textHolderDiv);
+            cart.appendChild(cartElement);
 
-        totalPrice = totalPrice + (products[k].quantity * products[k].currentPrice);
-        totalQuantity += products[k].quantity;
+            totalPrice = totalPrice + (products[k].quantity * products[k].currentPrice);
+            totalQuantity += products[k].quantity;
+        }
+        totalPriceField.innerHTML = "Összesen: " + totalPrice.toLocaleString() + " Ft";
     }
     cartQuantity.innerHTML = totalQuantity;
-    totalPriceField.innerHTML = "Összesen: " + totalPrice.toLocaleString() + " Ft";
 }
