@@ -138,6 +138,7 @@ function fillCart(products) {
     let totalPrice = 0
     let totalQuantity = 0;
     let cart = document.querySelector(".header-cart-wrapitem");
+    cart.innerHTML = "";
     let totalPriceField = document.querySelector(".header-cart-total");
     let cartQuantity = document.querySelector(".header-icons-noti");
     for (let k = 0; k < products.length; k++) {
@@ -146,6 +147,8 @@ function fillCart(products) {
 
         let imageHolderDiv = document.createElement("div");
         imageHolderDiv.className = "header-cart-item-img";
+        imageHolderDiv.id = "deleteButtonId" + products[k].id;
+        imageHolderDiv.onclick = clickingOnResetProductButtons;
 
         let imageOfProduct = document.createElement("img");
         imageOfProduct.src = "data:image/png;base64, " + products[k].image;
@@ -199,5 +202,18 @@ function handleResetButton() {
             emptyCartVisually();
             return response.json()
         }).then(responseJson => updateTable())
+    }
+}
+
+function clickingOnResetProductButtons(clickEvent) {
+    let deleteButtonId = this.getAttribute("id");
+    let productId = parseInt(deleteButtonId.substring(deleteButtonId.indexOf("Id") + 2));
+    let url = "api/basket/" + productId;
+    if (confirm("Biztos szeretné törölni ezt az elemet a kosárból?")) {
+        fetch(url, {
+            method: "DELETE"
+        }).then(function (response) {
+            return response.json()
+        }).then(responseJson => updateCart())
     }
 }
