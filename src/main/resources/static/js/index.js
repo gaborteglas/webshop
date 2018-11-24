@@ -30,5 +30,6 @@ window.onload = function () {
                 let image = "picture-" + i;
                 let imageDiv = document.getElementById(image);
                 imageDiv.src = "data:image/png;base64, " + product.image;
+                imageDiv.id = "productid-" + product.id;
         }
 }

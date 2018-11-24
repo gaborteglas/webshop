@@ -73,6 +73,7 @@ function fillTable(products) {
         let image = document.createElement("img");
         image.src = "data:image/png;base64, " + product.image;
         image.alt = "IMG-PRODUCT";
+        image.id = "productid-" + product.id;
 
         let blockOverlay = document.createElement("div");
         blockOverlay.className = "block2-overlay trans-0-4";
