@@ -10,7 +10,7 @@ window.onload = function () {
 function handlePutIntoBasket() {
     let productId = document.querySelector("#product-id").innerHTML;
     let quantity = document.querySelector("#quantity-number").value;
-    productId = productId.substring(productId.length - 1);
+    productId = productId.substring(productId.indexOf(":") + 2);
 
     fetch("api/basket/" + productId + "/" + quantity, {
         method: "POST"
