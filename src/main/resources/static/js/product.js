@@ -17,7 +17,7 @@ function handlePutIntoBasket() {
     }).then(function (response) {
         return response.json()
     }).then(function (jsonData) {
-        //alert(jsonData.message);
+        giveFeedbackToUser(jsonData.message);
         updateCart();
     });
     return false;
@@ -381,6 +381,19 @@ function fiveStarOnclick() {
     let fiveStar = document.getElementById("star-5");
     fiveStar.parentElement.classList.add("selected");
     score = 5;
+}
+
+function giveFeedbackToUser(message) {
+    if (document.querySelector("#to-basket-feedback-message") !== null) {
+        document.querySelector("#to-basket-feedback-message").innerHTML = message;
+    } else {
+        let basketButtonHolder = document.querySelector("#basket-button-holder");
+        let feedbackText = document.createElement("p");
+        feedbackText.className = "s-text8 p-t-10";
+        feedbackText.id = "to-basket-feedback-message";
+        feedbackText.innerHTML = message;
+        basketButtonHolder.appendChild(feedbackText);
+    }
 }
 
 function updateCart() {
