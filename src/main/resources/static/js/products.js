@@ -108,9 +108,9 @@ function fillTable(products) {
 }
 
 function activateAddToBasketButtons() {
-            let productId = this.id;
-            productId = productId.substring(productId.indexOf("-") + 1);
-            addToBasket(productId);
+    let productId = this.id;
+    productId = productId.substring(productId.indexOf("-") + 1);
+    addToBasket(productId);
 }
 
 function addToBasket(productId) {
@@ -192,7 +192,7 @@ function fillCart(products) {
 }
 
 function giveFeedbackToUser(message) {
-if (document.querySelector("#to-basket-feedback-message") !== null) {
+    if (document.querySelector("#to-basket-feedback-message") !== null) {
         document.querySelector("#to-basket-feedback-message").innerHTML = message;
     } else {
         let container = document.querySelector(".container");
