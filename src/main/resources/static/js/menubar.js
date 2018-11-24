@@ -96,7 +96,10 @@ function showForAdmin() {
     let menuToShowProfileForUser = document.getElementById("to-hide-profile");
     menuToShowProfileForUser.style.display = "none";
     let basketIcon = document.querySelector(".header-wrapicon2");
-    basketIcon.classList.remove("disabled");
+    basketIcon.setAttribute("style", "display: none");
+    let lineDivide = document.querySelector(".linedivide1");
+    lineDivide.setAttribute("style", "display: none");
+
 }
 
 function showForUnregistered() {
