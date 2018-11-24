@@ -407,7 +407,6 @@ function updateCart() {
 }
 
 function fillCart(products) {
-    alert("a");
     let totalPrice = 0
     let totalQuantity = 0;
     let cart = document.querySelector(".header-cart-wrapitem");
