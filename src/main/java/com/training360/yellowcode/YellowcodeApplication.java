@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import javax.sql.DataSource;
 
@@ -24,6 +25,11 @@ public class YellowcodeApplication extends
 		SpringApplication.run(YellowcodeApplication.class, args);
 	}
 
+	@Bean
+	public AuthenticationSuccessHandler myAuthenticationSuccessHandler(){
+		return new MySimpleUrlAuthenticationSuccessHandler();
+	}
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
@@ -34,6 +40,7 @@ public class YellowcodeApplication extends
 				.antMatchers("/basket.html", "/myorders.html", "/myorderitem.html","/profile.html").authenticated()
 				.and()
 				.formLogin().loginPage("/login.html").defaultSuccessUrl("/products.html")
+				.successHandler(myAuthenticationSuccessHandler())
 				.and()
 				.logout();
 
