@@ -79,6 +79,8 @@ function fillTable(orders) {
         if (order.status === "DELIVERED") {
             deliveredBox.checked = true;
             deliveredBox.disabled = true;
+        } else if (order.status === "DELETED") {
+            deliveredBox.disabled = true;
         }
 
         let trashTd = document.createElement("td");
