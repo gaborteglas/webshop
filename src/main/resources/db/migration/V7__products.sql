@@ -4,15 +4,15 @@ ADD FOREIGN KEY (category_id) REFERENCES category(id);
 
 INSERT INTO products
 (name, address, producer, price, status, category_id)
-VALUES ('Az aliceblue 50 árnyalata', 'az-aliceblue-50-arnyalata', 'E. L. Doe', 9999, 'ACTIVE', 4),
-('Legendás programozók és megfigyelésük', 'legendas-programozok-es-megfigyelesuk','J. K. Doe',  3999, 'ACTIVE', 2),
-('Az 50 első Trainer osztály', 'az-50-elso-trainer-osztaly', 'Jack Doe', 5999, 'ACTIVE', 3),
-('Hogyan neveld a junior fejlesztődet', 'hogyan-neveld-a-junior-fejlesztodet', 'Jane Doe', 6499, 'ACTIVE', 1),
-('A Java ura: A classok szövetsége', 'a-java-ura-a-classok-szovetsege', 'J.R.R. Doe', 2899, 'ACTIVE', 2),
-('Junioroskert', 'junioroskert', 'Anton Doe', 5599, 'ACTIVE', 3),
-('Nemzeti Java', 'nemzeti-java', 'Sándor Doe', 3799, 'ACTIVE', 2),
-('A junior csillagok', 'a-junior-csillagok', 'Géza Doe', 4899, 'ACTIVE', 2),
-('Egy kis Stackoverflow', 'egy-kis-stackoverflow', 'Darcey Doe', 3999, 'ACTIVE', 1),
-('A hengermalomi bárdok', 'a-hengermalomi-bardok', 'János Doe', 8399, 'ACTIVE', 2),
-('80 nap alatt a Java körül', '80-nap-alatt-a-java-korul', 'Jules Doe', 6099, 'ACTIVE', 1),
-('Junior a szénakazalban', 'junior-a-szenakazalban', 'Ken Doe', 499, 'ACTIVE', 4);
+VALUES ('A szürke 50 árnyalata', 'a-szurke-50-arnyalata', 'E. L. James', 3999, 'ACTIVE', 5),
+('Junior fejlesztő falinaptár 2019', 'junior-fejleszto-falinaptar-2019', 'Peter Doe', 4699, 'ACTIVE', 1),
+('Legendás állatok és megfigyelésük', 'legendas-allatok-es-megfigyelesuk','J. K. Rowling',  3999, 'ACTIVE', 2),
+('Így neveld a sárkányodat', 'igy-neveld-a-sarkanyodat', 'Cressida Cowell', 2499, 'ACTIVE', 4),
+('A Gyűrűk ura: A gyűrű szövetsége', 'a-gyuruk-ura-a-gyuru-szovetsege', 'J.R.R. Doe', 2899, 'ACTIVE', 2),
+('Cseresznyéskert', 'cseresznyeskert', 'Anton Csehov', 5599, 'ACTIVE', 4),
+('Nemzeti Dal', 'nemzeti-dal', 'Petőfi Sándor', 3799, 'ACTIVE', 2),
+('Az egri csillagok', 'az-egri-csillagok', 'Gárdonyi Géza', 4899, 'ACTIVE', 3),
+('Egy kis szívesség', 'egy-kis-szivesseg', 'Darcey Bell', 3999, 'ACTIVE', 5),
+('A walesi bárdok', 'a-walesi-bardok', 'Arany János', 1399, 'ACTIVE', 2),
+('80 nap alatt a Föld körül', '80-nap-alatt-a-fold-korul', 'Jules Verne', 2099, 'ACTIVE', 2),
+('Most és mindörökké', 'most-es-mindorokke', 'James Jones', 999, 'ACTIVE', 3);

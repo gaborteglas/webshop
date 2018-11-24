@@ -7,11 +7,3 @@ CREATE TABLE products (
  status VARCHAR(50) NOT NULL,
  CONSTRAINT pk_products PRIMARY KEY(id)
  );
-
-
-INSERT INTO products
-(name, address, producer, price, status)
-VALUES
-('Junior most és mindörökké', 'junior-most-es-mindorokke', 'James Doe', 2999, 'ACTIVE'),
-('Junior fejlesztő falinaptár 2019', 'junior-fejleszto-falinaptar-2019', 'Peter Doe', 4699, 'ACTIVE'),
-('Juniorsoron', 'juniorsoron', 'Stephen Doe', 2999, 'ACTIVE');
