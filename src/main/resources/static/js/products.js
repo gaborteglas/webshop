@@ -20,7 +20,7 @@ function fillSelectWithCategories(categories) {
     allOptionListElementAnchor = document.createElement("a");
     allOptionListElementAnchor.className = "s-text13 active1";
     allOptionListElementAnchor.innerHTML = "Összes";
-    allOptionListElementAnchor.addEventListener("click", function(){updateTable()}, false);
+    allOptionListElementAnchor.addEventListener("click", function () { updateTable() }, false);
     allOptionListElement.appendChild(allOptionListElementAnchor);
     categoryList.appendChild(allOptionListElement);
 
@@ -31,7 +31,7 @@ function fillSelectWithCategories(categories) {
         optionListElementAnchor.className = "s-text13";
         optionListElementAnchor.innerHTML = categories[i].name;
         let catId = categories[i].id;
-        option.onclick = function(){updateTable(catId)}
+        option.onclick = function () { updateTable(catId) }
         option.appendChild(optionListElementAnchor);
         categoryList.appendChild(option);
     }
@@ -103,4 +103,9 @@ function fillTable(products) {
         productDiv.appendChild(block);
         productContainer.appendChild(productDiv);
     }
+}
+
+function activateCartButton() {
+    let basketIcon = document.querySelector(".header-wrapicon2");
+    basketIcon.classList.remove("disabled");
 }

@@ -196,25 +196,13 @@ function fillCart(products) {
     cartQuantity.innerHTML = totalQuantity;
 }
 
-function emptyCartVisually() {
-    let totalPriceField = document.querySelector(".header-cart-total");
-    let cartQuantity = document.querySelector(".header-icons-noti");
-    totalPriceField.innerHTML = "Összesen: 0 Ft";
-    cartQuantity.innerHTML = 0;
-    let cart = document.querySelector(".header-cart-wrapitem");
-    while (cart.hasChildNodes) {
-        cart.removeChild(cart.lastChild);
-    }
-}
-
 function handleResetButton() {
     if (confirm("Biztos hogy üríteni szeretné a kosár tartalmát?")) {
         fetch("api/basket/", {
             method: "DELETE"
         }).then(function (response) {
-            emptyCartVisually();
             return response.json()
-        }).then(responseJson => updateTable())
+        }).then(responseJson => updateCart())
     }
 }
 
