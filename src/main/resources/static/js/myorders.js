@@ -57,5 +57,54 @@ function fillTable(orderData) {
 
 function clickingOnRows(data) {
     let orderId = this.getAttribute("id");
-    window.location = "/myorderitem.html?order_id=" + orderId;
+    updateOrderItemTable(orderId);
+    }
+
+function updateOrderItemTable(orderId) {
+    location.href = "#openModal";
+    fetch("/api/myorderitems/" + orderId)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (jsonData) {
+            createOrderItemsTable(jsonData, orderId)
+        })
 }
+
+
+function createOrderItemsTable(orderItems, orderId) {
+        let totalPrice = 0;
+        let orderItemsTable = document.getElementById("orderitems-tbody");
+        orderItemsTable.innerHTML = "";
+        for (i in orderItems) {
+            let tr = document.createElement("tr");
+            tr.className = "clickable-row";
+
+            let producerTd = document.createElement("td");
+            producerTd.innerHTML = orderItems[i].producer;
+            producerTd.className = "column1";
+            tr.appendChild(producerTd);
+
+            let nameTd = document.createElement("td");
+            nameTd.innerHTML = orderItems[i].productName;
+            nameTd.className = "column2";
+            tr.appendChild(nameTd);
+
+            let currentPriceTd = document.createElement("td");
+            currentPriceTd.innerHTML = orderItems[i].productPrice + " Ft";
+            currentPriceTd.className = "column3";
+            tr.appendChild(currentPriceTd);
+
+            let quantityTd = document.createElement("td");
+            quantityTd.innerHTML = orderItems[i].quantity + " db";
+            quantityTd.className = "column4";
+            tr.appendChild(quantityTd);
+
+            orderItemsTable.appendChild(tr);
+
+            totalPrice += orderItems[i].productPrice * orderItems[i].quantity;
+            }
+
+        let priceP = document.getElementById("price-p");
+        priceP.innerHTML = "Összesen: " + totalPrice + " Ft"
+    }
