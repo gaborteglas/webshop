@@ -194,26 +194,30 @@ tbody tr:hover {
 
 .column1 {
   width: 200px;
-  padding-left: 40px;
-text-align: center;
+  padding-right: 20px
+  padding-left: 20px;
+  text-align: center;
 }
 
 .column2 {
   width: 200px;
-  padding-left: 40px;
-text-align: center;
+  padding-right: 20px
+  padding-left: 20px;
+  text-align: center;
 }
 
 .column3 {
   width: 100px;
-  padding-left: 40px;
-text-align: center;
+  padding-right: 20px
+  padding-left: 20px;
+  text-align: center;
 }
 
 .column4 {
   width: 250px;
-    padding-left: 40px;
-text-align: center;
+  padding-right: 20px
+  padding-left: 20px;
+  text-align: center;
 }
 
 .column5 {
@@ -304,4 +308,12 @@ text-align: center;
     padding-left: 15px;
     padding-right: 15px;
   }
+}
+
+#trash-icon {
+    width: 20px;
+}
+
+.deliveredCheckBox {
+    display: inline-block;
 }

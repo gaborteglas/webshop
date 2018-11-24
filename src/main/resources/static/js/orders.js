@@ -25,18 +25,22 @@ function fillTable(orders) {
         tr["raw-data"] = order;
 
         let idTd = document.createElement("td");
+        idTd.className = "column1";
         idTd.innerHTML = order.id;
         tr.appendChild(idTd);
 
         let userTd = document.createElement("td");
+        userTd.className = "column1";
         userTd.innerHTML = order.userId;
         tr.appendChild(userTd);
 
         let dateTd = document.createElement("td");
+        dateTd.className = "column1";
         dateTd.innerHTML = new Date(order.date).toLocaleString();
         tr.appendChild(dateTd);
 
         let statusTd = document.createElement("td");
+        statusTd.className = "column1";
         if (order.status === "ACTIVE") {
             statusTd.innerHTML = "aktív";
         } else if (order.status === "DELIVERED") {
@@ -47,36 +51,47 @@ function fillTable(orders) {
         tr.appendChild(statusTd);
 
         let addressTd = document.createElement("td");
+        addressTd.className = "column1";
         addressTd.innerHTML = order.deliveryAddress;
         tr.appendChild(addressTd);
 
         let quantityTd = document.createElement("td");
+        quantityTd.className = "column1";
         quantityTd.innerHTML = order.quantity + " db";
         tr.appendChild(quantityTd);
 
         let priceTd = document.createElement("td");
+        priceTd.className = "column1";
         priceTd.innerHTML = order.price + " Ft";
         tr.appendChild(priceTd);
 
-        let buttonsTd = document.createElement("td");
-        let deleteButton = document.createElement("button");
-        deleteButton.innerHTML = "Törlés";
-        deleteButton.setAttribute("class", "btn btn-danger");
-        deleteButton.setAttribute("id", "delete-button")
-        deleteButton.onclick = deleteButtonClick;
-        buttonsTd.appendChild(deleteButton);
+        let deliveredTd = document.createElement("td");
+        deliveredTd.className = "column1";
+        let deliveredBox = document.createElement("input");
+        deliveredBox.setAttribute("type", "checkbox");
+        deliveredBox.setAttribute("class", "deliveredCheckBox")
+        deliveredBox.setAttribute("name", "delivered")
+        deliveredBox.setAttribute("value", "delivered")
+        deliveredBox.onclick = deliveredButtonClick;
+        deliveredTd.appendChild(deliveredBox);
+        tr.appendChild(deliveredTd);
 
-        let deliveredButton = document.createElement("button");
-        deliveredButton.innerHTML = "Kiszállítva";
-        deliveredButton.setAttribute("class", "btn btn-success");
-        deliveredButton.setAttribute("id", "deliver-button")
-        deliveredButton.onclick = deliveredButtonClick;
-        buttonsTd.appendChild(deliveredButton);
+        if (order.status === "DELIVERED") {
+            deliveredBox.checked = true;
+            deliveredBox.disabled = true;
+        }
 
-        tr.appendChild(buttonsTd);
-
-        deliveredButton.disabled = order.status === 'DELETED' || order.status === 'DELIVERED';
-        deleteButton.disabled = order.status === 'DELETED' || order.status === 'DELIVERED';
+        let trashTd = document.createElement("td");
+        trashTd.className = "column1";
+        if (order.status === "ACTIVE") {
+            let trashIcon = document.createElement("img");
+            trashIcon.setAttribute("src", "img/trash-solid.svg");
+            trashIcon.setAttribute("alt", "trash-icon");
+            trashIcon.setAttribute("id", "trash-icon")
+            trashIcon.onclick = deleteButtonClick;
+            trashTd.appendChild(trashIcon);
+        }
+        tr.appendChild(trashTd);
 
         tr.onclick = function () {
             window.location = "/orderitems.html?order-id=" + order.id;
