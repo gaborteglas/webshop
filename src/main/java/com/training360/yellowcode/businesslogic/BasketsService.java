@@ -30,7 +30,9 @@ public class BasketsService {
 
     public Response addToBasket(Basket basket) {
         List<Basket> sameProductInUserBasket = findBasketByUserIdAndProductId(basket);
-        if (sameProductInUserBasket.size() == 0) {
+        if (basket.getQuantity() < 1) {
+            return new Response(false, "A Termék mennyisége nem lehet kisebb 1-nél");
+        } else if (sameProductInUserBasket.size() == 0) {
             basketsDao.addToBasket(basket);
             LOGGER.info(MessageFormat.format("Product (productId: {0}) added to basket of user (userId: {1})",
                     basket.getUserId(), basket.getProductId()));
