@@ -102,18 +102,29 @@ function creatingFeedbackFields(feedbackList) {
     reviewCount.innerHTML = "Értékelések (" + feedbackList.length + ")";
     let reviewDiv = document.querySelector("#single-review");
     for (let i = 0; i < feedbackList.length; i++) {
+        let reviewAuthor = document.createElement("p");
+        reviewAuthor.className = "s-text8";
+        reviewAuthor.innerHTML = feedbackList[i].user.loginName + ": " + feedbackList[i].ratingScore;
+        let starAverageStarHolder = document.createElement("span");
+        starAverageStarHolder.style.color = "#ffca00";
+        let averageStar = document.createElement("i");
+        averageStar.className = "fa fa-star p-l-3";
+        starAverageStarHolder.appendChild(averageStar);
+        reviewAuthor.appendChild(starAverageStarHolder);
         let reviewDate = document.createElement("p");
         reviewDate.className = "s-text8";
         reviewDate.innerHTML = new Date(feedbackList[i].ratingDate).toLocaleString();
         let reviewText = document.createElement("p");
+        let quotation = document.createElement("q");
         reviewText.className = "s-text8";
-        reviewText.innerHTML = feedbackList[i].ratingText;
-        let reviewAuthor = document.createElement("p");
-        reviewAuthor.className = "s-text8";
-        reviewAuthor.innerHTML = feedbackList[i].user.loginName;
-        reviewDiv.appendChild(reviewDate);
-        reviewDiv.appendChild(reviewText);
+        quotation.innerHTML = feedbackList[i].ratingText;
+        reviewText.appendChild(quotation);
         reviewDiv.appendChild(reviewAuthor);
+        reviewDiv.appendChild(reviewText);
+        reviewDiv.appendChild(reviewDate);
+
+        let breakLine = document.createElement("br");
+        reviewDiv.appendChild(breakLine);
     }
     //        let feedbackDiv = document.createElement("div");
     //        feedbackDiv.setAttribute("id", "one-feedback-div");
