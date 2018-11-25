@@ -148,6 +148,9 @@ function handleNewCategoryButton() {
    let messageSpan = document.getElementById("message-1");
    messageSpan.innerHTML = "";
 
+   let submitButton = document.getElementById("submit-button");
+   submitButton.value = "Kategória létrehozása";
+
    let h2 = document.getElementById("edit-new");
    h2.innerHTML = "Új kategória létrehozása";
 
