@@ -64,6 +64,12 @@ function fillTable(product) {
     let averageSpan = document.getElementById("product-average");
     if (average > 0) {
         averageSpan.innerHTML = "Átlag pontszám: " + Math.round(average * 100) / 100;
+        let starAverageStarHolder = document.createElement("span");
+        starAverageStarHolder.style.color = "#ffca00";
+        let averageStar = document.createElement("i");
+        averageStar.className = "fa fa-star p-l-3";
+        starAverageStarHolder.appendChild(averageStar);
+        averageSpan.appendChild(starAverageStarHolder);
     } else {
         averageSpan.innerHTML = "";
     }
@@ -95,14 +101,6 @@ function creatingFeedbackFields(feedbackList) {
     let reviewCount = document.querySelector("#reviews-count");
     reviewCount.innerHTML = "Értékelések (" + feedbackList.length + ")";
     let reviewDiv = document.querySelector("#single-review");
-
-    //    let ratingsDiv = document.querySelector(".product-ratings");
-    //    ratingsDiv.innerHTML = "";
-    //    if (feedbackList.length > 0) {
-    //        let title = document.createElement("h5");
-    //        title.innerHTML = "Vásárlói értékelések:"
-    //        ratingsDiv.appendChild(title);
-    //    }
     for (let i = 0; i < feedbackList.length; i++) {
         let reviewDate = document.createElement("p");
         reviewDate.className = "s-text8";
