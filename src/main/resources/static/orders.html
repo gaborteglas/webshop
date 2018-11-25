@@ -301,31 +301,49 @@
     </div>
 </header>
 
-<!-- Cart -->
-<section class="cart bgwhite p-t-70 p-b-100">
+<section class="bgwhite p-t-55 p-b-65">
     <div class="container">
-        <!-- Cart item -->
-        <div class="wrap-table100">
-            <div class="table100">
-                <table>
-                    <thead>
-                    <tr class="table100-head">
-                        <th class="column1">Rendelés azonosító</th>
-                        <th class="column1">Megrendelő azonosító</th>
-                        <th class="column1">Dátum</th>
-                        <th class="column1">Státusz</th>
-                        <th class="column1">Szállítási cím</th>
-                        <th class="column1">Termékek száma</th>
-                        <th class="column1">Összár</th>
-                        <th class="column1">Kiszállítva</th>
-                        <th class="column1"></th>
-                    </tr>
-                    </thead>
-                    <tbody id="orders-tbody"></tbody>
-                </table>
+        <div class="row">
+
+            <div class="p-b-10">
+                <div id = "filter-div" class="leftbar p-r-20 p-r-0-sm">
+                    <!--  -->
+                    <h4 class="m-text14 p-b-7">
+                        Szűrési lehetőségek
+                    </h4>
+
+                    <span class="p-b-10" id="filter-option-list">
+                        <span class="p-t-4 p-r-30"><a class="s-text13 active1 yellow-hover" id="orders-filter-all">Összes</a></span>
+                        <span class="p-t-4 p-r-30"><a class="s-text13 active1 yellow-hover" id="orders-filter-active">Aktív</a></span>
+                        <span class="p-t-4 p-r-30"><a class="s-text13 active1 yellow-hover" id="orders-filter-delivered">Kiszállított</a></span>
+                        <span class="p-t-4 p-r-30"><a class="s-text13 active1 yellow-hover" id="orders-filter-deleted">Törölt</a></span>
+
+                    </span>
+
+                </div>
+            </div>
+
+            <div class="wrap-table100">
+                <div class="table100">
+                    <table>
+                        <thead>
+                        <tr class="table100-head">
+                            <th class="column1">Rendelés azonosító</th>
+                            <th class="column1">Megrendelő azonosító</th>
+                            <th class="column1">Dátum</th>
+                            <th class="column1">Státusz</th>
+                            <th class="column1">Szállítási cím</th>
+                            <th class="column1">Termékek száma</th>
+                            <th class="column1">Összár</th>
+                            <th class="column1">Kiszállítva</th>
+                            <th class="column1"></th>
+                        </tr>
+                        </thead>
+                        <tbody id="orders-tbody"></tbody>
+                    </table>
+                </div>
             </div>
         </div>
-
     </div>
 </section>
 
