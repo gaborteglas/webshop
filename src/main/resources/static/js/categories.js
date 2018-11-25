@@ -4,6 +4,8 @@ window.onload = function() {
     let categoryForm = document.getElementById("category-form");
     categoryForm.onsubmit = handleSubmit;
     categoryForm.onreset = handleReset;
+    let newCategoryButton = document.getElementById("new-category-button");
+    newCategoryButton.onclick = handleNewCategoryButton;
 }
 
 function updateTable() {
@@ -26,28 +28,38 @@ function fillTable(categories) {
 
         let idTd = document.createElement("td");
         idTd.innerHTML = category.id;
+        idTd.className = "column1";
         tr.appendChild(idTd);
 
         let nameTd = document.createElement("td");
+        nameTd.className = "column1";
         nameTd.innerHTML = category.name;
         tr.appendChild(nameTd);
 
         let positionTd = document.createElement("td");
+        positionTd.className = "column1";
         positionTd.innerHTML = category.positionNumber;
         tr.appendChild(positionTd);
 
-        let buttonsTd = document.createElement("td");
-        let editButton = document.createElement("button");
-        let deleteButton = document.createElement("button");
-        editButton.setAttribute("class", "btn btn-primary");
-        deleteButton.setAttribute("class", "btn btn-danger");
-        editButton.innerHTML = "Szerkesztés";
-        deleteButton.innerHTML = "Törlés";
-        editButton.onclick = handleEditButtonOnclick;
-        deleteButton.onclick = handleDeleteButtonOnClick;
-        buttonsTd.appendChild(editButton);
-        buttonsTd.appendChild(deleteButton);
-        tr.appendChild(buttonsTd);
+        let editButtonTd = document.createElement("td");
+                editButtonTd.className = "column1";
+                let editButton = document.createElement("img");
+                editButton.setAttribute("alt", "edit-icon");
+                editButton.setAttribute("src", "img/edit-icon.svg");
+                editButton.setAttribute("id", "edit-icon");
+                editButton.onclick = handleEditButtonOnClick;
+                editButtonTd.appendChild(editButton);
+                tr.appendChild(editButtonTd);
+
+                let deleteButtonTd = document.createElement("td");
+                deleteButtonTd.className = "column1";
+                let deleteButton = document.createElement("img");
+                deleteButton.setAttribute("src", "img/trash-solid.svg");
+                deleteButton.setAttribute("alt", "trash-icon");
+                deleteButton.setAttribute("id", "trash-icon")
+                deleteButton.onclick = handleDeleteButtonOnClick;
+                deleteButtonTd.appendChild(deleteButton);
+                tr.appendChild(deleteButtonTd);
 
         tbody.appendChild(tr);
     }
@@ -55,7 +67,14 @@ function fillTable(categories) {
 
 let editedCategory = null;
 
-function handleEditButtonOnclick() {
+function handleEditButtonOnClick() {
+    let messageSpan = document.getElementById("message-1");
+    messageSpan.innerHTML = "";
+
+    let h2 = document.getElementById("edit-new");
+    h2.innerHTML = "Kategória szerkesztése";
+    location.href = "#openModal";
+
     let category = this.parentElement.parentElement["raw-data"];
     editedCategory = category;
 
@@ -78,6 +97,7 @@ function handleReset() {
 function handleSubmit() {
     let nameInput = document.getElementById("name-input");
     let positionInput = document.getElementById("position-input");
+    let messageSpan = document.getElementById("message-1");
 
     let name = nameInput.value;
     let position = positionInput.value;
@@ -101,7 +121,7 @@ function handleSubmit() {
     }).then(function(response) {
         return response.json()
     }).then(function(response) {
-        alert(response.message);
+        messageSpan.innerHTML = response.message;
         updateTable();
         document.getElementById("category-form").reset();
 
@@ -122,4 +142,21 @@ function handleDeleteButtonOnClick() {
             document.getElementById("category-form").reset();
         })
     }
+}
+
+function handleNewCategoryButton() {
+   let messageSpan = document.getElementById("message-1");
+   messageSpan.innerHTML = "";
+
+   let h2 = document.getElementById("edit-new");
+   h2.innerHTML = "Új kategória létrehozása";
+
+   location.href = "#openModal";
+
+   let nameInput = document.getElementById("name-input");
+   nameInput.value = "";
+
+   let positionInput = document.getElementById("position-input");
+   addressInput.value = "";
+
 }
