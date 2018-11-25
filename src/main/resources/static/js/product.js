@@ -1,6 +1,6 @@
 window.onload = function () {
     updateTable();
-    showBasketButton();
+    //showBasketButton();
     let putIntoBasketButton = document.getElementById("puttobasket");
     putIntoBasketButton.onclick = handlePutIntoBasket;
     //    let ratingSubmitButton = document.getElementById("rating-submit");
@@ -192,37 +192,37 @@ function creatingFeedbackFields(feedbackList) {
     //    }
 }
 
-function showBasketButton() {
-    fetch("api/user")
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (jsonData) {
-            if (jsonData.role == "ROLE_USER") {
-                switchBasketButton();
-            }
-            if (jsonData.role == "ROLE_ADMIN") {
-                hideBasketButton();
-            }
-        })
-        .catch(error => hideBasketButton());
-}
-
-function switchBasketButton() {
-    let button = document.getElementById("puttobasket");
-    button.setAttribute("style", "visibility:visible");
-
-    let input = document.getElementById("quantity");
-    input.setAttribute("style", "visibility:visible");
-}
-
-function hideBasketButton() {
-    let button1 = document.getElementById("puttobasket");
-    button1.style.visibility = "hidden";
-
-    let input = document.getElementById("quantity");
-    input.style.visibility = "hidden";
-}
+//function showBasketButton() {
+//    fetch("api/user")
+//        .then(function (response) {
+//            return response.json();
+//        })
+//        .then(function (jsonData) {
+//            if (jsonData.role == "ROLE_USER") {
+//                switchBasketButton();
+//            }
+//            if (jsonData.role == "ROLE_ADMIN") {
+//                hideBasketButton();
+//            }
+//        })
+//        .catch(error => hideBasketButton());
+//}
+//
+//function switchBasketButton() {
+//    let button = document.getElementById("puttobasket");
+//    button.setAttribute("style", "visibility:visible");
+//
+//    let input = document.getElementById("quantity");
+//    input.setAttribute("style", "visibility:visible");
+//}
+//
+//function hideBasketButton() {
+//    let button1 = document.getElementById("puttobasket");
+//    button1.style.visibility = "hidden";
+//
+//    let input = document.getElementById("quantity");
+//    input.style.visibility = "hidden";
+//}
 
 function handleRatingSubmit() {
     let productId = document.querySelector("#product-id").innerHTML;
@@ -398,7 +398,7 @@ function giveFeedbackToUser(message) {
     } else {
         let basketButtonHolder = document.querySelector("#basket-button-holder");
         let feedbackText = document.createElement("p");
-        feedbackText.className = "s-text8 p-t-10";
+        feedbackText.className = "s-text8 p-t-10 p-l-100";
         feedbackText.id = "to-basket-feedback-message";
         feedbackText.innerHTML = message;
         basketButtonHolder.appendChild(feedbackText);
