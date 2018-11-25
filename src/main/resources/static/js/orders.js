@@ -2,9 +2,20 @@ window.onload = function () {
     updateTable();
     filterActiveButtonClick();
     filterAllButtonClick();
+    filterDeliveredButtonClick();
+    filterDeletedButtonClick();
+    document.getElementById("orders-filter-all").classList.add("current-filter");
+    document.getElementById("orders-filter-active").classList.remove("current-filter");
+    document.getElementById("orders-filter-delivered").classList.remove("current-filter");
+    document.getElementById("orders-filter-deleted").classList.remove("current-filter");
 };
 
 function updateTable() {
+    document.getElementById("orders-filter-all").classList.add("current-filter");
+    document.getElementById("orders-filter-active").classList.remove("current-filter");
+    document.getElementById("orders-filter-delivered").classList.remove("current-filter");
+    document.getElementById("orders-filter-deleted").classList.remove("current-filter");
+
     fetch("api/orders")
         .then(function (response) {
             return response.json();
@@ -195,7 +206,12 @@ function deliveredButtonClick(event) {
     event.stopPropagation();
 }
 
-function activeButtonClick() {
+function filterActiveOrders() {
+    document.getElementById("orders-filter-all").classList.remove("current-filter");
+    document.getElementById("orders-filter-active").classList.add("current-filter");
+    document.getElementById("orders-filter-delivered").classList.remove("current-filter");
+    document.getElementById("orders-filter-deleted").classList.remove("current-filter");
+
     fetch("api/activeorders/")
         .then(function (response) {
             return response.json();
@@ -205,16 +221,55 @@ function activeButtonClick() {
         })
 }
 
-function filterActiveButtonClick() {
-    let theadActiveButton = document.getElementById("orders-filter-active");
-    theadActiveButton.setAttribute("class", "btn btn-warning");
-    theadActiveButton.onclick = activeButtonClick;
+function filterDeliveredOrders() {
+    document.getElementById("orders-filter-all").classList.remove("current-filter");
+    document.getElementById("orders-filter-active").classList.remove("current-filter");
+    document.getElementById("orders-filter-delivered").classList.add("current-filter");
+    document.getElementById("orders-filter-deleted").classList.remove("current-filter");
+
+    fetch("api/deliveredorders/")
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (jsonData) {
+            fillTable(jsonData);
+        })
 }
+
+function filterDeletedOrders() {
+    document.getElementById("orders-filter-all").classList.remove("current-filter");
+    document.getElementById("orders-filter-active").classList.remove("current-filter");
+    document.getElementById("orders-filter-delivered").classList.remove("current-filter");
+    document.getElementById("orders-filter-deleted").classList.add("current-filter");
+
+    fetch("api/deletedorders/")
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (jsonData) {
+            fillTable(jsonData);
+        })
+}
+
 
 function filterAllButtonClick() {
     let theadAllButton = document.getElementById("orders-filter-all");
-    theadAllButton.setAttribute("class", "btn btn-info");
     theadAllButton.onclick = updateTable;
+}
+
+function filterActiveButtonClick() {
+    let theadActiveButton = document.getElementById("orders-filter-active");
+    theadActiveButton.onclick = filterActiveOrders;
+}
+
+function filterDeliveredButtonClick() {
+    let theadDeliveredButton = document.getElementById("orders-filter-delivered");
+    theadDeliveredButton.onclick = filterDeliveredOrders;
+}
+
+function filterDeletedButtonClick() {
+    let theadDeletedButton = document.getElementById("orders-filter-deleted");
+    theadDeletedButton.onclick = filterDeletedOrders;
 }
 
 function deleteOrderItemButtonClick() {

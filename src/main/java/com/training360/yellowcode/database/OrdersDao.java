@@ -60,6 +60,44 @@ public class OrdersDao {
                 ));
     }
 
+    public List<Orders> listDeliveredOrders() {
+        return jdbcTemplate.query("SELECT orders.id, orders.user_id, orders.date, orders.status, " +
+                        "orders.delivery_address, COUNT(orderitem.id) AS quantity, " +
+                        "SUM(orderitem.product_price) AS price FROM orders " +
+                        "LEFT JOIN orderitem ON orders.id = orderitem.order_id " +
+                        "WHERE orders.status = 'DELIVERED' " +
+                        "GROUP BY orders.id " +
+                        "ORDER BY orders.date DESC",
+                (ResultSet resultSet, int i) -> new Orders(
+                        resultSet.getLong("orders.id"),
+                        resultSet.getLong("orders.user_id"),
+                        resultSet.getTimestamp("orders.date").toLocalDateTime(),
+                        OrderStatus.valueOf(resultSet.getString("orders.status")),
+                        resultSet.getLong("quantity"),
+                        resultSet.getLong("price"),
+                        resultSet.getString("orders.delivery_address")
+                ));
+    }
+
+    public List<Orders> listDeletedOrders() {
+        return jdbcTemplate.query("SELECT orders.id, orders.user_id, orders.date, orders.status, " +
+                        "orders.delivery_address, COUNT(orderitem.id) AS quantity, " +
+                        "SUM(orderitem.product_price) AS price FROM orders " +
+                        "LEFT JOIN orderitem ON orders.id = orderitem.order_id " +
+                        "WHERE orders.status = 'DELETED' " +
+                        "GROUP BY orders.id " +
+                        "ORDER BY orders.date DESC",
+                (ResultSet resultSet, int i) -> new Orders(
+                        resultSet.getLong("orders.id"),
+                        resultSet.getLong("orders.user_id"),
+                        resultSet.getTimestamp("orders.date").toLocalDateTime(),
+                        OrderStatus.valueOf(resultSet.getString("orders.status")),
+                        resultSet.getLong("quantity"),
+                        resultSet.getLong("price"),
+                        resultSet.getString("orders.delivery_address")
+                ));
+    }
+
     public List<Orders> listOrdersByUserId(long userId) {
         return jdbcTemplate.query("SELECT id, user_id, date, status, delivery_address" +
                         " FROM orders where user_id = ? " +

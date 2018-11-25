@@ -52,3 +52,7 @@ p, h2 {
     font-family: OpenSans-Regular;
     src: url('../fonts/OpenSans/OpenSans-Regular.ttf');
 }
+
+.current-filter {
+    color: #ffca00 !important;
+}

@@ -39,6 +39,16 @@ public class OrdersService {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
+    public List<Orders> listDeliveredOrders() {
+        return ordersDao.listDeliveredOrders();
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<Orders> listDeletedOrders() {
+        return ordersDao.listDeletedOrders();
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
     public List<OrderItem> listOrderItemsForAdmin(long orderId) {
         return ordersDao.listOrderItemsForAdmin(orderId);
     }
