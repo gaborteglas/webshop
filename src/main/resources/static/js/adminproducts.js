@@ -7,6 +7,8 @@ window.onload = function() {
     productForm.onreset = handleReset;
     let imageForm = document.getElementById("picture-form");
     imageForm.onsubmit = uploadImage;
+    let newProductButton = document.getElementById("new-product-button");
+    newProductButton.onclick = handleNewProductButton;
 }
 
 function updateTable() {
@@ -20,49 +22,83 @@ function updateTable() {
 }
 
 function fillTable(products) {
-    let tbody = document.getElementById("products-tbody");
+    let tbody = document.getElementById("products-admin-tbody");
     tbody.innerHTML = "";
     for (let i = 0; i < products.length; i++) {
         let product  = products[i];
         let tr = document.createElement("tr");
         tr["raw-data"] = product;
 
+        let imageTd = document.createElement("td");
+        imageTd.className = "column-1";
+        let imageDiv = document.createElement("div");
+        imageDiv.className = "cart-img-product b-rad-4 o-f-hidden";
+        let image = document.createElement("img");
+        image.src = "data:image/png;base64, " + product.image;
+        image.alt = "IMG-PRODUCT";
+        imageDiv.appendChild(image);
+        imageTd.appendChild(imageDiv);
+        tr.appendChild(imageTd);
+
         let idTd = document.createElement("td");
         idTd.innerHTML = product.id;
+        idTd.className = "column1";
         tr.appendChild(idTd);
 
         let producerTd = document.createElement("td");
         producerTd.innerHTML = product.producer;
+        producerTd.className = "column1";
         tr.appendChild(producerTd);
 
         let nameTd = document.createElement("td");
         nameTd.innerHTML = product.name;
+        nameTd.className = "column1";
         tr.appendChild(nameTd);
 
         let addressTd = document.createElement("td");
         addressTd.innerHTML = product.address;
+        addressTd.className = "column1";
         tr.appendChild(addressTd);
 
         let priceTd = document.createElement("td");
         priceTd.innerHTML = product.currentPrice + " Ft";
+        priceTd.className = "column1";
         tr.appendChild(priceTd);
 
         let categoryTd = document.createElement("td");
         categoryTd.innerHTML = product.category.name;
+        categoryTd.className = "column1";
         tr.appendChild(categoryTd);
 
-        let buttonsTd = document.createElement("td");
-        let editButton = document.createElement("button");
-        let deleteButton = document.createElement("button");
-        editButton.setAttribute("class", "btn btn-primary");
-        deleteButton.setAttribute("class", "btn btn-danger");
-        editButton.innerHTML = "Szerkesztés";
-        deleteButton.innerHTML = "Törlés";
+        let editButtonTd = document.createElement("td");
+        editButtonTd.className = "column1";
+        let editButton = document.createElement("img");
+        editButton.setAttribute("alt", "edit-icon");
+        editButton.setAttribute("src", "img/edit-icon.png");
+        editButton.setAttribute("id", "trash-icon");
         editButton.onclick = handleEditButtonOnClick;
+        editButtonTd.appendChild(editButton);
+        tr.appendChild(editButtonTd);
+
+        let deleteButtonTd = document.createElement("td");
+        deleteButtonTd.className = "column1";
+        let deleteButton = document.createElement("img");
+        deleteButton.setAttribute("src", "img/trash-solid.svg");
+        deleteButton.setAttribute("alt", "trash-icon");
+        deleteButton.setAttribute("id", "trash-icon")
         deleteButton.onclick = handleDeleteButtonOnClick;
-        buttonsTd.appendChild(editButton);
-        buttonsTd.appendChild(deleteButton);
-        tr.appendChild(buttonsTd);
+        deleteButtonTd.appendChild(deleteButton);
+        tr.appendChild(deleteButtonTd);
+
+        let pictureButtonTd = document.createElement("td");
+        pictureButtonTd.className = "column1";
+        let pictureButton = document.createElement("img");
+        pictureButton.setAttribute("src", "img/upload-icon.png");
+        pictureButton.setAttribute("alt", "picture-icon");
+        pictureButton.setAttribute("id", "trash-icon")
+        pictureButton.onclick = handleUploadButtonOnClick;
+        pictureButtonTd.appendChild(pictureButton);
+        tr.appendChild(pictureButtonTd);
 
         tbody.appendChild(tr);
     }
@@ -71,7 +107,7 @@ function fillTable(products) {
 let editedProduct = null;
 
 function handleSubmit() {
-
+    let messageSpan = document.getElementById("message-1");
     let idInput = document.getElementById("id-input");
     let producerInput = document.getElementById("producer-input");
     let nameInput = document.getElementById("name-input");
@@ -91,16 +127,16 @@ function handleSubmit() {
 
     let parsedId = Number(id);
     if (isNaN(parsedId) || !Number.isInteger(parsedId)) {
-        alert("Az id megadása kötelező és csak egész szám lehet.");
+        messageSpan.innerHTML = "Az id megadása kötelező és csak egész szám lehet.";
         return false;
     }
     if (name.length === 0 || producer.length === 0) {
-        alert("Minden mező kitöltése kötelező!");
+        messageSpan.innerHTML = "Minden mező kitöltése kötelező!";
         return false;
     }
     let parsedPrice = Number(price);
     if (isNaN(parsedPrice) || !Number.isInteger(parsedPrice) || parsedPrice <= 0 || parsedPrice > 2000000) {
-        alert("Az ár megadása kötelező, csak egész szám lehet és nem haladhatja meg a 2.000.000 Ft-ot.");
+        messageSpan.innerHTML = "Az ár megadása kötelező, csak egész szám lehet és nem haladhatja meg a 2.000.000 Ft-ot.";
         return false;
     }
 
@@ -129,9 +165,9 @@ function handleSubmit() {
         .then(function(response) {
 
             if (editedProduct === null) {
-                alert("Hozzáadva.");
+                messageSpan.innerHTML = "Hozzáadva.";
             } else {
-                alert("Módosítva.")
+                messageSpan.innerHTML = "Módosítva."
             }
             updateTable();
             document.getElementById("product-form").reset();
@@ -161,6 +197,13 @@ function handleReset() {
 }
 
 function handleEditButtonOnClick() {
+    let messageSpan = document.getElementById("message-1");
+    messageSpan.innerHTML = "";
+
+    let h2 = document.getElementById("edit-new");
+    h2.innerHTML = "Termék szerkesztése";
+    location.href = "#openModal";
+
     let product = this.parentElement.parentElement["raw-data"];
     editedProduct = product;
 
@@ -223,10 +266,11 @@ function fillSelectOptions(categories) {
 }
 
 function uploadImage() {
-  let idInput = document.getElementById("id-input");
+  let messageSpan = document.getElementById("message-2");
+  let idInput = document.getElementById("id-input-picture");
   let id = idInput.value;
   let formData = new FormData();
-  let fileInput = document.getElementById('picture-select');
+  let fileInput = document.getElementById("picture-select");
   formData.append('file', fileInput.files[0]);
   let xhr = new XMLHttpRequest();
   let url = '/api/upload/' + id;
@@ -237,11 +281,53 @@ function uploadImage() {
     if (xhr.readyState === DONE) {
       if (xhr.status === OK) {
         updateTable();
+        messageSpan.innerHTML = "Sikeresen módosította a képet!";
       } else {
-        console.log('Error: ' + xhr.status);
+        messageSpan.innerHTML = "Hiba, próbálja újra!";
       }
     }
   };
   xhr.send(formData);
 }
 
+function handleNewProductButton() {
+   let messageSpan = document.getElementById("message-1");
+   messageSpan.innerHTML = "";
+
+   let h2 = document.getElementById("edit-new");
+   h2.innerHTML = "Új termék létrehozása";
+
+   location.href = "#openModal";
+
+   let idInput = document.getElementById("id-input");
+   idInput.value = "";
+
+   let producerInput = document.getElementById("producer-input");
+   producerInput.value = "";
+
+   let nameInput = document.getElementById("name-input");
+   nameInput.value = "";
+
+   let addressInput = document.getElementById("address-input");
+   addressInput.value = "";
+
+   let priceInput = document.getElementById("price-input");
+   priceInput.value = "";
+
+   let categorySelect = document.querySelector("#category-select");
+   categorySelect.value = "";
+
+}
+
+function handleUploadButtonOnClick() {
+   let messageSpan = document.getElementById("message-2");
+   messageSpan.innerHTML = "";
+   location.href = "#openModal-picture";
+   let product = this.parentElement.parentElement["raw-data"];
+
+   let idInput = document.getElementById("id-input-picture");
+   idInput.value = product.id;
+
+   let nameInput = document.getElementById("name-input-picture");
+   nameInput.value = product.name;
+  }
