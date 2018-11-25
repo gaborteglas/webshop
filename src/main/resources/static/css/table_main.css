@@ -139,9 +139,9 @@ table {
 table * {
   position: relative;
 }
-table td, table th {
+/*table td, table th {
   padding-left: 8px;
-}
+}*/
 table thead tr {
   height: 60px;
   background: #36304a;
@@ -207,7 +207,7 @@ tbody tr:hover {
 }
 
 .column3 {
-  width: 100px;
+  width: 50px;
   padding-right: 20px
   padding-left: 20px;
   text-align: center;
@@ -310,7 +310,7 @@ tbody tr:hover {
   }
 }
 
-#trash-icon {
+#trash-icon, #picture-upload-icon, #edit-icon {
     width: 20px;
 }
 

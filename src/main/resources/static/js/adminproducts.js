@@ -74,8 +74,8 @@ function fillTable(products) {
         editButtonTd.className = "column1";
         let editButton = document.createElement("img");
         editButton.setAttribute("alt", "edit-icon");
-        editButton.setAttribute("src", "img/edit-icon.png");
-        editButton.setAttribute("id", "trash-icon");
+        editButton.setAttribute("src", "img/edit-icon.svg");
+        editButton.setAttribute("id", "edit-icon");
         editButton.onclick = handleEditButtonOnClick;
         editButtonTd.appendChild(editButton);
         tr.appendChild(editButtonTd);
@@ -93,9 +93,9 @@ function fillTable(products) {
         let pictureButtonTd = document.createElement("td");
         pictureButtonTd.className = "column1";
         let pictureButton = document.createElement("img");
-        pictureButton.setAttribute("src", "img/upload-icon.png");
+        pictureButton.setAttribute("src", "img/upload-icon.svg");
         pictureButton.setAttribute("alt", "picture-icon");
-        pictureButton.setAttribute("id", "trash-icon")
+        pictureButton.setAttribute("id", "picture-upload-icon")
         pictureButton.onclick = handleUploadButtonOnClick;
         pictureButtonTd.appendChild(pictureButton);
         tr.appendChild(pictureButtonTd);
