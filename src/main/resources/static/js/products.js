@@ -93,6 +93,13 @@ function fillTable(products) {
         let priceSpan = document.createElement("span");
         priceSpan.className = "block2-price m-text6 p-r-5";
         priceSpan.innerHTML = product.currentPrice.toLocaleString() + " Ft";
+        let feedbackText = document.createElement("span");
+        let classNameWithProductId = "feedback-" + product.id;
+        feedbackText.className = "s-text8 p-t-10 " + classNameWithProductId;
+        feedbackText.id = "to-basket-feedback-message";
+        let br = document.createElement("br");
+        priceSpan.appendChild(br);
+        priceSpan.appendChild(feedbackText);
 
         textHolder.appendChild(textHolderAnchor);
         textHolder.appendChild(priceSpan);
@@ -119,7 +126,7 @@ function addToBasket(productId) {
     }).then(function (response) {
         return response.json()
     }).then(function (jsonData) {
-        giveFeedbackToUser(jsonData.message);
+        giveFeedbackToUser(jsonData.message, productId);
         updateCart();
     });
     return false;
@@ -191,15 +198,8 @@ function fillCart(products) {
     cartQuantity.innerHTML = totalQuantity;
 }
 
-function giveFeedbackToUser(message) {
-    if (document.querySelector("#to-basket-feedback-message") !== null) {
-        document.querySelector("#to-basket-feedback-message").innerHTML = message;
-    } else {
-        let container = document.querySelector(".container");
-        let feedbackText = document.createElement("p");
-        feedbackText.className = "s-text8 p-t-10";
-        feedbackText.id = "to-basket-feedback-message";
-        feedbackText.innerHTML = message;
-        container.appendChild(feedbackText);
-    }
+function giveFeedbackToUser(message, productId) {
+        classToSelect = ".feedback-" +  productId;
+        let spanToSelect = document.querySelector(classToSelect);
+        spanToSelect.innerHTML = message;
 }
