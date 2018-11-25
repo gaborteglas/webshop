@@ -56,3 +56,7 @@ p, h2 {
 .current-filter {
     color: #ffca00 !important;
 }
+
+#orders-filter-all, #orders-filter-active, #orders-filter-delivered, #orders-filter-deleted {
+    cursor: pointer;
+}
