@@ -15,29 +15,19 @@ function updateTable() {
 }
 
 function fillTable(dashboard) {
-    let tbody = document.querySelector("#dashboard-tbody");
-    let tr = document.createElement("tr");
-
-
-    let userCount = document.createElement("td");
+    let userCount = document.querySelector(".user-count");
     userCount.innerHTML = dashboard.userCount;
-    tr.appendChild(userCount);
 
-    let activeProductCount = document.createElement("td");
-    activeProductCount.innerHTML = dashboard.activeProductCount;
-    tr.appendChild(activeProductCount);
-
-    let productCount = document.createElement("td");
-    productCount.innerHTML = dashboard.productCount;
-    tr.appendChild(productCount);
-
-    let activeOrderCount = document.createElement("td");
+    let activeOrderCount = document.querySelector(".active-order-count");
     activeOrderCount.innerHTML = dashboard.activeOrderCount;
-    tr.appendChild(activeOrderCount);
 
-    let orderCount = document.createElement("td");
+    let activeProductCount = document.querySelector(".active-product-count");
+    activeProductCount.innerHTML = dashboard.activeProductCount;
+
+    let orderCount = document.querySelector(".order-count");
     orderCount.innerHTML = dashboard.orderCount;
-    tr.appendChild(orderCount);
 
-    tbody.appendChild(tr);
+    let productCount = document.querySelector(".product-count");
+    productCount.innerHTML = dashboard.productCount;
+
 }
