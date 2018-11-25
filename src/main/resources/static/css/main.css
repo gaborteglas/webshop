@@ -410,12 +410,12 @@ iframe {
 }
 
 .select2-container .select2-results__option[aria-selected="true"] {
-  background-color: #e65540;
+  background-color: #ffca00;
   color: white;
 }
 
 .select2-container .select2-results__option--highlighted[aria-selected] {
-  background-color: #e65540;
+  background-color: #ffca00;
   color: white;
 }
 
@@ -2370,5 +2370,13 @@ input.num-product::-webkit-inner-spin-button {
 div.header-wrapicon2.disabled {
    pointer-events: none;
    cursor: default;
+}
+
+a.yellow-hover:hover {
+color: #ffca00 !important;
+}
+
+.yellow-hover:hover {
+color: #ffca00 !important;
 }
 

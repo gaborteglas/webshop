@@ -18,7 +18,7 @@ function fillSelectWithCategories(categories) {
     let allOptionListElement = document.createElement("li");
     allOptionListElement.className = "p-t-4";
     allOptionListElementAnchor = document.createElement("a");
-    allOptionListElementAnchor.className = "s-text13 active1";
+    allOptionListElementAnchor.className = "s-text13 active1 yellow-hover";
     allOptionListElementAnchor.innerHTML = "Összes";
     allOptionListElementAnchor.addEventListener("click", function () { updateTable() }, false);
     allOptionListElement.appendChild(allOptionListElementAnchor);
@@ -28,7 +28,7 @@ function fillSelectWithCategories(categories) {
         let option = document.createElement("li");
         option.className = "p-t-4";
         optionListElementAnchor = document.createElement("a");
-        optionListElementAnchor.className = "s-text13";
+        optionListElementAnchor.className = "s-text13 yellow-hover";
         optionListElementAnchor.innerHTML = categories[i].name;
         let catId = categories[i].id;
         option.onclick = function () { updateTable(catId) }
@@ -88,7 +88,7 @@ function fillTable(products) {
         textHolder.className = "block2-txt p-t-20";
         let textHolderAnchor = document.createElement("a");
         textHolderAnchor.href = "/product.html?address=" + product.address;
-        textHolderAnchor.className = "block2-name dis-block s-text3 p-b-5";
+        textHolderAnchor.className = "block2-name dis-block s-text3 p-b-5 yellow-hover";
         textHolderAnchor.innerHTML = product.producer + " - " + product.name;
         let priceSpan = document.createElement("span");
         priceSpan.className = "block2-price m-text6 p-r-5";
