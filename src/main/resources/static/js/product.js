@@ -1,6 +1,6 @@
 window.onload = function () {
     updateTable();
-    showBasketButton();
+    //showBasketButton();
     let putIntoBasketButton = document.getElementById("puttobasket");
     putIntoBasketButton.onclick = handlePutIntoBasket;
     //    let ratingSubmitButton = document.getElementById("rating-submit");
@@ -64,6 +64,12 @@ function fillTable(product) {
     let averageSpan = document.getElementById("product-average");
     if (average > 0) {
         averageSpan.innerHTML = "Átlag pontszám: " + Math.round(average * 100) / 100;
+        let starAverageStarHolder = document.createElement("span");
+        starAverageStarHolder.style.color = "#ffca00";
+        let averageStar = document.createElement("i");
+        averageStar.className = "fa fa-star p-l-3";
+        starAverageStarHolder.appendChild(averageStar);
+        averageSpan.appendChild(starAverageStarHolder);
     } else {
         averageSpan.innerHTML = "";
     }
@@ -95,27 +101,30 @@ function creatingFeedbackFields(feedbackList) {
     let reviewCount = document.querySelector("#reviews-count");
     reviewCount.innerHTML = "Értékelések (" + feedbackList.length + ")";
     let reviewDiv = document.querySelector("#single-review");
-
-    //    let ratingsDiv = document.querySelector(".product-ratings");
-    //    ratingsDiv.innerHTML = "";
-    //    if (feedbackList.length > 0) {
-    //        let title = document.createElement("h5");
-    //        title.innerHTML = "Vásárlói értékelések:"
-    //        ratingsDiv.appendChild(title);
-    //    }
     for (let i = 0; i < feedbackList.length; i++) {
+        let reviewAuthor = document.createElement("p");
+        reviewAuthor.className = "s-text8";
+        reviewAuthor.innerHTML = feedbackList[i].user.loginName + ": " + feedbackList[i].ratingScore;
+        let starAverageStarHolder = document.createElement("span");
+        starAverageStarHolder.style.color = "#ffca00";
+        let averageStar = document.createElement("i");
+        averageStar.className = "fa fa-star p-l-3";
+        starAverageStarHolder.appendChild(averageStar);
+        reviewAuthor.appendChild(starAverageStarHolder);
         let reviewDate = document.createElement("p");
         reviewDate.className = "s-text8";
         reviewDate.innerHTML = new Date(feedbackList[i].ratingDate).toLocaleString();
         let reviewText = document.createElement("p");
+        let quotation = document.createElement("q");
         reviewText.className = "s-text8";
-        reviewText.innerHTML = feedbackList[i].ratingText;
-        let reviewAuthor = document.createElement("p");
-        reviewAuthor.className = "s-text8";
-        reviewAuthor.innerHTML = feedbackList[i].user.loginName;
-        reviewDiv.appendChild(reviewDate);
-        reviewDiv.appendChild(reviewText);
+        quotation.innerHTML = feedbackList[i].ratingText;
+        reviewText.appendChild(quotation);
         reviewDiv.appendChild(reviewAuthor);
+        reviewDiv.appendChild(reviewText);
+        reviewDiv.appendChild(reviewDate);
+
+        let breakLine = document.createElement("br");
+        reviewDiv.appendChild(breakLine);
     }
     //        let feedbackDiv = document.createElement("div");
     //        feedbackDiv.setAttribute("id", "one-feedback-div");
@@ -183,37 +192,37 @@ function creatingFeedbackFields(feedbackList) {
     //    }
 }
 
-function showBasketButton() {
-    fetch("api/user")
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (jsonData) {
-            if (jsonData.role == "ROLE_USER") {
-                switchBasketButton();
-            }
-            if (jsonData.role == "ROLE_ADMIN") {
-                hideBasketButton();
-            }
-        })
-        .catch(error => hideBasketButton());
-}
-
-function switchBasketButton() {
-    let button = document.getElementById("puttobasket");
-    button.setAttribute("style", "visibility:visible");
-
-    let input = document.getElementById("quantity");
-    input.setAttribute("style", "visibility:visible");
-}
-
-function hideBasketButton() {
-    let button1 = document.getElementById("puttobasket");
-    button1.style.visibility = "hidden";
-
-    let input = document.getElementById("quantity");
-    input.style.visibility = "hidden";
-}
+//function showBasketButton() {
+//    fetch("api/user")
+//        .then(function (response) {
+//            return response.json();
+//        })
+//        .then(function (jsonData) {
+//            if (jsonData.role == "ROLE_USER") {
+//                switchBasketButton();
+//            }
+//            if (jsonData.role == "ROLE_ADMIN") {
+//                hideBasketButton();
+//            }
+//        })
+//        .catch(error => hideBasketButton());
+//}
+//
+//function switchBasketButton() {
+//    let button = document.getElementById("puttobasket");
+//    button.setAttribute("style", "visibility:visible");
+//
+//    let input = document.getElementById("quantity");
+//    input.setAttribute("style", "visibility:visible");
+//}
+//
+//function hideBasketButton() {
+//    let button1 = document.getElementById("puttobasket");
+//    button1.style.visibility = "hidden";
+//
+//    let input = document.getElementById("quantity");
+//    input.style.visibility = "hidden";
+//}
 
 function handleRatingSubmit() {
     let productId = document.querySelector("#product-id").innerHTML;
@@ -389,7 +398,7 @@ function giveFeedbackToUser(message) {
     } else {
         let basketButtonHolder = document.querySelector("#basket-button-holder");
         let feedbackText = document.createElement("p");
-        feedbackText.className = "s-text8 p-t-10";
+        feedbackText.className = "s-text8 p-t-10 p-l-100";
         feedbackText.id = "to-basket-feedback-message";
         feedbackText.innerHTML = message;
         basketButtonHolder.appendChild(feedbackText);
