@@ -19,8 +19,9 @@ function fillTable(orders) {
     tbody.innerHTML = "";
     for (let i = 0; i < orders.length; i++) {
         let order = orders[i];
-        console.log(order);
         let tr = document.createElement("tr");
+        tr.onclick = clickingOnRows;
+        tr.setAttribute("id", order.id);
         tr.className = "clickable-row";
         tr["raw-data"] = order;
 
@@ -90,20 +91,86 @@ function fillTable(orders) {
             trashIcon.setAttribute("src", "img/trash-solid.svg");
             trashIcon.setAttribute("alt", "trash-icon");
             trashIcon.setAttribute("id", "trash-icon")
-            trashIcon.onclick = deleteButtonClick;
+            trashIcon.onclick = deleteOrderButtonClick;
             trashTd.appendChild(trashIcon);
         }
         tr.appendChild(trashTd);
-
-        tr.onclick = function () {
-            window.location = "/orderitems.html?order-id=" + order.id;
-        };
 
         tbody.appendChild(tr);
     }
 }
 
-function deleteButtonClick(event) {
+function clickingOnRows() {
+    let orderId = this.getAttribute("id");
+    updateOrderItemTable(orderId);
+}
+
+function updateOrderItemTable(orderId) {
+    location.href = "#openModal";
+    fetch("/api/orders/" + orderId)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (jsonData) {
+            createOrderItemsTable(jsonData)
+        })
+}
+
+
+function createOrderItemsTable(orderItems) {
+    let orderItemsTable = document.getElementById("orderitems-tbody");
+    let totalPrice = 0;
+    orderItemsTable.innerHTML = "";
+    for (i in orderItems) {
+        let tr = document.createElement("tr");
+        tr.className = "clickable-row";
+        tr["raw-data"] = orderItems[i];
+
+        let productIdTd = document.createElement("td");
+        productIdTd.innerHTML = orderItems[i].productId;
+        productIdTd.className = "column1";
+        tr.appendChild(productIdTd);
+
+        let producerTd = document.createElement("td");
+        producerTd.innerHTML = orderItems[i].producer;
+        producerTd.className = "column1";
+        tr.appendChild(producerTd);
+
+        let nameTd = document.createElement("td");
+        nameTd.innerHTML = orderItems[i].productName;
+        nameTd.className = "column1";
+        tr.appendChild(nameTd);
+
+        let currentPriceTd = document.createElement("td");
+        currentPriceTd.innerHTML = orderItems[i].productPrice + " Ft";
+        currentPriceTd.className = "column1";
+        tr.appendChild(currentPriceTd);
+
+        let quantityTd = document.createElement("td");
+        quantityTd.innerHTML = orderItems[i].quantity + " db";
+        quantityTd.className = "column4";
+        tr.appendChild(quantityTd);
+
+        let trashTd = document.createElement("td");
+        trashTd.className = "column1";
+        let trashIcon = document.createElement("img");
+        trashIcon.setAttribute("src", "img/trash-solid.svg");
+        trashIcon.setAttribute("alt", "trash-icon");
+        trashIcon.setAttribute("id", "trash-icon")
+        trashIcon.onclick = deleteOrderItemButtonClick;
+        trashTd.appendChild(trashIcon);
+        tr.appendChild(trashTd);
+
+        orderItemsTable.appendChild(tr);
+
+        totalPrice += orderItems[i].productPrice * orderItems[i].quantity;
+        }
+
+    let priceP = document.getElementById("price-p");
+    priceP.innerHTML = "Összesen: " + totalPrice + " Ft"
+}
+
+function deleteOrderButtonClick(event) {
     var result = confirm("Biztosan törli a kijelölt rendelést?");
     if (result) {
         let order = this.parentElement.parentElement["raw-data"];
@@ -148,4 +215,19 @@ function filterAllButtonClick() {
     let theadAllButton = document.getElementById("orders-filter-all");
     theadAllButton.setAttribute("class", "btn btn-info");
     theadAllButton.onclick = updateTable;
+}
+
+function deleteOrderItemButtonClick() {
+    let result = confirm("Biztosan törli a kijelölt elemet?");
+    if (result) {
+        let orderitem = this.parentElement.parentElement["raw-data"];
+
+        fetch("api/orders/" + orderitem.orderId + "/" + orderitem.productAddress, {
+            method: "DELETE",
+        })
+        .then(function(response) {
+            updateTable();
+            updateOrderItemTable(orderitem.orderId);
+        });
+    }
 }

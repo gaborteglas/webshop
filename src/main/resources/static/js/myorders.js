@@ -67,12 +67,12 @@ function updateOrderItemTable(orderId) {
             return response.json();
         })
         .then(function (jsonData) {
-            createOrderItemsTable(jsonData, orderId)
+            createOrderItemsTable(jsonData)
         })
 }
 
 
-function createOrderItemsTable(orderItems, orderId) {
+function createOrderItemsTable(orderItems) {
         let totalPrice = 0;
         let orderItemsTable = document.getElementById("orderitems-tbody");
         orderItemsTable.innerHTML = "";
