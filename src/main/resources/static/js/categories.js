@@ -160,6 +160,6 @@ function handleNewCategoryButton() {
    nameInput.value = "";
 
    let positionInput = document.getElementById("position-input");
-   addressInput.value = "";
+   positionInput.value = "";
 
 }

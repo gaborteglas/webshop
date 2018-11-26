@@ -56,7 +56,7 @@ public class ProductDao {
                         "category.id, category.name, category.position_number, products.image " +
                         "FROM products " +
                         "JOIN category ON products.category_id = category.id " +
-                        "WHERE category.id = ?",
+                        "WHERE category.id = ? AND status = 'ACTIVE'",
                 new ProductMapper(),
                 categoryId);
     }
