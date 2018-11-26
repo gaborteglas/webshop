@@ -3173,6 +3173,13 @@ TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT
 	text-decoration: underline;
 }
 
+.s-text23 {
+	font-family: Montserrat-Regular;
+	font-size: 18px;
+	color: #555555;
+	line-height: 1.5;
+}
+
 /*[ M-Text 16 - 30 ]
 ///////////////////////////////////////////////////////////
 */
