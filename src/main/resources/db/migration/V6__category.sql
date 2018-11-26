@@ -10,6 +10,7 @@ INSERT INTO category
 VALUES
 ("Egyéb", 1),
 ("Ismeretterjesztő", 2),
-("Regény", 3),
-("Ezotéria", 4),
-("Felnőtt", 5);
+("Idegen nyelvű", 3),
+("Világirodalom", 4),
+("Magyar irodalom", 5);
+("Gyermek és ijfúsági irodalom", 6);
