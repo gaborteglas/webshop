@@ -2380,6 +2380,10 @@ color: #ffca00 !important;
 color: #ffca00 !important;
 }
 
+.yellow-hover-background:hover {
+background-color: #ffca00 !important;
+}
+
 .span-block {
 display: block;
 }
