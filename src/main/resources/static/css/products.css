@@ -6,6 +6,10 @@ opacity: 0.5;
 float: left;
 }
 
+.category-selected {
+color: #ffca00 !important;
+}
+
 
 .s-text13:hover {
   		cursor:pointer;

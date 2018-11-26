@@ -18,24 +18,37 @@ function fillSelectWithCategories(categories) {
     let allOptionListElement = document.createElement("li");
     allOptionListElement.className = "p-t-4";
     allOptionListElementAnchor = document.createElement("a");
-    allOptionListElementAnchor.className = "s-text13 active1 yellow-hover";
+    allOptionListElementAnchor.className = "s-text13 category-anchor-element active1 yellow-hover";
     allOptionListElementAnchor.innerHTML = "Összes";
-    allOptionListElementAnchor.addEventListener("click", function () { updateTable() }, false);
+    allOptionListElementAnchor.addEventListener("click", function () {
+        updateTable();
+        modifyCssOnActiveAnchor(this);
+    }, false);
     allOptionListElement.appendChild(allOptionListElementAnchor);
     categoryList.appendChild(allOptionListElement);
 
     for (i in categories) {
         let option = document.createElement("li");
-        option.className = "p-t-4";
+        option.className = "p-t-4 category-anchor-element";
         optionListElementAnchor = document.createElement("a");
         optionListElementAnchor.className = "s-text13 yellow-hover";
         optionListElementAnchor.innerHTML = categories[i].name;
         let catId = categories[i].id;
-        option.onclick = function () { updateTable(catId) }
+        option.onclick = function () {
+            updateTable(catId);
+            modifyCssOnActiveAnchor(this);
+        }
         option.appendChild(optionListElementAnchor);
         categoryList.appendChild(option);
     }
-    //    select.addEventListener("change", function () { updateTable(this.value) })
+}
+
+function modifyCssOnActiveAnchor(anchorElement) {
+    let categories = document.querySelectorAll(".category-anchor-element");
+    for (let i = 0; i < categories.length; i++) {
+        categories[i].classList.remove("category-selected");
+    }
+    anchorElement.classList.add("category-selected");
 }
 
 function updateTable(categoryId) {
@@ -199,7 +212,7 @@ function fillCart(products) {
 }
 
 function giveFeedbackToUser(message, productId) {
-        classToSelect = ".feedback-" +  productId;
-        let spanToSelect = document.querySelector(classToSelect);
-        spanToSelect.innerHTML = message;
+    classToSelect = ".feedback-" + productId;
+    let spanToSelect = document.querySelector(classToSelect);
+    spanToSelect.innerHTML = message;
 }
