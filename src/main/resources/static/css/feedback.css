@@ -1,43 +1,39 @@
-#one-feedback-div {
+.one-feedback-div {
     display: flex;
+    padding: 20px;
+    margin-bottom: 20px;
 }
 
-#one-feedback-div:nth-child(even) {
+.one-feedback-div:nth-child(even) {
     background-color: #DEE2E6;
 }
 
-#one-feedback-div:nth-child(odd) {
+.one-feedback-div:nth-child(odd) {
     background-color: #FFF;
 }
 
-#left-div {
-    flex: 2;
+.left-div {
+    flex: 3;
     align-self: center;
     text-align: center;
 }
 
-#middle-div {
-    flex: 6;
+.middle-div {
+    flex: 5;
     margin: 10px;
 }
 
-#right-div {
-    flex: 1;
+.right-div {
+    flex: 2;
+    align-self: center;
 }
 
-#edit-button, #delete-button {
+.edit-button, .delete-button {
+    width: 15px;
     margin: 10px;
-}
-
-#rating-submit, #puttobasket {
-    margin: 20px 0px;
 }
 
 p {
     margin-bottom: 0px;
 }
 
-#one-feedback-div {
-    padding: 20px;
-    margin-bottom: 20px;
-}

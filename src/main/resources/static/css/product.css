@@ -15,7 +15,23 @@ visibility: hidden;
     background: url("/img/star-solid-yellow.svg") no-repeat;
 }
 
-#product-review-button {
+#product-review-button, #review-send-button {
     height: 45px;
 }
+
+#review-title {
+    margin-top: 30px;
+    margin-left: 15px;
+    font-family: Montserrat-Regular !important;
+    src: url('../fonts/montserrat/Montserrat-Regular.ttf');
+}
+
+#review-star-title, .rating-text-div {
+    font-size: 15px !important;
+    font-family: Montserrat-Regular !important;
+    src: url('../fonts/montserrat/Montserrat-Regular.ttf');
+}
+
+
+
 

@@ -31,6 +31,10 @@
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="css/product.css">
+    <link rel="stylesheet" type="text/css" href="css/adminproducts.css">
+    <link rel="stylesheet" type="text/css" href="css/feedback.css">
+
+
 </head>
 <body class="animsition">
 
@@ -401,14 +405,14 @@
             </div>
 
             <div id="openModal" class="modalDialog">
-                <div>
+                <div id="product-review-div">
                     <a href="#close" title="Close" class="close">X</a>
-                    <h2 id="edit-new">Írjon saját értékelést, és ossza meg véleményét a többi vásárlóval!</h2>
-                    <section class="cart bgwhite p-t-70 p-b-100">
+                    <h3 id="review-title">Írjon saját értékelést, és ossza meg véleményét a többi vásárlóval!</h3>
+                    <section class="cart bgwhite p-t-30 p-b-100">
                         <div class="container">
                             <div class="rating-score-div">
-                                <span>Mennyire tetszik a termék?</span>
-                                <div class="star-holder">
+                                <span id="review-star-title">Mennyire tetszik a termék?</span>
+                                <div class="star-holder m-t-10 m-b-40">
                                     <div class="star" id="star-1" onclick="oneStarOnclick()"></div>
                                     <div class="star-holder">
                                         <div class="star" id="star-2" onclick="twoStarOnclick()"></div>
@@ -431,7 +435,9 @@
                                 <textarea class="form-control rounded-0" id="rating-textarea" rows="5"></textarea>
                             </div>
 
-                            <button class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4"
+                            <p id="review-message"></p>
+
+                            <button class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4 m-t-30"
                                     id="review-send-button">
                                 Értékelés elküldése
                             </button>
