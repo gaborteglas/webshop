@@ -9,6 +9,8 @@ function updateTable() {
             fillTable(jsonData);
             let userForm = document.getElementById("user-form");
             userForm.onsubmit = modifyUser;
+            let newUserButton = document.getElementById("new-user-button");
+            newUserButton.onclick = handleNewUserButton;
         });
 }
 
@@ -22,28 +24,38 @@ function fillTable(users) {
 
         let idTd = document.createElement("td");
         idTd.innerHTML = user.id;
+        idTd.className = "column1";
         tr.appendChild(idTd);
 
         let nameTd = document.createElement("td");
         nameTd.innerHTML = user.loginName;
+        nameTd.className = "column1";
         tr.appendChild(nameTd);
 
         let fullNameTd = document.createElement("td");
         fullNameTd.innerHTML = user.fullName;
+        fullNameTd.className = "column1";
         tr.appendChild(fullNameTd);
 
-        let buttonsTd = document.createElement("td");
-                let editButton = document.createElement("button");
-                let deleteButton = document.createElement("button");
-                editButton.setAttribute("class", "btn btn-primary");
-                deleteButton.setAttribute("class", "btn btn-danger");
-                editButton.innerHTML = "Szerkesztés";
-                deleteButton.innerHTML = "Törlés";
-                editButton.onclick = editButtonClick;
-                deleteButton.onclick = handleDeleteButtonOnClick;
-                buttonsTd.appendChild(editButton);
-                buttonsTd.appendChild(deleteButton);
-                tr.appendChild(buttonsTd);
+        let editButtonTd = document.createElement("td");
+        editButtonTd.className = "column1";
+        let editButton = document.createElement("img");
+        editButton.setAttribute("alt", "edit-icon");
+        editButton.setAttribute("src", "img/edit-icon.svg");
+        editButton.setAttribute("id", "edit-icon");
+        editButton.onclick = handleEditButtonOnClick;
+        editButtonTd.appendChild(editButton);
+        tr.appendChild(editButtonTd);
+
+        let deleteButtonTd = document.createElement("td");
+        deleteButtonTd.className = "column1";
+        let deleteButton = document.createElement("img");
+        deleteButton.setAttribute("src", "img/trash-solid.svg");
+        deleteButton.setAttribute("alt", "trash-icon");
+        deleteButton.setAttribute("id", "trash-icon")
+        deleteButton.onclick = handleDeleteButtonOnClick;
+        deleteButtonTd.appendChild(deleteButton);
+        tr.appendChild(deleteButtonTd);
 
         tbody.appendChild(tr);
  }
@@ -51,15 +63,23 @@ function fillTable(users) {
 
 let editedUser = null;
 
-function editButtonClick() {
+function handleEditButtonOnClick() {
+    let messageSpan = document.getElementById("message-1");
+    messageSpan.innerHTML = "";
+    location.href = "#openModal";
+
     let user = this.parentElement.parentElement["raw-data"];
     editedUser = user;
 
     let idInput = document.getElementById("id-input");
     idInput.value = user.id;
+    idInput.readOnly = true;
 
     let nameInput = document.getElementById("fullname-input");
     nameInput.value= user.fullName;
+
+    let submitButton = document.getElementById("submit-button");
+    submitButton.value = "Mentés";
 }
 
 function handleReset() {
@@ -76,6 +96,7 @@ function modifyUser() {
     if (editedUser == null) {
         return;
     }
+    let messageSpan = document.getElementById("message-1");
     let idInput = document.getElementById("id-input");
     let nameInput = document.getElementById("fullname-input");
     let passwordInput = document.getElementById("password-input");
@@ -103,7 +124,7 @@ function modifyUser() {
     }).then(function(response) {
         return response.json()
     }).then(function(response) {
-        alert(response.message);
+        messageSpan.innerHTML = response.message;
         updateTable();
         handleReset();
     });
@@ -122,4 +143,21 @@ function handleDeleteButtonOnClick() {
             updateTable();
         });
     }
+}
+
+function handleNewUserButton() {
+    let submitButton = document.getElementById("submit-button");
+    submitButton.value = "Új felhasználó hozzáadása";
+
+    let idInput = document.getElementById("id-input");
+    idInput.removeAttribute('readonly');
+    idInput.value = "";
+
+    let nameInput = document.getElementById("fullname-input");
+    nameInput.value = "";
+
+    let passwordInput = document.getElementById("password-input");
+    passwordInput.value = "";
+
+    location.href = "#openModal";
 }

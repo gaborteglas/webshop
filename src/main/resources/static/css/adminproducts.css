@@ -53,7 +53,7 @@ span, h2 {
     src: url('../fonts/OpenSans/OpenSans-Regular.ttf');
 }
 
-#product-form, #picture-form, #category-form {
+#product-form, #picture-form, #category-form, #user-form {
     padding: 10px;
     border-radius: 10px;
     background: #DCDCDC;
