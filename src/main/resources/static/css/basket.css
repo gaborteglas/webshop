@@ -2,3 +2,11 @@
 cursor: pointer;
 opacity: 0.5;
 }
+
+.is-valid {
+border: 1px solid #23DC3D !important;
+}
+
+.is-invalid {
+border: 1px solid #e00a0a !important;
+}

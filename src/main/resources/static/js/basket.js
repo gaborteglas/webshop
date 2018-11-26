@@ -182,6 +182,10 @@ function fillDeliveryAddress(address) {
 
     let street = document.querySelector("#street-field");
     street.value = streetValue;
+
+    zipCodeValidator();
+    cityValidator();
+    streetValidator();
 }
 
 function increaseQuantityInSQL(productId, quantity) {
@@ -244,17 +248,12 @@ function zipCodeValidator() {
     let zipCodeDiv = document.querySelector("#zip-code-div");
     let zipCodeField = document.querySelector("#zip-code-field");
     if (zipCode === "") {
-        zipCodeField.classList.remove("is-valid");
-        zipCodeField.classList.add("is-invalid");
-        let feedback = document.createElement("div");
-        feedback.setAttribute("class", "invalid-feedback");
-        feedback.innerHTML = "Az irányítószám megadása kötelező!";
-        if (zipCodeDiv.querySelector(".invalid-feedback") == null) {
-            zipCodeDiv.appendChild(feedback);
-        }
+        zipCodeDiv.classList.remove("is-valid");
+        zipCodeDiv.classList.add("is-invalid");
+        zipCodeField.placeholder = "Az irányítószám megadása kötelező!";
     } else {
-        zipCodeField.classList.remove("is-invalid");
-        zipCodeField.classList.add("is-valid");
+        zipCodeDiv.classList.remove("is-invalid");
+        zipCodeDiv.classList.add("is-valid");
     }
 }
 
@@ -263,17 +262,12 @@ function cityValidator() {
     let cityDiv = document.querySelector("#city-div");
     let cityField = document.querySelector("#city-field");
     if (city === "") {
-        cityField.classList.remove("is-valid");
-        cityField.classList.add("is-invalid");
-        let feedback = document.createElement("div");
-        feedback.setAttribute("class", "invalid-feedback");
-        feedback.innerHTML = "A város megadása kötelező!";
-        if (cityDiv.querySelector(".invalid-feedback") == null) {
-            cityDiv.appendChild(feedback);
-        }
+        cityDiv.classList.remove("is-valid");
+        cityDiv.classList.add("is-invalid");
+        cityField.placeholder = "A város megadása kötelező!";
     } else {
-        cityField.classList.remove("is-invalid");
-        cityField.classList.add("is-valid");
+        cityDiv.classList.remove("is-invalid");
+        cityDiv.classList.add("is-valid");
     }
 }
 
@@ -282,17 +276,12 @@ function streetValidator() {
     let streetDiv = document.querySelector("#street-div");
     let streetField = document.querySelector("#street-field");
     if (street === "") {
-        streetField.classList.remove("is-valid");
-        streetField.classList.add("is-invalid");
-        let feedback = document.createElement("div");
-        feedback.setAttribute("class", "invalid-feedback");
-        feedback.innerHTML = "Az utca és a házszám megadása kötelező!";
-        if (streetDiv.querySelector(".invalid-feedback") == null) {
-            streetDiv.appendChild(feedback);
-        }
+        streetDiv.classList.remove("is-valid");
+        streetDiv.classList.add("is-invalid");
+        streetField.placeholder = "Az utca és a házszám megadása kötelező!";
     } else {
-        streetField.classList.remove("is-invalid");
-        streetField.classList.add("is-valid");
+        streetDiv.classList.remove("is-invalid");
+        streetDiv.classList.add("is-valid");
     }
 }
 
