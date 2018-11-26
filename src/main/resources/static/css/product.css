@@ -15,3 +15,7 @@ visibility: hidden;
     background: url("/img/star-solid-yellow.svg") no-repeat;
 }
 
+#product-review-button {
+    height: 45px;
+}
+

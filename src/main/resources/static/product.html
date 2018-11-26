@@ -384,9 +384,62 @@
                                 Kosárba
                             </button>
                         </div>
+
                     </div>
                 </div>
             </div>
+
+            <div class="p-t-33 p-b-33" id="review-button-holder">
+                <div class="flex-r-m flex-w p-t-10">
+                    <div class="w-size16 flex-m flex-w">
+                        <button class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4"
+                                id="product-review-button">
+                            Értékelem a terméket
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="openModal" class="modalDialog">
+                <div>
+                    <a href="#close" title="Close" class="close">X</a>
+                    <h2 id="edit-new">Írjon saját értékelést, és ossza meg véleményét a többi vásárlóval!</h2>
+                    <section class="cart bgwhite p-t-70 p-b-100">
+                        <div class="container">
+                            <div class="rating-score-div">
+                                <span>Mennyire tetszik a termék?</span>
+                                <div class="star-holder">
+                                    <div class="star" id="star-1" onclick="oneStarOnclick()"></div>
+                                    <div class="star-holder">
+                                        <div class="star" id="star-2" onclick="twoStarOnclick()"></div>
+                                        <div class="star-holder">
+                                            <div class="star" id="star-3" onclick="threeStarOnclick()"></div>
+                                            <div class="star-holder">
+                                                <div class="star" id="star-4" onclick="fourStarOnclick()"></div>
+                                                <div class="star-holder">
+                                                    <div class="star" id="star-5" onclick="fiveStarOnclick()"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <br>
+                            <div class="rating-text-div">
+                                <label for="rating-textarea">Vélemény:</label>
+                                <textarea class="form-control rounded-0" id="rating-textarea" rows="5"></textarea>
+                            </div>
+
+                            <button class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4"
+                                    id="review-send-button">
+                                Értékelés elküldése
+                            </button>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
 
             <div class="p-b-45">
             </div>
