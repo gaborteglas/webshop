@@ -37,7 +37,7 @@
     <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="css/table_util.css">
     <link rel="stylesheet" type="text/css" href="css/table_main.css">
-    <link rel="stylesheet" type="text/css" href="css/myorders.css">
+    <link rel="stylesheet" type="text/css" href="css/reports.css">
     <!--===============================================================================================-->
 </head>
 
@@ -321,11 +321,12 @@
                         <span class="p-t-4 p-r-30"><a class="s-text13 active1 yellow-hover" id="orders-filter-first">Státusz/Hónap</a></span>
                         <span class="p-t-4 p-r-30"><a class="s-text13 active1 yellow-hover" id="orders-filter-second">Hónap/Termék</a></span>
                     </span>
+                    <br><br>
 
                     <div class="selector-div">
 
                         <select id="choice-selector">
-                            <option value="" disabled selected>Select</option>
+                            <option value="" disabled selected>Válasszon szűrési lehetőséget!</option>
                         </select>
                         <br><br>
                     </div>
@@ -345,11 +346,14 @@
                 </div>
             </div>
         </div>
+        <br>
+        <br>
+        <div class="summarizer-div">
+            <p id="countparagraph"></p>
+            <p id="sumparagraph"></p>
+        </div>
     </div>
-    <div class="summarizer-div">
-        <p id="countparagraph"></p>
-        <pi id="sumparagraph"></pi>
-    </div>
+
 </section>
 
 <!-- Back to top -->

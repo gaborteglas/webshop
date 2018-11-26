@@ -1,0 +1,9 @@
+#orders-filter-first:hover {
+cursor: pointer;
+opacity: 0.5;
+}
+
+#orders-filter-second:hover {
+cursor: pointer;
+opacity: 0.5;
+}
