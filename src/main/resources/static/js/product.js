@@ -3,8 +3,12 @@ window.onload = function () {
     //showBasketButton();
     let putIntoBasketButton = document.getElementById("puttobasket");
     putIntoBasketButton.onclick = handlePutIntoBasket;
-    //    let ratingSubmitButton = document.getElementById("rating-submit");
-    //    ratingSubmitButton.onclick = handleRatingSubmit;
+    let productReviewButton = document.getElementById("product-review-button");
+    productReviewButton.onclick = reviewWritingButton;
+}
+
+function reviewWritingButton() {
+    location.href = "#openModal";
 }
 
 function handlePutIntoBasket() {
@@ -225,6 +229,8 @@ function creatingFeedbackFields(feedbackList) {
 //}
 
 function handleRatingSubmit() {
+
+
     let productId = document.querySelector("#product-id").innerHTML;
     let ratingTextInput = document.getElementById("rating-textarea");
     let ratingText = ratingTextInput.value;
