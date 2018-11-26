@@ -1,23 +1,34 @@
 window.onload = function() {
-    let statusButton = document.querySelector("#bystatus");
-    let productButton = document.querySelector("#byproduct");
+    let statusButton = document.getElementById("orders-filter-first");
+    let productButton = document.getElementById("orders-filter-second");
     statusButton.addEventListener("click",updateTableForFirstReport)
     productButton.addEventListener("click",updateTableForSecondReport)
 }
 
 function updateTableForFirstReport() {
-    fetch("api/reports/orders")
+    fetch("api/reports/orders", {
+         headers : {
+           'Content-Type': 'application/json',
+           'Accept': 'application/json'
+          }
+       })
         .then(function (response) {
             return response.json();
         })
         .then(function (orders) {
+            console.log("a");
             console.log(orders);
             createStatusSelectorForFirstReport(orders);
         });
 }
 
 function updateTableForSecondReport(){
-        fetch("api/reports/products")
+        fetch("api/reports/products", {
+                 headers : {
+                   'Content-Type': 'application/json',
+                   'Accept': 'application/json'
+                  }
+            })
             .then(function (response) {
                 return response.json();
             })
