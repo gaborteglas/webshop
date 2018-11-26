@@ -3590,6 +3590,7 @@ SHAPE SHAPE SHAPE SHAPE SHAPE SHAPE SHAPE SHAPE SHAPE SHAPE
 	height: 40px;
 }
 
+
 /*[ Width Size ]
 ///////////////////////////////////////////////////////////
 */
@@ -3707,6 +3708,10 @@ SHAPE SHAPE SHAPE SHAPE SHAPE SHAPE SHAPE SHAPE SHAPE SHAPE
 
 .w-size29 {
 	width: 100%;
+}
+
+.w-size30 {
+	width: 50%;
 }
 
 /*[ Height Size ]
