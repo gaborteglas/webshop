@@ -60,3 +60,8 @@ p, h2 {
 #orders-filter-all, #orders-filter-active, #orders-filter-delivered, #orders-filter-deleted {
     cursor: pointer;
 }
+
+#order-title {
+    margin-top: 30px;
+    margin-left: 15px;
+}
