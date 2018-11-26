@@ -11,12 +11,12 @@ VALUES
 ('Megúszós kaják', 'meguszos-kajak', 'Fördős Zé', 5090, 'ACTIVE', 2),
 ('The Fellowship of the Ring', 'the-fellowship-of-the-ring', 'J.R.R. Tolkien', 3990, 'ACTIVE', 3),
 ('Cseresznyéskert', 'cseresznyeskert', 'Anton Pavlovics Csehov', 340, 'ACTIVE', 4),
-('Harry Potter and the Philosopher''s Stone', 'harry-potter-and-the-philisophers-stone', 'J.K.Rowling', 4990, 'ACTIVE', 3),
+('Harry Potter and the Philosopher''Stone', 'harry-potter-and-the-philisophers-stone', 'J.K.Rowling', 4990, 'ACTIVE', 3),
 ('A japán rejtély', 'a-japan-rejtely', 'Muraközy László', 4690, 'ACTIVE', 2),
 ('Aranyhaj és a nagy gubanc', 'aranyhaj-es-a-nagy-gubanc', 'Disney klasszikusok', 2490, 'ACTIVE', 6),
 ('A walesi bárdok', 'a-walesi-bardok', 'Arany János', 1390, 'ACTIVE', 5),
 ('Addig se iszik', 'addig-se-iszik', 'Bödőcs Tibor', 2990, 'ACTIVE', 5),
-('Hygge', 'hygge', 'Meik Wiking', 4490, 'ACTIVE', 2);
+('Hygge', 'hygge', 'Meik Wiking', 4490, 'ACTIVE', 2),
 ('A kis herceg', 'a-kis-herceg', 'Antoine de Saint-Exupéry', 2990, 'ACTIVE', 6),
 ('Trónok harca', 'tronok-harca', 'George R.R.Martin', 4990, 'ACTIVE', 4),
-('Amit a falkától tanultam', 'amit-a-falkatol-tanultam', 'Cesar Millan', 3990, 'ACTIVE', 2),
+('Amit a falkától tanultam', 'amit-a-falkatol-tanultam', 'Cesar Millan', 3990, 'ACTIVE', 2);

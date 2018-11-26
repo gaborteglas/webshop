@@ -12,5 +12,5 @@ VALUES
 ("Ismeretterjesztő", 2),
 ("Idegen nyelvű", 3),
 ("Világirodalom", 4),
-("Magyar irodalom", 5);
+("Magyar irodalom", 5),
 ("Gyermek és ijfúsági irodalom", 6);

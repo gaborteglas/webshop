@@ -15,4 +15,4 @@ VALUES("testuser", "Test User", "$2a$10$qQxb4Kd6JxefHd0ThHcMz.bmv2ndCBd0yJaHJe4c
 ("birgesdora", "Birgés Dóra - admin", "$2a$10$nZGfEnGSgOAb5GDhNDngreSmN3BEC2VUzWnLNwV9GvPUXbNsOukBW", 1, "ROLE_ADMIN"),
 ("hajdumozes", "Hajdú Mózes", "$2a$10$qQxb4Kd6JxefHd0ThHcMz.bmv2ndCBd0yJaHJe4cs3XDLbYm3fSRW", 1, "ROLE_USER"),
 ("teglasgabor", "Téglás Gábor", "$2a$10$qQxb4Kd6JxefHd0ThHcMz.bmv2ndCBd0yJaHJe4cs3XDLbYm3fSRW", 1, "ROLE_USER"),
-("karacsonyizoltan", "Karácsonyi Zoltán", "$2a$10$qQxb4Kd6JxefHd0ThHcMz.bmv2ndCBd0yJaHJe4cs3XDLbYm3fSRW", 1, "ROLE_USER"),
+("karacsonyizoltan", "Karácsonyi Zoltán", "$2a$10$qQxb4Kd6JxefHd0ThHcMz.bmv2ndCBd0yJaHJe4cs3XDLbYm3fSRW", 1, "ROLE_USER");
