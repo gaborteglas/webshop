@@ -66,8 +66,8 @@ function showForUser() {
     let basketIcon = document.querySelector(".header-wrapicon2");
     basketIcon.classList.remove("disabled");
 
-            let avatarSmall = document.querySelector(".header-icon1");
-            avatarSmall.src = "images/icons/avatar_mozes.png"
+    let avatarSmall = document.querySelector(".header-icon1");
+    avatarSmall.src = "images/icons/avatar_mozes.png"
 
 }
 
@@ -103,8 +103,8 @@ function showForAdmin() {
     let lineDivide = document.querySelector(".linedivide1");
     lineDivide.setAttribute("style", "display: none");
 
-            let avatarSmall = document.querySelector(".header-icon1");
-            avatarSmall.src = "images/icons/avatar_dori.png"
+    let avatarSmall = document.querySelector(".header-icon1");
+    avatarSmall.src = "images/icons/avatar_dori.png"
 
 }
 
@@ -138,8 +138,8 @@ function showForUnregistered() {
     let basketIcon = document.querySelector(".header-wrapicon2");
     basketIcon.classList.add("disabled");
 
-        let avatarSmall = document.querySelector(".header-icon1");
-        avatarSmall.src = "images/icons/icon-header-01.png"
+    let avatarSmall = document.querySelector(".header-icon1");
+    avatarSmall.src = "images/icons/icon-header-01.png"
 }
 
 function updateCart() {

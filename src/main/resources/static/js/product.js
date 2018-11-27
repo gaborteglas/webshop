@@ -458,6 +458,7 @@ function fillCart(products) {
     if (products.length === 0) {
         let basketIcon = document.querySelector(".header-wrapicon2");
         basketIcon.classList.add("disabled");
+        basketIcon.click();
     } else {
         let basketIcon = document.querySelector(".header-wrapicon2");
         basketIcon.classList.remove("disabled");
