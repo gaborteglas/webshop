@@ -33,6 +33,11 @@ function fillTable(products) {
     let totalPrice = 0
     let tbody = document.querySelector("#basket-tbody");
     tbody.innerHTML = "";
+    if (products.length === 0) {
+        hideEmptyBasket();
+    } else {
+        showBasket();
+    }
     for (let k = 0; k < products.length; k++) {
         let tr = document.createElement("tr");
         tr.className = "table-row";
@@ -364,4 +369,14 @@ function fillCart(products) {
         totalPriceField.innerHTML = "Összesen: " + totalPrice.toLocaleString() + " Ft";
     }
     cartQuantity.innerHTML = totalQuantity;
+}
+
+function hideEmptyBasket() {
+    let basket = document.querySelector(".container-table-cart");
+    basket.style.display = "none";
+}
+
+function showBasket() {
+    let basket = document.querySelector(".container-table-cart");
+    basket.style.display = "block";
 }
