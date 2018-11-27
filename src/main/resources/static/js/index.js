@@ -130,7 +130,7 @@ if (document.querySelector("#to-basket-feedback-message") !== null) {
     } else {
         let container = document.querySelector(".container");
         let feedbackText = document.createElement("p");
-        feedbackText.className = "s-text8 p-t-60 p-l-450";
+        feedbackText.className = "s-text8 p-t-70 row-center-text";
         feedbackText.id = "to-basket-feedback-message";
         feedbackText.innerHTML = message;
         container.appendChild(feedbackText);
