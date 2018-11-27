@@ -11,7 +11,7 @@ VALUES
 ('Megúszós kaják', 'meguszos-kajak', 'Fördős Zé', 5090, 'ACTIVE', 2),
 ('The Fellowship of the Ring', 'the-fellowship-of-the-ring', 'J.R.R. Tolkien', 3990, 'ACTIVE', 3),
 ('Cseresznyéskert', 'cseresznyeskert', 'Anton Pavlovics Csehov', 340, 'ACTIVE', 4),
-('Harry Potter and the Philosopher''stone', 'harry-potter-and-the-philisophers-stone', 'J.K.Rowling', 4990, 'ACTIVE', 3),
+('Harry Potter and the Philosopher''s Stone', 'harry-potter-and-the-philisophers-stone', 'J.K.Rowling', 4990, 'ACTIVE', 3),
 ('A japán rejtély', 'a-japan-rejtely', 'Muraközy László', 4690, 'ACTIVE', 2),
 ('Aranyhaj és a nagy gubanc', 'aranyhaj-es-a-nagy-gubanc', 'Disney klasszikusok', 2490, 'ACTIVE', 6),
 ('Álláskeresők kiskönyve', 'allaskeresok_kiskonyve', 'Munka A. Doe', 490, 'ACTIVE', 1),
