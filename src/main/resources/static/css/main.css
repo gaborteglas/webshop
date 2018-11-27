@@ -2388,3 +2388,7 @@ background-color: #ffca00 !important;
 display: block;
 }
 
+.row-center-text {
+width: 100%;
+text-align: center;
+}
