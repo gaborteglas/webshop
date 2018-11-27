@@ -3712,8 +3712,10 @@ SHAPE SHAPE SHAPE SHAPE SHAPE SHAPE SHAPE SHAPE SHAPE SHAPE
 }
 
 .w-size30 {
-	width: 50%;
+	width: 40%;
+	padding-left: 350px;
 }
+
 
 /*[ Height Size ]
 ///////////////////////////////////////////////////////////
