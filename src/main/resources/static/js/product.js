@@ -80,6 +80,7 @@ function fillTable(product) {
         averageSpan.innerHTML = "";
     }
     let imageDiv = document.getElementById("image-holder-div");
+    imageDiv.innerHTML = "";
     let imageTag = document.createElement("img");
     imageTag.src = "data:image/png;base64, " + image;
     imageTag.alt = "IMG-PRODUCT";
